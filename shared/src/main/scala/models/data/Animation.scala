@@ -3,200 +3,72 @@ package models.data
 
 import enumeratum.values.{StringEnum, StringEnumEntry}
 
-sealed abstract class Animation(
-    override val value: String
-) extends StringEnumEntry
+sealed abstract class Animation(override val value: String, left: Seq[(Int, Int)], right: Seq[(Int, Int)], duration: Double, loop: Boolean) extends StringEnumEntry
 
 object Animation extends StringEnum[Animation] {
-  case object Acquire extends Animation(
-    value = "acquire"
-  )
-  case object Attack extends Animation(
-    value = "attack"
-  )
-  case object Attackjump extends Animation(
-    value = "attackjump"
-  )
-  case object Attackwalk extends Animation(
-    value = "attackwalk"
-  )
-  case object Crawlcrouchwalk extends Animation(
-    value = "crawlcrouchwalk"
-  )
-  case object Crawlgazewalk extends Animation(
-    value = "crawlgazewalk"
-  )
-  case object Crawlidle extends Animation(
-    value = "crawlidle"
-  )
-  case object Crawlwalk extends Animation(
-    value = "crawlwalk"
-  )
-  case object Crouch extends Animation(
-    value = "crouch"
-  )
-  case object Crouchhold extends Animation(
-    value = "crouchhold"
-  )
-  case object Crouchholdwalk extends Animation(
-    value = "crouchholdwalk"
-  )
-  case object Crouchwalk extends Animation(
-    value = "crouchwalk"
-  )
-  case object Dance extends Animation(
-    value = "dance"
-  )
-  case object Dead extends Animation(
-    value = "dead"
-  )
-  case object Depressed extends Animation(
-    value = "depressed"
-  )
-  case object Dig extends Animation(
-    value = "dig"
-  )
-  case object Digidle extends Animation(
-    value = "digidle"
-  )
-  case object Digthrow extends Animation(
-    value = "digthrow"
-  )
-  case object Drop extends Animation(
-    value = "drop"
-  )
-  case object Dropjump extends Animation(
-    value = "dropjump"
-  )
-  case object Dropwalk extends Animation(
-    value = "dropwalk"
-  )
-  case object Flyin extends Animation(
-    value = "flyin"
-  )
-  case object Gaze extends Animation(
-    value = "gaze"
-  )
-  case object Gazehold extends Animation(
-    value = "gazehold"
-  )
-  case object Gazeholdwalk extends Animation(
-    value = "gazeholdwalk"
-  )
-  case object Gazeidle extends Animation(
-    value = "gazeidle"
-  )
-  case object Gazewalk extends Animation(
-    value = "gazewalk"
-  )
-  case object Hold extends Animation(
-    value = "hold"
-  )
-  case object Holdjump extends Animation(
-    value = "holdjump"
-  )
-  case object Holdwalk extends Animation(
-    value = "holdwalk"
-  )
-  case object Hurt extends Animation(
-    value = "hurt"
-  )
-  case object Idle extends Animation(
-    value = "idle"
-  )
-  case object Interact extends Animation(
-    value = "interact"
-  )
-  case object Jump extends Animation(
-    value = "jump"
-  )
-  case object Kick extends Animation(
-    value = "kick"
-  )
-  case object Kneel extends Animation(
-    value = "kneel"
-  )
-  case object Profile extends Animation(
-    value = "profile"
-  )
-  case object Profileaway extends Animation(
-    value = "profileaway"
-  )
-  case object Pull extends Animation(
-    value = "pull"
-  )
-  case object Punch extends Animation(
-    value = "punch"
-  )
-  case object Push extends Animation(
-    value = "push"
-  )
-  case object Shootarrow extends Animation(
-    value = "shootarrow"
-  )
-  case object Shootarrowwalk extends Animation(
-    value = "shootarrowwalk"
-  )
-  case object Shootarrowjump extends Animation(
-    value = "shootarrowjump"
-  )
-  case object Laserpistol extends Animation(
-    value = "laserpistol"
-  )
-  case object Laserpistolwalk extends Animation(
-    value = "laserpistolwalk"
-  )
-  case object Laserpistoljump extends Animation(
-    value = "laserpistoljump"
-  )
-  case object Slide extends Animation(
-    value = "slide"
-  )
-  case object Throw extends Animation(
-    value = "throw"
-  )
-  case object Throwjump extends Animation(
-    value = "throwjump"
-  )
-  case object Throwwalk extends Animation(
-    value = "throwwalk"
-  )
-  case object Towards extends Animation(
-    value = "towards"
-  )
-  case object Walk extends Animation(
-    value = "walk"
-  )
-  case object Warp extends Animation(
-    value = "warp"
-  )
-  case object Wieldaction extends Animation(
-    value = "wieldaction"
-  )
-  case object Wieldaction2 extends Animation(
-    value = "wieldaction2"
-  )
-  case object Wieldaction3 extends Animation(
-    value = "wieldaction3"
-  )
-  case object Wieldaction4 extends Animation(
-    value = "wieldaction4"
-  )
-  case object Wieldaction5 extends Animation(
-    value = "wieldaction5"
-  )
-  case object Wieldidle extends Animation(
-    value = "wieldidle"
-  )
-  case object Wieldjump extends Animation(
-    value = "wieldjump"
-  )
-  case object Rest extends Animation(
-    value = "rest"
-  )
-  case object Wieldwalk extends Animation(
-    value = "wieldwalk"
-  )
+  case object Acquire extends Animation(value = "acquire", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Attack extends Animation(value = "attack", left = Nil, right = Nil, duration = 0.1, loop = false)
+  case object AttackJump extends Animation(value = "attackjump", left = Nil, right = Nil, duration = 0.1, loop = false)
+  case object AttackWalk extends Animation(value = "attackwalk", left = Nil, right = Nil, duration = 0.1, loop = false)
+  case object CrawlcrouchWalk extends Animation(value = "crawlcrouchwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object CrawlGazeWalk extends Animation(value = "crawlgazewalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object CrawlIdle extends Animation(value = "crawlidle", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object CrawlWalk extends Animation(value = "crawlwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Crouch extends Animation(value = "crouch", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object CrouchHold extends Animation(value = "crouchhold", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object CrouchHoldWalk extends Animation(value = "crouchholdwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object CrouchWalk extends Animation(value = "crouchwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Dance extends Animation(value = "dance", left = Nil, right = Nil, duration = 0.2, loop = true)
+  case object Dead extends Animation(value = "dead", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Depressed extends Animation(value = "depressed", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Dig extends Animation(value = "dig", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object DigIdle extends Animation(value = "digidle", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object DigThrow extends Animation(value = "digthrow", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Drop extends Animation(value = "drop", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object DropJump extends Animation(value = "dropjump", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object DropWalk extends Animation(value = "dropwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Flyin extends Animation(value = "flyin", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Gaze extends Animation(value = "gaze", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object GazeHold extends Animation(value = "gazehold", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object GazeHoldWalk extends Animation(value = "gazeholdwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object GazeIdle extends Animation(value = "gazeidle", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object GazeWalk extends Animation(value = "gazewalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Hold extends Animation(value = "hold", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object HoldJump extends Animation(value = "holdjump", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object HoldWalk extends Animation(value = "holdwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Hurt extends Animation(value = "hurt", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Idle extends Animation(value = "idle", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Interact extends Animation(value = "interact", left = Nil, right = Nil, duration = 0.16, loop = false)
+  case object Jump extends Animation(value = "jump", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Kick extends Animation(value = "kick", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Kneel extends Animation(value = "kneel", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Profile extends Animation(value = "profile", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object ProfileAway extends Animation(value = "profileaway", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Pull extends Animation(value = "pull", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Punch extends Animation(value = "punch", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Push extends Animation(value = "push", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object ShootArrow extends Animation(value = "shootarrow", left = Nil, right = Nil, duration = 0.12, loop = true)
+  case object ShootArrowWalk extends Animation(value = "shootarrowwalk", left = Nil, right = Nil, duration = 0.12, loop = true)
+  case object ShootArrowJump extends Animation(value = "shootarrowjump", left = Nil, right = Nil, duration = 0.12, loop = true)
+  case object LaserPistol extends Animation(value = "laserpistol", left = Nil, right = Nil, duration = 0.12, loop = true)
+  case object LaserPistolWalk extends Animation(value = "laserpistolwalk", left = Nil, right = Nil, duration = 0.12, loop = true)
+  case object LaserPistolJump extends Animation(value = "laserpistoljump", left = Nil, right = Nil, duration = 0.12, loop = true)
+  case object Slide extends Animation(value = "slide", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Throw extends Animation(value = "throw", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object ThrowJump extends Animation(value = "throwjump", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object ThrowWalk extends Animation(value = "throwwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Towards extends Animation(value = "towards", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Walk extends Animation(value = "walk", left = Nil, right = Nil, duration = 0.16, loop = true)
+  case object Warp extends Animation(value = "warp", left = Nil, right = Nil, duration = 0.08, loop = false)
+  case object WieldAction extends Animation(value = "wieldaction", left = Nil, right = Nil, duration = 0.11, loop = false)
+  case object WieldAction2 extends Animation(value = "wieldaction2", left = Nil, right = Nil, duration = 0.18, loop = false)
+  case object WieldAction3 extends Animation(value = "wieldaction3", left = Nil, right = Nil, duration = 0.2, loop = false)
+  case object WieldAction4 extends Animation(value = "wieldaction4", left = Nil, right = Nil, duration = 0.15, loop = false)
+  case object WieldAction5 extends Animation(value = "wieldaction5", left = Nil, right = Nil, duration = 0.07, loop = false)
+  case object WieldIdle extends Animation(value = "wieldidle", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object WieldJump extends Animation(value = "wieldjump", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object Rest extends Animation(value = "rest", left = Nil, right = Nil, duration = 1.0, loop = false)
+  case object WieldWalk extends Animation(value = "wieldwalk", left = Nil, right = Nil, duration = 0.16, loop = true)
 
   override val values = findValues
 }

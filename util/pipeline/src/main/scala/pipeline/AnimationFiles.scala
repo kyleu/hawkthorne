@@ -15,9 +15,8 @@ object AnimationFiles {
     file.addImport("enumeratum.values", "StringEnum")
     file.addImport("enumeratum.values", "StringEnumEntry")
 
-    file.add("sealed abstract class Animation(", 2)
-    file.add("override val value: String")
-    file.add(") extends StringEnumEntry", -2)
+    val t = "Seq[(Int, Int)]"
+    file.add(s"sealed abstract class Animation(override val value: String, left: $t, right: $t, duration: Double, loop: Boolean) extends StringEnumEntry")
     file.add()
 
     file.add(s"object Animation extends StringEnum[Animation] {", 1)
@@ -26,12 +25,15 @@ object AnimationFiles {
       val (l, r) = json.apply(key).get.asObject.map { o =>
         o("left").get.asArray.get -> o("right").get.asArray.get
       }.getOrElse {
-        val x = json.apply(key).get
+        val x = json.apply(key).get.asArray.get
         x -> x
       }
-      file.add(s"case object ${ExportHelper.toClassName(key)} extends Animation(", 1)
-      file.add(s"""value = "$key"""")
-      file.add(")", -1)
+      val left = processCoords(l.apply(1).asArray.get)
+      val right = processCoords(r.apply(1).asArray.get)
+      val duration = l.apply(2).asNumber.get.toDouble
+      val loop = l.apply(0).asString.get == "loop"
+      val anim = s"""Animation(value = "$key", left = $left, right = $right, duration = $duration, loop = $loop)"""
+      file.add(s"case object ${ExportHelper.toClassName(clean(key))} extends $anim")
     }
 
     file.add()
@@ -39,5 +41,15 @@ object AnimationFiles {
     file.add("}", -1)
 
     cfg.writeScalaResult(s"character_map.json", file.path -> file.rendered).toSeq
+  }
+
+  private[this] val words = Set(
+    "walk", "jump", "idle", "arrow", "away", "action", "pistol", "hold", "gaze", "throw"
+  ).map(x => x -> (x.head.toUpper + x.tail))
+
+  private[this] def clean(s: String) = words.foldLeft(s)((in, el) => in.replaceAllLiterally(el._1, el._2))
+
+  private[this] def processCoords(coords: Seq[Json]) = {
+    "Nil"
   }
 }
