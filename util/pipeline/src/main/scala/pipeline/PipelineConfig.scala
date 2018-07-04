@@ -24,7 +24,8 @@ case class PipelineConfig(
   }
 
   val assetRoot = tgt / "public" / "game"
-  val scalaRoot = tgt / "app" / "models" / "data"
+  val scalaAppRoot = tgt / "app" / "models" / "data"
+  val scalaSharedRoot = tgt / "shared" / "src" / "main" / "scala" / "models" / "data"
 
   def writeScala(tgtPath: String, content: String) = {
     val t = tgt / tgtPath

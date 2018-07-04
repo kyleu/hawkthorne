@@ -12,7 +12,7 @@ object CharacterFiles {
       val costumes = json("costumes").get.as[Seq[Json]].right.get
 
       val pkg = Seq("models", "data", "character")
-      val file = ScalaFile(pkg = pkg, key = name)
+      val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
       file.addImport("models.character", "Costume")
       file.addImport("models.character", "BoundingBox")

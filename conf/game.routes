@@ -1,1 +1,2 @@
+GET         /                               controllers.admin.game.GameAdminController.gameIndex
 GET         /dump                           controllers.admin.game.GameAdminController.dumpAssets

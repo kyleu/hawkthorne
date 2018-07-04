@@ -4,12 +4,11 @@ import sbt.Keys._
 import sbt._
 
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType, _}
-import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
 
 object Client {
   private[this] val clientSettings = Shared.commonSettings ++ Seq(
     libraryDependencies ++= Seq(
+      "com.definitelyscala" %%% "scala-js-phasercepixi" % "1.1.0",
       "be.doeraene" %%% "scalajs-jquery" % Dependencies.ScalaJS.jQueryVersion,
       "com.lihaoyi" %%% "scalatags" % Dependencies.Utils.scalatagsVersion
     ),
