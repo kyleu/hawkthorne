@@ -11,7 +11,7 @@
         <h5>@c.givenName</h5>
         @c.costumes.map { costume =>
           @defining(s"background-image: url('${controllers.routes.Assets.versioned(s"game/images/character/${c.name}/${costume.key}.png")}');") { imgStyle =>
-            <div class="character" style="@imgStyle" title="@costume.name (@costume.category)"></div>
+            <div class="character" style="@imgStyle" title="@costume.name (@costume.episode.value - @costume.episode.name)"></div>
           }
         }
         <div class="clear" style="margin-bottom: 16px;"></div>

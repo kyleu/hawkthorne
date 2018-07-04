@@ -5,7 +5,7 @@ import util.JsonSerializers._
 
 object CharacterFiles {
   def process(cfg: PipelineConfig) = {
-    (cfg.src / "characters").children.filter(_.name.endsWith(".json")).toSeq.map { src =>
+    (cfg.src / "characters").children.filter(_.name.endsWith(".json")).toSeq.flatMap { src =>
       val json = decodeJson[Json](src.contentAsString).right.get.asObject.get
       val key = src.name.stripSuffix(".json")
       val name = nameFor(key)
@@ -17,6 +17,7 @@ object CharacterFiles {
       file.addImport("models.character", "Costume")
       file.addImport("models.character", "BoundingBox")
       file.addImport("models.character", "CharacterTemplate")
+      file.addImport("models.data.series", "Episode")
 
       file.add(s"object $name {", 1)
       file.add(s"""val name = "$name"""")
@@ -26,11 +27,19 @@ object CharacterFiles {
       costumes.foreach { c =>
         val comma = if (costumes.lastOption.contains(c)) { "" } else { "," }
         val cos = c.asObject.get
-        val cat = cos("category").get.asString.get
+        val cat = cos("category").get.asString.get match {
+          case "base" => "S01E01"
+          case "fanmade" => "S00E01"
+          case "s4promo" => "S04E01"
+          case x => x.stripPrefix("s").split("e").toList match {
+            case seasonNum :: epNum :: Nil => s"S0${seasonNum}E${if (epNum.toInt < 10) { "0" } else { "" }}$epNum"
+            case u => throw new IllegalStateException("Unhandled: " + u)
+          }
+        }
         val n = cos("name").get.asString.get
         val s = cos("sheet").get.asString.get
         val o = cos("ow").get.asNumber.get.toInt.get
-        file.add(s"""Costume("$s", "$cat", "$n", $o)$comma""")
+        file.add(s"""Costume("$s", Episode.$cat, "$n", $o)$comma""")
       }
       file.add(")", -1)
       file.add()
@@ -47,9 +56,7 @@ object CharacterFiles {
       file.add(s"""val template = CharacterTemplate("$key", name, givenName, costumes, boundingBox, offset)""")
       file.add("}", -1)
 
-      PipelineResult.File(s"characters/${src.name}", Seq(
-        cfg.writeScala(file.path, file.rendered)
-      ))
+      cfg.writeScalaResult(s"characters/${src.name}", file.path -> file.rendered)
     }
   }
 

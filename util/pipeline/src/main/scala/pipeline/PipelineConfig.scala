@@ -8,10 +8,7 @@ object PipelineConfig {
   implicit val jsonDecoder: Decoder[PipelineConfig] = deriveDecoder
 }
 
-case class PipelineConfig(
-    srcProjectLoc: String,
-    tgtRootLoc: String
-) {
+case class PipelineConfig(srcProjectLoc: String, tgtRootLoc: String, wipe: Boolean) {
   val src = {
     val f = srcProjectLoc.toFile
     if (!f.isDirectory) { throw new IllegalStateException(s"Source directory [$srcProjectLoc] is not valid.") }
@@ -29,16 +26,33 @@ case class PipelineConfig(
 
   def writeScala(tgtPath: String, content: String) = {
     val t = tgt / tgtPath
-    t.parent.createIfNotExists(asDirectory = true, createParents = true)
-    t.write(content)
-    tgt.relativize(t).toString
+    if (t.exists && t.contentAsString == content) {
+      None
+    } else {
+      t.parent.createIfNotExists(asDirectory = true, createParents = true)
+      t.write(content)
+      Some(tgt.relativize(t).toString)
+    }
+  }
+
+  def writeScalaResult(src: String, pathContentFiles: (String, String)*) = {
+    val f = PipelineResult.File(src, pathContentFiles.flatMap(f => writeScala(f._1, f._2)))
+    if (f.tgts.isEmpty) {
+      None
+    } else {
+      Some(f)
+    }
   }
 
   def copyAsset(srcPath: String, tgtPath: String) = {
     val s = src / srcPath
     val t = assetRoot / tgtPath
-    t.parent.createIfNotExists(asDirectory = true, createParents = true)
-    s.copyTo(t)
-    PipelineResult.File(src.relativize(s).toString, Seq(tgt.relativize(t).toString))
+    if (t.exists) {
+      None
+    } else {
+      t.parent.createIfNotExists(asDirectory = true, createParents = true)
+      s.copyTo(t)
+      Some(PipelineResult.File(src.relativize(s).toString, Seq(tgt.relativize(t).toString)))
+    }
   }
 }

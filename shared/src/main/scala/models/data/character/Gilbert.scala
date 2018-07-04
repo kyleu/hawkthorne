@@ -2,13 +2,14 @@
 package models.data.character
 
 import models.character.{BoundingBox, CharacterTemplate, Costume}
+import models.data.series.Episode
 
 object Gilbert {
   val name = "Gilbert"
   val givenName = "Gilbert Lawson"
 
   val costumes = Seq(
-    Costume("base", "base", "Gilbert Lawson", 1)
+    Costume("base", Episode.S01E01, "Gilbert Lawson", 1)
   )
 
   val boundingBox = BoundingBox(

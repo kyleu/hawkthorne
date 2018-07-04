@@ -2,40 +2,41 @@
 package models.data.character
 
 import models.character.{BoundingBox, CharacterTemplate, Costume}
+import models.data.series.Episode
 
 object Shirley {
   val name = "Shirley"
   val givenName = "Shirley Bennett"
 
   val costumes = Seq(
-    Costume("base", "base", "Shirley Bennett", 1),
-    Costume("clubs", "s2e23", "Ace of Clubs", 2),
-    Costume("angel", "s3e5", "Angel", 11),
-    Costume("space", "s2e4", "Astronaut", 14),
-    Costume("babydoll", "s2e11", "Baby Doll", 13),
-    Costume("anime", "s3e9", "Big Cheddar", 3),
-    Costume("book", "s3e8", "Book", 26),
-    Costume("security", "s1e20", "Campus Security", 22),
-    Costume("captain", "s1e19", "Captain", 19),
-    Costume("chef", "s3e21", "Chef", 4),
-    Costume("hurt", "s1e12", "Christmas Brawl", 20),
-    Costume("crayon", "s2e13", "Crayon", 5),
-    Costume("dark", "s3e4", "Darkest Timeline", 6),
-    Costume("fbf", "s3e1", "Finally Be Fine", 23),
-    Costume("baby", "s4e1", "Greendale Baby", 16),
-    Costume("potter", "s1e7", "Harry Potter", 7),
-    Costume("headnurse", "s2e2", "Head Nurse Bennett", 28),
-    Costume("poplock", "s2e2", "Heather Popandlocklear", 24),
-    Costume("jules", "s2e19", "Jules Winnfield", 21),
-    Costume("lingerie", "s3e5", "Magnum's Angel", 25),
-    Costume("glinda", "s2e6", "Not Miss Piggy (Glinda)", 8),
-    Costume("oprah", "s3e12", "Oprah", 15),
-    Costume("planetchristmas", "s3e10", "Planet Christmas", 27),
-    Costume("leia", "s4e2", "Princess Leia", 9),
-    Costume("sandwiches", "s4e4", "Shirley's Sandwiches", 18),
-    Costume("timelinebattle", "s4e13", "Timeline Battle", 17),
-    Costume("zippy", "s2e14", "Zip-a-Dee-Doo", 12),
-    Costume("zombie", "s2e6", "Zombie", 10)
+    Costume("base", Episode.S01E01, "Shirley Bennett", 1),
+    Costume("clubs", Episode.S02E23, "Ace of Clubs", 2),
+    Costume("angel", Episode.S03E05, "Angel", 11),
+    Costume("space", Episode.S02E04, "Astronaut", 14),
+    Costume("babydoll", Episode.S02E11, "Baby Doll", 13),
+    Costume("anime", Episode.S03E09, "Big Cheddar", 3),
+    Costume("book", Episode.S03E08, "Book", 26),
+    Costume("security", Episode.S01E20, "Campus Security", 22),
+    Costume("captain", Episode.S01E19, "Captain", 19),
+    Costume("chef", Episode.S03E21, "Chef", 4),
+    Costume("hurt", Episode.S01E12, "Christmas Brawl", 20),
+    Costume("crayon", Episode.S02E13, "Crayon", 5),
+    Costume("dark", Episode.S03E04, "Darkest Timeline", 6),
+    Costume("fbf", Episode.S03E01, "Finally Be Fine", 23),
+    Costume("baby", Episode.S04E01, "Greendale Baby", 16),
+    Costume("potter", Episode.S01E07, "Harry Potter", 7),
+    Costume("headnurse", Episode.S02E02, "Head Nurse Bennett", 28),
+    Costume("poplock", Episode.S02E02, "Heather Popandlocklear", 24),
+    Costume("jules", Episode.S02E19, "Jules Winnfield", 21),
+    Costume("lingerie", Episode.S03E05, "Magnum's Angel", 25),
+    Costume("glinda", Episode.S02E06, "Not Miss Piggy (Glinda)", 8),
+    Costume("oprah", Episode.S03E12, "Oprah", 15),
+    Costume("planetchristmas", Episode.S03E10, "Planet Christmas", 27),
+    Costume("leia", Episode.S04E02, "Princess Leia", 9),
+    Costume("sandwiches", Episode.S04E04, "Shirley's Sandwiches", 18),
+    Costume("timelinebattle", Episode.S04E13, "Timeline Battle", 17),
+    Costume("zippy", Episode.S02E14, "Zip-a-Dee-Doo", 12),
+    Costume("zombie", Episode.S02E06, "Zombie", 10)
   )
 
   val boundingBox = BoundingBox(

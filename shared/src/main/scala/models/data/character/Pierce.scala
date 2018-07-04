@@ -2,40 +2,41 @@
 package models.data.character
 
 import models.character.{BoundingBox, CharacterTemplate, Costume}
+import models.data.series.Episode
 
 object Pierce {
   val name = "Pierce"
   val givenName = "Pierce Hawthorne"
 
   val costumes = Seq(
-    Costume("base", "base", "Pierce Hawthorne", 1),
-    Costume("astronaut", "s2e4", "Astronaut", 2),
-    Costume("beastmaster", "s1e7", "Beastmaster", 26),
-    Costume("naked", "s3e20", "Birthday Suit", 3),
-    Costume("canoe", "s1e19", "Canoe", 4),
-    Costume("kirk", "s2e6", "Captain Kirk", 5),
-    Costume("captain", "s1e19", "Captain Pierce", 19),
-    Costume("hurt", "s1e12", "Christmas Brawl", 21),
-    Costume("wizard", "s3e20", "Cookie Crisp Wizard", 20),
-    Costume("drugs", "s2e13", "Drugs", 6),
-    Costume("fatreynolds", "s3e12", "Fat Burt Reynolds", 28),
-    Costume("feethands", "s3e5", "Feet Hands", 25),
-    Costume("gimp", "s2e19", "The Gimp", 7),
-    Costume("popnlock", "s2e2", "Heather Popandlocklear", 27),
-    Costume("hotdog", "s2e21", "Hotdog", 8),
-    Costume("hulapaint", "s3e7", "Hula Paint Hallucination", 9),
-    Costume("janetreno", "s1e16", "Janet Reno", 10),
-    Costume("lotus", "s2e3", "Level 5 Laser Lotus", 11),
-    Costume("madscientist", "s3e5", "Mad Scientist", 24),
-    Costume("magnum", "s3e5", "Magnum", 12),
-    Costume("paintball", "s2e24", "Paintball Trooper", 13),
-    Costume("dickish", "s2e14", "Pierce the Dickish", 22),
-    Costume("pillow", "s3e14", "Pillow Man", 14),
-    Costume("planet_christmas", "s3e10", "Planet Christmas", 15),
-    Costume("teddy", "s2e11", "Teddy Pierce", 18),
-    Costume("western", "s2e23", "Western", 23),
-    Costume("wheelchair", "s2e9", "Wheelchair", 16),
-    Costume("zombie", "s2e6", "Zombie", 17)
+    Costume("base", Episode.S01E01, "Pierce Hawthorne", 1),
+    Costume("astronaut", Episode.S02E04, "Astronaut", 2),
+    Costume("beastmaster", Episode.S01E07, "Beastmaster", 26),
+    Costume("naked", Episode.S03E20, "Birthday Suit", 3),
+    Costume("canoe", Episode.S01E19, "Canoe", 4),
+    Costume("kirk", Episode.S02E06, "Captain Kirk", 5),
+    Costume("captain", Episode.S01E19, "Captain Pierce", 19),
+    Costume("hurt", Episode.S01E12, "Christmas Brawl", 21),
+    Costume("wizard", Episode.S03E20, "Cookie Crisp Wizard", 20),
+    Costume("drugs", Episode.S02E13, "Drugs", 6),
+    Costume("fatreynolds", Episode.S03E12, "Fat Burt Reynolds", 28),
+    Costume("feethands", Episode.S03E05, "Feet Hands", 25),
+    Costume("gimp", Episode.S02E19, "The Gimp", 7),
+    Costume("popnlock", Episode.S02E02, "Heather Popandlocklear", 27),
+    Costume("hotdog", Episode.S02E21, "Hotdog", 8),
+    Costume("hulapaint", Episode.S03E07, "Hula Paint Hallucination", 9),
+    Costume("janetreno", Episode.S01E16, "Janet Reno", 10),
+    Costume("lotus", Episode.S02E03, "Level 5 Laser Lotus", 11),
+    Costume("madscientist", Episode.S03E05, "Mad Scientist", 24),
+    Costume("magnum", Episode.S03E05, "Magnum", 12),
+    Costume("paintball", Episode.S02E24, "Paintball Trooper", 13),
+    Costume("dickish", Episode.S02E14, "Pierce the Dickish", 22),
+    Costume("pillow", Episode.S03E14, "Pillow Man", 14),
+    Costume("planet_christmas", Episode.S03E10, "Planet Christmas", 15),
+    Costume("teddy", Episode.S02E11, "Teddy Pierce", 18),
+    Costume("western", Episode.S02E23, "Western", 23),
+    Costume("wheelchair", Episode.S02E09, "Wheelchair", 16),
+    Costume("zombie", Episode.S02E06, "Zombie", 17)
   )
 
   val boundingBox = BoundingBox(
