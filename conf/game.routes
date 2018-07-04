@@ -1,0 +1,1 @@
+GET         /dump                           controllers.admin.game.GameAdminController.dumpAssets

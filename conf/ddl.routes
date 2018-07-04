@@ -1,0 +1,11 @@
+# Generated File
+# Schema Migration Routes
+GET         /                                                         controllers.admin.ddl.SchemaMigrationController.list(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /autocomplete                                            controllers.admin.ddl.SchemaMigrationController.autocomplete(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None)
+GET         /form                                                    controllers.admin.ddl.SchemaMigrationController.createForm
+POST        /                                                         controllers.admin.ddl.SchemaMigrationController.create
+GET         /:installedRank                                           controllers.admin.ddl.SchemaMigrationController.view(installedRank: Long, t: Option[String] ?= None)
+GET         /:installedRank/form                                      controllers.admin.ddl.SchemaMigrationController.editForm(installedRank: Long)
+POST        /:installedRank                                           controllers.admin.ddl.SchemaMigrationController.edit(installedRank: Long)
+GET         /:installedRank/remove                                    controllers.admin.ddl.SchemaMigrationController.remove(installedRank: Long)
+
