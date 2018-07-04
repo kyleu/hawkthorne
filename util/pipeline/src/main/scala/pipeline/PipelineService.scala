@@ -7,7 +7,7 @@ object PipelineService {
     cfg.assetRoot.children.foreach(_.delete(swallowIOExceptions = true))
     cfg.scalaRoot.children.foreach(_.delete(swallowIOExceptions = true))
 
-    val files = ImageFiles.process(cfg) ++ CharacterFiles.process(cfg)
+    val files = AudioFiles.process(cfg) ++ ImageFiles.process(cfg) ++ CharacterFiles.process(cfg)
     val result = PipelineResult(config = cfg, started = started, durationNanos = System.nanoTime - startNanos, files = files)
     scala.concurrent.Future.successful(result)
   }
