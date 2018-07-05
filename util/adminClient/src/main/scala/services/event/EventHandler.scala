@@ -2,6 +2,7 @@ package services.event
 
 import models.{RequestMessage, ResponseMessage}
 import models.ResponseMessage.{Pong, ServerError, UserSettings}
+import services.notification.NotificationService
 import services.socket.NetworkMessage
 import services.ui.UserManager
 import util.{DateUtils, Logging}
@@ -29,7 +30,7 @@ trait EventHandler {
   def onResponseMessage(msg: ResponseMessage): Unit = msg match {
     case p: Pong => onLatency((System.currentTimeMillis - DateUtils.toMillis(p.ts)).toInt)
     case us: UserSettings => UserManager.onUserSettings(us)
-    case se: ServerError => // TODO NotificationService.error(se.reason, se.content)
+    case se: ServerError => NotificationService.error(se.reason, se.content)
     case _ => Logging.warn(s"Received unknown message of type [${msg.getClass.getSimpleName}].")
   }
 

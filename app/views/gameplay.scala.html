@@ -1,0 +1,27 @@
+@(user: Option[models.user.SystemUser], path: String, devmode: Boolean)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@layout.basic(
+  user = user,
+  title = util.Config.projectName,
+  scripts = Nil,
+  stylesheets = Seq(controllers.routes.Assets.versioned("stylesheets/gameplay.min.css").url)
+) {
+  <main id="hawkthorne"></main>
+  @if(devmode) {
+  <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-arcade-physics.js")" type="text/javascript" defer="defer"></script>
+  <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-debug.js")" type="text/javascript" defer="defer"></script>
+
+  <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("vendor/dat.gui/dat.gui.css")" />
+  <script src="@controllers.routes.Assets.versioned("vendor/dat.gui/dat.gui.js")" type="text/javascript" defer="defer"></script>
+  <script src="@controllers.routes.Assets.versioned("vendor/dat.gui/phaser-sprite-gui.js")" type="text/javascript" defer="defer"></script>
+  <script src="@controllers.routes.Assets.versioned("client-fastopt.js")" type="text/javascript" defer="defer"></script>
+  } else {
+  <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-arcade-physics.min.js")" type="text/javascript" defer="defer"></script>
+  <script src="@controllers.routes.Assets.versioned("client-opt.js")" type="text/javascript" defer="defer"></script>
+  }
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      window.hawkthorne = new Hawkthorne('@path', @devmode);
+    });
+  </script>
+}

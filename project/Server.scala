@@ -58,7 +58,7 @@ object Server {
     PlayKeys.playInteractionMode := PlayUtils.NonBlockingInteractionMode,
 
     // Scala.js
-    scalaJSProjects := Seq(Client.client),
+    scalaJSProjects := Seq(AdminClient.adminClient, Client.client),
 
     // Sbt-Web
     JsEngineKeys.engineType := JsEngineKeys.EngineType.Node,

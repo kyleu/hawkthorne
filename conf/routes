@@ -3,11 +3,13 @@ GET         /ping                                    controllers.HomeController.
 GET         /connect                                 controllers.HomeController.connect(binary: Boolean ?= false)
 GET         /robots.txt                              controllers.HomeController.robots
 
+GET         /play                                    controllers.GameplayController.root()
+
 # Admin
 ->          /admin/system                            system.Routes
 ->          /admin/graphql                           graphql.Routes
 ->          /admin/rest                              rest.Routes
-->          /admin/game                              game.Routes
+->          /admin/game                              gameadmin.Routes
 
 # Start model route files
 ->          /admin/settings                          settings.Routes

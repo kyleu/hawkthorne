@@ -7,12 +7,8 @@ import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 
 object Client {
   private[this] val clientSettings = Shared.commonSettings ++ Seq(
-    libraryDependencies ++= Seq(
-      "com.definitelyscala" %%% "scala-js-phasercepixi" % "1.1.0",
-      "be.doeraene" %%% "scalajs-jquery" % Dependencies.ScalaJS.jQueryVersion,
-      "com.lihaoyi" %%% "scalatags" % Dependencies.Utils.scalatagsVersion
-    ),
-    testFrameworks += new TestFramework("utest.runner.Framework")
+    libraryDependencies ++= Seq("com.definitelyscala" %%% "scala-js-phaserce" % "1.1.0"),
+    scalacOptions += "-P:scalajs:sjsDefinedByDefault"
   )
 
   lazy val client = (project in file("client")).settings(clientSettings: _*).enablePlugins(ScalaJSPlugin, ScalaJSWeb).dependsOn(Shared.sharedJs)

@@ -21,7 +21,7 @@ object AnimationFiles {
 
     file.add(s"object Animation extends StringEnum[Animation] {", 1)
 
-    json.keys.foreach { key =>
+    json.keys.toSeq.sorted.foreach { key =>
       val (l, r) = json.apply(key).get.asObject.map { o =>
         o("left").get.asArray.get -> o("right").get.asArray.get
       }.getOrElse {
@@ -50,6 +50,17 @@ object AnimationFiles {
   private[this] def clean(s: String) = words.foldLeft(s)((in, el) => in.replaceAllLiterally(el._1, el._2))
 
   private[this] def processCoords(coords: Seq[Json]) = {
-    "Nil"
+    val values = coords.foldLeft(Seq.empty[(Int, Int)]) { (ret, c) =>
+      val newCoords = c.asString.get.split(',').toList match {
+        case x :: y :: Nil if x.contains('-') => x.split('-').toList match {
+          case start :: end :: Nil => (start.toInt to end.toInt).map(subX => subX -> y.toInt)
+          case _ => throw new IllegalStateException(s"Illegal range [$x].")
+        }
+        case x :: y :: Nil => Seq(x.toInt -> y.toInt)
+        case x => throw new IllegalStateException(s"Illegal coords [${x.mkString(",")}].")
+      }
+      ret ++ newCoords
+    }
+    s"Seq(${values.map(v => s"(${v._1}, ${v._2})").mkString(", ")})"
   }
 }

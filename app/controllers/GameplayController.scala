@@ -5,7 +5,6 @@ import java.util.UUID
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import com.mohiva.play.silhouette.api.HandlerResult
-import io.circe.Json
 import models.auth.Credentials
 import models.{Application, RequestMessage, ResponseMessage}
 import play.api.mvc.{AnyContent, AnyContentAsEmpty, Request, WebSocket}
@@ -15,7 +14,7 @@ import util.web.{MessageFrameFormatter, WebsocketUtils}
 import scala.concurrent.Future
 
 @javax.inject.Singleton
-class HomeController @javax.inject.Inject() (
+class GameplayController @javax.inject.Inject() (
     override val app: Application, implicit val system: ActorSystem, implicit val materializer: Materializer
 ) extends BaseController("home") {
 
@@ -23,8 +22,10 @@ class HomeController @javax.inject.Inject() (
 
   private[this] val formatter = new MessageFrameFormatter()
 
-  def home() = withSession("home") { implicit request => implicit td =>
-    Future.successful(Ok(views.html.index(request.identity, app.config.debug)))
+  def root() = gameplay("")
+
+  def gameplay(path: String) = withoutSession("gameplay") { implicit request => implicit td =>
+    Future.successful(Ok(views.html.gameplay(request.identity, path, app.config.debug)))
   }
 
   def connect(binary: Boolean) = WebSocket.acceptOrResult[RequestMessage, ResponseMessage] { request =>
@@ -37,16 +38,4 @@ class HomeController @javax.inject.Inject() (
       case HandlerResult(_, None) => Left(Redirect(controllers.routes.HomeController.home()).flashing("error" -> "You're not signed in."))
     }
   }(formatter.transformer(binary))
-
-  def externalLink(url: String) = withSession("external.link") { implicit request => implicit td =>
-    Future.successful(Redirect(if (url.startsWith("http")) { url } else { "http://" + url }))
-  }
-
-  def ping(timestamp: Long) = withSession("ping") { implicit request => implicit td =>
-    Future.successful(Ok(Json.obj("timestamp" -> Json.fromLong(timestamp))))
-  }
-
-  def robots() = withSession("robots") { implicit request => implicit td =>
-    Future.successful(Ok("User-agent: *\nDisallow: /"))
-  }
 }
