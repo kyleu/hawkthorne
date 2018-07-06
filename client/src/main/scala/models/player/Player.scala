@@ -2,7 +2,6 @@ package models.player
 
 import com.definitelyscala.phaserce.{Game, Sprite}
 import models.character.{CharacterTemplate, Costume}
-import models.data.Animation
 
 import scala.util.Random
 

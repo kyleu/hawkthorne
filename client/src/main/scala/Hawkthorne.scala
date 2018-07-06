@@ -1,5 +1,6 @@
 import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser, PluginObj}
-import services.state.{InitialGameState, SandboxState}
+import org.scalajs.dom
+import services.state.{InitialGameState, LoadingState, SandboxState}
 import util.JavaScriptUtils
 
 import scala.scalajs.js
@@ -28,12 +29,12 @@ class Hawkthorne(path: String, debug: Boolean) {
       antialias = false,
       multiTexture = true,
       parent = "hawkthorne",
-      resolution = 1 // TODO Detect
+      resolution = 1 // TODO? dom.window.devicePixelRatio
     ))
     val game = new Game(config)
     js.Dynamic.global.phaser = game
 
-    val nextState = new SandboxState()
+    val nextState = new LoadingState(new SandboxState())
 
     game.state.add("initial", new InitialGameState(nextState))
     game.state.start("initial", clearWorld = true, clearCache = true)

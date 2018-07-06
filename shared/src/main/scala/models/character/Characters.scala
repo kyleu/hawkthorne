@@ -29,4 +29,6 @@ object Characters {
     ViceDean.template,
     Vicki.template
   )
+
+  val allCostumes = Characters.all.flatMap(c => c.costumes.map(c -> _))
 }
