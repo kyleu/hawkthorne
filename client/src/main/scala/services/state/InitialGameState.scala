@@ -1,20 +1,23 @@
 package services.state
 
-import com.definitelyscala.phaserce.{Game, PluginObj, ScaleManager, State}
+import com.definitelyscala.phaserce._
 import com.definitelyscala.phasercepixi.WebGLRenderer
+import org.scalajs.dom
 import util.JavaScriptUtils
 
 import scala.scalajs.js
 
-class InitialGameState extends State {
+class InitialGameState(nextState: GameState) extends GameState("initial") {
+  override def preload(game: Game) = {
+    game.load.image("splash", "/assets/game/images/splash.png")
+  }
+
   override def create(game: Game) = {
-    /*
     dom.window.addEventListener("resize", { _: dom.Event =>
       var w = org.scalajs.dom.window.innerWidth
       game.scale.setGameSize(w, org.scalajs.dom.window.innerHeight)
-      game.state.getCurrentState().resize()
+      game.state.getCurrentState().resize(w, org.scalajs.dom.window.innerHeight)
     })
-     */
 
     val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
     if (debugPlugin.toString != "undefined") {
@@ -25,9 +28,19 @@ class InitialGameState extends State {
     game.stage.disableVisibilityChange = true
     game.scale.scaleMode = ScaleManager.NO_SCALE
 
-    // GameState.values.foreach(gs => game.state.add(gs.key, gs.baseState))
+    val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
+    s.anchor = new Point(0.5, 0.5)
+    val scale = game.width * 0.6 / s.width
+    s.scale = new Point(scale, scale)
+
+    game.state.add(nextState.key, nextState, autoStart = false)
 
     // val msg = NavigationService.initialMessage
     // NavigationService.navigate(game, msg._1, msg._2)
+
+    val splash = dom.document.getElementById("splash")
+    splash.parentNode.removeChild(splash)
+
+    // game.state.start(nextState.key, clearWorld = true, clearCache = true)
   }
 }

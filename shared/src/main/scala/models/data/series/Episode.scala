@@ -1,14 +1,14 @@
 /* Generated File */
 package models.data.series
 
-import enumeratum.values.{StringEnum, StringEnumEntry}
+import enumeratum.values.{StringCirceEnum, StringEnum, StringEnumEntry}
 import java.time.LocalDate
 
 sealed abstract class Episode(
     override val value: String, val season: Int, val episodeNum: Int, val name: String, val aired: LocalDate, val summary: String
 ) extends StringEnumEntry
 
-object Episode extends StringEnum[Episode] {
+object Episode extends StringEnum[Episode] with StringCirceEnum[Episode] {
   case object S00E01 extends Episode(
     value = "S00E01", season = 0, episodeNum = 1, name = "Save Greendale", aired = LocalDate.parse("2011-07-12"),
     summary = "The cast of NBC's Community address their involuntary hiatus with a hilarious, raccoon-free College Humor commercial for Greendale."
