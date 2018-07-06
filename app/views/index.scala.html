@@ -10,9 +10,10 @@
             <h5>You're an administrator, so head on over to the <a class="theme-text" href="@controllers.admin.system.routes.AdminController.index()">admin section</a>.</h5>
           }
         </li>
-        @views.html.components.socketForm()
+        <li class="collection-item">
+          <h5><a class="theme-text" href="@controllers.routes.GameplayController.root()">Play Now</a></h5>
+        </li>
       </ul>
     </div>
   </div>
-  @views.html.components.includeScalaJs(devmode)
 }

@@ -41,6 +41,6 @@ class InitialGameState(nextState: GameState) extends GameState("initial") {
     val splash = dom.document.getElementById("splash")
     splash.parentNode.removeChild(splash)
 
-    // game.state.start(nextState.key, clearWorld = true, clearCache = true)
+    game.state.start(nextState.key, clearWorld = true, clearCache = true)
   }
 }

@@ -16,11 +16,11 @@ object AnimationFiles {
     file.addImport("enumeratum.values", "StringEnumEntry")
 
     val t = "Seq[(Int, Int)]"
-    file.add(s"sealed abstract class Animation(override val value: String, left: $t, right: $t, duration: Double, loop: Boolean) extends StringEnumEntry")
+    file.add(s"sealed abstract class Animation(", 1)
+    file.add("override val value: String, val left: Seq[(Int, Int)], val right: Seq[(Int, Int)], val duration: Double, val loop: Boolean")
+    file.add(") extends StringEnumEntry", -1)
     file.add()
-
     file.add(s"object Animation extends StringEnum[Animation] {", 1)
-
     json.keys.toSeq.sorted.foreach { key =>
       val (l, r) = json.apply(key).get.asObject.map { o =>
         o("left").get.asArray.get -> o("right").get.asArray.get
@@ -35,11 +35,9 @@ object AnimationFiles {
       val anim = s"""Animation(value = "$key", left = $left, right = $right, duration = $duration, loop = $loop)"""
       file.add(s"case object ${ExportHelper.toClassName(clean(key))} extends $anim")
     }
-
     file.add()
     file.add("override val values = findValues")
     file.add("}", -1)
-
     cfg.writeScalaResult(s"character_map.json", file.path -> file.rendered).toSeq
   }
 

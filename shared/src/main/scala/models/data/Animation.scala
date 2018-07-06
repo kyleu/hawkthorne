@@ -3,7 +3,9 @@ package models.data
 
 import enumeratum.values.{StringEnum, StringEnumEntry}
 
-sealed abstract class Animation(override val value: String, left: Seq[(Int, Int)], right: Seq[(Int, Int)], duration: Double, loop: Boolean) extends StringEnumEntry
+sealed abstract class Animation(
+    override val value: String, val left: Seq[(Int, Int)], val right: Seq[(Int, Int)], val duration: Double, val loop: Boolean
+) extends StringEnumEntry
 
 object Animation extends StringEnum[Animation] {
   case object Acquire extends Animation(value = "acquire", left = Seq((7, 3)), right = Seq((7, 4)), duration = 1.0, loop = false)

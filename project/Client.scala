@@ -7,7 +7,10 @@ import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 
 object Client {
   private[this] val clientSettings = Shared.commonSettings ++ Seq(
-    libraryDependencies ++= Seq("com.definitelyscala" %%% "scala-js-phaserce" % "1.1.0"),
+    libraryDependencies ++= Seq(
+      "com.definitelyscala" %%% "scala-js-phaserce" % "1.1.0",
+      "com.definitelyscala" %%% "scala-js-datgui" % "1.1.0"
+    ),
     scalacOptions += "-P:scalajs:sjsDefinedByDefault"
   )
 
