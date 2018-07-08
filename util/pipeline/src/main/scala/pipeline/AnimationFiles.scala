@@ -66,6 +66,6 @@ object AnimationFiles {
       }
       ret ++ newCoords
     }
-    s"Seq(${values.map(v => s"(${v._1}, ${v._2})").mkString(", ")})"
+    s"Seq(${values.map(v => s"(${v._1 - 1}, ${v._2 - 1})").mkString(", ")})"
   }
 }

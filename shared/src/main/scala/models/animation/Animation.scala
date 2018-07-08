@@ -1,7 +1,13 @@
 package models.animation
 
-case class Animation(id: String, frames: Seq[Int], duration: Double, loop: Boolean) {
-  def nextFrame(millis: Long) = if(!loop && (millis > )
+case class Animation(id: String, frames: Seq[Int], delay: Double, loop: Boolean = false) {
+  val durationMs = frames.size * delay
 
+  def nextFrame(currFrame: Int, millis: Double) = if (!loop && (millis > durationMs)) {
+    currFrame
+  } else {
+    ((millis % durationMs) / delay).toInt
   }
+
+  def isComplete(millis: Double) = (!loop) && (millis > durationMs)
 }
