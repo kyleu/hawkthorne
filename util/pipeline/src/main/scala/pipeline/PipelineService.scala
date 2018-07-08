@@ -12,11 +12,12 @@ object PipelineService {
     }
 
     val files = {
-      AudioFiles.process(cfg) ++
-        ImageFiles.process(cfg) ++
+      AnimationFiles.process(cfg) ++
+        AudioFiles.process(cfg) ++
         CharacterFiles.process(cfg) ++
         EpisodeFiles.process(cfg) ++
-        AnimationFiles.process(cfg)
+        ImageFiles.process(cfg) ++
+        MapFiles.process(cfg)
     }
     val result = PipelineResult(config = cfg, started = started, durationNanos = System.nanoTime - startNanos, files = files)
     scala.concurrent.Future.successful(result)

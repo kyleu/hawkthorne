@@ -22,5 +22,9 @@ case class Animation(id: String, frames: Seq[Int], delay: Double, loop: Boolean 
   }
 
   def elapsed = elapsedMs
-  def isComplete = started && (!loop) && (elapsedMs > durationMs)
+  def completedOverage = if (started && (!loop) && (elapsedMs > durationMs)) {
+    Some(elapsedMs - durationMs)
+  } else {
+    None
+  }
 }

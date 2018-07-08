@@ -9,6 +9,7 @@ object IntroScanState {
     new LoadingState(
       next = new IntroScanState(phaser),
       phaser = phaser,
+      audio = Seq("music.opening" -> s"audio/music/opening.ogg"),
       spritesheets = Seq(
         ("intro.backgrounds", "images/intro/backgrounds.png", 400, 250),
         ("intro.names", "images/intro/names.png", 75, 15),
@@ -93,6 +94,8 @@ class IntroScanState(phaser: Game) extends GameState("introscan", phaser) {
 
     group.add(blank.sprite)
     group.add(scanningbar.sprite)
+
+    game.add.audio("music.opening").play(loop = true)
   }
 
   override def update(game: Game) = {
