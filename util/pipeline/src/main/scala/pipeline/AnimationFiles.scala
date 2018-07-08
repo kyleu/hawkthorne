@@ -20,7 +20,8 @@ object AnimationFiles {
     val t = "Seq[(Int, Int)]"
     file.add(s"sealed abstract class CharacterAnimation(", 2)
     file.add("override val value: String, val left: Seq[(Int, Int)], val right: Seq[(Int, Int)], val duration: Double, val loop: Boolean")
-    file.indent(-2)
+    file.indent(-2
+    )
     file.add(") extends StringEnumEntry {", 1)
     file.add("""lazy val leftAnim = Animation(value + ".left", left.map(x => (x._1 * 12) + x._2), duration, loop)""")
     file.add("""lazy val rightAnim = Animation(value + ".right", right.map(x => (x._1 * 12) + x._2), duration, loop)""")
