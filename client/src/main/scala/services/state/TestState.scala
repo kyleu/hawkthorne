@@ -3,15 +3,16 @@ package services.state
 import com.definitelyscala.phaserce.Game
 
 object TestState {
-  def load() = {
+  def load(phaser: Game) = {
     new LoadingState(
-      next = new TestState(),
+      next = new TestState(phaser),
+      phaser = phaser,
       tilemaps = Seq("map.adminhallway" -> "/assets/game/json/admin-hallway.json")
     )
   }
 }
 
-class TestState() extends GameState("test") {
+class TestState(phaser: Game) extends GameState("test", phaser) {
   override def create(game: Game) = {
     game.add.tilemap("map")
   }

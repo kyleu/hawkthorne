@@ -9,11 +9,12 @@ object LoadingState {
 
 class LoadingState(
     next: GameState,
+    phaser: Game,
     audio: Seq[(String, String)] = Nil,
     images: Seq[(String, String)] = Nil,
     spritesheets: Seq[(String, String, Int, Int)] = Nil,
     tilemaps: Seq[(String, String)] = Nil
-) extends GameState("initial") {
+) extends GameState("initial", phaser) {
   override def create(game: Game) = {
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
     s.anchor = new Point(0.5, 0.5)

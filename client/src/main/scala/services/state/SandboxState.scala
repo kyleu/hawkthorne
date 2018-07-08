@@ -7,9 +7,10 @@ import models.player.Player
 import util.JavaScriptUtils
 
 object SandboxState {
-  def load() = {
+  def load(phaser: Game) = {
     new LoadingState(
-      next = new SandboxState(),
+      next = new SandboxState(phaser),
+      phaser = phaser,
       audio = Seq("music.daybreak" -> s"audio/music/daybreak.ogg"),
       spritesheets = Characters.allCostumes.map { c =>
         (s"${c._1.id}.${c._2.key}", s"images/character/${c._1.id}/${c._2.key}.png", 48, 48)
@@ -18,7 +19,7 @@ object SandboxState {
   }
 }
 
-class SandboxState() extends GameState("sandbox") {
+class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
   override def create(game: Game) = {
     val players = Characters.allCostumes.zipWithIndex.map {
       case (c, idx) => new Player(c._1, c._2, (idx % 28) * 48.0, (idx / 28) * 48.0, game)

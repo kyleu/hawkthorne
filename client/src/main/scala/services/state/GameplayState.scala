@@ -6,14 +6,10 @@ import util.JavaScriptUtils
 import scala.scalajs.js
 
 object GameplayState {
-  def load() = {
-    new LoadingState(
-      next = new GameplayState()
-    )
-  }
+  def load(phaser: Game) = new LoadingState(next = new GameplayState(phaser), phaser = phaser)
 }
 
-class GameplayState() extends GameState("gameplay") {
+class GameplayState(phaser: Game) extends GameState("gameplay", phaser) {
   override def create(game: Game) = {
     println("Hawkthore started.")
     val style = JavaScriptUtils.as[PhaserTextStyle](js.Dynamic.literal(font = "bold 32px Arial", fill = "#fff"))
