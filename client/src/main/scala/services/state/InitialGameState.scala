@@ -9,7 +9,8 @@ import scala.scalajs.js
 
 class InitialGameState(nextState: GameState) extends GameState("initial") {
   override def preload(game: Game) = {
-    game.load.image("splash", "/assets/game/images/splash.png")
+    game.load.image("splash", LoadingState.prefix + "images/splash.png")
+    game.load.spritesheet("progress", LoadingState.prefix + "images/progress.png", 121.0, 13.0)
   }
 
   override def create(game: Game) = {

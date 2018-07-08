@@ -2,15 +2,28 @@ package services.state
 
 import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.Game
-import models.character.{CharacterTemplate, Characters, Costume}
+import models.character.Characters
 import models.player.Player
 import util.JavaScriptUtils
 
-class SandboxState() extends GameState("initial") {
+object SandboxState {
+  def load() = {
+    new LoadingState(
+      next = new SandboxState(),
+      audio = Seq("music.daybreak" -> s"audio/music/daybreak.ogg"),
+      spritesheets = Characters.allCostumes.map { c =>
+        (s"${c._1.id}.${c._2.key}", s"images/character/${c._1.id}/${c._2.key}.png", 48, 48)
+      }
+    )
+  }
+}
+
+class SandboxState() extends GameState("sandbox") {
   override def create(game: Game) = {
     val players = Characters.allCostumes.zipWithIndex.map {
       case (c, idx) => new Player(c._1, c._2, (idx % 28) * 48.0, (idx / 28) * 48.0, game)
     }
+    val bg = game.add.audio("music.daybreak").play(loop = true)
     println("Sandbox started.")
 
     val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())

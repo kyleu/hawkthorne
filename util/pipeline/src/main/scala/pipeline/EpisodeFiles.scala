@@ -13,6 +13,7 @@ object EpisodeFiles {
 
     file.addImport("java.time", "LocalDate")
     file.addImport("enumeratum.values", "StringEnum")
+    file.addImport("enumeratum.values", "StringCirceEnum")
     file.addImport("enumeratum.values", "StringEnumEntry")
 
     file.add("sealed abstract class Episode(", 2)
@@ -20,7 +21,7 @@ object EpisodeFiles {
     file.add(") extends StringEnumEntry", -2)
     file.add()
 
-    file.add(s"object Episode extends StringEnum[Episode] {", 1)
+    file.add(s"object Episode extends StringEnum[Episode] with StringCirceEnum[Episode] {", 1)
 
     json.map { e =>
       val o = e.asObject.get

@@ -9,18 +9,24 @@ object AnimationFiles {
     val src = cfg.src / "character_map.json"
     val json = decodeJson[Json](src.contentAsString).right.get.asObject.get
 
-    val pkg = Seq("models", "data")
-    val file = ScalaFile(pkg = pkg, key = "Animation", root = Some("shared/src/main/scala"))
+    val pkg = Seq("models", "data", "character")
+    val file = ScalaFile(pkg = pkg, key = "CharacterAnimation", root = Some("shared/src/main/scala"))
 
+    file.addImport("enumeratum.values", "StringCirceEnum")
     file.addImport("enumeratum.values", "StringEnum")
     file.addImport("enumeratum.values", "StringEnumEntry")
+    file.addImport("models.animation", "Animation")
 
     val t = "Seq[(Int, Int)]"
-    file.add(s"sealed abstract class Animation(", 1)
+    file.add(s"sealed abstract class CharacterAnimation(", 2)
     file.add("override val value: String, val left: Seq[(Int, Int)], val right: Seq[(Int, Int)], val duration: Double, val loop: Boolean")
-    file.add(") extends StringEnumEntry", -1)
+    file.indent(-2)
+    file.add(") extends StringEnumEntry {", 1)
+    file.add("""lazy val leftAnim = Animation(value + ".left", left.map(x => (x._1 * 12) + x._2), duration, loop)""")
+    file.add("""lazy val rightAnim = Animation(value + ".right", right.map(x => (x._1 * 12) + x._2), duration, loop)""")
+    file.add("}", -1)
     file.add()
-    file.add(s"object Animation extends StringEnum[Animation] {", 1)
+    file.add(s"object CharacterAnimation extends StringEnum[CharacterAnimation] with StringCirceEnum[CharacterAnimation] {", 1)
     json.keys.toSeq.sorted.foreach { key =>
       val (l, r) = json.apply(key).get.asObject.map { o =>
         o("left").get.asArray.get -> o("right").get.asArray.get
@@ -28,11 +34,11 @@ object AnimationFiles {
         val x = json.apply(key).get.asArray.get
         x -> x
       }
-      val left = processCoords(l.apply(1).asArray.get)
-      val right = processCoords(r.apply(1).asArray.get)
       val duration = l.apply(2).asNumber.get.toDouble
       val loop = l.apply(0).asString.get == "loop"
-      val anim = s"""Animation(value = "$key", left = $left, right = $right, duration = $duration, loop = $loop)"""
+      val left = processCoords(l.apply(1).asArray.get)
+      val right = processCoords(r.apply(1).asArray.get)
+      val anim = s"""CharacterAnimation(value = "$key", left = $left, right = $right, duration = $duration, loop = $loop)"""
       file.add(s"case object ${ExportHelper.toClassName(clean(key))} extends $anim")
     }
     file.add()

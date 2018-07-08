@@ -1,6 +1,5 @@
-import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser, PluginObj}
-import org.scalajs.dom
-import services.state.{InitialGameState, LoadingState, SandboxState}
+import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser}
+import services.state._
 import util.JavaScriptUtils
 
 import scala.scalajs.js
@@ -11,11 +10,14 @@ class Hawkthorne(path: String, debug: Boolean) {
   println("Welcome to Hawkthorne!")
 
   path.trim match {
-    case "" => startGame()
+    case "" => startGame(GameplayState.load())
+    case "intro" => startGame(IntroScanState.load())
+    case "test" => startGame(TestState.load())
+    case "sandbox" => startGame(SandboxState.load())
     case _ => util.Logging.warn(s"Unknown path [$path]")
   }
 
-  private[this] def startGame() = {
+  private[this] def startGame(nextState: GameState) = {
     js.Dynamic.global.window.PhaserGlobal = js.Dynamic.literal(
       hideBanner = true
     )
@@ -29,12 +31,10 @@ class Hawkthorne(path: String, debug: Boolean) {
       antialias = false,
       multiTexture = true,
       parent = "hawkthorne",
-      resolution = 1 // TODO? dom.window.devicePixelRatio
+      resolution = 1 // org.scalajs.dom.window.devicePixelRatio
     ))
     val game = new Game(config)
     js.Dynamic.global.phaser = game
-
-    val nextState = new LoadingState(new SandboxState())
 
     game.state.add("initial", new InitialGameState(nextState))
     game.state.start("initial", clearWorld = true, clearCache = true)
