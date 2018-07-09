@@ -220,7 +220,7 @@
         {
          "columns":10,
          "firstgid":1,
-         "image":"..\/images\/tilesets\/bathroom.png",
+         "image":"..\/..\/images\/tilesets\/bathroom.png",
          "imageheight":240,
          "imagewidth":240,
          "margin":0,
@@ -233,7 +233,7 @@
         {
          "columns":26,
          "firstgid":101,
-         "image":"..\/images\/tilesets\/collisions.png",
+         "image":"..\/..\/images\/tilesets\/collisions.png",
          "imageheight":512,
          "imagewidth":632,
          "margin":0,

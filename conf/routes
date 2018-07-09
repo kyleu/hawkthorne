@@ -3,7 +3,7 @@ GET         /ping                                    controllers.HomeController.
 GET         /robots.txt                              controllers.HomeController.robots
 
 GET         /play                                    controllers.GameplayController.root()
-GET         /play/:path                              controllers.GameplayController.gameplay(path)
+GET         /play/*path                              controllers.GameplayController.gameplay(path)
 
 # Admin
 ->          /admin/system                            system.Routes

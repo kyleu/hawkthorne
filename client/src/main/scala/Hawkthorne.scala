@@ -1,4 +1,5 @@
 import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser}
+import models.data.map.TiledMap
 import services.state._
 import util.JavaScriptUtils
 
@@ -32,6 +33,7 @@ class Hawkthorne(path: String, debug: Boolean) {
     case "intro" => IntroScanState.load(phaser)
     case "test" => TestState.load(phaser)
     case "sandbox" => SandboxState.load(phaser)
+    case x if x.startsWith("map/") => MapState.load(phaser, TiledMap.withValue(x.stripPrefix("map/")))
     case _ => throw new IllegalStateException(s"Unknown path [$path]")
   }
 

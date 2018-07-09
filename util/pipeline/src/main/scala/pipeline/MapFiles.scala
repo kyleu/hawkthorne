@@ -1,6 +1,8 @@
 package pipeline
 
+import io.circe.Json
 import pipeline.file.ScalaFile
+import util.JsonSerializers
 
 object MapFiles {
   def process(cfg: PipelineConfig) = {
@@ -11,7 +13,9 @@ object MapFiles {
     file.addImport("enumeratum.values", "StringEnum")
     file.addImport("enumeratum.values", "StringEnumEntry")
 
-    file.add("sealed abstract class TiledMap(override val value: String, val images: Seq[String], val layers: Seq[String]) extends StringEnumEntry")
+    file.add("sealed abstract class TiledMap(", 1)
+    file.add("override val value: String, val title: String, val soundtrack: Option[String], val color: String, val images: Seq[String], val layers: Seq[String]")
+    file.add(") extends StringEnumEntry", -1)
     file.add()
 
     file.add(s"object TiledMap extends StringEnum[TiledMap] with StringCirceEnum[TiledMap] {", 1)
@@ -30,13 +34,37 @@ object MapFiles {
       }
 
       val name = nameFor(key)
+      val json = JsonSerializers.parseJson(jsonFile.contentAsString).right.get.asObject.get
+
+      val imageNames = json("tilesets").get.asArray.get.map(_.asObject.get.apply("image").get.asString.get).map { s =>
+        s.substring(s.lastIndexOf('/') + 1).stripSuffix(".png")
+      }
+      val imageString = imageNames.map("\"" + _ + "\"").mkString(", ")
+
+      val layerNames = json("layers").get.asArray.get.map(_.asObject.get.apply("name").get)
+
+      val orientation = json("orientation").get.asString.get
+
+      val properties = json("properties").map(_.asObject.get).getOrElse(Json.obj().asObject.get)
+
+      val soundtrack = properties("soundtrack").map(_.asString.get.stripPrefix("audio/music/").stripSuffix(".ogg"))
+      val title = properties("title").map(_.asString.get).getOrElse(key)
+      val (r, g, b) = (0, 255, 0)
+      val color = "#%02x%02x%02x".format(r, g, b)
       /*
-      case object AdminHallway extends TiledMap(value = "admin-hallway", images = Seq("collisions", "greendale-hallways"), layers = Seq(
-        "nodes", "collision", "Tile Layer 1", "Tile Layer 2", "Tile Layer 3"
-      ))
+       "orientation":"orthogonal",
+       "properties": {
+         "blue":"159",
+         "green":"123",
+         "red":"104",
+         "soundtrack":"greendale-alt",
+         "title":"Admin Hallway"
+        }
        */
-      file.add(s"""case object $name extends TiledMap(value = "$key", images = Seq(), layers = Seq(""", 1)
-      file.add(s"""// ...""")
+
+      val props = s"""title = "$title", soundtrack = ${soundtrack.map("Some(\"" + _ + "\")").getOrElse("None")}, color = "$color""""
+      file.add(s"""case object $name extends TiledMap(value = "$key", $props, images = Seq($imageString), layers = Seq(""", 1)
+      file.add(layerNames.mkString(", "))
       file.add("))", -1)
     }
 
@@ -44,7 +72,7 @@ object MapFiles {
     file.add("override val values = findValues")
     file.add("}", -1)
 
-    cfg.writeScalaResult(s"maps", file.path -> file.rendered)
+    cfg.writeScalaResult(s"maps", file.path -> file.rendered).toSeq ++ cfg.copyAsset("maps/json", "maps").toSeq
   }
 
   private[this] def nameFor(key: String) = key match {

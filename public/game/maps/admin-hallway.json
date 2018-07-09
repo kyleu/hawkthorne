@@ -370,7 +370,7 @@
         {
          "columns":24,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/Libraries\/hawkthorne-journey\/src\/images\/tilesets\/greendale-hallways.png",
+         "image":"..\/..\/images\/tilesets\/greendale-hallways.png",
          "imageheight":600,
          "imagewidth":576,
          "margin":0,
@@ -383,7 +383,7 @@
         {
          "columns":26,
          "firstgid":601,
-         "image":"..\/..\/..\/..\/..\/Libraries\/hawkthorne-journey\/src\/images\/tilesets\/collisions.png",
+         "image":"..\/..\/images\/tilesets\/collisions.png",
          "imageheight":512,
          "imagewidth":632,
          "margin":0,

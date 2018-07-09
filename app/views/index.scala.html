@@ -14,13 +14,20 @@
           <h5><a class="theme-text" href="@controllers.routes.GameplayController.root()">Play Now</a></h5>
         </li>
         <li class="collection-item">
-          <h5><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("intro")">Intro</a></h5>
+          <h5>Tests</h5>
+          <ul>
+            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("intro")">Intro</a></li>
+            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("test")">Tests</a></li>
+            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("sandbox")">Sandbox</a></li>
+          </ul>
         </li>
         <li class="collection-item">
-          <h5><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("test")">Tests</a></h5>
-        </li>
-        <li class="collection-item">
-          <h5><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("sandbox")">Sandbox</a></h5>
+          <h5>Maps</h5>
+          <ul>
+            @models.data.map.TiledMap.values.map { m =>
+              <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay(s"map/${m.value}")">@m.value</a></li>
+            }
+          </ul>
         </li>
       </ul>
     </div>

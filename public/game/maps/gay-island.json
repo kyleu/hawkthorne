@@ -496,7 +496,7 @@
         {
          "columns":26,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/Libraries\/hawkthorne-journey\/src\/images\/tilesets\/gay-island.png",
+         "image":"..\/..\/images\/tilesets\/gay-island.png",
          "imageheight":936,
          "imagewidth":624,
          "margin":0,
@@ -509,7 +509,7 @@
         {
          "columns":26,
          "firstgid":1015,
-         "image":"..\/..\/..\/..\/..\/Libraries\/hawkthorne-journey\/src\/images\/tilesets\/collisions.png",
+         "image":"..\/..\/images\/tilesets\/collisions.png",
          "imageheight":512,
          "imagewidth":632,
          "margin":0,
