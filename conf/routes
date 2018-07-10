@@ -3,6 +3,7 @@ GET         /ping                                    controllers.HomeController.
 GET         /robots.txt                              controllers.HomeController.robots
 
 GET         /play                                    controllers.GameplayController.root()
+GET         /connect                                 controllers.GameplayController.connect(binary: Boolean ?= true)
 GET         /play/*path                              controllers.GameplayController.gameplay(path)
 
 # Admin

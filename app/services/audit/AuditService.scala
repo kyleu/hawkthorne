@@ -8,7 +8,7 @@ import models.queries.audit.AuditQueries
 import models.result.data.DataField
 import models.result.filter.Filter
 import models.result.orderBy.OrderBy
-import models.{Application, Configuration}
+import models.Configuration
 import play.api.inject.Injector
 import services.ModelServiceHelper
 import services.database.ApplicationDatabase
@@ -21,7 +21,6 @@ import scala.concurrent.Future
 class AuditService @javax.inject.Inject() (
     override val tracing: TracingService, inject: Injector, config: Configuration, ws: TracingWSClient, lookup: AuditLookup
 ) extends ModelServiceHelper[Audit]("audit") {
-  lazy val supervisor = inject.instanceOf(classOf[Application]).supervisor
   AuditHelper.init(this)
 
   def callback(a: Audit)(implicit trace: TraceData) = if (a.records.exists(r => r.changes.as[Seq[AuditField]].right.get.nonEmpty)) {

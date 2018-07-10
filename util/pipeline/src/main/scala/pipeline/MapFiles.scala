@@ -49,7 +49,8 @@ object MapFiles {
 
       val soundtrack = properties("soundtrack").map(_.asString.get.stripPrefix("audio/music/").stripSuffix(".ogg"))
       val title = properties("title").map(_.asString.get).getOrElse(key)
-      val (r, g, b) = (0, 255, 0)
+      def extract(key: String) = properties(key).map(_.asString.get.toInt).getOrElse(0)
+      val (r, g, b) = (extract("red"), extract("green"), extract("blue"))
       val color = "#%02x%02x%02x".format(r, g, b)
       /*
        "orientation":"orthogonal",

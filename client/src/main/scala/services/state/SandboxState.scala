@@ -6,6 +6,8 @@ import models.character.Characters
 import models.player.Player
 import util.JavaScriptUtils
 
+import scala.util.Random
+
 object SandboxState {
   def load(phaser: Game) = {
     new LoadingState(
@@ -20,17 +22,25 @@ object SandboxState {
 }
 
 class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
+  lazy val players = Characters.allCostumes.zipWithIndex.map {
+    case (c, idx) => new Player(c._1, c._2, (idx % 28) * 48, (idx / 28) * 48, game)
+  }
+
   override def create(game: Game) = {
-    val players = Characters.allCostumes.zipWithIndex.map {
-      case (c, idx) => new Player(c._1, c._2, (idx % 28) * 48.0, (idx / 28) * 48.0, game)
-    }
-    val bg = game.add.audio("music.daybreak").play(loop = true)
+    players.toString
+
+    val bgAudio = game.add.audio("music.daybreak").play(loop = true)
     println("Sandbox started.")
 
     val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
     val gui = new GUI(params)
     val f = gui.addFolder("Player 0")
-    f.add(players.head, "x", 0, 2000.0)
-    f.add(players.head, "y", 0, 2000.0)
+    f.add(players.head.sprite, "x", 0, 2000.0)
+    f.add(players.head.sprite, "y", 0, 2000.0)
+  }
+
+  override def update(game: Game) = players.foreach {
+    case p if Random.nextInt(30) == 0 => p.sprite.frame = Random.nextInt(12 * 16)
+    case _ => // noop
   }
 }

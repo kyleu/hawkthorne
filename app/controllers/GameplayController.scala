@@ -8,7 +8,7 @@ import com.mohiva.play.silhouette.api.HandlerResult
 import models.auth.Credentials
 import models.{Application, RequestMessage, ResponseMessage}
 import play.api.mvc.{AnyContent, AnyContentAsEmpty, Request, WebSocket}
-import services.socket.SocketService
+import services.player.PlayerSocketService
 import util.web.{MessageFrameFormatter, WebsocketUtils}
 
 import scala.concurrent.Future
@@ -24,7 +24,7 @@ class GameplayController @javax.inject.Inject() (
 
   def root() = gameplay("")
 
-  def gameplay(path: String) = withoutSession("gameplay") { implicit request => implicit td =>
+  def gameplay(path: String) = withSession("gameplay") { implicit request => implicit td =>
     Future.successful(Ok(views.html.gameplay(request.identity, path, app.config.debug)))
   }
 
@@ -33,7 +33,7 @@ class GameplayController @javax.inject.Inject() (
     val connId = UUID.randomUUID()
     app.silhouette.SecuredRequestHandler { secured => Future.successful(HandlerResult(Ok, Some(secured.identity))) }.map {
       case HandlerResult(_, Some(user)) => Right(WebsocketUtils.actorRef(connId) { out =>
-        SocketService.props(Some(connId), app.supervisor, Credentials(user, request.remoteAddress), out, request.remoteAddress)
+        PlayerSocketService.props(Some(connId), app.playerSupervisor, Credentials(user, request.remoteAddress), out, request.remoteAddress)
       })
       case HandlerResult(_, None) => Left(Redirect(controllers.routes.HomeController.home()).flashing("error" -> "You're not signed in."))
     }

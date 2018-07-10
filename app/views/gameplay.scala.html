@@ -1,7 +1,7 @@
-@(user: Option[models.user.SystemUser], path: String, devmode: Boolean)(
+@(user: models.user.SystemUser, path: String, devmode: Boolean)(
     implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
 )@traceData.logViewClass(getClass)@layout.basic(
-  user = user,
+  user = Some(user),
   title = util.Config.projectName,
   scripts = Nil,
   stylesheets = Seq(controllers.routes.Assets.versioned("stylesheets/gameplay.min.css").url)

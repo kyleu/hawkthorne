@@ -274,6 +274,7 @@ Debug.prototype._createMenuStats = function () {
     this._stats.ms = document.createElement('span');
     this._stats.fps = document.createElement('span');
     this._stats.dpf = document.createElement('span');
+    this._stats.ping = document.createElement('span');
     // this._stats.ent = document.createElement('span');
 
     ui.addClass(this._stats.ms, 'pdebug-stats-item ms');
@@ -287,6 +288,10 @@ Debug.prototype._createMenuStats = function () {
     ui.addClass(this._stats.dpf, 'pdebug-stats-item dpf');
     ui.setHtml(this._stats.dpf, '<span>0</span> draws');
     div.appendChild(this._stats.dpf);
+
+    ui.addClass(this._stats.ping, 'pdebug-stats-item ping');
+    ui.setHtml(this._stats.ping, '<span id="ping-stats-display">0</span> ping');
+    div.appendChild(this._stats.ping);
 
     // ui.addClass(this._stats.ent, 'pdebug-stats-item ent');
     // ui.setHtml(this._stats.ent, '<span>0</span> entities');

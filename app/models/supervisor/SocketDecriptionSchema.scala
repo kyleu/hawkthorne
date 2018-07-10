@@ -20,8 +20,8 @@ object SocketDecriptionSchema extends GraphQLSchemaHelper("socket") {
     import scala.concurrent.duration._
     implicit val timeout: Timeout = Timeout(1.second)
 
-    ask(c.ctx.app.supervisor, GetSystemStatus).mapTo[SystemStatus].map { x =>
-      x.channels.flatMap(_._2).filter(s => c.arg(channelArg).forall(_ == s.channel) && c.arg(socketIdArg).forall(_ == s.socketId))
+    ask(c.ctx.app.gameSupervisor, GetSystemStatus).mapTo[SystemStatus].map { x =>
+      x.sockets.filter(s => c.arg(channelArg).forall(_ == s.channel) && c.arg(socketIdArg).forall(_ == s.socketId))
     }
   }, channelArg, socketIdArg))
 }

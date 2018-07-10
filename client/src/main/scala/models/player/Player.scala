@@ -2,16 +2,16 @@ package models.player
 
 import com.definitelyscala.phaserce.{Game, Sprite}
 import models.character.{CharacterTemplate, Costume}
+import models.data.character.CharacterAnimation
+import models.phaser.AnimatedSprite
 
-import scala.util.Random
+object Player {
+  val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim))
+}
 
-class Player(actor: CharacterTemplate, costume: Costume, x: Double, y: Double, game: Game) extends Sprite(game, x, y, s"${actor.id}.${costume.key}") {
-  this.name = s"${actor.id}.${costume.key}"
-  game.add.existing(this)
-
-  private[this] def coordsFor(seq: Seq[(Int, Int)]) = scalajs.js.Array(seq.map(x => (x._1 * 12.0) + x._2): _*)
-
-  override def update() = if (Random.nextInt(30) == 0) {
-    this.frame = Random.nextInt(12 * 16)
-  }
+class Player(actor: CharacterTemplate, costume: Costume, x: Int, y: Int, game: Game) extends AnimatedSprite(
+  game = game, offsetX = x, offsetY = y, key = s"${actor.id}.${costume.key}", Player.animations: _*
+) {
+  sprite.name = s"${actor.id}.${costume.key}"
+  game.add.existing(sprite)
 }

@@ -11,7 +11,7 @@ import org.scalajs.dom.raw.Event
 
 trait EventHandler {
   private[this] def sendPing(): Unit = {
-    NetworkMessage.sendMessage(models.RequestMessage.Ping(DateUtils.now))
+    NetworkMessage.sendMessage(models.RequestMessage.Ping(DateUtils.nowMillis))
     setTimeout(10000)(sendPing())
   }
 
@@ -20,14 +20,12 @@ trait EventHandler {
     setTimeout(1000)(sendPing())
   }
 
-  protected def onLatency(ms: Int): Unit = {
-    NetworkMessage.latencyMs = Some(ms)
-  }
+  protected def onLatency(ms: Int): Unit = NetworkMessage.setLatencyMs(ms)
 
   def onRequestMessage(rm: RequestMessage): Unit = {}
 
   def onResponseMessage(msg: ResponseMessage): Unit = msg match {
-    case p: Pong => onLatency((System.currentTimeMillis - DateUtils.toMillis(p.ts)).toInt)
+    case p: Pong => onLatency((System.currentTimeMillis - p.ts).toInt)
     case us: UserSettings => UserManager.onUserSettings(us)
     case se: ServerError => // TODO NotificationService.error(se.reason, se.content)
     case _ => Logging.warn(s"Received unknown message of type [${msg.getClass.getSimpleName}].")

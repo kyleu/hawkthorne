@@ -9,7 +9,7 @@ import play.api.Environment
 import play.api.inject.ApplicationLifecycle
 import services.database._
 import services.file.FileService
-import services.supervisor.ActorSupervisor
+import services.supervisor.{GameSupervisor, PlayerSupervisor}
 import services.user.SystemUserService
 import services.cache.CacheService
 import services.audit.AuditService
@@ -54,7 +54,8 @@ class Application @javax.inject.Inject() (
     Await.result(start(), 20.seconds)
   }
 
-  val supervisor = actorSystem.actorOf(Props(classOf[ActorSupervisor], this), "supervisor")
+  val playerSupervisor = actorSystem.actorOf(Props(classOf[PlayerSupervisor]), "players")
+  val gameSupervisor = actorSystem.actorOf(Props(classOf[GameSupervisor]), "games")
 
   private[this] def start() = tracing.topLevelTrace("application.start") { implicit tn =>
     log.info(s"${Config.projectName} is starting.")

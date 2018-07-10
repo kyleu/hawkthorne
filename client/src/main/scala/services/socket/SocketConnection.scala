@@ -5,7 +5,7 @@ import services.event.EventHandler
 import util.{BinarySerializers, Logging}
 import util.JsonSerializers._
 
-abstract class SocketConnection(key: String, val handler: EventHandler, val binary: Boolean) {
+class SocketConnection(key: String, val handler: EventHandler, val binary: Boolean) {
   protected[this] val socket = new NetworkSocket(handler)
 
   def connect(path: String) = {
