@@ -1,6 +1,8 @@
 package models.phaser
 
 import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser}
+import services.state._
+import services.ui.NavigationService
 import util.JavaScriptUtils
 
 object PhaserGame {
@@ -17,4 +19,10 @@ object PhaserGame {
   ))
 }
 
-class PhaserGame() extends Game(PhaserGame.config)
+class PhaserGame(val path: String, val isDebug: Boolean) extends Game(PhaserGame.config) {
+  def begin() = {
+    val nextState = NavigationService.initialState(this, path)
+    state.add("initial", new InitialGameState(nextState, this))
+    state.start("initial", clearWorld = true, clearCache = true)
+  }
+}

@@ -3,6 +3,7 @@ package services.state
 import com.definitelyscala.phaserce.Game
 import models.data.character.Abed
 import models.player.Player
+import services.input.InputService
 
 object TestState {
   def load(phaser: Game) = new LoadingState(
@@ -13,25 +14,18 @@ object TestState {
 }
 
 class TestState(phaser: Game) extends GameState("test", phaser) {
-  lazy val player = new Player(Abed.template, Abed.costumes.head, game.width.toInt / 2, game.height.toInt / 2, game)
-  lazy val cursors = game.input.keyboard.createCursorKeys()
+  private[this] lazy val player = new Player(Abed.template, Abed.costumes.head, game.width.toInt / 2, game.height.toInt / 2, game)
+  private[this] lazy val cursors = game.input.keyboard.createCursorKeys()
+  private[this] var input: Option[InputService] = None
 
   override def create(game: Game) = {
     player.toString
     cursors.toString
+    input = Some(new InputService(phaser, player.sprite))
   }
 
   override def update(game: Game) = {
-    if (cursors.left.isDown) {
-      player.sprite.x -= 4
-    } else if (cursors.right.isDown) {
-      player.sprite.x += 4
-    }
 
-    if (cursors.up.isDown) {
-      player.sprite.y -= 4
-    } else if (cursors.down.isDown) {
-      player.sprite.y += 4
-    }
+    input.foreach(_.update(0L))
   }
 }

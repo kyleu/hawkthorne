@@ -1,11 +1,6 @@
-import models.RequestMessage.Ping
-import models.{RequestMessage, ResponseMessage}
-import models.data.map.TiledMap
 import models.phaser.PhaserGame
-import org.scalajs.dom.raw.Event
 import services.event.EventHandler
-import services.socket.{NetworkMessage, SocketConnection}
-import services.state._
+import services.socket.SocketConnection
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -28,20 +23,9 @@ class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
       hideBanner = true
     )
 
-    val phaser = new PhaserGame()
+    val phaser = new PhaserGame(path, debug)
     js.Dynamic.global.phaser = phaser
-
-    val nextState = path.trim match {
-      case "" => GameplayState.load(phaser)
-      case "intro" => IntroScanState.load(phaser)
-      case "test" => TestState.load(phaser)
-      case "sandbox" => SandboxState.load(phaser)
-      case x if x.startsWith("map/") => MapState.load(phaser, TiledMap.withValue(x.stripPrefix("map/")))
-      case _ => throw new IllegalStateException(s"Unknown path [$path]")
-    }
-
-    phaser.state.add("initial", new InitialGameState(nextState, phaser))
-    phaser.state.start("initial", clearWorld = true, clearCache = true)
+    phaser.begin()
   }
 
   private[this] def initNetwork() = {
