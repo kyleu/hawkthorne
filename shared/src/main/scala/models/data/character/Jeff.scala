@@ -4,11 +4,12 @@ package models.data.character
 import models.character.{BoundingBox, CharacterTemplate, Costume}
 import models.data.series.Episode
 
-object Jeff {
-  val name = "Jeff"
-  val givenName = "Jeff Winger"
+object Jeff extends CharacterTemplate(
+  key = "jeff",
+  name = "Jeff",
+  givenName = "Jeff Winger",
 
-  val costumes = Seq(
+  costumes = Seq(
     Costume("base", Episode.S01E01, "Jeff Winger", 1),
     Costume("astronaut", Episode.S02E04, "Astronaut", 2),
     Costume("asylum", Episode.S03E19, "Asylum", 3),
@@ -59,16 +60,14 @@ object Jeff {
     Costume("vega", Episode.S02E19, "Vincent Vega", 25),
     Costume("wingman", Episode.S05E11, "Wingman", 48),
     Costume("zombie", Episode.S02E06, "Zombie", 21)
-  )
+  ),
 
-  val boundingBox = BoundingBox(
+  boundingBox = BoundingBox(
     width = 14,
     height = 41,
     duckHeight = 20,
     x = 17,
     y = 7
-  )
-  val offset = 5
-
-  val template = CharacterTemplate("jeff", name, givenName, costumes, boundingBox, offset)
-}
+  ),
+  offset = 5
+)

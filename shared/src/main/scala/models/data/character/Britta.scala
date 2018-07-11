@@ -4,11 +4,12 @@ package models.data.character
 import models.character.{BoundingBox, CharacterTemplate, Costume}
 import models.data.series.Episode
 
-object Britta {
-  val name = "Britta"
-  val givenName = "Britta Perry"
+object Britta extends CharacterTemplate(
+  key = "britta",
+  name = "Britta",
+  givenName = "Britta Perry",
 
-  val costumes = Seq(
+  costumes = Seq(
     Costume("base", Episode.S01E01, "Britta Perry", 1),
     Costume("astronaut", Episode.S02E04, "Astronaut", 2),
     Costume("asylum", Episode.S03E19, "Asylum", 3),
@@ -50,16 +51,14 @@ object Britta {
     Costume("trannyqueen", Episode.S01E25, "Tranny Queen", 36),
     Costume("protest", Episode.S03E02, "U.N. Protest", 37),
     Costume("zombie", Episode.S02E06, "Zombie", 17)
-  )
+  ),
 
-  val boundingBox = BoundingBox(
+  boundingBox = BoundingBox(
     width = 14,
     height = 35,
     duckHeight = 20,
     x = 17,
     y = 13
-  )
-  val offset = 8
-
-  val template = CharacterTemplate("britta", name, givenName, costumes, boundingBox, offset)
-}
+  ),
+  offset = 8
+)

@@ -4,22 +4,21 @@ package models.data.character
 import models.character.{BoundingBox, CharacterTemplate, Costume}
 import models.data.series.Episode
 
-object Guzman {
-  val name = "Guzman"
-  val givenName = "Luis Guzman"
+object Guzman extends CharacterTemplate(
+  key = "guzman",
+  name = "Guzman",
+  givenName = "Luis Guzman",
 
-  val costumes = Seq(
+  costumes = Seq(
     Costume("base", Episode.S01E01, "Luis Guzman", 1)
-  )
+  ),
 
-  val boundingBox = BoundingBox(
+  boundingBox = BoundingBox(
     width = 14,
     height = 41,
     duckHeight = 20,
     x = 17,
     y = 7
-  )
-  val offset = 4
-
-  val template = CharacterTemplate("guzman", name, givenName, costumes, boundingBox, offset)
-}
+  ),
+  offset = 4
+)
