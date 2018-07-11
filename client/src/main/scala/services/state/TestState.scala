@@ -2,19 +2,19 @@ package services.state
 
 import com.definitelyscala.phaserce.Game
 import models.data.character.Abed
-import models.player.Player
+import models.player.{Player, PlayerSprite}
 import services.input.InputService
 
 object TestState {
   def load(phaser: Game) = new LoadingState(
     next = new TestState(phaser),
-    spritesheets = Seq(("abed.base", "images/character/abed/base.png", 48, 48)),
-    phaser = phaser
+    phaser = phaser,
+    spritesheets = Seq(("abed.base", "images/character/abed/base.png", 48, 48))
   )
 }
 
 class TestState(phaser: Game) extends GameState("test", phaser) {
-  private[this] lazy val player = new Player(Abed.template, Abed.costumes.head, game.width.toInt / 2, game.height.toInt / 2, game)
+  private[this] lazy val player = new PlayerSprite(Player.default, game.width.toInt / 2, game.height.toInt / 2, game)
   private[this] lazy val cursors = game.input.keyboard.createCursorKeys()
   private[this] var input: Option[InputService] = None
 

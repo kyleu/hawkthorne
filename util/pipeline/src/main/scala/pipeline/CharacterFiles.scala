@@ -19,11 +19,12 @@ object CharacterFiles {
       file.addImport("models.character", "CharacterTemplate")
       file.addImport("models.data.series", "Episode")
 
-      file.add(s"object $name {", 1)
-      file.add(s"""val name = "$name"""")
-      file.add(s"""val givenName = "${costumes.head.asObject.get.apply("name").get.asString.get}"""")
+      file.add(s"object $name extends CharacterTemplate(", 1)
+      file.add(s"""key = "$key",""")
+      file.add(s"""name = "$name",""")
+      file.add(s"""givenName = "${costumes.head.asObject.get.apply("name").get.asString.get}",""")
       file.add()
-      file.add("val costumes = Seq(", 1)
+      file.add("costumes = Seq(", 1)
       costumes.foreach { c =>
         val comma = if (costumes.lastOption.contains(c)) { "" } else { "," }
         val cos = c.asObject.get
@@ -41,20 +42,18 @@ object CharacterFiles {
         val o = cos("ow").get.asNumber.get.toInt.get
         file.add(s"""Costume("$s", Episode.$cat, "$n", $o)$comma""")
       }
-      file.add(")", -1)
+      file.add("),", -1)
       file.add()
       val bb = json("bbox").get.asObject.get
-      file.add("val boundingBox = BoundingBox(", 1)
+      file.add("boundingBox = BoundingBox(", 1)
       file.add(s"width = ${bb("width").get},")
       file.add(s"height = ${bb("height").get},")
       file.add(s"duckHeight = ${bb("duck_height").get},")
       file.add(s"x = ${bb("x").get},")
       file.add(s"y = ${bb("y").get}")
+      file.add("),", -1)
+      file.add(s"offset = ${json("offset").get}")
       file.add(")", -1)
-      file.add(s"val offset = ${json("offset").get}")
-      file.add()
-      file.add(s"""val template = CharacterTemplate("$key", name, givenName, costumes, boundingBox, offset)""")
-      file.add("}", -1)
 
       cfg.writeScalaResult(s"characters/${src.name}", file.path -> file.rendered)
     }
