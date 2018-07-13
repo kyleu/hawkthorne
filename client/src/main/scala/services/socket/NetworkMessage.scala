@@ -2,7 +2,6 @@ package services.socket
 
 import models.RequestMessage
 import org.scalajs.dom
-import util.Logging
 
 object NetworkMessage {
   var latencyMs: Option[Int] = None
@@ -27,7 +26,6 @@ object NetworkMessage {
   }
 
   def setLatencyMs(ms: Int) = {
-    Logging.info(s"Latency update: ${ms}ms")
     latencyMs = Some(ms)
     latencyContainer.foreach(_.innerHTML = ms.toString)
   }

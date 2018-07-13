@@ -1,0 +1,18 @@
+@(user: models.user.SystemUser, serverMaps: Seq[models.map.ServerMap])(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "gamedata", "Maps") {
+  <ul class="collection with-header">
+    <li class="collection-header">
+      <h5>Maps</h5>
+    </li>
+    @serverMaps.map { map =>
+      <li class="collection-item">
+        <div class="right">...</div>
+        <h5>@map.key</h5>
+        <ul>
+          <li>@map)</li>
+        </ul>
+      </li>
+    }
+  </ul>
+}

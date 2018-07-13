@@ -14,5 +14,5 @@ object Client {
     scalacOptions += "-P:scalajs:sjsDefinedByDefault"
   )
 
-  lazy val client = (project in file("client")).settings(clientSettings: _*).enablePlugins(ScalaJSPlugin, ScalaJSWeb).dependsOn(Shared.sharedJs)
+  lazy val client = (project in file("client")).settings(clientSettings: _*).enablePlugins(ScalaJSPlugin, ScalaJSWeb).dependsOn(Shared.coreJs, Shared.sharedJs)
 }

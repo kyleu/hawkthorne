@@ -1,6 +1,6 @@
 package models.player
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, Point}
 import models.data.character.CharacterAnimation
 import models.phaser.AnimatedSprite
 
@@ -12,5 +12,6 @@ class PlayerSprite(player: Player, var x: Int, var y: Int, game: Game) extends A
   game = game, offsetX = x, offsetY = y, key = s"${player.templateKey}.${player.costume.key}", PlayerSprite.animations: _*
 ) {
   sprite.name = s"${player.templateKey}.${player.costume.key}"
+  sprite.anchor = new Point(0.5, 0.5)
   game.add.existing(sprite)
 }

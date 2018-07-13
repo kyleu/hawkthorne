@@ -62,7 +62,7 @@ object Shared {
     }
   )
 
-  lazy val shared = (crossProject(JSPlatform, JVMPlatform).withoutSuffixFor(JVMPlatform).crossType(CrossType.Pure) in file("shared")).settings(
+  lazy val core = (crossProject(JSPlatform, JVMPlatform).withoutSuffixFor(JVMPlatform).crossType(CrossType.Pure) in file("core")).settings(
     commonSettings: _*
   ).settings(
     (sourceGenerators in Compile) += ProjectVersion.writeConfig(projectId, projectName, projectPort).taskValue,
@@ -73,7 +73,13 @@ object Shared {
     )
   ).jsSettings(libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % "0.2.2").jvmSettings(libraryDependencies += Dependencies.ScalaJS.jvmStubs)
 
-  lazy val sharedJs = shared.js.enablePlugins(ScalaJSWeb)
+  lazy val coreJs = core.js.enablePlugins(ScalaJSWeb)
+  lazy val coreJvm = core.jvm
 
+  lazy val shared = (crossProject(JSPlatform, JVMPlatform).withoutSuffixFor(JVMPlatform).crossType(CrossType.Pure) in file("shared")).settings(
+    commonSettings: _*
+  ).dependsOn(core)
+
+  lazy val sharedJs = shared.js.enablePlugins(ScalaJSWeb)
   lazy val sharedJvm = shared.jvm
 }

@@ -14,7 +14,8 @@ object MapFiles {
     file.addImport("enumeratum.values", "StringEnumEntry")
 
     file.add("sealed abstract class TiledMap(", 1)
-    file.add("override val value: String, val title: String, val soundtrack: Option[String], val color: String, val images: Seq[String], val layers: Seq[String]")
+    // file.add("override val value: String, val title: String, val soundtrack: Option[String], val color: String, val images: Seq[String], val layers: Seq[String]")
+    file.add("override val value: String, val title: String, val width: Int, val height: Int, val soundtrack: String, val color: String, val images: Seq[String]")
     file.add(") extends StringEnumEntry", -1)
     file.add()
 
@@ -44,6 +45,8 @@ object MapFiles {
       val layerNames = json("layers").get.asArray.get.map(_.asObject.get.apply("name").get)
 
       val orientation = json("orientation").get.asString.get
+      val width = json("width").get.asNumber.get.toInt.get
+      val height = json("height").get.asNumber.get.toInt.get
 
       val properties = json("properties").map(_.asObject.get).getOrElse(Json.obj().asObject.get)
 
@@ -52,21 +55,15 @@ object MapFiles {
       def extract(key: String) = properties(key).map(_.asString.get.toInt).getOrElse(0)
       val (r, g, b) = (extract("red"), extract("green"), extract("blue"))
       val color = "#%02x%02x%02x".format(r, g, b)
-      /*
-       "orientation":"orthogonal",
-       "properties": {
-         "blue":"159",
-         "green":"123",
-         "red":"104",
-         "soundtrack":"greendale-alt",
-         "title":"Admin Hallway"
-        }
-       */
 
-      val props = s"""title = "$title", soundtrack = ${soundtrack.map("Some(\"" + _ + "\")").getOrElse("None")}, color = "$color""""
+      val props = s"""title = "$title", width = $width, height = $height, soundtrack = "${soundtrack.getOrElse("level")}", color = "$color""""
+
+      file.add(s"""case object $name extends TiledMap(value = "$key", $props, images = Seq($imageString))""")
+      /*
       file.add(s"""case object $name extends TiledMap(value = "$key", $props, images = Seq($imageString), layers = Seq(""", 1)
       file.add(layerNames.mkString(", "))
       file.add("))", -1)
+      */
     }
 
     file.add()
