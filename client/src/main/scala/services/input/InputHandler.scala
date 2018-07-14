@@ -2,18 +2,30 @@ package services.input
 
 import models.player.PlayerSprite
 
-class InputHandler(players: IndexedSeq[PlayerSprite]) {
-  def process(elapsed: Double, playerIdx: Int, velocity: (Double, Double), events: Seq[String]) = {
-    val p = players(playerIdx)
+class InputHandler(player: PlayerSprite) {
+  private[this] var lastVelocity = 0.0 -> 0.0
 
+  def process(elapsed: Double, velocity: (Double, Double), events: Seq[String]) = {
+    updateAnimation(velocity)
+    updateLocation(elapsed, velocity)
+    lastVelocity = velocity
+  }
+
+  private[this] def updateAnimation(velocity: (Double, Double)) = {
+    lastVelocity._1 match {
+      case x if x <= 0.0 && velocity._1 > 0.0 => player.setFaceRight(true)
+      case x if x <= 0.0 && velocity._1 < 0.0 => player.setFaceRight(false)
+      case _ => // noop
+    }
+  }
+
+  private[this] def updateLocation(elapsed: Double, velocity: (Double, Double)) = {
     val speed = 250
 
     val xDelta = velocity._1 * elapsed * speed
     val yDelta = velocity._2 * elapsed * speed
 
-    p.sprite.x = p.sprite.x + xDelta
-    p.sprite.y = p.sprite.y + yDelta
-
-    //println(s"Process: [$playerIdx]: ${velocity._1}:${velocity._2} - ${events.mkString(", ")}")
+    player.sprite.x = player.sprite.x + xDelta
+    player.sprite.y = player.sprite.y + yDelta
   }
 }

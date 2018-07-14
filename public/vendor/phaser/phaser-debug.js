@@ -238,6 +238,7 @@ Debug.prototype._createElement = function () {
         bar = this._bar = document.createElement('div');
 
     //container
+    c.id = 'pdebug';
     ui.addClass(c, 'pdebug');
     c.appendChild(bar);
 

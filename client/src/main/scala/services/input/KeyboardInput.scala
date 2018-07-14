@@ -1,6 +1,8 @@
 package services.input
 
 import com.definitelyscala.phaserce.{Game, Key, KeyCode}
+import services.ui.DebugService
+import util.PhaserUtils
 
 object KeyboardInput {
   case class Keymap(
@@ -27,6 +29,8 @@ case class KeyboardInput(game: Game) {
     options = game.input.keyboard.addKey(KeyCode.ESC),
     debug = game.input.keyboard.addKey(KeyCode.QUESTION_MARK)
   )
+
+  PhaserUtils.addToSignal(keymap.debug.onDown, () => DebugService.toggle())
 
   def update(elapsed: Double) = {
     val x = if (keymap.left.isDown) {

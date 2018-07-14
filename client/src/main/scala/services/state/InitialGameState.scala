@@ -3,11 +3,10 @@ package services.state
 import com.definitelyscala.phaserce._
 import com.definitelyscala.phasercepixi.WebGLRenderer
 import org.scalajs.dom
+import services.ui.DebugService
 import util.JavaScriptUtils
 
-import scala.scalajs.js
-
-class InitialGameState(nextState: GameState, phaser: Game) extends GameState("initial", phaser) {
+class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) extends GameState("initial", phaser) {
   override def preload(game: Game) = {
     Canvas.setImageRenderingCrisp(phaser.canvas)
     game.load.image("splash", LoadingState.prefix + "images/splash.png")
@@ -21,10 +20,7 @@ class InitialGameState(nextState: GameState, phaser: Game) extends GameState("in
       game.state.getCurrentState().resize(w, org.scalajs.dom.window.innerHeight)
     })
 
-    val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
-    if (debugPlugin.toString != "undefined") {
-      this.game.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
-    }
+    DebugService.initPhaser(phaser, debug)
 
     JavaScriptUtils.as[WebGLRenderer](game.renderer).renderSession.roundPixels = true
     game.stage.disableVisibilityChange = true

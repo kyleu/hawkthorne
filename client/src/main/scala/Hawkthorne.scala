@@ -1,4 +1,3 @@
-import com.definitelyscala.phaserce.{Canvas, Phaser}
 import models.phaser.PhaserGame
 import services.event.EventHandler
 import services.socket.SocketConnection

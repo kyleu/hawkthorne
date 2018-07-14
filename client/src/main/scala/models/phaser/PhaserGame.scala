@@ -22,7 +22,7 @@ object PhaserGame {
 class PhaserGame(val path: String, val isDebug: Boolean) extends Game(PhaserGame.config) {
   def begin() = {
     val nextState = NavigationService.initialState(this, path)
-    state.add("initial", new InitialGameState(nextState, this))
+    state.add("initial", new InitialGameState(nextState = nextState, phaser = this, debug = isDebug))
     state.start("initial", clearWorld = true, clearCache = true)
   }
 }
