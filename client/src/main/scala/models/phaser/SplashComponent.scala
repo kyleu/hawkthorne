@@ -27,11 +27,14 @@ class SplashComponent(game: Game) {
   progress.scale = new Point(splashScale, splashScale)
   group.add(progress)
 
+  game.add.existing(group)
+
   def show() = {
-    game.add.existing(group)
+    group.visible = true
   }
 
   def hide() = {
-    game.world.removeChild(group)
+    group.visible = false
+    println("Hiding splash screen...")
   }
 }

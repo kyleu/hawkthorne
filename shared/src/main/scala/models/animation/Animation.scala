@@ -10,7 +10,7 @@ case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: B
 
   def nextFrame(deltaMs: Double) = {
     elapsedMs += deltaMs
-    if (!loop && (elapsedMs > durationMs)) {
+    if (frames.size == 1 || (!loop && (elapsedMs > durationMs))) {
       None
     } else {
       val ret = frames(((elapsedMs % durationMs) / delay).toInt)
