@@ -45,5 +45,7 @@ class InputService(phaser: Game, sprite: Sprite, handler: InputHandler) {
         sprite.y += 4
       }
     }
+
+    handler.process("???")
   }
 }

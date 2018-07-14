@@ -13,17 +13,19 @@ object SandboxState {
     new LoadingState(
       next = new SandboxState(phaser),
       phaser = phaser,
-      audio = Seq("music.daybreak" -> s"audio/music/daybreak.ogg"),
-      spritesheets = Characters.allCostumes.map { c =>
-        (s"${c._1.key}.${c._2.key}", s"images/character/${c._1.key}/${c._2.key}.png", 48, 48)
-      }
+      assets = LoadingState.Assets(
+        audio = Seq("music.daybreak" -> s"audio/music/daybreak.ogg"),
+        spritesheets = Characters.allCostumes.map(c => (s"${c._1.key}.${c._2.key}", s"images/character/${c._1.key}/${c._2.key}.png", 48, 48))
+      )
     )
   }
 }
 
 class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
+  private[this] lazy val group = game.add.group(name = s"test.group")
+
   lazy val players = Characters.allCostumes.zipWithIndex.map {
-    case (c, idx) => new PlayerSprite(Player(c._1.key, c._2.key), (idx % 28) * 48, (idx / 28) * 48, game)
+    case (c, idx) => new PlayerSprite(game, group, Player(c._1.key, c._2.key), (idx % 28) * 48, (idx / 28) * 48)
   }
 
   override def create(game: Game) = {

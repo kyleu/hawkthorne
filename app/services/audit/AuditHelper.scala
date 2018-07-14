@@ -32,9 +32,8 @@ object AuditHelper extends Logging {
   def onUpdate(
     t: String, pk: Seq[DataField], originalFields: Seq[DataField], newFields: Seq[DataField], creds: Credentials
   )(implicit trace: TraceData) = {
-    def changeFor(f: DataField) = originalFields.find(_.k == f.k).flatMap {
-      case o if f.v != o.v => Some(AuditField(f.k, o.v, f.v))
-      case _ => None
+    def changeFor(f: DataField) = originalFields.find(_.k == f.k).collect {
+      case o if f.v != o.v => AuditField(f.k, o.v, f.v)
     }
     val changes = newFields.flatMap(changeFor)
     val msg = s"Updated [${changes.size}] fields of $t[${pk.map(id => id.k + ": " + id.v.getOrElse(NullUtils.str)).mkString(", ")}]:\n"
