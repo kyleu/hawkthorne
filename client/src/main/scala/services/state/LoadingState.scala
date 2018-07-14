@@ -40,7 +40,6 @@ class LoadingState(
     assets.images.foreach(s => game.load.image(s._1, LoadingState.prefix + s._2))
     assets.spritesheets.foreach(s => game.load.spritesheet(s._1, LoadingState.prefix + s._2, s._3.toDouble, s._4.toDouble))
     assets.tilemaps.foreach(t => game.load.tilemap(t._1, LoadingState.prefix + t._2, null, Tilemap.TILED_JSON))
-    game.load.image("black-pixel", "/assets/ui/black-pixel.png")
 
     var totalFiles = (assets.size + 1).toDouble
     var filesCompleted = 0

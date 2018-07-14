@@ -4,7 +4,10 @@ import com.definitelyscala.phaserce._
 
 object SplashComponent {
   def show(game: Game) = {
-    val backdrop = game.add.sprite(0, 0, "black-pixel")
+    val solidBlack = game.make.bitmapData(1, 1)
+    solidBlack.fill(0, 0, 0)
+
+    val backdrop = game.add.sprite(0, 0, solidBlack)
     backdrop.width = game.width
     backdrop.height = game.height
 
@@ -21,6 +24,7 @@ object SplashComponent {
       game.world.removeChild(backdrop)
       game.world.removeChild(splash)
       game.world.removeChild(progress)
+      ()
     }
   }
 }

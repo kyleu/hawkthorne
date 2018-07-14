@@ -7,7 +7,7 @@ import services.state._
 
 object NavigationService {
   def initialState(phaser: PhaserGame, path: String) = path.trim match {
-    case "" => GameplayState.load(phaser, TiledMap.Hallway, Player.default)
+    case "" => GameplayState.load(phaser, TiledMap.StudyRoom, Player.default)
     case "intro" => IntroScanState.load(phaser)
     case "test" => TestState.load(phaser)
     case "sandbox" => SandboxState.load(phaser)
