@@ -1,7 +1,9 @@
 package models.animation
 
-case class Animation(id: String, frames: Seq[Int], delay: Double, loop: Boolean = false, autostart: Boolean = true) {
+case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean = false, autostart: Boolean = true) {
   val durationMs = frames.size * delay
+  val firstFrame = frames.headOption.getOrElse(throw new IllegalMonitorStateException(s"Empty frames for animation [$id]."))
+
   private[this] var started = autostart
   private[this] var activeFrame = 0
   private[this] var elapsedMs = 0.0
@@ -11,7 +13,7 @@ case class Animation(id: String, frames: Seq[Int], delay: Double, loop: Boolean 
     if (!loop && (elapsedMs > durationMs)) {
       None
     } else {
-      val ret = ((elapsedMs % durationMs) / delay).toInt
+      val ret = frames(((elapsedMs % durationMs) / delay).toInt)
       if (ret == activeFrame) {
         None
       } else {
