@@ -1,51 +1,24 @@
 package services.input
 
-import com.definitelyscala.phaserce.{Game, SinglePad, Sprite}
+import com.definitelyscala.phaserce.{Game, Sprite}
 
-class InputService(phaser: Game, sprite: Sprite, handler: InputHandler) {
-  phaser.input.gamepad.start()
+class InputService(game: Game, sprite: Sprite, handler: InputHandler) {
+  private[this] val cursors = game.input.keyboard.createCursorKeys()
 
-  private[this] def onConnect(pad: SinglePad)(x: Any) = {
-    util.Logging.info(s"Gamepad [${pad.index.toInt}] connected.")
-  }
-
-  phaser.input.gamepad.pad1.addCallbacks(phaser.input.gamepad.pad1, scalajs.js.Dynamic.literal("onConnect" -> onConnect(phaser.input.gamepad.pad1) _))
-  phaser.input.gamepad.pad2.addCallbacks(phaser.input.gamepad.pad2, scalajs.js.Dynamic.literal("onConnect" -> onConnect(phaser.input.gamepad.pad2) _))
-  phaser.input.gamepad.pad3.addCallbacks(phaser.input.gamepad.pad3, scalajs.js.Dynamic.literal("onConnect" -> onConnect(phaser.input.gamepad.pad3) _))
-  phaser.input.gamepad.pad4.addCallbacks(phaser.input.gamepad.pad4, scalajs.js.Dynamic.literal("onConnect" -> onConnect(phaser.input.gamepad.pad4) _))
-
-  private[this] val cursors = phaser.input.keyboard.createCursorKeys()
+  private[this] val keyboardInput = KeyboardInput(game)
+  private[this] val gamepadInput = GamepadInput(game)
 
   def close() = {
-    phaser.input.gamepad.stop()
+    keyboardInput.close()
+    gamepadInput.close()
   }
 
   def update(elapsed: Double) = {
-    if (cursors.left.isDown) {
-      sprite.x -= 4
-    } else if (cursors.right.isDown) {
-      sprite.x += 4
-    }
+    val updates = (keyboardInput.update(elapsed) +: gamepadInput.update(elapsed)).groupBy(_._1).values.flatMap {
+      case u if u.size > 1 => Seq((u.map(_._1).head, (u.map(_._2._1).sum, u.map(_._2._2).sum), u.flatMap(_._3)))
+      case u => u
+    }.toSeq
 
-    if (cursors.up.isDown) {
-      sprite.y -= 4
-    } else if (cursors.down.isDown) {
-      sprite.y += 4
-    }
-
-    if (phaser.input.gamepad.pad1.connected) {
-      if (phaser.input.gamepad.pad1.isDown(14)) {
-        sprite.x -= 4
-      } else if (phaser.input.gamepad.pad1.isDown(15)) {
-        sprite.x += 4
-      }
-      if (phaser.input.gamepad.pad1.isDown(12)) {
-        sprite.y -= 4
-      } else if (phaser.input.gamepad.pad1.isDown(13)) {
-        sprite.y += 4
-      }
-    }
-
-    handler.process("???")
+    updates.foreach(u => handler.process(elapsed, u._1, u._2, u._3))
   }
 }

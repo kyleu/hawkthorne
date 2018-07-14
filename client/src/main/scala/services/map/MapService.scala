@@ -1,8 +1,9 @@
 package services.map
 
-import com.definitelyscala.phaserce.{Game, Point, Tilemap}
+import com.definitelyscala.phaserce.{Game, Point, Sprite, Tilemap}
 import models.data.map.TiledMap
 import models.node.Node
+import org.scalajs.dom.ext.Color
 import util.Logging
 
 import scala.scalajs.js
@@ -18,9 +19,21 @@ class MapService(game: Game, map: TiledMap, playMusic: Boolean) {
     new Point(zoom, zoom)
   }
 
-  game.stage.backgroundColor = map.color // TODO WTF?
   val tilemap = new Tilemap(game, "map." + map.value)
   map.images.foreach(i => tilemap.addTilesetImage(i))
+
+  val backdrop = {
+    val bgData = game.make.bitmapData(1, 1)
+    val color = Color(map.color)
+    bgData.fill(color.r.toDouble, color.g.toDouble, color.b.toDouble)
+
+    val s = new Sprite(game, 0, 0, bgData)
+    s.name = "backdrop"
+    s.width = tilemap.widthInPixels
+    s.height = tilemap.heightInPixels
+    group.add(s)
+    s
+  }
 
   val music = game.add.audio(s"music.${map.soundtrack}")
   if (playMusic) { music.play(loop = true) }

@@ -21,7 +21,7 @@ class TestState(phaser: Game) extends GameState("test", phaser) {
   override def create(game: Game) = {
     player.toString
     cursors.toString
-    input = Some(new InputService(phaser, player.sprite, new InputHandler()))
+    input = Some(new InputService(phaser, player.sprite, new InputHandler(IndexedSeq(player))))
   }
 
   override def update(game: Game) = {

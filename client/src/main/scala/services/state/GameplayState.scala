@@ -39,7 +39,7 @@ class GameplayState(phaser: Game, map: TiledMap, player: Player) extends GameSta
     mapService = Some(mapSvc)
 
     playerSprite = Some(new PlayerSprite(game, mapSvc.group, player, 100, 100))
-    input = Some(new InputService(phaser, playerSprite.get.sprite, new InputHandler()))
+    input = Some(new InputService(phaser, playerSprite.get.sprite, new InputHandler(playerSprite.toIndexedSeq)))
 
     splash.show()
 
