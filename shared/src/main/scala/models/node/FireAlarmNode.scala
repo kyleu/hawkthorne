@@ -9,8 +9,10 @@ object FireAlarmNode {
 }
 
 case class FireAlarmNode(
+    override val id: Int,
+    override val name: String,
     override val x: Int,
     override val y: Int,
-    override val width: Int = 0,
-    override val height: Int = 0
-) extends Node(FireAlarmNode.key, x, y, width, height)
+    override val width: Int,
+    override val height: Int
+) extends Node(FireAlarmNode.key)

@@ -9,9 +9,11 @@ object LiquidNode {
 }
 
 case class LiquidNode(
+    override val id: Int,
+    override val name: String,
     override val x: Int,
     override val y: Int,
-    override val width: Int = 0,
-    override val height: Int = 0,
+    override val width: Int,
+    override val height: Int,
     visible: Boolean
-) extends Node(LiquidNode.key, x, y, width, height)
+) extends Node(LiquidNode.key)
