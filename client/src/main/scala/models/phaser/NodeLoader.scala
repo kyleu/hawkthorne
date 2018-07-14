@@ -2,6 +2,7 @@ package models.phaser
 
 import com.definitelyscala.phaserce.{Game, Group, Sprite}
 import models.node.{Node, SpriteNode}
+import services.map.MapService
 import util.NullUtils
 
 class NodeLoader(game: Game, group: Group) {
@@ -23,8 +24,9 @@ class NodeLoader(game: Game, group: Group) {
 
     game.load.onLoadComplete.add(() => {
       val retSprites = sprites.map { s =>
-        val sprite = game.add.sprite(x = s.x.toDouble, y = s.y.toDouble, key = s.sheetKey, frame = 0, group = group)
+        val sprite = game.add.sprite(x = s.x * MapService.scale, y = s.y * MapService.scale, key = s.sheetKey, frame = 0, group = group)
         sprite.name = s.name
+        sprite.scale = MapService.scalePoint
         sprite
       }
       println(s"Loaded [${images.size}] images in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms].")

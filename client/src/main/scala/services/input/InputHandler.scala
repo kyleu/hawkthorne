@@ -20,7 +20,7 @@ class InputHandler(player: PlayerSprite) {
   }
 
   private[this] def updateLocation(elapsed: Double, velocity: (Double, Double)) = {
-    val speed = 250
+    val speed = 1000
 
     val xDelta = velocity._1 * elapsed * speed
     val yDelta = velocity._2 * elapsed * speed

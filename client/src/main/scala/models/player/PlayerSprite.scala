@@ -4,6 +4,7 @@ import com.definitelyscala.phaserce.{Game, Group, Point}
 import models.data.character.CharacterAnimation
 import models.phaser.AnimatedSprite
 import services.input.InputHandler
+import services.map.MapService
 
 object PlayerSprite {
   val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim)).map(a => a.id -> a).toMap
@@ -20,5 +21,6 @@ class PlayerSprite(game: Game, group: Group, player: Player, var x: Int, var y: 
 
   setAnimation(Some("idle.right"))
   sprite.name = s"${player.templateKey}.${player.costume.key}"
+  sprite.scale = MapService.scalePoint
   sprite.anchor = new Point(0.5, 0.5)
 }

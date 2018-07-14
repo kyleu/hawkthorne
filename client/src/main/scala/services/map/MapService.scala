@@ -9,13 +9,19 @@ import util.Logging
 import scala.scalajs.js
 import scala.util.control.NonFatal
 
+object MapService {
+  val scale = 4.0
+  val scalePoint = new Point(scale, scale)
+}
+
 class MapService(game: Game, map: TiledMap, playMusic: Boolean) {
-  val pixelRatio = org.scalajs.dom.window.devicePixelRatio
   private[this] val startNanos = System.nanoTime
+
+  val pixelRatio = org.scalajs.dom.window.devicePixelRatio
 
   val group = game.add.group(name = s"map.${map.value}")
   group.scale = {
-    val zoom = 3.0 * pixelRatio
+    val zoom = 1.0 * pixelRatio
     new Point(zoom, zoom)
   }
 
@@ -39,7 +45,10 @@ class MapService(game: Game, map: TiledMap, playMusic: Boolean) {
   if (playMusic) { music.play(loop = true) }
 
   val layers = tilemap.layers.map(_.asInstanceOf[js.Dynamic].name.toString).map(l => l -> tilemap.createLayer(l))
-  layers.foreach(l => group.add(l._2))
+  layers.foreach { l =>
+    l._2.scale = MapService.scalePoint
+    group.add(l._2)
+  }
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
 
   layer("collision").foreach(_.visible = false)
@@ -62,4 +71,5 @@ class MapService(game: Game, map: TiledMap, playMusic: Boolean) {
   })
 
   Logging.info(s"Map [${map.value}] loaded in [${((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)}ms].")
+  nodes.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).foreach(s => Logging.info("  - " + s))
 }
