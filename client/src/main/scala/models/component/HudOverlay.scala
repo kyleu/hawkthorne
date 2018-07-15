@@ -4,6 +4,8 @@ import com.definitelyscala.phaserce._
 import models.asset.Asset
 import models.component.BaseComponent.Resizable
 import models.player.Player
+import services.map.MapService
+import services.ui.FontService
 
 object HudOverlay {
   val assets = Seq(
@@ -15,21 +17,30 @@ object HudOverlay {
 
 case class HudOverlay(game: Game, player: Player) extends BaseComponent with Resizable {
   val group = new Group(game, name = "hud.overlay")
+  val scaleAmount = 4.0
+  val scale = new Point(scaleAmount, scaleAmount)
 
   val chevron = new Sprite(game, 0, 0, "hud.chevron")
   chevron.name = "hud.chevron"
+  chevron.scale = scale
   group.add(chevron)
 
   val headData = game.make.bitmapData(32, 32)
   headData.copyRect(player.spritesheet._1, new Rectangle(8, 2, 32, 32), 0, 0)
 
-  val headshot = new Sprite(game, 14, 16, headData)
+  val headshot = new Sprite(game, 14 * scaleAmount, 16 * scaleAmount, headData)
   headshot.name = "hud.headshot"
+  headshot.scale = scale
   group.add(headshot)
 
   val lens = new Sprite(game, 0, 0, "hud.lens")
   lens.name = "hud.lens"
+  lens.scale = scale
   group.add(lens)
+
+  val nameFont = new FontService(game).renderSmall(player.template.name.toUpperCase)
+  val nameText = new Image(game, 0, 0, nameFont)
+  group.add(nameText)
 
   resize(game.width, game.height)
   game.stage.add(group)
@@ -39,7 +50,7 @@ case class HudOverlay(game: Game, player: Player) extends BaseComponent with Res
   }
 
   override def resize(width: Double, height: Double) = {
-    val groupScale = (width + height) / 1600.0
+    val groupScale = ((width + height) / 1600.0 / scaleAmount) * MapService.pixelRatio
     group.scale = new Point(groupScale, groupScale)
   }
 }

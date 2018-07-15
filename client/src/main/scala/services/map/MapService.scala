@@ -18,12 +18,11 @@ object MapService {
 
   val scale = 4.0
   val scalePoint = new Point(scale, scale)
+  lazy val pixelRatio = org.scalajs.dom.window.devicePixelRatio
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   private[this] val startNanos = System.nanoTime
-
-  val pixelRatio = org.scalajs.dom.window.devicePixelRatio
 
   val group = game.add.group(name = s"map.${map.value}")
   resize()
@@ -34,7 +33,7 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   def resize() = group.scale = {
     val (w, h) = game.width -> game.height
     // println(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
-    val zoom = 0.7 * pixelRatio
+    val zoom = 0.7 * MapService.pixelRatio
     new Point(zoom, zoom)
   }
 

@@ -2,8 +2,7 @@ package services.event
 
 import models.{RequestMessage, ResponseMessage}
 import models.ResponseMessage.{Pong, ServerError, UserSettings}
-import services.socket.NetworkMessage
-import services.ui.UserManager
+import services.socket.{NetworkMessage, UserManager}
 import util.{DateUtils, Logging}
 
 import scala.scalajs.js.timers.setTimeout

@@ -1,6 +1,6 @@
 package services
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, Point}
 import models.component.BaseComponent.Resizable
 import models.component.{BaseComponent, HudOverlay, SplashComponent}
 import models.game.GameOptions
@@ -9,6 +9,7 @@ import services.input.InputService
 import services.map.MapService
 import services.node.NodeLoader
 import services.ui.DebugService
+import util.PhaserUtils
 
 class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] var started = false
@@ -28,6 +29,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] val input = new InputService(game, IndexedSeq(playerSprite))
 
   private[this] val splashComplete = SplashComponent.show(game)
+
   new NodeLoader(game, mapService.group).load(nodes = mapService.nodes, onComplete = newComponents => {
     components ++= newComponents
     splashComplete()
