@@ -1,9 +1,9 @@
-package models.phaser
+package models.component
 
 import com.definitelyscala.phaserce.{Game, Group, Sprite}
 import models.animation.Animation
 
-case class AnimatedSprite(game: Game, group: Group, offsetX: Int, offsetY: Int, key: String, animations: Map[String, Animation]) {
+case class AnimatedSprite(game: Game, group: Group, offsetX: Int, offsetY: Int, key: String, animations: Map[String, Animation]) extends BaseComponent {
   private[this] var activeAnimation: Option[Animation] = None
 
   val sprite = new Sprite(game, offsetX.toDouble, offsetY.toDouble, key)
@@ -15,7 +15,7 @@ case class AnimatedSprite(game: Game, group: Group, offsetX: Int, offsetY: Int, 
     a
   }
 
-  def update(deltaMs: Double) = {
+  override def update(deltaMs: Double) = {
     activeAnimation.foreach(_.nextFrame(deltaMs).foreach(f => sprite.frame = f))
   }
 }

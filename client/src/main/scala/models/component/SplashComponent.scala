@@ -1,4 +1,4 @@
-package models.phaser
+package models.component
 
 import com.definitelyscala.phaserce._
 

@@ -3,7 +3,7 @@ package services.state
 import com.definitelyscala.phaserce._
 import models.animation.Animation
 import models.asset.Asset
-import models.phaser.AnimatedSprite
+import models.component.AnimatedSprite
 
 object IntroScanState {
   def load(phaser: Game) = {

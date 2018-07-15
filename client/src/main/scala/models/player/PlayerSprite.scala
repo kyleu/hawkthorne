@@ -1,8 +1,8 @@
 package models.player
 
 import com.definitelyscala.phaserce.{Game, Group, Point}
+import models.component.AnimatedSprite
 import models.data.character.CharacterAnimation
-import models.phaser.AnimatedSprite
 import services.input.InputHandler
 import services.map.MapService
 

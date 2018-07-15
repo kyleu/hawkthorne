@@ -45,7 +45,6 @@ class DebugService private (phaser: Game, debug: Boolean) {
     val f = gui.addFolder(s"Map (${mapService.map.value})")
     val layersFolder = f.addFolder("Layers")
     mapService.layers.foreach(l => addLayer(mapService, layersFolder, l._1, l._2))
-    mapService.collisionLayer.foreach(c => addLayer(mapService, layersFolder, "collision", c))
   }
 
   def addPlayer(playerSprite: PlayerSprite) = {

@@ -1,6 +1,7 @@
 package models.phaser
 
 import com.definitelyscala.phaserce.{Game, Group, Sprite}
+import models.component.AnimatedSprite
 import models.node.{Node, SpriteNode}
 import services.map.MapService
 import util.NullUtils
@@ -28,7 +29,7 @@ class NodeLoader(game: Game, group: Group) {
             val as = AnimatedSprite(game, group, (s.x * MapService.scale).toInt, (s.y * MapService.scale).toInt, s.sheetKey, Map("default" -> a))
             as.sprite.name = s.name
             as.sprite.scale = MapService.scalePoint
-            as.sprite.frame = 4
+            as.sprite.frame = 4 // TODO real updates
             as.sprite
           case None =>
             val sprite = game.add.sprite(x = s.x * MapService.scale, y = s.y * MapService.scale, key = s.sheetKey, frame = 0, group = group)
