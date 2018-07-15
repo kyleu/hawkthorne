@@ -28,7 +28,7 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   def resize() = group.scale = {
     val (w, h) = game.width -> game.height
     // println(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
-    val zoom = 1.0 * pixelRatio
+    val zoom = 0.7 * pixelRatio
     new Point(zoom, zoom)
   }
 
@@ -57,7 +57,6 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
     group.add(l._2)
   }
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
-
   val collisionLayer = layer("collision")
   collisionLayer.foreach(_.visible = false)
 

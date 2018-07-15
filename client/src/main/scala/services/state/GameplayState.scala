@@ -2,6 +2,7 @@ package services.state
 
 import com.definitelyscala.phaserce.Game
 import models.asset._
+import models.component.HudOverlay
 import models.data.map.TiledMap
 import models.player.Player
 import services.GameplayService
@@ -14,7 +15,7 @@ object GameplayState {
       Asset.Audio(s"music.${map.soundtrack}", s"audio/music/${map.soundtrack}.ogg"),
       Asset.Spritesheet(player.spritesheet._1, player.spritesheet._2, player.spritesheet._3, player.spritesheet._4),
       Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
-    ) ++ map.images.map(i => Asset.Image(i, s"images/tileset/$i.png"))
+    ) ++ map.images.map(i => Asset.Image(i, s"images/tileset/$i.png")) ++ HudOverlay.assets
   )
 }
 
@@ -27,4 +28,6 @@ class GameplayState(phaser: Game, map: TiledMap, player: Player) extends GameSta
   }
 
   override def update(game: Game) = service.update()
+
+  override def resize(width: Double, height: Double) = service.resize(width, height)
 }

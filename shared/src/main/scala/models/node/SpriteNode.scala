@@ -1,6 +1,7 @@
 package models.node
 
 import models.animation.Animation
+import models.asset.Asset
 import util.JsonSerializers._
 
 object SpriteNode {
@@ -38,4 +39,6 @@ case class SpriteNode(
   val animation = properties.animation.map { a =>
     Animation(s"anim.$id", IndexedSeq(0, 1, 2, 3, 4, 5, 6, 7), 0.1)
   }
+
+  override lazy val assets = Seq(Asset.Spritesheet(sheetKey, properties.sheet, width, height))
 }

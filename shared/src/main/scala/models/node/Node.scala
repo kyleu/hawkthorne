@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object Node {
@@ -15,5 +16,6 @@ abstract class Node(val t: String) {
   def width: Int
   def height: Int
 
+  def assets = Seq.empty[Asset]
   def update(deltaMs: Double) = {}
 }
