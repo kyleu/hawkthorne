@@ -1,6 +1,7 @@
 package services.map
 
 import com.definitelyscala.phaserce.{Game, Point, Sprite, Tilemap}
+import models.asset.Asset
 import models.data.map.TiledMap
 import models.node.Node
 import org.scalajs.dom.ext.Color
@@ -10,6 +11,11 @@ import scala.scalajs.js
 import scala.util.control.NonFatal
 
 object MapService {
+  def assetsFor(map: TiledMap) = Seq(
+    Asset.Audio(s"music.${map.soundtrack}", s"audio/music/${map.soundtrack}.ogg"),
+    Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
+  ) ++ map.images.map(i => Asset.Image(i, s"images/tileset/$i.png"))
+
   val scale = 4.0
   val scalePoint = new Point(scale, scale)
 }

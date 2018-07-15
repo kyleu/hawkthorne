@@ -32,24 +32,11 @@ case class KeyboardInput(game: Game) {
 
   PhaserUtils.addToSignal(keymap.debug.onDown, () => DebugService.inst.toggle())
 
-  def update(elapsed: Double) = {
-    val x = if (keymap.left.isDown) {
-      -1.0
-    } else if (keymap.right.isDown) {
-      1.0
-    } else {
-      0.0
-    }
-
-    val y = if (keymap.up.isDown) {
-      -1.0
-    } else if (keymap.down.isDown) {
-      1.0
-    } else {
-      0.0
-    }
-
-    (0, (x, y), Seq.empty[String])
+  def update(menu: Boolean, elapsed: Double) = {
+    val x = if (keymap.left.isDown) { -1.0 } else if (keymap.right.isDown) { 1.0 } else { 0.0 }
+    val y = if (keymap.up.isDown) { -1.0 } else if (keymap.down.isDown) { 1.0 } else { 0.0 }
+    val i = if (menu) { -1 } else { 0 }
+    (i, (x, y), Seq.empty[String])
   }
 
   def close() = {}

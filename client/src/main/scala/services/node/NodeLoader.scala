@@ -1,8 +1,9 @@
-package models.phaser
+package services.node
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.component.BaseComponent
 import models.node.Node
+import services.state.LoadingState
 import util.PhaserUtils
 
 class NodeLoader(game: Game, group: Group) {
@@ -14,10 +15,11 @@ class NodeLoader(game: Game, group: Group) {
     val startNanos = System.nanoTime
 
     val assets = nodes.flatMap(_.assets)
+    assets.foreach(LoadingState.load(_, game))
 
     var filesCompleted = 0
 
-    val fileSignal = PhaserUtils.addToSignal(game.load.onFileComplete, () => {
+    PhaserUtils.addToSignal(game.load.onFileComplete, () => {
       filesCompleted += 1
       onFileComplete(filesCompleted, assets.size)
     })
@@ -28,7 +30,8 @@ class NodeLoader(game: Game, group: Group) {
 
       val components = ComponentLoadService.fromNodes(nodes, game, group)
 
-      println(s"Loaded [${components.size}] components from [${assets.size}] assets in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms].")
+      val msg = s"Loaded [${components.size}] components from [${assets.size}] assets in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms]."
+      util.Logging.info(msg)
       onComplete(components)
     })
     game.load.start()

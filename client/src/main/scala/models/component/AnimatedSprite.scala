@@ -16,6 +16,8 @@ case class AnimatedSprite(game: Game, group: Group, offsetX: Int, offsetY: Int, 
   }
 
   override def update(deltaMs: Double) = {
-    activeAnimation.foreach(_.nextFrame(deltaMs).foreach(f => sprite.frame = f))
+    activeAnimation.foreach(_.nextFrame(deltaMs).foreach { f =>
+      sprite.frame = f
+    })
   }
 }

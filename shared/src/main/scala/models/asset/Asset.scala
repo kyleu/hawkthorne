@@ -9,5 +9,6 @@ object Asset {
   case class Audio(override val key: String, override val path: String) extends Asset
   case class Image(override val key: String, override val path: String) extends Asset
   case class Spritesheet(override val key: String, override val path: String, width: Int, height: Int) extends Asset
+  def spritesheetFromTuple(t: (String, String, Int, Int)) = Spritesheet(t._1, t._2, t._3, t._4)
   case class Tilemap(override val key: String, override val path: String) extends Asset
 }

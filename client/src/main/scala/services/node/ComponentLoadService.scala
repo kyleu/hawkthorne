@@ -1,4 +1,4 @@
-package models.phaser
+package services.node
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.component.{AnimatedSprite, StaticSprite}
@@ -13,6 +13,7 @@ object ComponentLoadService {
         as.sprite.name = n.name
         as.sprite.scale = MapService.scalePoint
         as.sprite.frame = 4 // TODO real updates
+        as.setAnimation(Some("default"))
         Seq(as)
       case None =>
         val staticSprite = new StaticSprite(game = game, x = n.x * MapService.scale, y = n.y * MapService.scale, key = n.sheetKey, frame = 0)

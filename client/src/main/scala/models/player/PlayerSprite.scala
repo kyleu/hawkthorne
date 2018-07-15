@@ -3,7 +3,7 @@ package models.player
 import com.definitelyscala.phaserce.{Game, Group, Point}
 import models.component.AnimatedSprite
 import models.data.character.CharacterAnimation
-import services.input.InputHandler
+import services.input.PlayerInputHandler
 import services.map.MapService
 
 object PlayerSprite {
@@ -13,7 +13,7 @@ object PlayerSprite {
 class PlayerSprite(game: Game, group: Group, player: Player, var x: Int, var y: Int) extends AnimatedSprite(
   game = game, group = group, offsetX = x, offsetY = y, key = s"${player.templateKey}.${player.costume.key}", PlayerSprite.animations
 ) {
-  private[this] val input = new InputHandler(this)
+  private[this] val input = new PlayerInputHandler(this)
 
   def setFaceRight(bool: Boolean) = if (bool) { setAnimation(Some("idle.right")) } else { setAnimation(Some("idle.left")) }
 

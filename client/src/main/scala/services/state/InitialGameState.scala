@@ -9,8 +9,9 @@ import util.JavaScriptUtils
 class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) extends GameState("initial", phaser) {
   override def preload(game: Game) = {
     Canvas.setImageRenderingCrisp(phaser.canvas)
-    game.load.image("splash", LoadingState.prefix + "images/splash.png")
-    game.load.spritesheet("progress", LoadingState.prefix + "images/progress.png", 121.0, 13.0)
+    game.load.image(key = "splash", url = LoadingState.prefix + "images/splash.png")
+    game.load.spritesheet(key = "progress", url = LoadingState.prefix + "images/progress.png", frameWidth = 121.0, frameHeight = 13.0)
+    game.load.image(key = "font", url = LoadingState.prefix + "images/font/default.png")
   }
 
   override def create(game: Game) = {

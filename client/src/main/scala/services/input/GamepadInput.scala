@@ -56,11 +56,12 @@ case class GamepadInput(game: Game) {
     game.input.gamepad.stop()
   }
 
-  def update(elapsed: Double) = pads.zipWithIndex.collect {
+  def update(menu: Boolean, elapsed: Double) = pads.zipWithIndex.collect {
     case (pad, idx) if pad.connected =>
       val map = keymaps(idx)
       val x = if (pad.getButton(map.left).isDown) { -1.0 } else if (pad.getButton(map.right).isDown) { 1.0 } else { 0.0 }
       val y = if (pad.getButton(map.up).isDown) { -1.0 } else if (pad.getButton(map.down).isDown) { 1.0 } else { 0.0 }
-      (idx, (x, y), Seq.empty[String])
-  }.toSeq
+      val i = if (menu) { -1 } else { idx + 100 }
+      (i, (x, y), Seq.empty[String])
+  }
 }

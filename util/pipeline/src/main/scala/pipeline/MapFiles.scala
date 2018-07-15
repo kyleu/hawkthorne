@@ -13,10 +13,10 @@ object MapFiles {
     file.addImport("enumeratum.values", "StringEnum")
     file.addImport("enumeratum.values", "StringEnumEntry")
 
-    file.add("sealed abstract class TiledMap(", 1)
+    file.add("sealed abstract class TiledMap(", 2)
     // file.add("override val value: String, val title: String, val soundtrack: Option[String], val color: String, val images: Seq[String], val layers: Seq[String]")
     file.add("override val value: String, val title: String, val width: Int, val height: Int, val soundtrack: String, val color: String, val images: Seq[String]")
-    file.add(") extends StringEnumEntry", -1)
+    file.add(") extends StringEnumEntry", -2)
     file.add()
 
     file.add(s"object TiledMap extends StringEnum[TiledMap] with StringCirceEnum[TiledMap] {", 1)

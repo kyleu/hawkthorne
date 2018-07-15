@@ -8,10 +8,10 @@ object LoadingState {
   val prefix = "/assets/game/"
 
   def load(asset: Asset, game: Game) = asset match {
-    case a: Asset.Audio => game.load.audio(a.key, prefix + a.path)
-    case i: Asset.Image => game.load.image(i.key, prefix + i.path)
-    case t: Asset.Tilemap => game.load.tilemap(t.key, prefix + t.path, util.NullUtils.inst, Tilemap.TILED_JSON)
-    case s: Asset.Spritesheet => game.load.spritesheet(s.key, prefix + s.path, s.width.toDouble, s.height.toDouble)
+    case a: Asset.Audio => game.load.audio(key = a.key, urls = prefix + a.path)
+    case i: Asset.Image => game.load.image(key = i.key, url = prefix + i.path)
+    case t: Asset.Tilemap => game.load.tilemap(key = t.key, url = prefix + t.path, data = util.NullUtils.inst, format = Tilemap.TILED_JSON)
+    case s: Asset.Spritesheet => game.load.spritesheet(key = s.key, url = prefix + s.path, frameWidth = s.width.toDouble, frameHeight = s.height.toDouble)
   }
 }
 

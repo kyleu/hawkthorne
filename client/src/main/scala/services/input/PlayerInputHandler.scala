@@ -2,7 +2,7 @@ package services.input
 
 import models.player.PlayerSprite
 
-class InputHandler(player: PlayerSprite) {
+class PlayerInputHandler(player: PlayerSprite) {
   private[this] var lastVelocity = 0.0 -> 0.0
 
   def process(elapsed: Double, velocity: (Double, Double), events: Seq[String]) = {

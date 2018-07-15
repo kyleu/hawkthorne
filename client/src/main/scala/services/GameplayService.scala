@@ -3,25 +3,25 @@ package services
 import com.definitelyscala.phaserce.Game
 import models.component.BaseComponent.Resizable
 import models.component.{BaseComponent, HudOverlay, SplashComponent}
-import models.data.map.TiledMap
-import models.phaser.NodeLoader
+import models.game.GameOptions
 import models.player.{Player, PlayerSprite}
 import services.input.InputService
 import services.map.MapService
+import services.node.NodeLoader
 import services.ui.DebugService
 
-class GameplayService(game: Game, map: TiledMap, player: Player) {
+class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] var started = false
   private[this] var elapsed = 0.0
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
 
-  private[this] val hudOverlay = HudOverlay(game, player)
+  private[this] val hudOverlay = HudOverlay(game = game, player = player)
   components += hudOverlay
 
-  private[this] val mapService = new MapService(game, map, playMusic = false)
+  private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
   DebugService.inst.setMap(mapService)
 
-  private[this] val playerSprite = new PlayerSprite(game, mapService.group, player, 100, 100)
+  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, x = 400, y = 400)
   DebugService.inst.addPlayer(playerSprite)
   components += playerSprite
 
@@ -41,7 +41,7 @@ class GameplayService(game: Game, map: TiledMap, player: Player) {
     val dt = game.time.physicsElapsed
     elapsed += dt
 
-    input.update(dt)
+    input.update(menu = false, elapsed = dt)
     components.foreach(_.update(dt))
   }
 
