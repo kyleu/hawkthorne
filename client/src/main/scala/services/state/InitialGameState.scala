@@ -20,7 +20,7 @@ class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) exten
       game.state.getCurrentState().resize(w, org.scalajs.dom.window.innerHeight)
     })
 
-    DebugService.initPhaser(phaser, debug)
+    DebugService.init(phaser, debug)
 
     JavaScriptUtils.as[WebGLRenderer](game.renderer).renderSession.roundPixels = true
     game.stage.disableVisibilityChange = true

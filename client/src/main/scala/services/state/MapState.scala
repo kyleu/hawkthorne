@@ -1,6 +1,7 @@
 package services.state
 
 import com.definitelyscala.phaserce.Game
+import models.asset.Asset
 import models.data.map.TiledMap
 import models.phaser.NodeLoader
 import services.map.MapService
@@ -9,11 +10,10 @@ object MapState {
   def load(phaser: Game, map: TiledMap) = new LoadingState(
     next = new MapState(phaser, map),
     phaser = phaser,
-    assets = LoadingState.Assets(
-      audio = Seq(s"music.${map.soundtrack}" -> s"audio/music/${map.soundtrack}.ogg"),
-      images = map.images.map(i => i -> s"images/tileset/$i.png"),
-      tilemaps = Seq(s"map.${map.value}" -> s"maps/${map.value}.json")
-    )
+    assets = Seq(
+      Asset.Audio(s"music.${map.soundtrack}", s"audio/music/${map.soundtrack}.ogg"),
+      Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
+    ) ++ map.images.map(i => Asset.Image(i, s"images/tileset/$i.png"))
   )
 }
 

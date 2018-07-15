@@ -13,19 +13,21 @@ class GameplayService(game: Game, map: TiledMap, player: Player) {
   private[this] var elapsed = 0.0
 
   private[this] val mapService = new MapService(game, map, playMusic = false)
+  DebugService.inst.setMap(mapService)
 
   private[this] val playerSprite = new PlayerSprite(game, mapService.group, player, 100, 100)
+  DebugService.inst.addPlayer(playerSprite)
+
   private[this] val input = new InputService(game, IndexedSeq(playerSprite))
 
   private[this] val splashComplete = SplashComponent.show(game)
-  private[this] val loader = new NodeLoader(game, mapService.group).load(nodes = mapService.nodes, onComplete = sprites => {
+  new NodeLoader(game, mapService.group).load(nodes = mapService.nodes, onComplete = _ => {
     splashComplete()
     playerSprite.sprite.bringToTop()
     started = true
   })
 
-  DebugService.initGui(playerSprite)
-  println("Hawkthore started.")
+  util.Logging.info("Hawkthore started.")
 
   def update() = if (started) {
     val dt = game.time.physicsElapsed

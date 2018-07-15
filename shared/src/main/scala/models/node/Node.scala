@@ -14,4 +14,6 @@ abstract class Node(val t: String) {
   def y: Int
   def width: Int
   def height: Int
+
+  def update(deltaMs: Double) = {}
 }

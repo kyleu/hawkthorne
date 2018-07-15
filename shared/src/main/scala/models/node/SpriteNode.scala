@@ -1,5 +1,6 @@
 package models.node
 
+import models.animation.Animation
 import util.JsonSerializers._
 
 object SpriteNode {
@@ -8,7 +9,14 @@ object SpriteNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(depth: Option[String], direction: Option[String], sheet: String)
+  case class Props(
+      animation: Option[String],
+      random: Option[String],
+      speed: Option[String],
+      depth: Option[String],
+      direction: Option[String],
+      sheet: String
+  )
 
   val key = "sprite"
   implicit val jsonEncoder: Encoder[SpriteNode] = deriveEncoder
@@ -27,4 +35,7 @@ case class SpriteNode(
     properties: SpriteNode.Props
 ) extends Node(SpriteNode.key) {
   val sheetKey = "sprite." + properties.sheet.substring(properties.sheet.lastIndexOf('/') + 1).stripSuffix(".png")
+  val animation = properties.animation.map { a =>
+    Animation(s"anim.$id", IndexedSeq(0, 1, 2, 3, 4, 5, 6, 7), 0.1)
+  }
 }

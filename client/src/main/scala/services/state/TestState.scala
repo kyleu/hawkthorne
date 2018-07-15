@@ -1,14 +1,15 @@
 package services.state
 
-import com.definitelyscala.phaserce.{Game, Point}
+import com.definitelyscala.phaserce.Game
+import models.asset.Asset
 import models.player.{Player, PlayerSprite}
-import services.input.{InputHandler, InputService}
+import services.input.InputService
 
 object TestState {
   def load(phaser: Game) = new LoadingState(
     next = new TestState(phaser),
     phaser = phaser,
-    assets = LoadingState.Assets(spritesheets = Seq(Player.default.spritesheet))
+    assets = Seq(Asset.Spritesheet(Player.default.spritesheet._1, Player.default.spritesheet._2, Player.default.spritesheet._3, Player.default.spritesheet._4))
   )
 }
 

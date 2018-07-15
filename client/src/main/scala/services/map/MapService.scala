@@ -14,13 +14,20 @@ object MapService {
   val scalePoint = new Point(scale, scale)
 }
 
-class MapService(game: Game, map: TiledMap, playMusic: Boolean) {
+class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   private[this] val startNanos = System.nanoTime
 
   val pixelRatio = org.scalajs.dom.window.devicePixelRatio
 
   val group = game.add.group(name = s"map.${map.value}")
-  group.scale = {
+  resize()
+
+  val mapPxWidth = map.width * 24 * MapService.scale
+  val mapPxHeight = map.height * 24 * MapService.scale
+
+  def resize() = group.scale = {
+    val (w, h) = game.width -> game.height
+    // println(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
     val zoom = 1.0 * pixelRatio
     new Point(zoom, zoom)
   }
@@ -51,7 +58,8 @@ class MapService(game: Game, map: TiledMap, playMusic: Boolean) {
   }
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
 
-  layer("collision").foreach(_.visible = false)
+  val collisionLayer = layer("collision")
+  collisionLayer.foreach(_.visible = false)
 
   val objects = {
     val tilemapJson = game.cache.getTilemapData("map." + map.value)
@@ -71,5 +79,5 @@ class MapService(game: Game, map: TiledMap, playMusic: Boolean) {
   })
 
   Logging.info(s"Map [${map.value}] loaded in [${((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)}ms].")
-  nodes.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).foreach(s => Logging.info("  - " + s))
+  nodes.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).toSeq.sorted.foreach(s => Logging.info("  - " + s))
 }
