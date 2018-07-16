@@ -30,7 +30,7 @@ case class KeyboardInput(game: Game) {
     debug = game.input.keyboard.addKey(KeyCode.QUESTION_MARK)
   )
 
-  PhaserUtils.addToSignal(keymap.debug.onDown, () => DebugService.inst.toggle())
+  PhaserUtils.addToSignal(keymap.debug.onDown, () => DebugService.inst.foreach(_.toggle()))
 
   def update(menu: Boolean, elapsed: Double) = {
     val x = if (keymap.left.isDown) { -1.0 } else if (keymap.right.isDown) { 1.0 } else { 0.0 }

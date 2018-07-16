@@ -15,52 +15,51 @@ import scala.util.Random
 object DebugService {
   private[this] var debugService: Option[DebugService] = None
 
-  def inst = debugService.getOrElse(throw new IllegalStateException("Not initialized"))
+  def inst = debugService
 
-  def init(phaser: Game, debug: Boolean) = {
+  def init(phaser: Game) = {
     debugService.foreach(_ => throw new IllegalStateException("Double init!"))
-    debugService = Some(new DebugService(phaser, debug))
+    debugService = Some(new DebugService(phaser))
   }
 }
 
-class DebugService private (phaser: Game, debug: Boolean) {
-  private[this] var visible = false
-
-  private[this] var mapOpt: Option[MapService] = None
-  private[this] def mapService = mapOpt.getOrElse(throw new IllegalStateException("No map service."))
+class DebugService private (phaser: Game) {
+  private[this] var visible = true
 
   val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
   val gui = new GUI(params)
 
-  visible = debug
-  if (debug) {
-    val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
-    if (debugPlugin.toString != "undefined") {
-      phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
-    }
+  val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
+  if (debugPlugin.toString != "undefined") {
+    phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
   }
 
-  def setMap(mapService: MapService) = {
-    mapOpt.foreach(_ => throw new IllegalStateException("Already set map"))
-    mapOpt = Some(mapService)
+  def setMap(mapService: MapService, players: Seq[PlayerSprite]) = {
+    val cf = gui.addFolder("Camera")
+    cf.add(phaser.camera.bounds, "x", 0.0, mapService.mapPxWidth).listen()
+    cf.add(phaser.camera.bounds, "y", 0.0, mapService.mapPxHeight).listen()
+    cf.add(phaser.camera.bounds, "width", 0.0, 500.0).listen()
+    cf.add(phaser.camera.bounds, "height", 0.0, 500.0).listen()
+
     val f = gui.addFolder(s"Map (${mapService.map.value})")
     val layersFolder = f.addFolder("Layers")
     mapService.layers.foreach(l => addLayer(mapService, layersFolder, l._1, l._2))
     val nodesFolder = f.addFolder("Nodes")
     mapService.nodes.foreach(n => addNode(mapService, nodesFolder, n))
-  }
 
-  def addPlayer(playerSprite: PlayerSprite) = {
-    val f = gui.addFolder("Player 0")
-    val anims = PlayerSprite.animations.keys.toSeq.sorted
-    f.add(playerSprite.sprite, "x", 0.0, mapService.mapPxWidth).listen()
-    f.add(playerSprite.sprite, "y", 0.0, mapService.mapPxHeight).listen()
-    DatGuiUtils.addChoices(f, "Animation", "No Animation", "No Animation" +: anims, v => playerSprite.setAnimation(Some(v)))
-    DatGuiUtils.addFunction(f, "Random Anim", () => {
-      val anim = anims(Random.nextInt(anims.size))
-      Logging.info(s"Random animation: [$anim]")
-      playerSprite.setAnimation(Some(anim))
-    })
+    players.zipWithIndex.foreach {
+      case (playerSprite, idx) =>
+        val f = gui.addFolder(s"Player $idx")
+        val anims = PlayerSprite.animations.keys.toSeq.sorted
+        f.add(playerSprite.sprite, "x", 0.0, mapService.mapPxWidth).listen()
+        f.add(playerSprite.sprite, "y", 0.0, mapService.mapPxHeight).listen()
+        DatGuiUtils.addChoices(f, "Animation", "No Animation", "No Animation" +: anims, v => playerSprite.setAnimation(Some(v)))
+        DatGuiUtils.addFunction(f, "Random Anim", () => {
+          val anim = anims(Random.nextInt(anims.size))
+          Logging.info(s"Random animation: [$anim]")
+          playerSprite.setAnimation(Some(anim))
+        })
+    }
   }
 
   def toggle() = {

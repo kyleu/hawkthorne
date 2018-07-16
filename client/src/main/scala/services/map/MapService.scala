@@ -3,12 +3,10 @@ package services.map
 import com.definitelyscala.phaserce.{Game, Point, Sprite, Tilemap}
 import models.asset.Asset
 import models.data.map.TiledMap
-import models.node.Node
 import org.scalajs.dom.ext.Color
 import util.Logging
 
 import scala.scalajs.js
-import scala.util.control.NonFatal
 
 object MapService {
   def assetsFor(map: TiledMap) = Seq(
@@ -18,22 +16,20 @@ object MapService {
 
   val scale = 4.0
   val scalePoint = new Point(scale, scale)
-  lazy val pixelRatio = org.scalajs.dom.window.devicePixelRatio
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   private[this] val startNanos = System.nanoTime
 
   val group = game.add.group(name = s"map.${map.value}")
-  resize()
 
   val mapPxWidth = map.width * 24 * MapService.scale
   val mapPxHeight = map.height * 24 * MapService.scale
 
   def resize() = group.scale = {
     val (w, h) = game.width -> game.height
-    // println(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
-    val zoom = 0.7 * MapService.pixelRatio
+    println(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
+    val zoom = 0.7
     new Point(zoom, zoom)
   }
 
@@ -63,25 +59,17 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   }
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
   val collisionLayer = layer("collision")
-  collisionLayer.foreach(_.visible = false)
-
-  val objects = {
-    val tilemapJson = game.cache.getTilemapData("map." + map.value)
-    val tilemapLayers = tilemapJson.data.layers.asInstanceOf[js.Array[js.Dictionary[js.Any]]].toSeq.filter(_.apply("type").toString == "objectgroup")
-    tilemapLayers.flatMap(_.apply("objects").asInstanceOf[js.Array[js.Any]].toSeq)
+  collisionLayer.foreach { c =>
+    c.resizeWorld()
+    c.visible = false
   }
-  val nodes: Seq[Node] = objects.map(o => try {
-    io.circe.scalajs.decodeJs[Node](o) match {
-      case Right(x) => x
-      case Left(x) => throw x
-    }
-  } catch {
-    case NonFatal(x) =>
-      Logging.warn("Error deserializing node:")
-      Logging.logJs(o)
-      throw x
-  })
 
-  Logging.info(s"Map [${map.value}] loaded in [${((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)}ms].")
-  nodes.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).toSeq.sorted.foreach(s => Logging.info("  - " + s))
+  val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + map.value))
+  resize()
+
+  {
+    val time = ((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)
+    Logging.info(s"Map [${map.value}] loaded in [${time}ms].")
+    nodes.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).toSeq.sorted.foreach(s => Logging.info("  - " + s))
+  }
 }

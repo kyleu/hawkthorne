@@ -2,6 +2,7 @@ package services.state
 
 import com.definitelyscala.phaserce.{Game, Point, Tilemap}
 import models.asset._
+import services.map.MapService
 import util.PhaserUtils
 
 object LoadingState {

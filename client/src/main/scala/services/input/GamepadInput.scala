@@ -4,9 +4,9 @@ import com.definitelyscala.phaserce.{Game, Gamepad, SinglePad}
 
 object GamepadInput {
   case class Keymap(
-    up: Double, down: Double, left: Double, right: Double,
-    jump: Double, attack: Double, select: Double,
-    options: Double, debug: Double
+      up: Double, down: Double, left: Double, right: Double,
+      jump: Double, attack: Double, select: Double,
+      options: Double, debug: Double
   )
 
   def xboxKeymap(p: SinglePad) = Keymap(
@@ -40,7 +40,7 @@ case class GamepadInput(game: Game) {
   val pads = IndexedSeq(game.input.gamepad.pad1, game.input.gamepad.pad2, game.input.gamepad.pad3, game.input.gamepad.pad4)
   pads.zipWithIndex.foreach(pad => pad._1.addCallbacks(pad._1, scalajs.js.Dynamic.literal(
     "onConnect" -> onConnect(pad._1, pad._2) _,
-    "onDisconnect" -> onDisconnect(pad._1, pad._2) _,
+    "onDisconnect" -> onDisconnect(pad._1, pad._2) _
   )))
   var keymaps = Array(pads.map(GamepadInput.xboxKeymap): _*)
 

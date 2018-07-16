@@ -1,6 +1,6 @@
 package services.state
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, PhysicsObj}
 import models.asset._
 import models.component.HudOverlay
 import models.game.GameOptions
@@ -20,7 +20,10 @@ class GameplayState(phaser: Game, options: GameOptions, player: Player) extends 
   private[this] var svc: Option[GameplayService] = None
   private[this] def service = svc.getOrElse(throw new IllegalStateException("Not initialized"))
 
-  override def create(game: Game) = svc = Some(new GameplayService(game, options, player))
+  override def create(game: Game) = svc = {
+    game.physics.startSystem(PhysicsObj.ARCADE)
+    Some(new GameplayService(game, options, player))
+  }
 
   override def update(game: Game) = service.update()
 

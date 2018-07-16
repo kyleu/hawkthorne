@@ -4,8 +4,7 @@ import com.definitelyscala.phaserce._
 import models.asset.Asset
 import models.component.BaseComponent.Resizable
 import models.player.Player
-import services.map.MapService
-import services.ui.FontService
+import util.PhaserUtils
 
 object HudOverlay {
   val assets = Seq(
@@ -38,8 +37,7 @@ case class HudOverlay(game: Game, player: Player) extends BaseComponent with Res
   lens.scale = scale
   group.add(lens)
 
-  val nameFont = new FontService(game).renderSmall(player.template.name.toUpperCase)
-  val nameText = new Image(game, 0, 0, nameFont)
+  val nameText = new Text(game, 58 * scaleAmount, 14 * scaleAmount, player.template.name, PhaserUtils.textStyle(fontSize = 36, fill = "000"))
   group.add(nameText)
 
   resize(game.width, game.height)
@@ -50,7 +48,7 @@ case class HudOverlay(game: Game, player: Player) extends BaseComponent with Res
   }
 
   override def resize(width: Double, height: Double) = {
-    val groupScale = ((width + height) / 1600.0 / scaleAmount) * MapService.pixelRatio
+    val groupScale = (width + height) / 1200.0 / scaleAmount
     group.scale = new Point(groupScale, groupScale)
   }
 }

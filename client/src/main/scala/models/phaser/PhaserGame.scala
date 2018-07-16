@@ -15,7 +15,7 @@ object PhaserGame {
     antialias = false,
     multiTexture = true,
     parent = "hawkthorne",
-    resolution = org.scalajs.dom.window.devicePixelRatio
+    resolution = 1 // TODO org.scalajs.dom.window.devicePixelRatio
   ))
 }
 

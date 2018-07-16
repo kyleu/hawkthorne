@@ -1,5 +1,6 @@
 package models.player
 
+import com.definitelyscala.phaserce.Physics.Arcade.Body
 import com.definitelyscala.phaserce.{Game, Group, Point}
 import models.component.AnimatedSprite
 import models.data.character.CharacterAnimation
@@ -23,4 +24,10 @@ class PlayerSprite(game: Game, group: Group, player: Player, var x: Int, var y: 
   sprite.name = s"${player.templateKey}.${player.costume.key}"
   sprite.scale = MapService.scalePoint
   sprite.anchor = new Point(0.5, 0.5)
+
+  game.physics.arcade.enable(sprite)
+  val body = sprite.body.asInstanceOf[Body]
+  body.gravity.y = 700
+  body.bounce.y = 0
+  body.collideWorldBounds = true
 }

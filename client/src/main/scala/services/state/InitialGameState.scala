@@ -11,17 +11,17 @@ class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) exten
     Canvas.setImageRenderingCrisp(phaser.canvas)
     game.load.image(key = "splash", url = LoadingState.prefix + "images/splash.png")
     game.load.spritesheet(key = "progress", url = LoadingState.prefix + "images/progress.png", frameWidth = 121.0, frameHeight = 13.0)
-    game.load.image(key = "font", url = LoadingState.prefix + "images/font/default.png")
   }
 
   override def create(game: Game) = {
     dom.window.addEventListener("resize", { _: dom.Event =>
-      var w = org.scalajs.dom.window.innerWidth
-      game.scale.setGameSize(w, org.scalajs.dom.window.innerHeight)
-      game.state.getCurrentState().resize(w, org.scalajs.dom.window.innerHeight)
+      val w = org.scalajs.dom.window.innerWidth
+      val h = org.scalajs.dom.window.innerHeight
+      game.scale.setGameSize(w, h)
+      game.state.getCurrentState().resize(w, h)
     })
 
-    DebugService.init(phaser, debug)
+    if (debug) { DebugService.init(phaser) }
 
     JavaScriptUtils.as[WebGLRenderer](game.renderer).renderSession.roundPixels = true
     game.stage.disableVisibilityChange = true

@@ -9,7 +9,6 @@ import services.input.InputService
 import services.map.MapService
 import services.node.NodeLoader
 import services.ui.DebugService
-import util.PhaserUtils
 
 class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] var started = false
@@ -20,11 +19,10 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   components += hudOverlay
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
-  DebugService.inst.setMap(mapService)
-
   private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, x = 400, y = 400)
-  DebugService.inst.addPlayer(playerSprite)
   components += playerSprite
+
+  DebugService.inst.foreach(_.setMap(mapService, Seq(playerSprite)))
 
   private[this] val input = new InputService(game, IndexedSeq(playerSprite))
 
@@ -42,6 +40,8 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   def update() = if (started) {
     val dt = game.time.physicsElapsed
     elapsed += dt
+
+    mapService.collisionLayer.foreach(l => game.physics.arcade.collide(playerSprite.sprite, l))
 
     input.update(menu = false, elapsed = dt)
     components.foreach(_.update(dt))
