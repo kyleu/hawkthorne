@@ -6,11 +6,11 @@ import models.data.map.TiledMap
 import services.map.MapService
 import services.node.NodeLoader
 
-object MapState {
-  def load(phaser: Game, map: TiledMap) = new LoadingState(next = new MapState(phaser, map), phaser = phaser, assets = MapService.assetsFor(map))
+object MapTestState {
+  def load(phaser: Game, map: TiledMap) = new LoadingState(next = new MapTestState(phaser, map), phaser = phaser, assets = MapService.assetsFor(map))
 }
 
-class MapState(phaser: Game, map: TiledMap) extends GameState(map.value, phaser) {
+class MapTestState(phaser: Game, map: TiledMap) extends GameState(map.value, phaser) {
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
 
   override def create(game: Game) = {

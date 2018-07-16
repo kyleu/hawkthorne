@@ -16,4 +16,6 @@ case class UnknownNode(typ: String, json: JsonObject) extends Node(UnknownNode.k
   override val y = json("y").get.asNumber.map(_.toInt.get).getOrElse(0)
   override val width = json("width").get.asNumber.map(_.toInt.get).getOrElse(0)
   override val height = json("height").get.asNumber.map(_.toInt.get).getOrElse(0)
+  override val rotation = json("rotation").flatMap(_.asNumber.map(_.toInt.get))
+  override val visible = json("visible").flatMap(_.asBoolean)
 }

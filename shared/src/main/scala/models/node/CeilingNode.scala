@@ -14,5 +14,7 @@ case class CeilingNode(
     override val x: Int,
     override val y: Int,
     override val width: Int,
-    override val height: Int
+    override val height: Int,
+    override val rotation: Option[Int],
+    override val visible: Option[Boolean]
 ) extends Node(CeilingNode.key)

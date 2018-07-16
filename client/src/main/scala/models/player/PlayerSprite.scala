@@ -11,8 +11,10 @@ object PlayerSprite {
   val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim)).map(a => a.id -> a).toMap
 }
 
-class PlayerSprite(game: Game, group: Group, player: Player, var x: Int, var y: Int) extends AnimatedSprite(
-  game = game, group = group, offsetX = x, offsetY = y, key = s"${player.templateKey}.${player.costume.key}", PlayerSprite.animations
+class PlayerSprite(
+    game: Game, group: Group, player: Player, initialX: Int, initialY: Int, scaled: Boolean = true, physics: Boolean = true
+) extends AnimatedSprite(
+  game = game, group = group, offsetX = initialX, offsetY = initialY, key = s"${player.templateKey}.${player.costume.key}", PlayerSprite.animations
 ) {
   private[this] val input = new PlayerInputHandler(this)
 
@@ -22,12 +24,16 @@ class PlayerSprite(game: Game, group: Group, player: Player, var x: Int, var y: 
 
   setAnimation(Some("idle.right"))
   sprite.name = s"${player.templateKey}.${player.costume.key}"
-  sprite.scale = MapService.scalePoint
+  if (scaled) {
+    sprite.scale = MapService.scalePoint
+  }
   sprite.anchor = new Point(0.5, 0.5)
 
-  game.physics.arcade.enable(sprite)
-  val body = sprite.body.asInstanceOf[Body]
-  body.gravity.y = 700
-  body.bounce.y = 0
-  body.collideWorldBounds = true
+  if (physics) {
+    game.physics.arcade.enable(sprite)
+    val body = sprite.body.asInstanceOf[Body]
+    body.gravity.y = 700
+    body.bounce.y = 0
+    body.collideWorldBounds = true
+  }
 }

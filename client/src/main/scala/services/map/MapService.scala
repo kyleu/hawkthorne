@@ -24,7 +24,10 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   val group = game.add.group(name = s"map.${map.value}")
 
   val mapPxWidth = map.width * 24 * MapService.scale
+  game.world.width = mapPxWidth
+
   val mapPxHeight = map.height * 24 * MapService.scale
+  game.world.height = mapPxHeight
 
   def resize() = group.scale = {
     val (w, h) = game.width -> game.height
@@ -43,8 +46,8 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
 
     val s = new Sprite(game, 0, 0, bgData)
     s.name = "backdrop"
-    s.width = tilemap.widthInPixels
-    s.height = tilemap.heightInPixels
+    s.width = tilemap.widthInPixels * MapService.scale
+    s.height = tilemap.heightInPixels * MapService.scale
     group.add(s)
     s
   }
@@ -60,11 +63,11 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
   val collisionLayer = layer("collision")
   collisionLayer.foreach { c =>
-    c.resizeWorld()
     c.visible = false
   }
 
   val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + map.value))
+
   resize()
 
   {

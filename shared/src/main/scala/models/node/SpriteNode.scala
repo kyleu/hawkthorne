@@ -14,11 +14,23 @@ object SpriteNode {
 
   case class Props(
       animation: Option[String],
-      random: Option[String],
-      speed: Option[String],
       depth: Option[String],
       direction: Option[String],
-      sheet: String
+      flip: Option[String],
+      foreground: Option[String],
+      height: Option[String],
+      jumanji: Option[String],
+      max_x: Option[String],
+      min_x: Option[String],
+      mode: Option[String],
+      moveable_x: Option[String],
+      offsetY: Option[String],
+      random: Option[String],
+      sheet: String,
+      speed: Option[String],
+      velocity_x: Option[String],
+      width: Option[String],
+      window: Option[String]
   )
 
   val key = "sprite"
@@ -33,8 +45,8 @@ case class SpriteNode(
     override val y: Int,
     override val width: Int,
     override val height: Int,
-    rotation: Int,
-    visible: Boolean,
+    override val rotation: Option[Int],
+    override val visible: Option[Boolean],
     properties: SpriteNode.Props
 ) extends Node(SpriteNode.key) {
   val sheetKey = "sprite." + properties.sheet.substring(properties.sheet.lastIndexOf('/') + 1).stripSuffix(".png")
@@ -42,11 +54,8 @@ case class SpriteNode(
     val coords = AnimationCoords.fromString(a)
     val stride = coords.map(_._1).max + 1
     val frames = coords.map(c => c._1 + (c._2 * stride))
-    val speed = properties.speed.map(_.toDouble).getOrElse(1.0)
-    val anim = Animation(id = s"anim.$id", frames = frames, delay = 0.1, loop = true)
-    if (properties.random.contains("true")) {
-      anim.nextFrame(Random.nextDouble() * 1000)
-    }
+    val anim = Animation(id = s"anim.$id", frames = frames, delay = properties.speed.map(_.toDouble).getOrElse(1.0), loop = true)
+    if (properties.random.contains("true")) { anim.nextFrame(Random.nextDouble() * 1000) }
     anim
   }
 

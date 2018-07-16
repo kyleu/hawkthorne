@@ -25,7 +25,10 @@
           <h5>Maps</h5>
           <ul>
             @models.data.map.TiledMap.values.map { m =>
-              <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay(s"map/${m.value}")" title="@m.title">@m.value</a></li>
+              <li>
+                <a class="theme-text" href="@controllers.routes.GameplayController.gameplay(s"map/${m.value}")" title="@m.title">@m.value</a>
+                (<a class="theme-text" href="@controllers.routes.GameplayController.gameplay(s"test/${m.value}")" title="@m.title">Test</a>)
+              </li>
             }
           </ul>
         </li>

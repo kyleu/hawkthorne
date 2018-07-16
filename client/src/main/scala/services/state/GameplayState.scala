@@ -5,7 +5,7 @@ import models.asset._
 import models.component.HudOverlay
 import models.game.GameOptions
 import models.player.Player
-import services.GameplayService
+import services.game.GameplayService
 import services.map.MapService
 
 object GameplayState {

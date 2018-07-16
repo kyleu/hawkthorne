@@ -1,6 +1,6 @@
-package services
+package services.game
 
-import com.definitelyscala.phaserce.{Game, Point}
+import com.definitelyscala.phaserce.Game
 import models.component.BaseComponent.Resizable
 import models.component.{BaseComponent, HudOverlay, SplashComponent}
 import models.game.GameOptions
@@ -19,7 +19,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   components += hudOverlay
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
-  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, x = 400, y = 400)
+  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, initialX = 400, initialY = 400)
   components += playerSprite
 
   DebugService.inst.foreach(_.setMap(mapService, Seq(playerSprite)))

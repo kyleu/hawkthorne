@@ -25,7 +25,15 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
   private[this] lazy val group = game.add.group(name = s"test.group")
 
   lazy val players = Characters.allCostumes.zipWithIndex.map {
-    case (c, idx) => new PlayerSprite(game, group, Player(templateKey = c._1.key, costumeKey = c._2.key), (idx % 28) * 48, (idx / 28) * 48)
+    case (c, idx) => new PlayerSprite(
+      game = game,
+      group = group,
+      player = Player(templateKey = c._1.key, costumeKey = c._2.key),
+      initialX = (idx % 28) * 48,
+      initialY = (idx / 28) * 48,
+      scaled = false,
+      physics = false
+    )
   }
 
   override def create(game: Game) = {

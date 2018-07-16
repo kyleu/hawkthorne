@@ -3,6 +3,13 @@ package models.node
 import util.JsonSerializers._
 
 object WeaponNode {
+  object Props {
+    implicit val jsonEncoder: Encoder[Props] = deriveEncoder
+    implicit val jsonDecoder: Decoder[Props] = deriveDecoder
+  }
+
+  case class Props(direction: Option[String], flipY: Option[String], foreground: Option[String], sprite: Option[String])
+
   val key = "weapon"
   implicit val jsonEncoder: Encoder[WeaponNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[WeaponNode] = deriveDecoder
@@ -14,5 +21,8 @@ case class WeaponNode(
     override val x: Int,
     override val y: Int,
     override val width: Int,
-    override val height: Int
+    override val height: Int,
+    override val rotation: Option[Int],
+    override val visible: Option[Boolean],
+    properties: Option[WeaponNode.Props]
 ) extends Node(WeaponNode.key)
