@@ -9,9 +9,9 @@ class ServerMapCacheTest extends FlatSpec with Matchers {
     TiledMap.values.foreach(m => ServerMapCache(m.value))
   }
   it should "have no unused fields" in {
-    ServerMapCache.unusedFields.size shouldBe 0
+    ServerMapCache.unusedFields.map(_._2.size).sum shouldBe 0
   }
   it should "have no unused properties" in {
-    ServerMapCache.unusedProperties.size shouldBe 0
+    ServerMapCache.unusedProperties.map(_._2.size).sum shouldBe 0
   }
 }

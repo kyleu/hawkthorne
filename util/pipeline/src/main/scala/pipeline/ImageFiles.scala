@@ -9,8 +9,9 @@ object ImageFiles {
     cfg.copyAsset("images/menu/cityscape.png", "images/mainbg.png"),
 
     cfg.copyAsset("images/characters", "images/character"),
-    cfg.copyAsset("images/scanning", "images/intro"),
+    cfg.copyAsset("images/font", "images/font"),
     cfg.copyAsset("images/hud", "images/hud"),
+    cfg.copyAsset("images/scanning", "images/intro"),
     cfg.copyAsset("images/sprites", "images/sprites"),
     cfg.copyAsset("images/tilesets", "images/tileset")
   ).flatten
