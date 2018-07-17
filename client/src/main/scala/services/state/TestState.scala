@@ -35,7 +35,7 @@ class TestState(phaser: Game) extends GameState("test", phaser) {
 
     val fontSmall = game.add.sprite(0, 400, "font.small")
     val fontSmallData = game.add.bitmapData(fontSmall.width, fontSmall.height, "font.small.data")
-    fontSmallData.draw(fontSmall.generateTexture(), 0, 0, fontSmall.width, fontSmall.height)
+    fontSmallData.draw(game.cache.getImage("font.small"), 0, 0)
     processFont(fontSmallData)
   }
 
