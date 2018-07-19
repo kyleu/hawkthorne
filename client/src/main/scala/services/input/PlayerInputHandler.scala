@@ -6,6 +6,7 @@ class PlayerInputHandler(player: PlayerSprite) {
   private[this] var lastVelocity = 0.0 -> 0.0
 
   def process(elapsed: Double, velocity: (Double, Double), events: Seq[String]) = {
+    events.foreach(e => util.Logging.info("Event: " + e))
     updateAnimation(velocity)
     updateLocation(elapsed, velocity)
     lastVelocity = velocity

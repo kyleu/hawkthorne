@@ -15,7 +15,7 @@ class HomeController @javax.inject.Inject() (
 
   private[this] val formatter = new MessageFrameFormatter()
 
-  def home() = withSession("home") { implicit request => implicit td =>
+  def home() = withoutSession("home") { implicit request => implicit td =>
     Future.successful(Ok(views.html.index(request.identity, app.config.debug)))
   }
 

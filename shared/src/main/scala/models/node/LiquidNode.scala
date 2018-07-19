@@ -1,5 +1,7 @@
 package models.node
 
+import models.animation.{Animation, AnimationCoords}
+import models.asset.Asset
 import util.JsonSerializers._
 
 object LiquidNode {
@@ -19,7 +21,7 @@ object LiquidNode {
       opacity: Option[String],
       oscillating: Option[String],
       speed: Option[String],
-      sprite: Option[String],
+      sprite: String,
       uniform: Option[String]
   )
 
@@ -38,4 +40,11 @@ case class LiquidNode(
     override val rotation: Option[Int],
     override val visible: Option[Boolean],
     properties: LiquidNode.Props
-) extends Node(LiquidNode.key)
+) extends Node(LiquidNode.key) {
+  val sheetKey = "sprite." + properties.sprite.substring(properties.sprite.lastIndexOf('/') + 1).stripSuffix(".png")
+
+  val topAnimation = Animation(id = s"anim.$id", frames = IndexedSeq(0, 1, 2), delay = properties.speed.map(_.toDouble).getOrElse(1.0), loop = true)
+  val bottomAnimation = Animation(id = s"anim.$id", frames = IndexedSeq(3, 4, 5), delay = properties.speed.map(_.toDouble).getOrElse(1.0), loop = true)
+
+  override lazy val assets = Seq(Asset.Spritesheet(sheetKey, properties.sprite, 24, 24))
+}

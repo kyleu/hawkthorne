@@ -3,6 +3,7 @@ package services.state
 import com.definitelyscala.phaserce.{Game, PhysicsObj}
 import models.asset._
 import models.component.HudOverlay
+import models.font.Font
 import models.game.GameOptions
 import models.player.Player
 import services.game.GameplayService
@@ -12,7 +13,7 @@ object GameplayState {
   def load(phaser: Game, options: GameOptions, player: Player) = new LoadingState(
     next = new GameplayState(phaser, options, player),
     phaser = phaser,
-    assets = (MapService.assetsFor(options.map) ++ HudOverlay.assets) :+ Asset.spritesheetFromTuple(player.spritesheet)
+    assets = (MapService.assetsFor(options.map) ++ HudOverlay.assets ++ Font.assets) :+ Asset.spritesheetFromTuple(player.spritesheet)
   )
 }
 

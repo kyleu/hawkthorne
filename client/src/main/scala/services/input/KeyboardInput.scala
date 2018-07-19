@@ -36,7 +36,11 @@ case class KeyboardInput(game: Game) {
     val x = if (keymap.left.isDown) { -1.0 } else if (keymap.right.isDown) { 1.0 } else { 0.0 }
     val y = if (keymap.up.isDown) { -1.0 } else if (keymap.down.isDown) { 1.0 } else { 0.0 }
     val i = if (menu) { -1 } else { 0 }
-    (i, (x, y), Seq.empty[String])
+    val commands = Seq(
+      if (keymap.jump.justDown) { Some("jump") } else { None },
+      if (keymap.options.justDown) { Some("options") } else { None }
+    ).flatten
+    (i, (x, y), commands)
   }
 
   def close() = {}

@@ -14,7 +14,7 @@ class NodeLoader(game: Game, group: Group) {
   ) = {
     val startNanos = System.nanoTime
 
-    val assets = nodes.flatMap(_.assets)
+    val assets = nodes.flatMap(_.assets).distinct
     assets.foreach(LoadingState.load(_, game))
 
     var filesCompleted = 0

@@ -1,4 +1,4 @@
-@(user: models.user.SystemUser, path: String, devmode: Boolean)(
+@(user: models.user.SystemUser, path: String, devmode: Boolean, debug: Boolean)(
     implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
 )@traceData.logViewClass(getClass)@layout.basic(
   user = Some(user),
@@ -10,21 +10,29 @@
     <img src="@controllers.routes.Assets.versioned("game/images/splash.png")" />
   </div>
   <main id="hawkthorne"></main>
+
   @if(devmode) {
   <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-arcade-physics.js")" type="text/javascript" defer="defer"></script>
-  <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-debug.js")" type="text/javascript" defer="defer"></script>
+  } else {
+  <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-arcade-physics.min.js")" type="text/javascript" defer="defer"></script>
+  }
 
+  @if(debug) {
+  <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-debug.js")" type="text/javascript" defer="defer"></script>
   <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("vendor/dat.gui/dat.gui.css")" />
   <script src="@controllers.routes.Assets.versioned("vendor/dat.gui/dat.gui.js")" type="text/javascript" defer="defer"></script>
   <script src="@controllers.routes.Assets.versioned("vendor/dat.gui/phaser-sprite-gui.js")" type="text/javascript" defer="defer"></script>
+  }
+
+  @if(devmode) {
   <script src="@controllers.routes.Assets.versioned("client-fastopt.js")" type="text/javascript" defer="defer"></script>
   } else {
-  <script src="@controllers.routes.Assets.versioned("vendor/phaser/phaser-arcade-physics.min.js")" type="text/javascript" defer="defer"></script>
   <script src="@controllers.routes.Assets.versioned("client-opt.js")" type="text/javascript" defer="defer"></script>
   }
+
   <script>
     document.addEventListener("DOMContentLoaded", function(){
-      window.hawkthorne = new Hawkthorne('@path', @devmode);
+      window.hawkthorne = new Hawkthorne('@path', @debug);
     });
   </script>
 }

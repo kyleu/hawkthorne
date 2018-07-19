@@ -3,6 +3,7 @@ package models.component
 import com.definitelyscala.phaserce._
 import models.asset.Asset
 import models.component.BaseComponent.Resizable
+import models.font.Font
 import models.player.Player
 import util.PhaserUtils
 
@@ -16,7 +17,7 @@ object HudOverlay {
 
 case class HudOverlay(game: Game, player: Player) extends BaseComponent with Resizable {
   val group = new Group(game, name = "hud.overlay")
-  val scaleAmount = 4.0
+  val scaleAmount = 2.0
   val scale = new Point(scaleAmount, scaleAmount)
 
   val chevron = new Sprite(game, 0, 0, "hud.chevron")
@@ -37,18 +38,21 @@ case class HudOverlay(game: Game, player: Player) extends BaseComponent with Res
   lens.scale = scale
   group.add(lens)
 
-  val nameText = new Text(game, 58 * scaleAmount, 14 * scaleAmount, player.template.name, PhaserUtils.textStyle(fontSize = 36, fill = "000"))
+  val font = Font.getFont("small", game)
+
+  val nameText = font.renderToImage("hud.name", player.template.name, game, 58 * scaleAmount, 15 * scaleAmount, Some("#000"))
+  nameText.scale = scale
   group.add(nameText)
+
+  val pointsText = font.renderToImage("hud.currency", "0", game, 67 * scaleAmount, 41 * scaleAmount, Some("#000"))
+  pointsText.scale = scale
+  group.add(pointsText)
 
   resize(game.width, game.height)
   game.stage.add(group)
 
-  override def update(deltaMs: Double) = {
-
-  }
-
   override def resize(width: Double, height: Double) = {
-    val groupScale = (width + height) / 1200.0 / scaleAmount
+    val groupScale = 1.0 // Math.max(1.0, ((width + height) / 1200.0 / scaleAmount)).toInt.toDouble
     group.scale = new Point(groupScale, groupScale)
   }
 }

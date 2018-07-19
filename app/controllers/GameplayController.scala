@@ -22,10 +22,10 @@ class GameplayController @javax.inject.Inject() (
 
   private[this] val formatter = new MessageFrameFormatter()
 
-  def root() = gameplay("")
+  def root(debug: Boolean) = gameplay("", debug)
 
-  def gameplay(path: String) = withSession("gameplay") { implicit request => implicit td =>
-    Future.successful(Ok(views.html.gameplay(request.identity, path, app.config.debug)))
+  def gameplay(path: String, debug: Boolean) = withSession("gameplay") { implicit request => implicit td =>
+    Future.successful(Ok(views.html.gameplay(request.identity, path, app.config.debug, debug)))
   }
 
   def connect(binary: Boolean) = WebSocket.acceptOrResult[RequestMessage, ResponseMessage] { request =>

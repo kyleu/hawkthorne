@@ -1,11 +1,14 @@
 package controllers
 
+import java.util.UUID
+
+import com.mohiva.play.silhouette.api.{LoginEvent, LoginInfo, SignUpEvent}
 import com.mohiva.play.silhouette.api.actions.{SecuredRequest, UserAwareRequest}
 import io.circe.{Json, Printer}
 import models.Application
 import models.auth.{AuthEnv, Credentials}
 import models.result.data.DataField
-import models.user.Role
+import models.user.{Role, SystemUser, UserPreferences}
 import play.api.http.{ContentTypeOf, Writeable}
 import play.api.mvc._
 import util.Logging
@@ -38,19 +41,37 @@ abstract class BaseController(val name: String) extends InjectedController with 
 
   protected def withSession(action: String, admin: Boolean = false)(block: Req => TraceData => Future[Result])(implicit ec: ExecutionContext) = {
     app.silhouette.UserAwareAction.async { implicit request =>
-      request.identity match {
-        case Some(u) => if (admin && u.role != Role.Admin) {
-          failRequest(request)
-        } else {
-          Instrumented.timeFuture(metricsName + "_request", "action", name + "_" + action) {
-            app.tracing.trace(name + ".controller." + action) { td =>
+      Instrumented.timeFuture(metricsName + "_request", "action", name + "_" + action) {
+        app.tracing.trace(name + ".controller." + action) { td =>
+          request.identity match {
+            case Some(u) => if (admin && u.role != Role.Admin) {
+              failRequest(request)
+            } else {
               ControllerUtils.enhanceRequest(request, Some(u), td)
               val auth = request.authenticator.getOrElse(throw new IllegalStateException("No auth!"))
               block(SecuredRequest(u, auth, request))(td)
-            }(getTraceData)
+            }
+            case None if !admin =>
+              val userId = UUID.randomUUID()
+              val loginInfo = LoginInfo("anonymous", userId.toString)
+              val user = SystemUser(id = userId, username = "Guest " + userId, preferences = UserPreferences(), profile = loginInfo)
+              app.coreServices.users.insert(Credentials.system, user)(td).flatMap { u =>
+                app.silhouette.env.authenticatorService.create(loginInfo).flatMap { authenticator =>
+                  app.silhouette.env.authenticatorService.init(authenticator).flatMap { value =>
+                    block(SecuredRequest[AuthEnv, AnyContent](u, authenticator, request))(td).flatMap { result =>
+                      app.silhouette.env.authenticatorService.embed(value, result).map { authedResponse =>
+                        ControllerUtils.enhanceRequest(request, Some(u), td)
+                        app.silhouette.env.eventBus.publish(SignUpEvent(u, request))
+                        app.silhouette.env.eventBus.publish(LoginEvent(u, request))
+                        authedResponse
+                      }
+                    }
+                  }
+                }
+              }
+            case None => failRequest(request)
           }
-        }
-        case None => failRequest(request)
+        }(getTraceData)
       }
     }
   }
@@ -61,6 +82,7 @@ abstract class BaseController(val name: String) extends InjectedController with 
 
   private[this] val defaultPrinter = Printer.spaces2
   protected implicit val contentTypeOfJson: ContentTypeOf[Json] = ContentTypeOf(Some("application/json"))
+
   protected implicit def writableOfJson(implicit codec: Codec, printer: Printer = defaultPrinter): Writeable[Json] = {
     Writeable(a => codec.encode(a.pretty(printer)))
   }

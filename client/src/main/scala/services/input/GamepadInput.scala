@@ -5,6 +5,7 @@ import com.definitelyscala.phaserce.{Game, Gamepad, SinglePad}
 object GamepadInput {
   case class Keymap(
       up: Double, down: Double, left: Double, right: Double,
+      leftStickX: Double, leftStickY: Double, rightStickX: Double, rightStickY: Double,
       jump: Double, attack: Double, select: Double,
       options: Double, debug: Double
   )
@@ -14,6 +15,10 @@ object GamepadInput {
     down = Gamepad.XBOX360_DPAD_DOWN,
     left = Gamepad.XBOX360_DPAD_LEFT,
     right = Gamepad.XBOX360_DPAD_RIGHT,
+    leftStickX = Gamepad.XBOX360_STICK_LEFT_X,
+    leftStickY = Gamepad.XBOX360_STICK_LEFT_Y,
+    rightStickX = Gamepad.XBOX360_STICK_RIGHT_X,
+    rightStickY = Gamepad.XBOX360_STICK_RIGHT_Y,
     jump = Gamepad.XBOX360_X,
     attack = Gamepad.XBOX360_A,
     select = Gamepad.XBOX360_B,
@@ -26,6 +31,10 @@ object GamepadInput {
     down = Gamepad.PS3XC_DPAD_DOWN,
     left = Gamepad.PS3XC_DPAD_LEFT,
     right = Gamepad.PS3XC_DPAD_RIGHT,
+    leftStickX = Gamepad.PS3XC_STICK_LEFT_X,
+    leftStickY = Gamepad.PS3XC_STICK_LEFT_Y,
+    rightStickX = Gamepad.PS3XC_STICK_RIGHT_X,
+    rightStickY = Gamepad.PS3XC_STICK_RIGHT_Y,
     jump = Gamepad.PS3XC_SQUARE,
     attack = Gamepad.PS3XC_X,
     select = Gamepad.PS3XC_CIRCLE,
@@ -59,9 +68,13 @@ case class GamepadInput(game: Game) {
   def update(menu: Boolean, elapsed: Double) = pads.zipWithIndex.collect {
     case (pad, idx) if pad.connected =>
       val map = keymaps(idx)
-      val x = if (pad.getButton(map.left).isDown) { -1.0 } else if (pad.getButton(map.right).isDown) { 1.0 } else { 0.0 }
-      val y = if (pad.getButton(map.up).isDown) { -1.0 } else if (pad.getButton(map.down).isDown) { 1.0 } else { 0.0 }
-      val i = if (menu) { -1 } else { idx + 100 }
-      (i, (x, y), Seq.empty[String])
+      val x = if (pad.getButton(map.left).isDown) { -1.0 } else if (pad.getButton(map.right).isDown) { 1.0 } else { 0.0 /* pad.axis(map.leftStickX) */ }
+      val y = if (pad.getButton(map.up).isDown) { -1.0 } else if (pad.getButton(map.down).isDown) { 1.0 } else { 0.0 /* pad.axis(map.leftStickY) */ }
+      val i = if (menu) { -1 } else { idx }
+      val commands = Seq(
+        if (pad.getButton(map.jump).justPressed(elapsed)) { Some("jump") } else { None },
+        if (pad.getButton(map.options).justPressed(elapsed)) { Some("options") } else { None }
+      ).flatten
+      (i, (x, y), commands)
   }
 }

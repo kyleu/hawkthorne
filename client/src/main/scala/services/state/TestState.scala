@@ -1,51 +1,23 @@
 package services.state
 
-import com.definitelyscala.phaserce.{BitmapData, Game, Rectangle}
-import models.asset.Asset
+import com.definitelyscala.phaserce.Game
+import models.component.ConsoleLog
+import models.font.Font
 
 object TestState {
-  def load(phaser: Game) = new LoadingState(
-    next = new TestState(phaser),
-    phaser = phaser,
-    assets = Seq(
-      Asset.Image("font.arial", "images/font/arial.png"),
-      Asset.Image("font.big", "images/font/big.png"),
-      Asset.Image("font.courier", "images/font/courier.png"),
-      Asset.Image("font.small", "images/font/small.png")
-    )
-  )
+  def load(phaser: Game) = new LoadingState(next = new TestState(phaser), phaser = phaser, assets = Font.assets)
 }
 
 class TestState(phaser: Game) extends GameState("test", phaser) {
   override def create(game: Game) = {
-    val fontArial = game.add.sprite(0, 100, "font.arial")
-    val fontArialData = game.make.bitmapData(fontArial.width, fontArial.height, "font.arial.data")
-    fontArialData.draw(fontArial.generateTexture(), 0, 0, fontArial.width, fontArial.height)
-    processFont(fontArialData)
+    val consoleLog = ConsoleLog(game = game)
 
-    val fontBig = game.add.sprite(0, 200, "font.big")
-    val fontBigData = game.make.bitmapData(fontBig.width, fontBig.height, "font.big.data")
-    fontBigData.draw(fontBig.generateTexture(), 0, 0, fontBig.width, fontBig.height)
-    processFont(fontBigData)
-
-    val fontCourier = game.add.sprite(0, 300, "font.courier")
-    val fontCourierData = game.make.bitmapData(fontCourier.width, fontCourier.height, "font.courier.data")
-    fontCourierData.draw(fontCourier.generateTexture(), 0, 0, fontCourier.width, fontCourier.height)
-    processFont(fontCourierData)
-
-    val fontSmall = game.add.sprite(0, 400, "font.small")
-    val fontSmallData = game.add.bitmapData(fontSmall.width, fontSmall.height, "font.small.data")
-    fontSmallData.draw(game.cache.getImage("font.small"), 0, 0)
-    processFont(fontSmallData)
-  }
-
-  def processFont(data: BitmapData) = {
-    (0 until data.width.toInt).foreach { x =>
-      val top = data.getPixel(x.toDouble, 4)
-      util.Logging.logJs(top)
+    Font.fonts.map(Font.getFont(_, game)).zipWithIndex.foreach {
+      case (f, idx) =>
+        // val tex = f.renderToTexture("Hello, world! The quick brown fox jumped over the lazy dog.", game)
+        val i = f.renderToImage(s"test.$idx", "Hello, world! The quick brown fox jumped over the lazy dog.", game, 10, 10 + (idx * 100.0))
+        game.add.existing(i)
     }
-  }
 
-  override def update(game: Game) = {
   }
 }

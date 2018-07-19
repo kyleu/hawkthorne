@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object MovingPlatformNode {
@@ -15,7 +16,7 @@ object MovingPlatformNode {
       direction: Option[String],
       drop: Option[String],
       height: Option[String],
-      line: Option[String],
+      line: String,
       mode: Option[String],
       noise_radius: Option[String],
       offscreen: Option[String],
@@ -25,7 +26,7 @@ object MovingPlatformNode {
       sfx: Option[String],
       singleuse: Option[String],
       speed: Option[String],
-      sprite: Option[String],
+      sprite: String,
       start: Option[String],
       touchstart: Option[String],
       width: Option[String]
@@ -47,4 +48,7 @@ case class MovingPlatformNode(
     override val rotation: Option[Int],
     override val visible: Option[Boolean],
     properties: MovingPlatformNode.Props
-) extends Node(MovingPlatformNode.key)
+) extends Node(MovingPlatformNode.key) {
+  val sheetKey = "sprite." + properties.sprite.substring(properties.sprite.lastIndexOf('/') + 1).stripSuffix(".png")
+  override lazy val assets = Seq(Asset.Image(sheetKey, properties.sprite))
+}

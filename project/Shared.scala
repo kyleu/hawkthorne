@@ -30,6 +30,10 @@ object Shared {
     scalacOptions ++= compileOptions,
     scalacOptions in (Compile, console) ~= (_.filterNot(Set("-Ywarn-unused:imports", "-Xfatal-warnings"))),
     scalacOptions in (Compile, doc) := Seq("-encoding", "UTF-8"),
+    publishArtifact in (Compile, packageDoc) := false,
+    publishArtifact in packageDoc := false,
+    sources in (Compile,doc) := Seq.empty,
+
 
     publishMavenStyle := false,
     testFrameworks += new TestFramework("utest.runner.Framework"),
