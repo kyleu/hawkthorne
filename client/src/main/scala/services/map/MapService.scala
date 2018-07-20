@@ -1,10 +1,9 @@
 package services.map
 
-import com.definitelyscala.phaserce.{Game, Point, Sprite, Tilemap}
+import com.definitelyscala.phaserce._
 import models.asset.Asset
 import models.data.map.TiledMap
 import org.scalajs.dom.ext.Color
-import util.Logging
 
 import scala.scalajs.js
 
@@ -19,22 +18,7 @@ object MapService {
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
-  private[this] val startNanos = System.nanoTime
-
   val group = game.add.group(name = s"map.${map.value}")
-
-  val mapPxWidth = map.width * 24 * MapService.scale
-  game.world.width = mapPxWidth
-
-  val mapPxHeight = map.height * 24 * MapService.scale
-  game.world.height = mapPxHeight
-
-  def resize() = group.scale = {
-    val (w, h) = game.width -> game.height
-    println(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
-    val zoom = 0.7
-    new Point(zoom, zoom)
-  }
 
   val tilemap = new Tilemap(game, "map." + map.value)
   map.images.foreach(i => tilemap.addTilesetImage(i))
@@ -60,19 +44,28 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
     l._2.scale = MapService.scalePoint
     group.add(l._2)
   }
+
+  val mapPxWidth = map.width * 24 * MapService.scale
+  game.world.width = mapPxWidth
+
+  val mapPxHeight = map.height * 24 * MapService.scale
+  game.world.height = mapPxHeight
+
+  game.camera.bounds = new Rectangle(0, 0, mapPxWidth, mapPxHeight)
+
+  def resize() = group.scale = {
+    // val (w, h) = game.width -> game.height
+    // util.Logging.debug(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
+    val zoom = 0.7
+    new Point(zoom, zoom)
+  }
+
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
   val collisionLayer = layer("collision")
   collisionLayer.foreach { c =>
+    tilemap.setCollisionByExclusion(indexes = js.Array(Nil), collides = true, layer = c)
     c.visible = false
   }
 
-  val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + map.value))
-
   resize()
-
-  {
-    val time = ((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)
-    Logging.info(s"Map [${map.value}] loaded in [${time}ms].")
-    nodes.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).toSeq.sorted.foreach(s => Logging.info("  - " + s))
-  }
 }

@@ -5,6 +5,8 @@ import models.component.BaseComponent.Resizable
 import models.font.Font
 
 case class ConsoleLog(game: Game) extends BaseComponent with Resizable {
+  override val name = "console"
+
   val group = new Group(game, name = "console.log")
 
   val font = Font.getFont("arial", game)

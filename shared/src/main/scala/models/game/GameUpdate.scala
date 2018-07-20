@@ -5,11 +5,14 @@ import java.util.UUID
 import enumeratum.{CirceEnum, Enum, EnumEntry}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import models.player.Player
 
 sealed trait GameUpdate extends EnumEntry
 
 object GameUpdate extends Enum[GameUpdate] with CirceEnum[GameUpdate] {
   sealed trait PlayerMessage extends GameUpdate { def idx: Int }
+  case class AddPlayer(override val idx: Int, player: Player) extends PlayerMessage
+  case class RemovePlayer(override val idx: Int, id: UUID) extends PlayerMessage
   case class PlayerTest(override val idx: Int) extends PlayerMessage
 
   case class Debug(id: UUID = UUID.randomUUID, t: String = "debug", msg: String = "") extends GameUpdate

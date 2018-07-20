@@ -2,7 +2,8 @@ package services.ui
 
 import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.{Game, PluginObj, TilemapLayer}
-import models.node.{Node, SpriteNode}
+import models.component.BaseComponent
+import models.node.Node
 import models.player.PlayerSprite
 import org.scalajs.dom
 import org.scalajs.dom.Element
@@ -34,7 +35,7 @@ class DebugService private (phaser: Game) {
     phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
   }
 
-  def setMap(mapService: MapService, players: Seq[PlayerSprite]) = {
+  def setMap(mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
     val cf = gui.addFolder("Camera")
     cf.add(phaser.camera.bounds, "x", 0.0, mapService.mapPxWidth).listen()
     cf.add(phaser.camera.bounds, "y", 0.0, mapService.mapPxHeight).listen()
@@ -45,7 +46,7 @@ class DebugService private (phaser: Game) {
     val layersFolder = f.addFolder("Layers")
     mapService.layers.foreach(l => addLayer(mapService, layersFolder, l._1, l._2))
     val nodesFolder = f.addFolder("Nodes")
-    mapService.nodes.foreach(n => addNode(mapService, nodesFolder, n))
+    nodes.foreach(n => addNode(mapService, nodesFolder, n))
 
     players.zipWithIndex.foreach {
       case (playerSprite, idx) =>
@@ -60,6 +61,9 @@ class DebugService private (phaser: Game) {
           playerSprite.setAnimation(Some(anim))
         })
     }
+
+    val componentFolder = gui.addFolder("Components")
+    components.zipWithIndex.foreach(c => DebugComponents.add(componentFolder, c._1, c._2))
   }
 
   def toggle() = {
@@ -69,12 +73,12 @@ class DebugService private (phaser: Game) {
     if (visible) {
       debugContainer.foreach(_.classList.remove("hidden"))
       menus.foreach(x => for (elem <- 0 until x.length) {
-        val el = x(elem).asInstanceOf[Element].classList.remove("hidden")
+        x(elem).asInstanceOf[Element].classList.remove("hidden")
       })
     } else {
       debugContainer.foreach(_.classList.add("hidden"))
       menus.foreach(x => for (elem <- 0 until x.length) {
-        val el = x(elem).asInstanceOf[Element].classList.add("hidden")
+        x(elem).asInstanceOf[Element].classList.add("hidden")
       })
     }
   }

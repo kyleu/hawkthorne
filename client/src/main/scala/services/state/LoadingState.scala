@@ -36,11 +36,11 @@ class LoadingState(
     assets.foreach(LoadingState.load(_, game))
     var filesCompleted = 0
 
-    PhaserUtils.addToSignal(game.load.onFileComplete, () => {
+    PhaserUtils.addToSignal(game.load.onFileComplete, _ => {
       filesCompleted += 1
       progress.frame = ((filesCompleted / assets.size.toDouble) * 17).toInt
     })
-    PhaserUtils.addToSignal(game.load.onLoadComplete, () => {
+    PhaserUtils.addToSignal(game.load.onLoadComplete, _ => {
       game.load.onFileComplete.removeAll()
       game.load.onLoadComplete.removeAll()
       game.state.start(next.key, clearWorld = true, clearCache = false)

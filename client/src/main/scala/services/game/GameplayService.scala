@@ -1,12 +1,12 @@
 package services.game
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Camera, Game}
 import models.component.BaseComponent.Resizable
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashComponent}
-import models.game.GameOptions
+import models.game.{GameInstance, GameOptions}
 import models.player.{Player, PlayerSprite}
 import services.input.InputService
-import services.map.MapService
+import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 import services.ui.DebugService
 
@@ -14,26 +14,31 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] var started = false
   private[this] var elapsed = 0.0
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
+  private[this] def addComponent(c: BaseComponent) = components += c
+
+  val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
+
+  val instance = GameInstance(options, nodes, s => util.Logging.info(s), s => util.Logging.warn(s))
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
-  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, initialX = 400, initialY = 400, physics = false)
-  components += playerSprite
-  game.camera.follow(playerSprite.sprite)
 
-  DebugService.inst.foreach(_.setMap(mapService, Seq(playerSprite)))
+  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, initialX = 400, initialY = 400, physics = false)
+  addComponent(playerSprite)
+  game.camera.follow(target = playerSprite.sprite, style = Camera.FOLLOW_PLATFORMER)
 
   private[this] val hudOverlay = HudOverlay(game = game, player = player)
-  components += hudOverlay
+  addComponent(hudOverlay)
 
   private[this] val consoleLog = ConsoleLog(game = game)
-  components += consoleLog
+  addComponent(consoleLog)
 
   private[this] val input = new InputService(game, IndexedSeq(playerSprite))
 
   private[this] val splashComplete = SplashComponent.show(game)
 
-  new NodeLoader(game, mapService.group).load(nodes = mapService.nodes, onComplete = newComponents => {
-    components ++= newComponents
+  new NodeLoader(game, mapService.group).load(nodes = nodes, onComplete = newComponents => {
+    newComponents.foreach(addComponent)
+    DebugService.inst.foreach(_.setMap(mapService, instance.nodes, components, Seq(playerSprite)))
     splashComplete()
     playerSprite.sprite.bringToTop()
     started = true

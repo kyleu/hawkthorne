@@ -1,4 +1,5 @@
 import models.phaser.PhaserGame
+import org.scalajs.dom
 import services.event.EventHandler
 import services.socket.SocketConnection
 
@@ -13,19 +14,15 @@ object Hawkthorne {
 
 @JSExportTopLevel("Hawkthorne")
 class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
-  println("Welcome to Hawkthorne!")
+  util.Logging.info("Welcome to Hawkthorne!")
 
   val connection = initNetwork()
   initPhaser()
 
   private[this] def initPhaser() = {
-    js.Dynamic.global.window.PhaserGlobal = js.Dynamic.literal(
-      hideBanner = true
-    )
-
-    val phaser = new PhaserGame(path, debug)
-    js.Dynamic.global.phaser = phaser
-    phaser.begin()
+    js.Dynamic.global.window.PhaserGlobal = js.Dynamic.literal(hideBanner = true)
+    val webGL = dom.window.navigator.userAgent.indexOf("AppleWebKit") > -1
+    js.Dynamic.global.phaser = new PhaserGame(path = path, webGL = webGL, isDebug = debug).begin()
   }
 
   private[this] def initNetwork() = {

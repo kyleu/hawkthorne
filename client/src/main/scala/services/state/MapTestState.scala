@@ -3,7 +3,7 @@ package services.state
 import com.definitelyscala.phaserce.Game
 import models.component.BaseComponent
 import models.data.map.TiledMap
-import services.map.MapService
+import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 
 object MapTestState {
@@ -15,7 +15,8 @@ class MapTestState(phaser: Game, map: TiledMap) extends GameState(map.value, pha
 
   override def create(game: Game) = {
     val mapSvc = new MapService(game, map, playMusic = true)
-    new NodeLoader(game, mapSvc.group).load(nodes = mapSvc.nodes, onComplete = newComponents => components ++= newComponents)
+    val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + map.value))
+    new NodeLoader(game, mapSvc.group).load(nodes = nodes, onComplete = newComponents => components ++= newComponents)
   }
 
   override def update(game: Game) = {

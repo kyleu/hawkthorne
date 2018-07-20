@@ -7,7 +7,7 @@ object Font {
   val fonts = Seq("arial", "big", "courier", "small")
   val assets = fonts.map(f => Asset.Image(s"font.$f", s"images/font/$f.png"))
 
-  private[this] val chars = """ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/\\:;%&`'*#=\"$()<>{}áíóúñ¿¡éü^"""
+  val chars = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/\\:;%&`'*#=\"$()<>{}áíóúñ¿¡éü^"
   private val charMap = chars.zipWithIndex.toMap
   private[this] val fontMap = collection.mutable.HashMap.empty[String, Font]
 

@@ -1,15 +1,15 @@
 package models.phaser
 
-import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser}
+import com.definitelyscala.phaserce.{Device, Game, IGameConfig, Phaser}
 import services.state._
 import services.ui.NavigationService
 import util.JavaScriptUtils
 
 object PhaserGame {
-  val config = JavaScriptUtils.as[IGameConfig](scalajs.js.Dynamic.literal(
+  def getConfig(isWebGL: Boolean) = JavaScriptUtils.as[IGameConfig](scalajs.js.Dynamic.literal(
     width = "100%",
     height = "100%",
-    renderer = Phaser.WEBGL, // TODO Phaser.WEBGL_MULTI
+    renderer = if (isWebGL) { Phaser.WEBGL_MULTI } else { Phaser.CANVAS },
     enableDebug = true,
     clearBeforeRender = false,
     antialias = false,
@@ -19,10 +19,11 @@ object PhaserGame {
   ))
 }
 
-class PhaserGame(val path: String, val isDebug: Boolean) extends Game(PhaserGame.config) {
+class PhaserGame(val path: String, val webGL: Boolean, val isDebug: Boolean) extends Game(PhaserGame.getConfig(webGL)) {
   def begin() = {
     val nextState = NavigationService.initialState(this, path)
     state.add("initial", new InitialGameState(nextState = nextState, phaser = this, debug = isDebug))
     state.start("initial", clearWorld = true, clearCache = true)
+    this
   }
 }

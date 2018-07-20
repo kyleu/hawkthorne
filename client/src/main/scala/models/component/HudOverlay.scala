@@ -5,7 +5,6 @@ import models.asset.Asset
 import models.component.BaseComponent.Resizable
 import models.font.Font
 import models.player.Player
-import util.PhaserUtils
 
 object HudOverlay {
   val assets = Seq(
@@ -16,6 +15,8 @@ object HudOverlay {
 }
 
 case class HudOverlay(game: Game, player: Player) extends BaseComponent with Resizable {
+  override val name = "hud"
+
   val group = new Group(game, name = "hud.overlay")
   val scaleAmount = 2.0
   val scale = new Point(scaleAmount, scaleAmount)

@@ -14,11 +14,10 @@ object PlayerSprite {
 class PlayerSprite(
     game: Game, group: Group, player: Player, initialX: Int, initialY: Int, scaled: Boolean = true, physics: Boolean = true
 ) extends AnimatedSprite(
-  game = game, group = group, offsetX = initialX, offsetY = initialY, key = s"${player.templateKey}.${player.costume.key}", PlayerSprite.animations
+  game = game, group = group, name = s"player.${player.user}", x = initialX, y = initialY,
+  key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations
 ) {
   private[this] val input = new PlayerInputHandler(this)
-
-  def setFaceRight(bool: Boolean) = if (bool) { setAnimation(Some("idle.right")) } else { setAnimation(Some("idle.left")) }
 
   def processInput(elapsed: Double, velocity: (Double, Double), actions: Seq[String]) = input.process(elapsed, velocity, actions)
 

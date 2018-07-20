@@ -53,17 +53,9 @@ case class GamepadInput(game: Game) {
   )))
   var keymaps = Array(pads.map(GamepadInput.xboxKeymap): _*)
 
-  private[this] def onConnect(pad: SinglePad, idx: Int)(x: Any) = {
-    util.Logging.info(s"Gamepad [${pad.index.toInt}] connected.")
-  }
-
-  private[this] def onDisconnect(pad: SinglePad, idx: Int)(x: Any) = {
-    util.Logging.info(s"Gamepad [${pad.index.toInt}] disconnected.")
-  }
-
-  def close() = {
-    game.input.gamepad.stop()
-  }
+  private[this] def onConnect(pad: SinglePad, idx: Int)(x: Any) = util.Logging.info(s"Gamepad [${pad.index.toInt}] connected.")
+  private[this] def onDisconnect(pad: SinglePad, idx: Int)(x: Any) = util.Logging.info(s"Gamepad [${pad.index.toInt}] disconnected.")
+  def close() = game.input.gamepad.stop()
 
   def update(menu: Boolean, elapsed: Double) = pads.zipWithIndex.collect {
     case (pad, idx) if pad.connected =>

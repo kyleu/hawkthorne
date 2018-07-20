@@ -55,34 +55,34 @@ class IntroScanState(phaser: Game) extends GameState("introscan", phaser) {
   private[this] def animationMap(a: Animation*) = a.map(a => a.id -> a).toMap
 
   private[this] lazy val background = {
-    AnimatedSprite(phaser, group, margin, margin, "intro.backgrounds", animationMap(Animation("intro.bg", 0 to 6, rtime / 7, loop = true)))
+    AnimatedSprite(phaser, group, "background", margin, margin, "intro.backgrounds", animationMap(Animation("intro.bg", 0 to 6, rtime / 7, loop = true)))
   }
   private[this] lazy val chars = Seq(
     // TODO Correct animations
-    AnimatedSprite(phaser, group, charOffset, charOffset, "intro.jeffscan", animationMap(Animation("intro.jeffscan", 0 until 19, ctime / 19, loop = true))),
-    AnimatedSprite(phaser, group, charOffset, charOffset, "intro.brittascan", animationMap(Animation("intro.brittascan", 0 until 19, ctime / 19, loop = true))),
-    AnimatedSprite(phaser, group, charOffset, charOffset, "intro.abedscan", animationMap(Animation("intro.abedscan", 0 until 19, ctime / 19, loop = true))),
-    AnimatedSprite(phaser, group, charOffset, charOffset, "intro.shirleyscan", animationMap(Animation("intro.shirleyscan", 0 until 19, ctime / 19, loop = true))),
-    AnimatedSprite(phaser, group, charOffset, charOffset, "intro.anniescan", animationMap(Animation("intro.anniescan", 0 until 19, ctime / 19, loop = true))),
-    AnimatedSprite(phaser, group, charOffset, charOffset, "intro.troyscan", animationMap(Animation("intro.troyscan", 0 until 19, ctime / 19, loop = true))),
-    AnimatedSprite(phaser, group, charOffset, charOffset, "intro.piercescan", animationMap(Animation("intro.piercescan", 0 until 19, ctime / 19, loop = true)))
+    AnimatedSprite(phaser, group, "jeffscan", charOffset, charOffset, "intro.jeffscan", animationMap(Animation("intro.jeffscan", 0 until 19, ctime / 19, loop = true))),
+    AnimatedSprite(phaser, group, "brittascan", charOffset, charOffset, "intro.brittascan", animationMap(Animation("intro.brittascan", 0 until 19, ctime / 19, loop = true))),
+    AnimatedSprite(phaser, group, "abedscan", charOffset, charOffset, "intro.abedscan", animationMap(Animation("intro.abedscan", 0 until 19, ctime / 19, loop = true))),
+    AnimatedSprite(phaser, group, "shirleyscan", charOffset, charOffset, "intro.shirleyscan", animationMap(Animation("intro.shirleyscan", 0 until 19, ctime / 19, loop = true))),
+    AnimatedSprite(phaser, group, "anniescan", charOffset, charOffset, "intro.anniescan", animationMap(Animation("intro.anniescan", 0 until 19, ctime / 19, loop = true))),
+    AnimatedSprite(phaser, group, "troyscan", charOffset, charOffset, "intro.troyscan", animationMap(Animation("intro.troyscan", 0 until 19, ctime / 19, loop = true))),
+    AnimatedSprite(phaser, group, "piercescan", charOffset, charOffset, "intro.piercescan", animationMap(Animation("intro.piercescan", 0 until 19, ctime / 19, loop = true)))
   )
   private[this] lazy val description = {
-    AnimatedSprite(phaser, group, charOffset, labelOffset, "intro.description", animationMap(Animation("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true)))
+    AnimatedSprite(phaser, group, "description", charOffset, labelOffset, "intro.description", animationMap(Animation("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true)))
   }
   /*
     state.descriptionanimate = anim8.newAnimation('loop', g4('1, 1-12', '1, 12'), stime/12, {[13]=ftime})
    */
 
   private[this] lazy val computer = {
-    AnimatedSprite(phaser, group, charOffset + 132, charOffset + 5 + (172 / 2), "intro.computer", animationMap(Animation("intro.computer", 0 until 9, ctime / 9 / 2, loop = true)))
+    AnimatedSprite(phaser, group, "computer", charOffset + 132, charOffset + 5 + (172 / 2), "intro.computer", animationMap(Animation("intro.computer", 0 until 9, ctime / 9 / 2, loop = true)))
   }
 
   private[this] lazy val blank = {
-    AnimatedSprite(phaser, group, charOffset + 220, charOffset, "intro.blankscan", animationMap(Animation("intro.blankscan", 0 until 12, stime / 12, loop = true)))
+    AnimatedSprite(phaser, group, "blankscan", charOffset + 220, charOffset, "intro.blankscan", animationMap(Animation("intro.blankscan", 0 until 12, stime / 12, loop = true)))
   }
   private[this] lazy val scanningbar = {
-    AnimatedSprite(phaser, group, charOffset + 220, labelOffset, "intro.scanningbar", animationMap(Animation("intro.scanningbar", 0 until 17, ctime / 17, loop = true)))
+    AnimatedSprite(phaser, group, "scanningbar", charOffset + 220, labelOffset, "intro.scanningbar", animationMap(Animation("intro.scanningbar", 0 until 17, ctime / 17, loop = true)))
   }
   /*
     state.scanbaranimate = anim8.newAnimation('loop', g5('1, 1-16', '1, 17'), (ctime-ftime*2/5)/16, {[17]=ftime*2/5})

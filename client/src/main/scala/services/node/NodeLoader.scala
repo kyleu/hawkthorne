@@ -19,12 +19,12 @@ class NodeLoader(game: Game, group: Group) {
 
     var filesCompleted = 0
 
-    PhaserUtils.addToSignal(game.load.onFileComplete, () => {
+    PhaserUtils.addToSignal(game.load.onFileComplete, _ => {
       filesCompleted += 1
       onFileComplete(filesCompleted, assets.size)
     })
 
-    PhaserUtils.addToSignal(game.load.onLoadComplete, () => {
+    PhaserUtils.addToSignal(game.load.onLoadComplete, _ => {
       game.load.onFileComplete.removeAll()
       game.load.onLoadComplete.removeAll()
 

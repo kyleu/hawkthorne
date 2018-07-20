@@ -7,16 +7,24 @@ class PlayerInputHandler(player: PlayerSprite) {
 
   def process(elapsed: Double, velocity: (Double, Double), events: Seq[String]) = {
     events.foreach(e => util.Logging.info("Event: " + e))
-    updateAnimation(velocity)
-    updateLocation(elapsed, velocity)
+
+    val anim = findAnimation(velocity)
+    anim.foreach(x => player.setAnimation(Some(x)))
+
+    val loc = updateLocation(elapsed, velocity)
+    loc.foreach { l =>
+      player.sprite.x = l._1
+      player.sprite.y = l._2
+    }
+
     lastVelocity = velocity
   }
 
-  private[this] def updateAnimation(velocity: (Double, Double)) = {
+  private[this] def findAnimation(velocity: (Double, Double)) = {
     lastVelocity._1 match {
-      case x if x <= 0.0 && velocity._1 > 0.0 => player.setFaceRight(true)
-      case x if x <= 0.0 && velocity._1 < 0.0 => player.setFaceRight(false)
-      case _ => // noop
+      case x if x <= 0.0 && velocity._1 > 0.0 => Some("idle.right")
+      case x if x <= 0.0 && velocity._1 < 0.0 => Some("idle.left")
+      case _ => None
     }
   }
 
@@ -26,7 +34,6 @@ class PlayerInputHandler(player: PlayerSprite) {
     val xDelta = velocity._1 * elapsed * speed
     val yDelta = velocity._2 * elapsed * speed
 
-    player.sprite.x = player.sprite.x + xDelta
-    player.sprite.y = player.sprite.y + yDelta
+    Some((player.sprite.x + xDelta) -> (player.sprite.y + yDelta))
   }
 }

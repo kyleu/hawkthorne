@@ -6,13 +6,17 @@ import models.player.PlayerSprite
 class InputService(game: Game, players: IndexedSeq[PlayerSprite]) {
   private[this] val keyboardInput = KeyboardInput(game)
   private[this] val gamepadInput = GamepadInput(game)
+  private[this] val pointerInput = PointerInput(game)
 
   def close() = {
     keyboardInput.close()
     gamepadInput.close()
+    pointerInput.close()
   }
 
   def update(menu: Boolean, elapsed: Double) = {
+    pointerInput.update(menu, elapsed)
+
     val updates = (keyboardInput.update(menu, elapsed) +: gamepadInput.update(menu, elapsed)).groupBy(_._1).values.flatMap {
       case u if u.length > 1 => Seq((u.map(_._1).head, (u.map(_._2._1).sum, u.map(_._2._2).sum), u.flatMap(_._3)))
       case u => u

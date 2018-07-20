@@ -7,5 +7,6 @@ object BaseComponent {
 }
 
 trait BaseComponent {
+  def name: String
   def update(deltaMs: Double): Unit = ()
 }
