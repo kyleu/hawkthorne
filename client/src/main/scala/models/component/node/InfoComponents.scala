@@ -9,10 +9,9 @@ object InfoComponents {
   def apply(game: Game, group: Group, n: InfoNode) = {
     val g = new Graphics(game = game)
     g.beginFill(0x0000ff)
-    g.drawRect(0, 0, n.width.toDouble, n.height.toDouble)
+    g.drawRect(0, 0, n.actualWidth.toDouble, n.actualHeight.toDouble)
     val t = g.generateTexture().asInstanceOf[Texture]
-    val name = s"info.${n.name}"
-    val i = StaticImage(game = game, group = group, name = n.nameWithDefault, x = n.x, y = n.y, tex = t)
+    val i = StaticImage(game = game, group = group, name = s"info.${n.nameWithDefault}", x = n.x, y = n.y, tex = t)
     i.image.visible = false
     Seq(i)
   }

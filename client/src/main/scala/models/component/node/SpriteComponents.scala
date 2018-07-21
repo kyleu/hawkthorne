@@ -6,15 +6,14 @@ import models.node.SpriteNode
 
 object SpriteComponents {
   def apply(game: Game, group: Group, n: SpriteNode) = n.animation match {
-    case Some(anim) => Seq(AnimatedSprite(
+    case Some(anim) => Seq(AnimatedSprite.single(
       game = game,
       group = group,
       name = n.nameWithDefault,
       x = n.x,
       y = n.y,
       key = n.sheetKey,
-      animations = Map("default" -> anim),
-      defAnim = Some("default"),
+      animation = anim,
       flip = n.properties.flip.contains("true")
     ))
     case None => Seq(StaticSprite(

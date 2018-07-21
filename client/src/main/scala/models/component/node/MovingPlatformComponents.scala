@@ -8,7 +8,7 @@ object MovingPlatformComponents {
   def apply(game: Game, group: Group, n: MovingPlatformNode, nodes: Seq[Node]) = {
     val chainLength = n.properties.chain.map(_.toInt).getOrElse(1)
     val sprites = (0 until chainLength).map { idx =>
-      StaticSprite(game = game, group = group, name = s"${n.nameWithDefault}.$idx", x = n.x + (n.width * idx), y = n.y, key = n.sheetKey)
+      StaticSprite(game = game, group = group, name = s"${n.nameWithDefault}.$idx", x = n.x + (n.actualWidth * idx), y = n.y, key = n.sheetKey)
     }
 
     val lineNode = nodes.collectFirst {

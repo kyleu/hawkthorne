@@ -3,6 +3,12 @@ package models.component
 import com.definitelyscala.phaserce.{Game, Group, Sprite}
 import models.animation.Animation
 
+object AnimatedSprite {
+  def single(game: Game, group: Group, name: String, x: Int, y: Int, key: String, animation: Animation, flip: Boolean = false) = {
+    AnimatedSprite(game, group, name, x, y, key, Map(animation.id -> animation), Some(animation.id))
+  }
+}
+
 case class AnimatedSprite(
     override val game: Game,
     group: Group,

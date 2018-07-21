@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object FireAlarmNode {
@@ -17,4 +18,6 @@ case class FireAlarmNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(FireAlarmNode.key)
+) extends Node(FireAlarmNode.key) {
+  override val assets = Seq(Asset.Spritesheet("fire.alarm", "images/sprites/greendale/firealarm.png", 24, 72))
+}

@@ -1,5 +1,7 @@
 package models.node
 
+import models.asset.Asset
+import models.npc.NpcTemplate
 import util.JsonSerializers._
 
 object NpcNode {
@@ -25,4 +27,9 @@ case class NpcNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: Option[NpcNode.Props]
-) extends Node(NpcNode.key)
+) extends Node(NpcNode.key) {
+  val template = NpcTemplate.withKey(nameWithDefault)
+  override val assets = Seq(
+    Asset.Spritesheet(s"npc.$nameWithDefault", s"images/npc/$nameWithDefault.png", template.width, template.height)
+  )
+}

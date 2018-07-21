@@ -1,6 +1,6 @@
 package services.game
 
-import com.definitelyscala.phaserce.{Camera, Game}
+import com.definitelyscala.phaserce.Camera
 
 class CameraService(camera: Camera) {
   private[this] def getScale(width: Int, height: Int) = 2.0

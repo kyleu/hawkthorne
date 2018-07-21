@@ -29,4 +29,6 @@ abstract class Node(val t: String) {
   def update(deltaMs: Double) = {}
 
   def nameWithDefault = if (name.trim.isEmpty) { s"$t.$id" } else { name }
+  def actualWidth = width
+  def actualHeight = height
 }

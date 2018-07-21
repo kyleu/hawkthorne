@@ -3,7 +3,7 @@ package services.state
 import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.{Game, Point}
 import models.asset.Asset
-import models.character.Characters
+import models.player.CharacterTemplate
 import models.player.{Player, PlayerSprite}
 import util.JavaScriptUtils
 
@@ -14,7 +14,7 @@ object SandboxState {
     new LoadingState(
       next = new SandboxState(phaser),
       phaser = phaser,
-      assets = Asset.Audio("music.daybreak", s"audio/music/daybreak.ogg") +: Characters.allCostumes.map { c =>
+      assets = Asset.Audio("music.daybreak", s"audio/music/daybreak.ogg") +: CharacterTemplate.allCostumes.map { c =>
         Asset.Spritesheet(s"${c._1.key}.${c._2.key}", s"images/character/${c._1.key}/${c._2.key}.png", 48, 48)
       }
     )
@@ -24,7 +24,7 @@ object SandboxState {
 class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
   private[this] lazy val group = game.add.group(name = s"test.group")
 
-  lazy val players = Characters.allCostumes.zipWithIndex.map {
+  lazy val players = CharacterTemplate.allCostumes.zipWithIndex.map {
     case (c, idx) => new PlayerSprite(
       game = game,
       group = group,

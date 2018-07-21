@@ -17,7 +17,7 @@ case class GameInstance(
   private[this] var players = Seq.empty[Player]
 
   def onMessage(gu: GameUpdate) = gu match {
-    case GameUpdate.AddPlayer(idx, p) => players = players :+ p
+    case GameUpdate.AddPlayer(_, p) => players = players :+ p
     case x => throw new IllegalStateException(s"Unhandled update [$x].")
   }
 }

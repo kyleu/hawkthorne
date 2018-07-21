@@ -14,8 +14,8 @@ object LiquidComponents {
       x = n.x,
       y = n.y,
       opacity = n.opacityDouble,
-      width = n.width / 24,
-      height = n.height / 24
+      width = n.actualWidth / 24,
+      height = n.actualHeight / 24
     ))
   }
 }

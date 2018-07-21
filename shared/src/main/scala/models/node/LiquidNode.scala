@@ -42,8 +42,8 @@ case class LiquidNode(
 ) extends Node(LiquidNode.key) {
   val sheetKey = "sprite." + properties.sprite.substring(properties.sprite.lastIndexOf('/') + 1).stripSuffix(".png")
 
-  val topFrames = 0 until width / 24
-  val bottomFrames = (width / 24) until (width / 24 * 2)
+  val topFrames = 0 until actualWidth / 24
+  val bottomFrames = (actualWidth / 24) until (actualWidth / 24 * 2)
   val opacityDouble = properties.opacity.map(_.toDouble).getOrElse(1.0)
 
   override lazy val assets = Seq(Asset.Spritesheet(sheetKey, properties.sprite, 24, 24))

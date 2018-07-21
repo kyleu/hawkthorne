@@ -13,7 +13,7 @@ object PlayerSprite {
 class PlayerSprite(
     game: Game, group: Group, player: Player, initialX: Int, initialY: Int, scaled: Boolean = true, physics: Boolean = true
 ) extends AnimatedSprite(
-  game = game, group = group, name = s"player.${player.user}", x = initialX, y = initialY,
+  game = game, group = group, name = s"player.${player.idx}", x = initialX, y = initialY,
   key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations, defAnim = Some("idle.right")
 ) {
   private[this] val input = new PlayerInputHandler(this)

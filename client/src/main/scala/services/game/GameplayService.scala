@@ -19,7 +19,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
 
   val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
   val mainDoor = nodes.collect { case n: DoorNode => n }.find(_.name == "main")
-  val (initialX, initialY) = mainDoor.map(d => (d.x + (d.width / 2)) -> (d.y + (d.height / 2))).getOrElse(400 -> 400)
+  val (initialX, initialY) = mainDoor.map(d => (d.x + (d.actualWidth / 2)) -> (d.y + (d.actualHeight / 2))).getOrElse(400 -> 400)
 
   val instance = GameInstance(options, nodes, s => util.Logging.info(s), s => util.Logging.warn(s))
 
