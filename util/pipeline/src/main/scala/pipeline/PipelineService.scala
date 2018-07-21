@@ -17,7 +17,8 @@ object PipelineService {
         CharacterFiles.process(cfg) ++
         EpisodeFiles.process(cfg) ++
         ImageFiles.process(cfg) ++
-        MapFiles.process(cfg)
+        MapFiles.process(cfg) ++
+        NpcFiles.process(cfg)
     }
     val result = PipelineResult(config = cfg, started = started, durationNanos = System.nanoTime - startNanos, files = files)
     scala.concurrent.Future.successful(result)

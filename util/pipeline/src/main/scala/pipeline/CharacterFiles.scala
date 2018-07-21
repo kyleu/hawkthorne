@@ -14,9 +14,9 @@ object CharacterFiles {
       val pkg = Seq("models", "data", "character")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
-      file.addImport("models.character", "Costume")
-      file.addImport("models.character", "BoundingBox")
-      file.addImport("models.character", "CharacterTemplate")
+      file.addImport("models.player", "Costume")
+      file.addImport("util", "BoundingBox")
+      file.addImport("models.player", "CharacterTemplate")
       file.addImport("models.data.series", "Episode")
 
       file.add(s"object $name extends CharacterTemplate(", 1)
