@@ -37,14 +37,14 @@ class DebugService private (phaser: Game) {
 
   def setMap(mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
     val cf = gui.addFolder("Camera")
-    cf.add(phaser.camera, "x", 0.0, mapService.mapPxWidth).listen()
-    cf.add(phaser.camera, "y", 0.0, mapService.mapPxHeight).listen()
+    cf.add(phaser.camera, "x", 0.0, mapService.mapPxWidth.toDouble).listen()
+    cf.add(phaser.camera, "y", 0.0, mapService.mapPxHeight.toDouble).listen()
     cf.add(phaser.camera, "width", 0.0, 500.0).listen()
     cf.add(phaser.camera, "height", 0.0, 500.0).listen()
 
     val cfb = cf.addFolder("Bounds")
-    cfb.add(phaser.camera.bounds, "x", 0.0, mapService.mapPxWidth).listen()
-    cfb.add(phaser.camera.bounds, "y", 0.0, mapService.mapPxHeight).listen()
+    cfb.add(phaser.camera.bounds, "x", 0.0, mapService.mapPxWidth.toDouble).listen()
+    cfb.add(phaser.camera.bounds, "y", 0.0, mapService.mapPxHeight.toDouble).listen()
     cfb.add(phaser.camera.bounds, "width", 0.0, 500.0).listen()
     cfb.add(phaser.camera.bounds, "height", 0.0, 500.0).listen()
 
@@ -58,8 +58,8 @@ class DebugService private (phaser: Game) {
       case (playerSprite, idx) =>
         val f = gui.addFolder(s"Player $idx")
         val anims = PlayerSprite.animations.keys.toSeq.sorted
-        f.add(playerSprite.sprite, "x", 0.0, mapService.mapPxWidth).listen()
-        f.add(playerSprite.sprite, "y", 0.0, mapService.mapPxHeight).listen()
+        f.add(playerSprite.sprite, "x", 0.0, mapService.mapPxWidth.toDouble).listen()
+        f.add(playerSprite.sprite, "y", 0.0, mapService.mapPxHeight.toDouble).listen()
         DatGuiUtils.addChoices(f, "Animation", "No Animation", "No Animation" +: anims, v => playerSprite.setAnimation(Some(v)))
         DatGuiUtils.addFunction(f, "Random Anim", () => {
           val anim = anims(Random.nextInt(anims.size))

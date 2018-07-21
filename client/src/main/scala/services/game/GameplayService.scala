@@ -19,19 +19,17 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
 
   val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
   val mainDoor = nodes.collect { case n: DoorNode => n }.find(_.name == "main")
+  val (initialX, initialY) = mainDoor.map(d => (d.x + (d.width / 2)) -> (d.y + (d.height / 2))).getOrElse(400 -> 400)
 
   val instance = GameInstance(options, nodes, s => util.Logging.info(s), s => util.Logging.warn(s))
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
-  val (x, y) = mainDoor.map { d =>
-    val xr = (d.x * MapService.scaleInt) + (d.width * 2)
-    val yr = (d.y * MapService.scaleInt) + (d.height * 2)
-    xr -> yr
-  }.getOrElse(400 -> 400)
-  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, initialX = x, initialY = y, physics = false)
+  private[this] val playerSprite = new PlayerSprite(
+    game = game, group = mapService.group, player = player, initialX = initialX, initialY = initialY, physics = false
+  )
   addComponent(playerSprite)
-  game.camera.follow(target = playerSprite.sprite, style = Camera.FOLLOW_PLATFORMER)
+  // game.camera.follow(target = playerSprite.sprite, style = Camera.FOLLOW_PLATFORMER)
 
   private[this] val hudOverlay = HudOverlay(game = game, player = player)
   addComponent(hudOverlay)
@@ -47,6 +45,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     newComponents.foreach(addComponent)
     DebugService.inst.foreach(_.setMap(mapService, instance.nodes, components, Seq(playerSprite)))
     splashComplete()
+    resize(game.width, game.height)
     started = true
   })
 
@@ -60,7 +59,16 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     components.foreach(_.update(dt))
   }
 
-  def resize(width: Double, height: Double) = components.collect {
-    case r: Resizable => r.resize(width, height)
+  private[this] def getScale(width: Double, height: Double) = 1.0
+
+  def resize(width: Double, height: Double) = {
+    val scale = getScale(width, height)
+    game.camera.scale.x = scale
+    game.camera.scale.y = scale
+
+    game.camera.bounds.width = mapService.mapPxWidth * game.camera.scale.x
+    game.camera.bounds.height = mapService.mapPxHeight * game.camera.scale.y
+
+    components.collect { case r: Resizable => r.resize(width, height) }
   }
 }

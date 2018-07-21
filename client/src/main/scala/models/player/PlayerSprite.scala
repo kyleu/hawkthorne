@@ -5,7 +5,6 @@ import com.definitelyscala.phaserce.{Game, Group, Point}
 import models.component.AnimatedSprite
 import models.data.character.CharacterAnimation
 import services.input.PlayerInputHandler
-import services.map.MapService
 
 object PlayerSprite {
   val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim)).map(a => a.id -> a).toMap
@@ -24,7 +23,6 @@ class PlayerSprite(
   }
 
   sprite.name = s"${player.templateKey}.${player.costume.key}"
-  sprite.scale = MapService.scalePoint
   sprite.anchor = new Point(0.5, 0.5)
 
   if (physics) {

@@ -18,7 +18,7 @@ case class ConsoleLog(game: Game) extends BaseComponent with Resizable {
   game.stage.add(group)
 
   override def resize(width: Double, height: Double) = {
-    group.scale = new Point(2.0, 2.0)
+    //group.scale = new Point(2.0, 2.0)
   }
 }
 

@@ -12,10 +12,6 @@ object MapService {
     Asset.Audio(s"music.${map.soundtrack}", s"audio/music/${map.soundtrack}.ogg"),
     Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
   ) ++ map.images.map(i => Asset.Image(i, s"images/tileset/$i.png"))
-
-  val scaleInt = 4
-  val scale = scaleInt.toDouble
-  val scalePoint = new Point(scale, scale)
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
@@ -31,8 +27,8 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
 
     val s = new Sprite(game, 0, 0, bgData)
     s.name = "backdrop"
-    s.width = tilemap.widthInPixels * MapService.scale
-    s.height = tilemap.heightInPixels * MapService.scale
+    s.width = tilemap.widthInPixels
+    s.height = tilemap.heightInPixels
     group.add(s)
     s
   }
@@ -41,25 +37,13 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   if (playMusic) { music.play(loop = true) }
 
   val layers = tilemap.layers.map(_.asInstanceOf[js.Dynamic].name.toString).map(l => l -> tilemap.createLayer(l))
-  layers.foreach { l =>
-    l._2.scale = MapService.scalePoint
-    group.add(l._2)
-  }
+  layers.foreach(l => group.add(l._2))
 
-  val mapPxWidth = map.width * 24 * MapService.scale
-  game.world.width = mapPxWidth
+  val mapPxWidth = map.width * 24
+  game.world.width = mapPxWidth.toDouble
 
-  val mapPxHeight = map.height * 24 * MapService.scale
-  game.world.height = mapPxHeight
-
-  game.camera.bounds = new Rectangle(0, 0, mapPxWidth, mapPxHeight)
-
-  def resize() = group.scale = {
-    // val (w, h) = game.width -> game.height
-    // util.Logging.debug(s"w: $w h: $h mw: $mapPxWidth mh: $mapPxHeight")
-    val zoom = 0.7
-    new Point(zoom, zoom)
-  }
+  val mapPxHeight = map.height * 24
+  game.world.height = mapPxHeight.toDouble
 
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
   val collisionLayer = layer("collision")
@@ -67,6 +51,4 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
     tilemap.setCollisionByExclusion(indexes = js.Array(Nil), collides = true, layer = c)
     c.visible = false
   }
-
-  resize()
 }

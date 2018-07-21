@@ -17,15 +17,18 @@ class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) exten
     dom.window.addEventListener("resize", { _: dom.Event =>
       val w = org.scalajs.dom.window.innerWidth
       val h = org.scalajs.dom.window.innerHeight
-      game.scale.setGameSize(w, h)
       game.state.getCurrentState().resize(w, h)
     })
 
     if (debug) { DebugService.init(phaser) }
 
     JavaScriptUtils.as[WebGLRenderer](game.renderer).renderSession.roundPixels = true
+    Canvas.setImageRenderingCrisp(game.canvas)
+
     game.stage.disableVisibilityChange = true
-    game.scale.scaleMode = ScaleManager.NO_SCALE
+    //game.scale.scaleMode = ScaleManager.NO_SCALE
+    game.scale.scaleMode = ScaleManager.USER_SCALE
+    game.scale.setUserScale(hScale = 4, vScale = 4)
 
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
     s.anchor = new Point(0.5, 0.5)
