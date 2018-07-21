@@ -3,7 +3,15 @@ package models.component
 import com.definitelyscala.phaserce.{Game, Group, Image}
 
 case class LiquidComponent(
-    game: Game, group: Group, override val name: String, key: String, x: Int, y: Int, opacity: Double, width: Int, height: Int
+    override val game: Game,
+    group: Group,
+    override val name: String,
+    key: String,
+    override val x: Int,
+    override val y: Int,
+    opacity: Double,
+    width: Int,
+    height: Int
 ) extends BaseComponent {
   val liquidGroup = new Group(game, group, name)
   liquidGroup.x = x.toDouble

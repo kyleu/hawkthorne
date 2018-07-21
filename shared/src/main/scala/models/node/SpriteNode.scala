@@ -59,7 +59,10 @@ case class SpriteNode(
     anim
   }
 
-  override def nameWithDefault = if (name.trim.isEmpty) { s"sprite.$sheetKey.$id" } else { name }
+  val propWidth = properties.width.map(_.toInt).getOrElse(width)
+  val propHeight = properties.height.map(_.toInt).getOrElse(height)
 
-  override lazy val assets = Seq(Asset.Spritesheet(sheetKey, properties.sheet, width, height))
+  override def nameWithDefault = if (name.trim.isEmpty) { s"$sheetKey.$id" } else { name }
+
+  override lazy val assets = Seq(Asset.Spritesheet(sheetKey, properties.sheet, propWidth, propHeight))
 }

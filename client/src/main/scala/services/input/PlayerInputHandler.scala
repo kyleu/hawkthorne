@@ -31,8 +31,11 @@ class PlayerInputHandler(player: PlayerSprite) {
   private[this] def updateLocation(delta: Double, velocity: (Double, Double)) = {
     val speed = 200
 
-    val xDelta = velocity._1 * delta * speed
-    val yDelta = velocity._2 * delta * speed
+    val xVel = Math.min(velocity._1, 1.0)
+    val yVel = Math.min(velocity._2, 1.0)
+
+    val xDelta = xVel * delta * speed
+    val yDelta = yVel * delta * speed
 
     Some((player.sprite.x + xDelta) -> (player.sprite.y + yDelta))
   }

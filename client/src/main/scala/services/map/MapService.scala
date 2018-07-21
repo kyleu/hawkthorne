@@ -11,14 +11,14 @@ object MapService {
   def assetsFor(map: TiledMap) = Seq(
     Asset.Audio(s"music.${map.soundtrack}", s"audio/music/${map.soundtrack}.ogg"),
     Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
-  ) ++ map.images.map(i => Asset.Image(i, s"images/tileset/$i.png"))
+  ) ++ map.images.toSeq.map(i => Asset.Image(i._1, s"images/tileset/${i._2}.png"))
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   val group = game.add.group(name = s"map.${map.value}")
 
   val tilemap = new Tilemap(game, "map." + map.value)
-  map.images.foreach(i => tilemap.addTilesetImage(i))
+  map.images.foreach(i => tilemap.addTilesetImage(i._1))
 
   val backdrop = {
     val bgData = game.make.bitmapData(1, 1)
@@ -51,4 +51,6 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
     tilemap.setCollisionByExclusion(indexes = js.Array(Nil), collides = true, layer = c)
     c.visible = false
   }
+
+  game.world.setBounds(0, 0, tilemap.widthInPixels, tilemap.heightInPixels)
 }

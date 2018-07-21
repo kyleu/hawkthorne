@@ -8,7 +8,7 @@ case class PointerInput(game: Game) {
   def update(menu: Boolean, delta: Double) = {
     val ptr = game.input.activePointer
     if (ptr.leftButton.isDown) {
-      util.Logging.info(s"Button pressed [World: ${ptr.worldX}/${ptr.worldY}] [Screen: ${ptr.screenX}/${ptr.screenY}] [Camera: ${game.camera.x}/${game.camera.y}]")
+      util.Logging.info(s"Button pressed [World: ${ptr.worldX}/${ptr.worldY}] [Screen: ${ptr.screenX}/${ptr.screenY}]")
     }
   }
 

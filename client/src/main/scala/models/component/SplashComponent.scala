@@ -3,7 +3,7 @@ package models.component
 import com.definitelyscala.phaserce._
 
 object SplashComponent {
-  def show(game: Game) = {
+  def show(game: Game, x: Int = 0, y: Int = 0) = {
     val solidBlack = game.make.bitmapData(1, 1)
     solidBlack.fill(0, 0, 0)
 

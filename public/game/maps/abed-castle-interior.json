@@ -94,7 +94,7 @@
          "name":"nodes",
          "objects":[
                 {
-                 "height":50,
+                 "height":48,
                  "id":1,
                  "name":"",
                  "properties":
@@ -116,12 +116,12 @@
                  "rotation":0,
                  "type":"sprite",
                  "visible":true,
-                 "width":29,
-                 "x":211,
+                 "width":24,
+                 "x":215,
                  "y":143
                 }, 
                 {
-                 "height":50,
+                 "height":48,
                  "id":2,
                  "name":"",
                  "properties":
@@ -141,7 +141,7 @@
                  "rotation":0,
                  "type":"sprite",
                  "visible":true,
-                 "width":29,
+                 "width":24,
                  "x":745,
                  "y":143
                 }, 

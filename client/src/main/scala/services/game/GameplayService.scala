@@ -38,6 +38,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   addComponent(consoleLog)
 
   private[this] val input = new InputService(game, IndexedSeq(playerSprite))
+  private[this] val camera = new CameraService(game.camera)
 
   private[this] val splashComplete = SplashComponent.show(game)
 
@@ -46,7 +47,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     DebugService.inst.foreach(_.setMap(mapService, instance.nodes, components, Seq(playerSprite)))
     splashComplete()
     playerSprite.sprite.bringToTop()
-    resize(game.width, game.height)
+    resize(game.width.toInt, game.height.toInt)
     started = true
   })
 
@@ -58,18 +59,11 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
 
     input.update(menu = false, delta = dt)
     components.foreach(_.update(dt))
+    camera.focusOn(playerSprite.sprite.x.toInt, playerSprite.sprite.y.toInt)
   }
 
-  private[this] def getScale(width: Double, height: Double) = 1.0
-
-  def resize(width: Double, height: Double) = {
-    val scale = getScale(width, height)
-    game.camera.scale.x = scale
-    game.camera.scale.y = scale
-
-    game.camera.bounds.width = mapService.mapPxWidth * game.camera.scale.x
-    game.camera.bounds.height = mapService.mapPxHeight * game.camera.scale.y
-
+  def resize(width: Int, height: Int) = {
+    camera.resize(width, height, mapService.mapPxWidth, mapService.mapPxHeight)
     components.collect { case r: Resizable => r.resize(width, height) }
   }
 }

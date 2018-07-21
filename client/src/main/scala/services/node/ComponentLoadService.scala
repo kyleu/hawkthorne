@@ -11,6 +11,7 @@ object ComponentLoadService {
 
     val ret = nodes.flatMap {
       case n: CauldronNode => CauldronComponents(game, group, n)
+      case n: CorneliusHeadNode => CorneliusHeadComponents(game, group, n)
       case n: DoorNode => DoorComponents(game, group, n)
       case n: InfoNode => InfoComponents(game, group, n)
       case n: LiquidNode => LiquidComponents(game, group, n)

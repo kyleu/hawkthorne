@@ -4,20 +4,21 @@ import com.definitelyscala.phaserce._
 import models.component.BaseComponent.Resizable
 import models.font.Font
 
-case class ConsoleLog(game: Game) extends BaseComponent with Resizable {
+case class ConsoleLog(override val game: Game, override val x: Int = 120, override val y: Int = 10) extends BaseComponent with Resizable {
   override val name = "console"
 
   val group = new Group(game, name = "console.log")
+  group.x = x.toDouble
+  group.y = y.toDouble
 
   val font = Font.getFont("arial", game)
 
-  val image = font.renderToImage("test.text", "This is a test of the emergency broadcast system. This is only a test!", game, 120.0, 10.0)
+  val image = font.renderToImage("test.text", "This is a test of the emergency broadcast system. This is only a test!", game)
   group.add(image)
 
-  resize(game.width, game.height)
   game.stage.add(group)
 
-  override def resize(width: Double, height: Double) = {
+  override def resize(width: Int, height: Int) = {
     //group.scale = new Point(2.0, 2.0)
   }
 }

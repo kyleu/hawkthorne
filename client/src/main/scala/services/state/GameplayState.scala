@@ -28,5 +28,5 @@ class GameplayState(phaser: Game, options: GameOptions, player: Player) extends 
 
   override def update(game: Game) = service.update()
 
-  override def resize(width: Double, height: Double) = service.resize(width, height)
+  override def resize(width: Double, height: Double) = service.resize(width.toInt, height.toInt)
 }

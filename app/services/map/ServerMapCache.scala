@@ -13,7 +13,7 @@ object ServerMapCache extends Logging {
   val unusedFields = collection.mutable.HashMap.empty[String, Set[String]]
   val unusedProperties = collection.mutable.HashMap.empty[String, Set[String]]
 
-  def apply(key: String) = cache.getOrElseUpdate(key, {
+  def apply(key: String) = cache.getOrElseUpdate(key, synchronized {
     val startNanos = System.nanoTime
     val path = s"public/game/maps/$key.json"
     val is = Option(getClass.getClassLoader.getResourceAsStream(path)).getOrElse(throw new IllegalStateException(s"Cannot load [$path]."))

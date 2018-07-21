@@ -7,6 +7,7 @@ object ImageFiles {
     cfg.copyAsset("images/scanning/scanningbar.png", "images/progress.png"),
     cfg.copyAsset("images/menu/logo.png", "images/logo.png"),
     cfg.copyAsset("images/menu/cityscape.png", "images/mainbg.png"),
+    cfg.copyAsset("images/cornelius_head_2.png", "images/misc/cornelius.png"),
 
     cfg.copyAsset("images/characters", "images/character"),
     cfg.copyAsset("images/fonts", "images/font"),
