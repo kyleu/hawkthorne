@@ -22,8 +22,8 @@ abstract class Node(val t: String) {
   def y: Int
   def width: Int
   def height: Int
-  def rotation: Option[Int]
-  def visible: Option[Boolean]
+  def rotation: Int
+  def visible: Boolean
 
   def assets = Seq.empty[Asset]
   def update(deltaMs: Double) = {}

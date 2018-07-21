@@ -23,8 +23,8 @@ case class CauldronNode(
     override val y: Int,
     override val width: Int,
     override val height: Int,
-    override val rotation: Option[Int],
-    override val visible: Option[Boolean],
+    override val rotation: Int,
+    override val visible: Boolean,
     properties: Option[CauldronNode.Props]
 ) extends Node(CauldronNode.key) {
   override def assets = Seq(Asset.Image(s"cauldron.$name", s"images/crafting/$name.png"))

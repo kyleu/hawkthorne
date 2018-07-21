@@ -7,25 +7,25 @@
     </li>
     <li class="collection-item">
       <div class="right">...</div>
-      <h5>Total</h5>
-      <div class="row">
-        <div class="col s6">
-          <strong>Layers</strong>
-          <ul>
-            @serverMaps.flatMap(_.layers).distinct.sortBy(_.toLowerCase).map { l =>
-              <li>@l</li>
-            }
-          </ul>
-        </div>
-        <div class="col s6">
-          <strong>Nodes</strong>
-          <ul>
+      <h5>@util.NumberUtils.withCommas(serverMaps.map(_.nodes.size).sum) Total Nodes</h5>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th>Required Fields</th>
+          </tr>
+        </thead>
+        <tbody>
           @models.map.MapDebug.nodes(serverMaps.flatMap(_.nodes)).map { n =>
-            <li>@n._1: @n._2</li>
+            <tr>
+              <td>@n._1</td>
+              <td>@n._2.size</td>
+              <td>@models.map.MapDebug.requiredFields(n._2).mkString(", ")</td>
+            </tr>
           }
-          </ul>
-        </div>
-      </div>
+        </tbody>
+      </table>
     </li>
     @serverMaps.map { map =>
       <li class="collection-item">
@@ -44,7 +44,7 @@
             <strong>Nodes</strong>
             <ul>
             @models.map.MapDebug.nodes(map.nodes).map { n =>
-              <li>@n._1: @n._2</li>
+              <li>@n._1: @n._2.size</li>
             }
             </ul>
           </div>

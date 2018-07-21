@@ -22,8 +22,8 @@ case class SimpleNode(
     override val y: Int,
     override val width: Int,
     override val height: Int,
-    override val rotation: Option[Int],
-    override val visible: Option[Boolean],
+    override val rotation: Int,
+    override val visible: Boolean,
     polygon: Option[Seq[Node.Point]],
     polyline: Option[Seq[Node.Point]],
     properties: Option[SimpleNode.Props]

@@ -36,8 +36,8 @@ case class LiquidNode(
     override val y: Int,
     override val width: Int,
     override val height: Int,
-    override val rotation: Option[Int],
-    override val visible: Option[Boolean],
+    override val rotation: Int,
+    override val visible: Boolean,
     properties: LiquidNode.Props
 ) extends Node(LiquidNode.key) {
   val sheetKey = "sprite." + properties.sprite.substring(properties.sprite.lastIndexOf('/') + 1).stripSuffix(".png")
