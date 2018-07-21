@@ -1,6 +1,6 @@
 package services.game
 
-import com.definitelyscala.phaserce.{Camera, Game}
+import com.definitelyscala.phaserce.Game
 import models.component.BaseComponent.Resizable
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashComponent}
 import models.game.{GameInstance, GameOptions}

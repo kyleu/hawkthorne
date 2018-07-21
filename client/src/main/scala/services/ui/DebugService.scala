@@ -42,6 +42,10 @@ class DebugService private (phaser: Game) {
     cf.add(phaser.camera, "width", 0.0, 500.0).listen()
     cf.add(phaser.camera, "height", 0.0, 500.0).listen()
 
+    val cfs = cf.addFolder("Scale")
+    cfs.add(phaser.camera.scale, "x", 0.0, 10.0).listen()
+    cfs.add(phaser.camera.scale, "y", 0.0, 10.0).listen()
+
     val cfb = cf.addFolder("Bounds")
     cfb.add(phaser.camera.bounds, "x", 0.0, mapService.mapPxWidth.toDouble).listen()
     cfb.add(phaser.camera.bounds, "y", 0.0, mapService.mapPxHeight.toDouble).listen()

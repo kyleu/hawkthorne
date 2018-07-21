@@ -26,9 +26,9 @@ class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) exten
     Canvas.setImageRenderingCrisp(game.canvas)
 
     game.stage.disableVisibilityChange = true
-    //game.scale.scaleMode = ScaleManager.NO_SCALE
+
     game.scale.scaleMode = ScaleManager.USER_SCALE
-    game.scale.setUserScale(hScale = 4, vScale = 4)
+    game.scale.setUserScale(hScale = 1, vScale = 1)
 
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
     s.anchor = new Point(0.5, 0.5)

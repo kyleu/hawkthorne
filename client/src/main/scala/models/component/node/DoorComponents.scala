@@ -1,4 +1,4 @@
-package services.node
+package models.component.node
 
 import com.definitelyscala.phaserce.{Game, Graphics, Group}
 import com.definitelyscala.phasercepixi.Texture

@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object CauldronNode {
@@ -25,4 +26,6 @@ case class CauldronNode(
     override val rotation: Option[Int],
     override val visible: Option[Boolean],
     properties: Option[CauldronNode.Props]
-) extends Node(CauldronNode.key)
+) extends Node(CauldronNode.key) {
+  override def assets = Seq(Asset.Image(s"cauldron.$name", s"images/crafting/$name.png"))
+}

@@ -1,4 +1,4 @@
-package services.node
+package models.component.node
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.component.{AnimatedSprite, StaticSprite}

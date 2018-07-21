@@ -13,6 +13,7 @@ object ImageFiles {
     cfg.copyAsset("images/hud", "images/hud"),
     cfg.copyAsset("images/liquid", "images/liquid"),
     cfg.copyAsset("images/platforms", "images/platforms"),
+    cfg.copyAsset("images/potions", "images/crafting"),
     cfg.copyAsset("images/scanning", "images/intro"),
     cfg.copyAsset("images/sprites", "images/sprites"),
     cfg.copyAsset("images/tilesets", "images/tileset")
