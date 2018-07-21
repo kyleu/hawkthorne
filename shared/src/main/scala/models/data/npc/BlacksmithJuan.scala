@@ -7,5 +7,9 @@ object BlacksmithJuan extends NpcTemplate(
   key = "blacksmithjuan",
   name = "BlacksmithJuan",
   width = 48,
-  height = 48
+  height = 48,
+  greeting = None,
+  noInventory = None,
+  noCommands = None,
+  animations = Seq.empty
 )

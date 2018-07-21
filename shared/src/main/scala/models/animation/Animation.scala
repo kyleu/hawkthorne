@@ -1,5 +1,12 @@
 package models.animation
 
+import util.JsonSerializers._
+
+object Animation {
+  implicit val jsonEncoder: Encoder[Animation] = deriveEncoder
+  implicit val jsonDecoder: Decoder[Animation] = deriveDecoder
+}
+
 case class Animation(id: String, frames: IndexedSeq[Int], delay: Double = 0.1, loop: Boolean = false) {
   val durationMs = frames.size * delay
   val firstFrame = frames.headOption.getOrElse(throw new IllegalMonitorStateException(s"Empty frames for animation [$id]."))

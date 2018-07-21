@@ -7,5 +7,9 @@ object Tilda extends NpcTemplate(
   key = "tilda",
   name = "Tilda",
   width = 32,
-  height = 48
+  height = 48,
+  greeting = None,
+  noInventory = None,
+  noCommands = None,
+  animations = Seq.empty
 )
