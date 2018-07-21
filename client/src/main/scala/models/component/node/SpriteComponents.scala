@@ -10,7 +10,6 @@ object SpriteComponents {
       AnimatedSprite(game, group, n.name, n.x, n.y, n.sheetKey, Map("default" -> anim), Some("default"))
     )
     case None =>
-      val name = if (n.name.isEmpty) { n.sheetKey } else { n.name }
-      Seq(StaticSprite(game = game, group = group, name = name, x = n.x, y = n.y, key = n.sheetKey))
+      Seq(StaticSprite(game = game, group = group, name = n.nameWithDefault, x = n.x, y = n.y, key = n.sheetKey))
   }
 }

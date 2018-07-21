@@ -5,9 +5,8 @@ import models.component._
 import util.DatGuiUtils
 
 object DebugComponents {
-  def add(root: GUI, c: BaseComponent, idx: Int) = {
-    val name = if (c.name.isEmpty || c.name.endsWith(".")) { s"Component $idx" } else { c.name }
-    val f = root.addFolder(name)
+  def add(root: GUI, c: BaseComponent) = {
+    val f = root.addFolder(c.name)
     c match {
       case as: AnimatedSprite => f.add(as.sprite, "visible")
       case cl: ConsoleLog => f.add(cl.group, "visible")

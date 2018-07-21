@@ -59,5 +59,7 @@ case class SpriteNode(
     anim
   }
 
+  override def nameWithDefault = if (name.trim.isEmpty) { s"sprite.$sheetKey.$id" } else { name }
+
   override lazy val assets = Seq(Asset.Spritesheet(sheetKey, properties.sheet, width, height))
 }

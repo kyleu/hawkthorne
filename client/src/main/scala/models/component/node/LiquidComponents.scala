@@ -6,11 +6,10 @@ import models.node.LiquidNode
 
 object LiquidComponents {
   def apply(game: Game, group: Group, n: LiquidNode) = {
-    val name = if (n.name.isEmpty) { s"liquid.${n.id}" } else { n.name }
     Seq(LiquidComponent(
       game = game,
       group = group,
-      name = name,
+      name = n.nameWithDefault,
       key = n.sheetKey,
       x = n.x,
       y = n.y,

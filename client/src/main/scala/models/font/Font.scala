@@ -44,7 +44,7 @@ object Font {
       util.Logging.warn(s"Font [$key] expected [${chars.length}] chars, found [${charStartIndexes.size}].")
     }
     val font = new Font(key, img, charStartIndexes.zip(chars).map(x => CharLocation(x._2, x._1._1, x._1._2, height)))
-    util.Logging.info(s"Loaded font [$key] in [${System.currentTimeMillis - startMs}ms]: $font")
+    // util.Logging.info(s"Loaded font [$key] in [${System.currentTimeMillis - startMs}ms]: $font")
     font
   }
 }

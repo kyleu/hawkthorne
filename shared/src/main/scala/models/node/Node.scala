@@ -27,4 +27,6 @@ abstract class Node(val t: String) {
 
   def assets = Seq.empty[Asset]
   def update(deltaMs: Double) = {}
+
+  def nameWithDefault = if (name.trim.isEmpty) { s"$t.$id" } else { name }
 }

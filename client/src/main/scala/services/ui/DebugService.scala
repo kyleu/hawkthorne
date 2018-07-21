@@ -73,7 +73,7 @@ class DebugService private (phaser: Game) {
     }
 
     val componentFolder = gui.addFolder("Components")
-    components.zipWithIndex.foreach(c => DebugComponents.add(componentFolder, c._1, c._2))
+    components.foreach(c => DebugComponents.add(componentFolder, c))
   }
 
   def toggle() = {
