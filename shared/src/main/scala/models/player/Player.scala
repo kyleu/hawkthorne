@@ -2,7 +2,6 @@ package models.player
 
 import java.util.UUID
 
-import models.character.Characters
 import util.JsonSerializers._
 
 object Player {
@@ -19,7 +18,7 @@ case class Player(
     templateKey: String = "jeff",
     costumeKey: String = "base"
 ) {
-  val template = Characters.withKey(templateKey)
+  val template = CharacterTemplate.withKey(templateKey)
   val costume = template.costume(costumeKey)
   val spritesheet = (templateKey + "." + costumeKey, "images/character" + "/" + templateKey + "/" + costumeKey + ".png", 48, 48)
 }

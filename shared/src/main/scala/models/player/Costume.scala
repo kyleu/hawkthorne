@@ -1,4 +1,4 @@
-package models.character
+package models.player
 
 import models.data.series.Episode
 import util.JsonSerializers._

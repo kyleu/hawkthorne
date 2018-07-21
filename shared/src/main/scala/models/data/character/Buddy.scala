@@ -1,8 +1,9 @@
 /* Generated File */
 package models.data.character
 
-import models.character.{BoundingBox, CharacterTemplate, Costume}
 import models.data.series.Episode
+import models.player.{CharacterTemplate, Costume}
+import util.BoundingBox
 
 object Buddy extends CharacterTemplate(
   key = "buddy",

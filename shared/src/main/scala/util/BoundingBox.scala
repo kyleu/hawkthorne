@@ -1,4 +1,4 @@
-package models.character
+package util
 
 import util.JsonSerializers._
 
