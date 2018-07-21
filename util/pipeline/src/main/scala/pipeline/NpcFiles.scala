@@ -1,32 +1,24 @@
 package pipeline
 
-import better.files.File
 import pipeline.file.ScalaFile
+import util.LuaUtils
 
 import scala.io.Source
 
 object NpcFiles {
-
-  private[this] def qualifies(f: File) = f.name.endsWith(".lua") && (f.name != "init.lua")
-
-  private[this] def clean(s: String) = s.stripPrefix("'").stripPrefix("\"").stripSuffix(",").stripSuffix("'").stripSuffix("\"").replaceAllLiterally("\"", "\\\"")
-
   def process(cfg: PipelineConfig) = {
-    (cfg.src / "npcs").children.filter(qualifies).toSeq.flatMap { src =>
-      val lines = Source.fromString(src.contentAsString).getLines.map(_.trim).toSeq
-      def lineOpt(prefix: String) = lines.find(_.startsWith(prefix)).map(_.stripPrefix(prefix).stripSuffix(","))
-      def lineFor(prefix: String) = lineOpt(prefix).getOrElse {
-        throw new IllegalStateException(s"No line starting with [$prefix] available in [${src.name}].")
-      }
+    (cfg.src / "npcs").children.filter(LuaUtils.qualifies).toSeq.flatMap { src =>
+      val lines = Source.fromString(src.contentAsString).getLines.map(_.trim).toIndexedSeq
 
       val key = src.name.stripSuffix(".lua")
       val name = nameFor(key)
 
-      val width = lineFor("width = ").toInt
-      val height = lineFor("height = ").toInt
-      val greeting = lineOpt("greeting = ").map(clean)
-      val noInventory = lineOpt("noinventory = ").map(clean)
-      val noCommands = lineOpt("nocommands = ").map(clean)
+      val width = LuaUtils.lineFor(src.name, lines, "width = ").toInt
+      val height = LuaUtils.lineFor(src.name, lines, "height = ").toInt
+
+      val greeting = LuaUtils.lineOpt(lines, "greeting = ").map(LuaUtils.clean)
+      val noInventory = LuaUtils.lineOpt(lines, "noinventory = ").map(LuaUtils.clean)
+      val noCommands = LuaUtils.lineOpt(lines, "nocommands = ").map(LuaUtils.clean)
 
       val pkg = Seq("models", "data", "npc")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
