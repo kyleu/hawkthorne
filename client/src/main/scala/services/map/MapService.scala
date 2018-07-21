@@ -13,7 +13,8 @@ object MapService {
     Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
   ) ++ map.images.map(i => Asset.Image(i, s"images/tileset/$i.png"))
 
-  val scale = 4.0
+  val scaleInt = 4
+  val scale = scaleInt.toDouble
   val scalePoint = new Point(scale, scale)
 }
 

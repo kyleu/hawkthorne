@@ -3,7 +3,7 @@ package services.input
 class MenuInputHandler(menu: String) {
   private[this] var lastVelocity = 0.0 -> 0.0
 
-  def process(elapsed: Double, velocity: (Double, Double), events: Seq[String]) = {
+  def process(velocity: (Double, Double), events: Seq[String]) = {
     lastVelocity._1 match {
       case x if x <= 0.0 && velocity._1 > 0.0 => // menu.onRight
       case x if x <= 0.0 && velocity._1 < 0.0 => // menu.onLeft

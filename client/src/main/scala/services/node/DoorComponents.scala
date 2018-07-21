@@ -13,7 +13,7 @@ object DoorComponents {
     g.drawRect(0, 0, n.width.toDouble, n.height.toDouble)
     val t = g.generateTexture().asInstanceOf[Texture]
     val name = s"door.${n.name}"
-    val i = StaticImage(game = game, group = group, name = name, x = n.x * MapService.scale, y = n.y * MapService.scale, tex = t)
+    val i = StaticImage(game = game, group = group, name = name, x = n.x * MapService.scaleInt, y = n.y * MapService.scaleInt, tex = t)
     i.image.visible = false
     Seq(i)
   }

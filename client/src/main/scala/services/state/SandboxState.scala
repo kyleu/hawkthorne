@@ -1,7 +1,7 @@
 package services.state
 
 import com.definitelyscala.datgui.{GUI, GUIParams}
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, Point}
 import models.asset.Asset
 import models.character.Characters
 import models.player.{Player, PlayerSprite}
@@ -29,9 +29,8 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
       game = game,
       group = group,
       player = Player(templateKey = c._1.key, costumeKey = c._2.key),
-      initialX = (idx % 28) * 48,
-      initialY = (idx / 28) * 48,
-      scaled = false,
+      initialX = 32 + ((idx % 28) * 48),
+      initialY = 32 + ((idx / 28) * 48),
       physics = false
     )
   }
@@ -46,6 +45,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
     val f = gui.addFolder("Player 0")
     f.add(players.head.sprite, "x", 0, 2000.0)
     f.add(players.head.sprite, "y", 0, 2000.0)
+    players.foreach(_.sprite.scale = new Point(1.0, 1.0))
   }
 
   override def update(game: Game) = players.foreach {

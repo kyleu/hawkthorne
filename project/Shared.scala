@@ -10,7 +10,7 @@ import webscalajs.ScalaJSWeb
 object Shared {
   val projectId = "hawkthorne"
   val projectName = "Hawkthorne"
-  val projectPort = 9000
+  val projectPort = 13000
 
   object Versions {
     val app = "1.0.0"

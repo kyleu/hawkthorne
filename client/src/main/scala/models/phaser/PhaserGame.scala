@@ -1,6 +1,6 @@
 package models.phaser
 
-import com.definitelyscala.phaserce.{Device, Game, IGameConfig, Phaser}
+import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser}
 import services.state._
 import services.ui.NavigationService
 import util.JavaScriptUtils
@@ -11,7 +11,7 @@ object PhaserGame {
     height = "100%",
     renderer = if (isWebGL) { Phaser.WEBGL_MULTI } else { Phaser.CANVAS },
     enableDebug = true,
-    clearBeforeRender = false,
+    clearBeforeRender = true,
     antialias = false,
     multiTexture = true,
     parent = "hawkthorne",

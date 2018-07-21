@@ -15,17 +15,16 @@ class PlayerSprite(
     game: Game, group: Group, player: Player, initialX: Int, initialY: Int, scaled: Boolean = true, physics: Boolean = true
 ) extends AnimatedSprite(
   game = game, group = group, name = s"player.${player.user}", x = initialX, y = initialY,
-  key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations
+  key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations, defAnim = Some("idle.right")
 ) {
   private[this] val input = new PlayerInputHandler(this)
 
-  def processInput(elapsed: Double, velocity: (Double, Double), actions: Seq[String]) = input.process(elapsed, velocity, actions)
-
-  setAnimation(Some("idle.right"))
-  sprite.name = s"${player.templateKey}.${player.costume.key}"
-  if (scaled) {
-    sprite.scale = MapService.scalePoint
+  def processInput(delta: Double, velocity: (Double, Double), actions: Seq[String]) = {
+    input.process(delta = delta, velocity = velocity, events = actions)
   }
+
+  sprite.name = s"${player.templateKey}.${player.costume.key}"
+  sprite.scale = MapService.scalePoint
   sprite.anchor = new Point(0.5, 0.5)
 
   if (physics) {

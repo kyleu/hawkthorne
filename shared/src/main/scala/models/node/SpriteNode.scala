@@ -55,7 +55,7 @@ case class SpriteNode(
     val stride = coords.map(_._1).max + 1
     val frames = coords.map(c => c._1 + (c._2 * stride))
     val anim = Animation(id = s"anim.$id", frames = frames, delay = properties.speed.map(_.toDouble).getOrElse(0.1), loop = true)
-    if (properties.random.contains("true")) { anim.nextFrame(Random.nextDouble() * 1000) }
+    if (properties.random.contains("true")) { anim.setJitter(Random.nextDouble()) }
     anim
   }
 

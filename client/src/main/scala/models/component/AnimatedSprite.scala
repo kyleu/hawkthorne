@@ -5,12 +5,12 @@ import models.animation.Animation
 import services.map.MapService
 
 case class AnimatedSprite(
-    game: Game, group: Group, override val name: String, x: Int, y: Int, key: String, animations: Map[String, Animation]
+    game: Game, group: Group, override val name: String, x: Int, y: Int, key: String, animations: Map[String, Animation], defAnim: Option[String] = None
 ) extends BaseComponent {
-  private[this] var activeAnimation: Option[Animation] = None
+  private[this] var activeAnimation = defAnim.map(animations.apply)
 
   val sprite = new Sprite(game, x.toDouble, y.toDouble, key)
-  sprite.name = name
+  sprite.name = if (name.isEmpty) { key.substring(key.lastIndexOf('.') + 1) } else { name }
   sprite.scale = MapService.scalePoint
   group.add(sprite)
 
@@ -20,9 +20,7 @@ case class AnimatedSprite(
     a
   }
 
-  override def update(deltaMs: Double) = {
-    activeAnimation.foreach(_.nextFrame(deltaMs).foreach { f =>
-      sprite.frame = f
-    })
-  }
+  override def update(deltaMs: Double) = activeAnimation.foreach(_.nextFrame(deltaMs).foreach { f =>
+    sprite.frame = f
+  })
 }

@@ -37,10 +37,16 @@ class DebugService private (phaser: Game) {
 
   def setMap(mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
     val cf = gui.addFolder("Camera")
-    cf.add(phaser.camera.bounds, "x", 0.0, mapService.mapPxWidth).listen()
-    cf.add(phaser.camera.bounds, "y", 0.0, mapService.mapPxHeight).listen()
-    cf.add(phaser.camera.bounds, "width", 0.0, 500.0).listen()
-    cf.add(phaser.camera.bounds, "height", 0.0, 500.0).listen()
+    cf.add(phaser.camera, "x", 0.0, mapService.mapPxWidth).listen()
+    cf.add(phaser.camera, "y", 0.0, mapService.mapPxHeight).listen()
+    cf.add(phaser.camera, "width", 0.0, 500.0).listen()
+    cf.add(phaser.camera, "height", 0.0, 500.0).listen()
+
+    val cfb = cf.addFolder("Bounds")
+    cfb.add(phaser.camera.bounds, "x", 0.0, mapService.mapPxWidth).listen()
+    cfb.add(phaser.camera.bounds, "y", 0.0, mapService.mapPxHeight).listen()
+    cfb.add(phaser.camera.bounds, "width", 0.0, 500.0).listen()
+    cfb.add(phaser.camera.bounds, "height", 0.0, 500.0).listen()
 
     val f = gui.addFolder(s"Map (${mapService.map.value})")
     val layersFolder = f.addFolder("Layers")

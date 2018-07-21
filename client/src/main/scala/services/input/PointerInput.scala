@@ -5,7 +5,7 @@ import com.definitelyscala.phaserce.Game
 case class PointerInput(game: Game) {
   game.input.mouse.capture = true
 
-  def update(menu: Boolean, elapsed: Double) = {
+  def update(menu: Boolean, delta: Double) = {
     val ptr = game.input.activePointer
     if (ptr.leftButton.isDown) {
       game.camera.x = -ptr.worldX

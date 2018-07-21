@@ -57,15 +57,15 @@ case class GamepadInput(game: Game) {
   private[this] def onDisconnect(pad: SinglePad, idx: Int)(x: Any) = util.Logging.info(s"Gamepad [${pad.index.toInt}] disconnected.")
   def close() = game.input.gamepad.stop()
 
-  def update(menu: Boolean, elapsed: Double) = pads.zipWithIndex.collect {
+  def update(menu: Boolean, delta: Double) = pads.zipWithIndex.collect {
     case (pad, idx) if pad.connected =>
       val map = keymaps(idx)
       val x = if (pad.getButton(map.left).isDown) { -1.0 } else if (pad.getButton(map.right).isDown) { 1.0 } else { 0.0 /* pad.axis(map.leftStickX) */ }
       val y = if (pad.getButton(map.up).isDown) { -1.0 } else if (pad.getButton(map.down).isDown) { 1.0 } else { 0.0 /* pad.axis(map.leftStickY) */ }
       val i = if (menu) { -1 } else { idx }
       val commands = Seq(
-        if (pad.getButton(map.jump).justPressed(elapsed)) { Some("jump") } else { None },
-        if (pad.getButton(map.options).justPressed(elapsed)) { Some("options") } else { None }
+        if (pad.getButton(map.jump).justPressed(delta)) { Some("jump") } else { None },
+        if (pad.getButton(map.options).justPressed(delta)) { Some("options") } else { None }
       ).flatten
       (i, (x, y), commands)
   }

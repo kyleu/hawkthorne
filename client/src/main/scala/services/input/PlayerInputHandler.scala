@@ -5,13 +5,13 @@ import models.player.PlayerSprite
 class PlayerInputHandler(player: PlayerSprite) {
   private[this] var lastVelocity = 0.0 -> 0.0
 
-  def process(elapsed: Double, velocity: (Double, Double), events: Seq[String]) = {
+  def process(delta: Double, velocity: (Double, Double), events: Seq[String]) = {
     events.foreach(e => util.Logging.info("Event: " + e))
 
     val anim = findAnimation(velocity)
     anim.foreach(x => player.setAnimation(Some(x)))
 
-    val loc = updateLocation(elapsed, velocity)
+    val loc = updateLocation(delta, velocity)
     loc.foreach { l =>
       player.sprite.x = l._1
       player.sprite.y = l._2
@@ -28,11 +28,11 @@ class PlayerInputHandler(player: PlayerSprite) {
     }
   }
 
-  private[this] def updateLocation(elapsed: Double, velocity: (Double, Double)) = {
+  private[this] def updateLocation(delta: Double, velocity: (Double, Double)) = {
     val speed = 1000
 
-    val xDelta = velocity._1 * elapsed * speed
-    val yDelta = velocity._2 * elapsed * speed
+    val xDelta = velocity._1 * delta * speed
+    val yDelta = velocity._2 * delta * speed
 
     Some((player.sprite.x + xDelta) -> (player.sprite.y + yDelta))
   }

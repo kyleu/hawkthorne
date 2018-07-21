@@ -4,6 +4,7 @@ import com.definitelyscala.phaserce.{Camera, Game}
 import models.component.BaseComponent.Resizable
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashComponent}
 import models.game.{GameInstance, GameOptions}
+import models.node.DoorNode
 import models.player.{Player, PlayerSprite}
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -17,12 +18,18 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] def addComponent(c: BaseComponent) = components += c
 
   val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
+  val mainDoor = nodes.collect { case n: DoorNode => n }.find(_.name == "main")
 
   val instance = GameInstance(options, nodes, s => util.Logging.info(s), s => util.Logging.warn(s))
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
-  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, initialX = 400, initialY = 400, physics = false)
+  val (x, y) = mainDoor.map { d =>
+    val xr = (d.x * MapService.scaleInt) + (d.width * 2)
+    val yr = (d.y * MapService.scaleInt) + (d.height * 2)
+    xr -> yr
+  }.getOrElse(400 -> 400)
+  private[this] val playerSprite = new PlayerSprite(game = game, group = mapService.group, player = player, initialX = x, initialY = y, physics = false)
   addComponent(playerSprite)
   game.camera.follow(target = playerSprite.sprite, style = Camera.FOLLOW_PLATFORMER)
 
@@ -40,7 +47,6 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     newComponents.foreach(addComponent)
     DebugService.inst.foreach(_.setMap(mapService, instance.nodes, components, Seq(playerSprite)))
     splashComplete()
-    playerSprite.sprite.bringToTop()
     started = true
   })
 
@@ -50,9 +56,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     val dt = game.time.physicsElapsed
     elapsed += dt
 
-    mapService.collisionLayer.foreach(l => game.physics.arcade.collide(playerSprite.sprite, l))
-
-    input.update(menu = false, elapsed = dt)
+    input.update(menu = false, delta = dt)
     components.foreach(_.update(dt))
   }
 
