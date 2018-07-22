@@ -20,9 +20,9 @@ case class VehicleNode(
     override val rotation: Int,
     override val visible: Boolean
 ) extends Node(VehicleNode.key) {
-  val template = VehicleTemplate.withKey(nameWithDefault)
+  val template = VehicleTemplate.withKey(actualName)
   override val assets = Seq(
-    Asset.Spritesheet(s"vehicle.$nameWithDefault", s"images/vehicles/$nameWithDefault.png", template.width, template.height)
+    Asset.Spritesheet(s"vehicle.$actualName", s"images/vehicles/$actualName.png", template.width, template.height)
   )
 }
 

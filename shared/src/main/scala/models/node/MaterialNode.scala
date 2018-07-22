@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object MaterialNode {
@@ -25,4 +26,6 @@ case class MaterialNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: Option[MaterialNode.Props]
-) extends Node(MaterialNode.key)
+) extends Node(MaterialNode.key) {
+  override val assets = Seq(Asset.Image(s"material.$actualName", s"images/materials/$actualName.png"))
+}

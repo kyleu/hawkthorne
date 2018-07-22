@@ -20,6 +20,6 @@ case class ThrowableNode(
     override val visible: Boolean
 ) extends Node(ThrowableNode.key) {
   override val assets = Seq(
-    Asset.Image(s"throwable.$nameWithDefault", s"images/throwables/$nameWithDefault.png")
+    Asset.Image(s"throwable.$actualName", s"images/throwables/$actualName.png")
   )
 }

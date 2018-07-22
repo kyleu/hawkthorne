@@ -51,15 +51,11 @@ case class SpriteNode(
 ) extends Node(SpriteNode.key) {
   val sheetKey = "sprite." + properties.sheet.substring(properties.sheet.lastIndexOf('/') + 1).stripSuffix(".png")
   val animation = properties.animation.map { a =>
-    val coords = AnimationCoords.fromString(a)
-    val stride = coords.map(_._1).max + 1
-    val frames = coords.map(c => c._1 + (c._2 * stride))
-    val anim = Animation(id = s"anim.$id", frames = frames, delay = properties.speed.map(_.toDouble).getOrElse(0.1), loop = true)
-    if (properties.random.contains("true")) { anim.setJitter(Random.nextDouble()) }
-    anim
+    Animation.fromString(actualName, a, properties.speed.map(_.toDouble).getOrElse(0.1), loop = true)
   }
+  if (properties.random.contains("true")) { animation.foreach(_.setJitter(Random.nextDouble())) }
 
-  override def nameWithDefault = if (name.trim.isEmpty) { s"$sheetKey.$id" } else { name }
+  override def actualName = if (name.trim.isEmpty) { s"$sheetKey.$id" } else { name }
   override val actualWidth = properties.width.map(_.toInt).getOrElse(width)
   override val actualHeight = properties.height.map(_.toInt).getOrElse(height)
 

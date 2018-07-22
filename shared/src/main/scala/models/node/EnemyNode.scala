@@ -36,15 +36,15 @@ case class EnemyNode(
     properties: EnemyNode.Props
 ) extends Node(EnemyNode.key) {
 
-  override val nameWithDefault = if (name.isEmpty) {
+  override val actualName = if (name.isEmpty) {
     properties.enemytype.getOrElse(throw new IllegalStateException(s"No enemy name for [$id]."))
   } else {
     name
   }
 
-  val sheet = properties.sheet.getOrElse(nameWithDefault)
+  val sheet = properties.sheet.getOrElse(actualName)
 
-  val template = EnemyListing.withKey(nameWithDefault)
+  val template = EnemyListing.withKey(actualName)
 
   override val assets = Seq(
     Asset.Spritesheet(s"enemy.$sheet", s"images/enemies/$sheet.png", template.width, template.height)

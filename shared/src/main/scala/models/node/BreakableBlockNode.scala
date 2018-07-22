@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object BreakableBlockNode {
@@ -39,4 +40,7 @@ case class BreakableBlockNode(
     override val visible: Boolean,
     polygon: Option[Seq[Node.Point]],
     properties: BreakableBlockNode.Props
-) extends Node(BreakableBlockNode.key)
+) extends Node(BreakableBlockNode.key) {
+  override val actualName = if (name.isEmpty) { properties.sprite.getOrElse(throw new IllegalStateException(s"Unknown block [$id].")) } else { name }
+  override val assets = Seq(Asset.Image(s"block.$actualName", s"images/blocks/$actualName.png"))
+}

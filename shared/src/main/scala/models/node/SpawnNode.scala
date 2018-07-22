@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object SpawnNode {
@@ -44,4 +45,11 @@ case class SpawnNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: SpawnNode.Props
-) extends Node(SpawnNode.key)
+) extends Node(SpawnNode.key) {
+  override val actualName = if (name.isEmpty) {
+    properties.sprite.orElse(properties.enemytype).getOrElse(throw new IllegalStateException(s"Unknown spawn [$id]."))
+  } else {
+    name
+  }
+  override val assets = properties.sprite.map(s => Asset.Image(s"spawn.$actualName", s"images/spawn/$s.png")).toSeq
+}

@@ -1,5 +1,7 @@
 package models.node
 
+import models.animation.Animation
+import models.asset.Asset
 import util.JsonSerializers._
 
 object HSpriteNode {
@@ -9,9 +11,9 @@ object HSpriteNode {
   }
 
   case class Props(
-      animation: Option[String],
+      animation: String,
       height: Option[String],
-      sheet: Option[String],
+      sheet: String,
       speed: Option[String],
       width: Option[String]
   )
@@ -31,4 +33,11 @@ case class HSpriteNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: HSpriteNode.Props
-) extends Node(HSpriteNode.key)
+) extends Node(HSpriteNode.key) {
+  val sheetKey = "hsprite." + properties.sheet.substring(properties.sheet.lastIndexOf('/') + 1).stripSuffix(".png")
+  val animation = Animation.fromString(actualName, properties.animation)
+
+  override def actualName = if (name.trim.isEmpty) { s"$sheetKey.$id" } else { name }
+
+  override lazy val assets = Seq(Asset.Spritesheet(sheetKey, properties.sheet, actualWidth, actualHeight))
+}

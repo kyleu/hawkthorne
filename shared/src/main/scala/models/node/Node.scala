@@ -28,7 +28,11 @@ abstract class Node(val t: String) {
   def assets = Seq.empty[Asset]
   def update(deltaMs: Double) = {}
 
-  def nameWithDefault = if (name.trim.isEmpty) { s"$t.$id" } else { name }
+  def actualName = if (name.trim.isEmpty) { s"$t.$id" } else { name }
+
+  def actualX = x
+  def actualY = y
+
   def actualWidth = width
   def actualHeight = height
 }

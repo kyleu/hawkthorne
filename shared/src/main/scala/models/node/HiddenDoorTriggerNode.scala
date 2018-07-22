@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object HiddenDoorTriggerNode {
@@ -12,7 +13,7 @@ object HiddenDoorTriggerNode {
       height: Option[String],
       message: Option[String],
       needKey: Option[String],
-      sprite: Option[String],
+      sprite: String,
       target: Option[String],
       width: Option[String]
   )
@@ -32,4 +33,6 @@ case class HiddenDoorTriggerNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: HiddenDoorTriggerNode.Props
-) extends Node(HiddenDoorTriggerNode.key)
+) extends Node(HiddenDoorTriggerNode.key) {
+  override lazy val assets = Seq(Asset.Image("hidden.door." + properties.sprite, s"images/hiddendoor/${properties.sprite}.png"))
+}

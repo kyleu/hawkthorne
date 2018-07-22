@@ -27,4 +27,17 @@ case class SimpleNode(
     polygon: Option[Seq[Node.Point]],
     polyline: Option[Seq[Node.Point]],
     properties: Option[SimpleNode.Props]
-) extends Node(SimpleNode.key)
+) extends Node(SimpleNode.key) {
+  val primary = properties.exists(_.primary.contains("true"))
+
+  override def actualName = if (primary) { "primary" } else { super.actualName }
+
+  override def actualX = polygon match {
+    case Some(poly) => super.actualX + poly.map(_.x).min
+    case None => super.actualX
+  }
+  override def actualY = polygon match {
+    case Some(poly) => super.actualY + poly.map(_.y).min
+    case None => super.actualY
+  }
+}

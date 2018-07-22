@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object ConsumableNode {
@@ -17,4 +18,6 @@ case class ConsumableNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(ConsumableNode.key)
+) extends Node(ConsumableNode.key) {
+  override val assets = Seq(Asset.Image(s"consumable.$actualName", s"images/consumables/$actualName.png"))
+}

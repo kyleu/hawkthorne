@@ -28,8 +28,8 @@ case class NpcNode(
     override val visible: Boolean,
     properties: Option[NpcNode.Props]
 ) extends Node(NpcNode.key) {
-  val template = NpcTemplate.withKey(nameWithDefault)
+  val template = NpcTemplate.withKey(actualName)
   override val assets = Seq(
-    Asset.Spritesheet(s"npc.$nameWithDefault", s"images/npc/$nameWithDefault.png", template.width, template.height)
+    Asset.Spritesheet(s"npc.$actualName", s"images/npc/$actualName.png", template.width, template.height)
   )
 }
