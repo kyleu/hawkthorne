@@ -47,10 +47,9 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     splashComplete()
     playerSprite.sprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
+    util.Logging.info("Hawkthorne game service started.")
     started = true
   })
-
-  util.Logging.info("Hawkthore started.")
 
   def update() = if (started) {
     val dt = game.time.physicsElapsed

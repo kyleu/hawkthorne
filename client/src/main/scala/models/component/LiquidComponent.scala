@@ -19,8 +19,6 @@ case class LiquidComponent(
 
   val frameCount = game.cache.getFrameCount(key).toInt / 2
 
-  util.Logging.info(s"Liquid [$name] created at [${width}x$height] with [$frameCount] frames.")
-
   val images = (0 until height).flatMap { yIdx =>
     (0 until width).map { xIdx =>
       val nf = if (yIdx == 0) { xIdx % frameCount } else { (xIdx % frameCount) + frameCount }

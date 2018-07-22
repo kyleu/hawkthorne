@@ -20,7 +20,9 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   val tilemap = new Tilemap(game, "map." + map.value)
   map.images.foreach(i => tilemap.addTilesetImage(i._1))
 
-  val backdrop = {
+  val backdrop = if (map.color == "#000000") {
+    None
+  } else {
     val bgData = game.make.bitmapData(1, 1)
     val color = Color(map.color)
     bgData.fill(color.r.toDouble, color.g.toDouble, color.b.toDouble)
@@ -30,7 +32,7 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
     s.width = tilemap.widthInPixels
     s.height = tilemap.heightInPixels
     group.add(s)
-    s
+    Some(s)
   }
 
   val music = game.add.audio(s"music.${map.soundtrack}")

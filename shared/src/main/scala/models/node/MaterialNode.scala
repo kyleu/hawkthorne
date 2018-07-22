@@ -27,5 +27,8 @@ case class MaterialNode(
     override val visible: Boolean,
     properties: Option[MaterialNode.Props]
 ) extends Node(MaterialNode.key) {
+  override def actualWidth = if (name.startsWith("buddha")) { 35 } else { super.actualWidth }
+  override def actualHeight = if (name.startsWith("buddha")) { 30 } else { super.actualHeight }
+
   override val assets = Seq(Asset.Image(s"material.$actualName", s"images/materials/$actualName.png"))
 }
