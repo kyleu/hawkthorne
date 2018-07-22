@@ -5,7 +5,7 @@ import models.asset.Asset
 
 object Font {
   val fonts = Seq("arial", "big", "courier", "small")
-  val assets = fonts.map(f => Asset.Image(s"font.$f", s"images/font/$f.png"))
+  val assets = fonts.map(f => Asset.Image(s"font.$f", s"images/fonts/$f.png"))
 
   val chars = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/\\:;%&`'*#=\"$()<>{}áíóúñ¿¡éü^"
   private val charMap = chars.zipWithIndex.toMap

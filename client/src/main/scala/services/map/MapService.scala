@@ -11,7 +11,7 @@ object MapService {
   def assetsFor(map: TiledMap) = Seq(
     Asset.Audio(s"music.${map.soundtrack}", s"audio/music/${map.soundtrack}.ogg"),
     Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
-  ) ++ map.images.toSeq.map(i => Asset.Image(i._1, s"images/tileset/${i._2}.png"))
+  ) ++ map.images.toSeq.map(i => Asset.Image(i._1, s"images/tilesets/${i._2}.png"))
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {

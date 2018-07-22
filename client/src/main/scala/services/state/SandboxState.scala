@@ -14,7 +14,7 @@ object SandboxState {
       next = new SandboxState(phaser),
       phaser = phaser,
       assets = Asset.Audio("music.daybreak", s"audio/music/daybreak.ogg") +: CharacterListing.allCostumes.map { c =>
-        Asset.Spritesheet(s"${c._1.key}.${c._2.key}", s"images/character/${c._1.key}/${c._2.key}.png", 48, 48)
+        Asset.Spritesheet(s"${c._1.key}.${c._2.key}", s"images/characters/${c._1.key}/${c._2.key}.png", 48, 48)
       }
     )
   }
