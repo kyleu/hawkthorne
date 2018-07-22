@@ -14,8 +14,8 @@ object MapFiles {
     file.addImport("enumeratum.values", "StringEnumEntry")
 
     file.add("sealed abstract class TiledMap(", 2)
-    // file.add("override val value: String, val title: String, val soundtrack: Option[String], val color: String, val images: Seq[String], val layers: Seq[String]")
-    file.add("override val value: String, val title: String, val width: Int, val height: Int, val soundtrack: String, val color: String, val images: Map[String, String]")
+    val extras = "val soundtrack: String, val color: String, val images: Map[String, String]"
+    file.add(s"override val value: String, val title: String, val width: Int, val height: Int, $extras")
     file.add(") extends StringEnumEntry", -2)
     file.add()
 
@@ -43,8 +43,6 @@ object MapFiles {
         in -> is.substring(is.lastIndexOf('/') + 1).stripSuffix(".png")
       }
       val imageString = imageNames.map(n => "\"" + n._1 + "\" -> \"" + n._2 + "\"").mkString(", ")
-
-      val layerNames = json("layers").get.asArray.get.map(_.asObject.get.apply("name").get)
 
       val orientation = json("orientation").get.asString.get
       if (orientation != "orthogonal") { throw new IllegalStateException(s"Unhandled orientation [$orientation].") }

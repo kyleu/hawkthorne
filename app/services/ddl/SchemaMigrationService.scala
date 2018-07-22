@@ -125,7 +125,7 @@ class SchemaMigrationService @javax.inject.Inject() (override val tracing: Traci
   def update(creds: Credentials, installedRank: Long, fields: Seq[DataField])(implicit trace: TraceData) = {
     traceF("update")(td => getByPrimaryKey(creds, installedRank)(td).flatMap {
       case Some(current) if fields.isEmpty => Future.successful(current -> s"No changes required for Schema Migration [$installedRank].")
-      case Some(current) => ApplicationDatabase.executeF(SchemaMigrationQueries.update(installedRank, fields))(td).flatMap { _ =>
+      case Some(_) => ApplicationDatabase.executeF(SchemaMigrationQueries.update(installedRank, fields))(td).flatMap { _ =>
         getByPrimaryKey(creds, installedRank)(td).map {
           case Some(newModel) =>
             newModel -> s"Updated [${fields.size}] fields of Schema Migration [$installedRank]."

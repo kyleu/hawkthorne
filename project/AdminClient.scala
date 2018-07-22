@@ -13,5 +13,7 @@ object AdminClient {
     testFrameworks += new TestFramework("utest.runner.Framework")
   )
 
-  lazy val adminClient = Project(id = "adminClient", file("util/adminClient")).settings(adminClientSettings: _*).enablePlugins(ScalaJSPlugin, ScalaJSWeb).dependsOn(Shared.coreJs)
+  lazy val adminClient = Project(id = "adminClient", file("util/adminClient")).settings(adminClientSettings: _*).enablePlugins(
+    ScalaJSPlugin, ScalaJSWeb
+  ).dependsOn(Shared.coreJs)
 }

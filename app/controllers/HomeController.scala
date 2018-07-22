@@ -2,7 +2,6 @@ package controllers
 
 import io.circe.Json
 import models.Application
-import util.web.MessageFrameFormatter
 
 import scala.concurrent.Future
 
@@ -10,10 +9,7 @@ import scala.concurrent.Future
 class HomeController @javax.inject.Inject() (
     override val app: Application
 ) extends BaseController("home") {
-
   import app.contexts.webContext
-
-  private[this] val formatter = new MessageFrameFormatter()
 
   def home() = withoutSession("home") { implicit request => implicit td =>
     Future.successful(Ok(views.html.index(request.identity, app.config.debug)))

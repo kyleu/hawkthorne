@@ -14,6 +14,7 @@ object ExportHelper {
   private[this] def converterFor(src: CaseFormat, tgt: CaseFormat) = converters.getOrElseUpdate(src -> tgt, src.converterTo(tgt))
 
   def toIdentifier(s: String) = converterFor(getSource(s), CaseFormat.LOWER_CAMEL).convert(s.replaceAllLiterally(" ", "").replaceAllLiterally(".", ""))
+  @scala.annotation.tailrec
   def toClassName(s: String): String = if (s.nonEmpty && s == s.toUpperCase) {
     toClassName(s.toLowerCase)
   } else {

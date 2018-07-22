@@ -33,7 +33,8 @@ object EpisodeFiles {
         val key = s"S0${seasonNum}E${if (epNum < 10) { "0" } else { "" }}$epNum"
         val name = o("episodeName").get.asString.get
         val airDate = o("firstAired").get.asString.get
-        val summary = o("overview").get.asString.get.replaceAllLiterally("\n", " ").replaceAllLiterally("\r", " ").replaceAllLiterally("\"", "\\\"").replaceAllLiterally("  ", " ")
+        val rawSummary = o("overview").get.asString.get
+        val summary = rawSummary.replaceAllLiterally("\n", " ").replaceAllLiterally("\r", " ").replaceAllLiterally("\"", "\\\"").replaceAllLiterally("  ", " ")
         file.add(s"case object $key extends Episode(", 1)
         file.add(s"""value = "$key", season = $seasonNum, episodeNum = $epNum, name = "$name", aired = LocalDate.parse("$airDate"),""")
         file.add(s"""summary = "$summary"""")

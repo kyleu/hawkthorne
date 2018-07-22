@@ -17,7 +17,6 @@ object AnimationFiles {
     file.addImport("enumeratum.values", "StringEnumEntry")
     file.addImport("models.animation", "Animation")
 
-    val t = "Seq[(Int, Int)]"
     file.add(s"sealed abstract class CharacterAnimation(", 2)
     file.add("override val value: String, val left: Seq[(Int, Int)], val right: Seq[(Int, Int)], val duration: Double, val loop: Boolean")
     file.indent(-2)
