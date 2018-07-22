@@ -3,7 +3,6 @@ package services.game
 import com.definitelyscala.phaserce.Game
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashComponent}
 import models.game.GameOptions
-import models.node.DoorNode
 import models.player.{Player, PlayerSprite}
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -17,16 +16,19 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] def addComponent(c: BaseComponent) = components += c
 
   val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
-  val mainDoor = nodes.collect { case n: DoorNode => n }.find(_.name == "main")
-  val (initialX, initialY) = mainDoor.map(d => (d.actualX + (d.actualWidth / 2)) -> (d.actualY + (d.actualHeight / 2))).getOrElse(400 -> 400)
 
-  val instance = new GameInstance(options, Seq(player))
-  instance.setCallbacks(s => util.Logging.info(s), s => util.Logging.warn(s))
+  val instance = GameInstanceFactory.create(
+    options = options,
+    initialNodes = nodes,
+    initialPlayers = Seq(player),
+    log = s => util.Logging.info(s),
+    notify = s => util.Logging.warn(s)
+  )
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
   private[this] val playerSprite = new PlayerSprite(
-    game = game, group = mapService.group, player = player, initialX = initialX, initialY = initialY, physics = false
+    game = game, group = mapService.group, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y, physics = false
   )
   addComponent(playerSprite)
 
@@ -37,17 +39,20 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   addComponent(consoleLog)
 
   private[this] val input = new InputService(game, IndexedSeq(playerSprite))
-  private[this] val camera = new CameraService(game)
+
+  private[this] val camera = new CameraService(game.camera)
+  // private[this] val camera = new GroupCameraService(game, mapService.group)
 
   private[this] val splashComplete = SplashComponent.show(game)
 
   new NodeLoader(game, mapService.group).load(nodes = nodes, onComplete = newComponents => {
     newComponents.foreach(addComponent)
-    DebugService.inst.foreach(_.setMap(mapService, nodes, components, Seq(playerSprite)))
+    DebugService.inst.foreach(_.setMap(game, mapService, nodes, components, Seq(playerSprite)))
     splashComplete()
     playerSprite.sprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
     util.Logging.info("Hawkthorne game service started.")
+    instance.initialMessages() // TODO
     started = true
   })
 

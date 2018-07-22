@@ -3,11 +3,10 @@ package models.scenario
 import java.util.UUID
 
 import models.data.map.TiledMap
-import models.game.GameOptions
-import models.player.Player
+import models.game.{GameObject, GameOptions}
 
 object Scenario {
-  def fromOptions(options: GameOptions, players: Seq[Player]) = {
+  def fromOptions(options: GameOptions, players: Seq[GameObject]) = {
     Scenario(options.id, options.map, options.maxPlayers, !options.offline, players)
   }
 }
@@ -17,5 +16,5 @@ case class Scenario(
     map: TiledMap,
     maxPlayers: Int = 1,
     networked: Boolean = false,
-    initialPlayers: Seq[Player]
+    initialPlayers: Seq[GameObject]
 )

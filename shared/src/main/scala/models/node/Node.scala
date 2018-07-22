@@ -5,13 +5,6 @@ import models.game.GameObject
 import util.JsonSerializers._
 
 object Node {
-  object Point {
-    implicit val jsonEncoder: Encoder[Point] = deriveEncoder
-    implicit val jsonDecoder: Decoder[Point] = deriveDecoder
-  }
-
-  case class Point(x: Int, y: Int)
-
   implicit val jsonEncoder: Encoder[Node] = NodeEncoder.jsonEncoder
   implicit val jsonDecoder: Decoder[Node] = NodeDecoder.jsonDecoder
 }

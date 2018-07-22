@@ -35,7 +35,11 @@ class DebugService private (phaser: Game) {
     phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
   }
 
-  def setMap(mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
+  def setMap(game: Game, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
+    val cw = gui.addFolder("World")
+    DatGuiUtils.addFunction(cw, "Scale", () => util.Logging.info("World Scale: " + game.world.scale))
+    DatGuiUtils.addFunction(cw, "Bounds", () => util.Logging.info("World Bounds: " + game.world.bounds))
+
     val cf = gui.addFolder("Camera")
     cf.add(phaser.camera, "x", 0.0, mapService.mapPxWidth.toDouble).listen()
     cf.add(phaser.camera, "y", 0.0, mapService.mapPxHeight.toDouble).listen()

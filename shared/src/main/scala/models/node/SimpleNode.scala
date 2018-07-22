@@ -1,6 +1,7 @@
 package models.node
 
 import util.JsonSerializers._
+import util.Point
 
 object SimpleNode {
   object Props {
@@ -24,8 +25,8 @@ case class SimpleNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean,
-    polygon: Option[Seq[Node.Point]],
-    polyline: Option[Seq[Node.Point]],
+    polygon: Option[Seq[Point]],
+    polyline: Option[Seq[Point]],
     properties: Option[SimpleNode.Props]
 ) extends Node(SimpleNode.key) {
   val primary = properties.exists(_.primary.contains("true"))

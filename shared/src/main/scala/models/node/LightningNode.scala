@@ -19,5 +19,7 @@ case class LightningNode(
     override val rotation: Int,
     override val visible: Boolean
 ) extends Node(LightningNode.key) {
+  override val actualHeight = 336
+
   override val assets = Seq(Asset.Spritesheet(s"cornelius.lightning", s"images/cutscenes/lightning.png", actualWidth, actualHeight))
 }

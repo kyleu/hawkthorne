@@ -2,6 +2,7 @@ package models.node
 
 import models.asset.Asset
 import util.JsonSerializers._
+import util.Point
 
 object BreakableBlockNode {
   object Props {
@@ -38,7 +39,7 @@ case class BreakableBlockNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean,
-    polygon: Option[Seq[Node.Point]],
+    polygon: Option[Seq[Point]],
     properties: BreakableBlockNode.Props
 ) extends Node(BreakableBlockNode.key) {
   override val actualName = if (name.isEmpty) { properties.sprite.getOrElse(throw new IllegalStateException(s"Unknown block [$id].")) } else { name }
