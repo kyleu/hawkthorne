@@ -1,6 +1,8 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
+import models.vehicle.VehicleTemplate
 
 object VehicleNode {
   val key = "vehicle"
@@ -17,4 +19,10 @@ case class VehicleNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(VehicleNode.key)
+) extends Node(VehicleNode.key) {
+  val template = VehicleTemplate.withKey(nameWithDefault)
+  override val assets = Seq(
+    Asset.Spritesheet(s"vehicle.$nameWithDefault", s"images/vehicle/$nameWithDefault.png", template.width, template.height)
+  )
+}
+
