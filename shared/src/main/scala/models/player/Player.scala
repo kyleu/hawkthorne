@@ -18,7 +18,7 @@ case class Player(
     templateKey: String = "jeff",
     costumeKey: String = "base"
 ) {
-  val template = CharacterTemplate.withKey(templateKey)
+  val template = CharacterListing.withKey(templateKey)
   val costume = template.costume(costumeKey)
   val spritesheet = (templateKey + "." + costumeKey, "images/character" + "/" + templateKey + "/" + costumeKey + ".png", 48, 48)
 }

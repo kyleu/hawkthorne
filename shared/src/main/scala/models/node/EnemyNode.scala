@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.enemy.EnemyListing
 import util.JsonSerializers._
 
 object EnemyNode {
@@ -21,16 +22,6 @@ object EnemyNode {
   val key = "enemy"
   implicit val jsonEncoder: Encoder[EnemyNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[EnemyNode] = deriveDecoder
-
-  def widthFor(name: String) = name match {
-    case "x" => 0
-    case _ => throw new IllegalStateException(s"Unhandled npc [$name]")
-  }
-
-  def heightFor(name: String) = name match {
-    case "x" => 0
-    case _ => widthFor(name)
-  }
 }
 
 case class EnemyNode(
@@ -44,7 +35,18 @@ case class EnemyNode(
     override val visible: Boolean,
     properties: EnemyNode.Props
 ) extends Node(EnemyNode.key) {
+
+  override val nameWithDefault = if (name.isEmpty) {
+    properties.enemytype.getOrElse(throw new IllegalStateException(s"No enemy name for [$id]."))
+  } else {
+    name
+  }
+
+  val sheet = properties.sheet.getOrElse(nameWithDefault)
+
+  val template = EnemyListing.withKey(nameWithDefault)
+
   override val assets = Seq(
-    Asset.Spritesheet(s"npc.$nameWithDefault", s"images/npc/$nameWithDefault.png", EnemyNode.widthFor(name), EnemyNode.heightFor(name))
+    Asset.Spritesheet(s"enemy.$sheet", s"images/enemies/$sheet.png", template.width, template.height)
   )
 }

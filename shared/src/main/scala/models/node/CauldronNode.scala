@@ -27,5 +27,8 @@ case class CauldronNode(
     override val visible: Boolean,
     properties: Option[CauldronNode.Props]
 ) extends Node(CauldronNode.key) {
-  override def assets = Seq(Asset.Image(s"cauldron.$name", s"images/crafting/$name.png"))
+
+  override val nameWithDefault = if (name.trim.isEmpty) { "cauldron" } else { name }
+
+  override def assets = Seq(Asset.Image(s"cauldron.$nameWithDefault", s"images/crafting/$nameWithDefault.png"))
 }

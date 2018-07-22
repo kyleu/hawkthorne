@@ -1,13 +1,13 @@
 package pipeline
 
-import pipeline.file.ScalaFile
+import pipeline.file.{ListingFile, ScalaFile}
 import util.LuaUtils
 
 import scala.io.Source
 
 object NpcFiles {
   def process(cfg: PipelineConfig) = {
-    (cfg.src / "npcs").children.filter(LuaUtils.qualifies).toSeq.flatMap { src =>
+    val files = (cfg.src / "npcs").children.filter(LuaUtils.qualifies).toSeq.map { src =>
       val lines = Source.fromString(src.contentAsString).getLines.map(_.trim).toIndexedSeq
 
       val key = src.name.stripSuffix(".lua")
@@ -36,8 +36,9 @@ object NpcFiles {
       file.add(s"""animations = Seq.empty""")
       file.add(")", -1)
 
-      cfg.writeScalaResult(s"npcs/${src.name}", file.path -> file.rendered)
+      name -> cfg.writeScalaResult(s"npcs/${src.name}", file.path -> file.rendered)
     }
+    ListingFile.listingFile(cfg, "npc", files.map(_._1)) ++ files.flatMap(_._2)
   }
 
   private[this] def nameFor(key: String) = key match {
