@@ -13,8 +13,8 @@ object ProjectileComponents {
       name = n.actualName,
       x = n.actualX,
       y = n.actualY,
-      key = s"projectile.${n.name}",
-      animation = Animation("projectile", 0 until game.cache.getFrameCount(s"projectile.${n.name}").toInt, loop = true)
+      key = s"projectile.${n.actualName}",
+      animation = Animation("projectile", 0 until game.cache.getFrameCount(s"projectile.${n.actualName}").toInt, loop = true)
     ))
   }
 }

@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object HeadNode {
@@ -17,4 +18,6 @@ case class HeadNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(HeadNode.key)
+) extends Node(HeadNode.key) {
+  override val assets = Seq(Asset.Spritesheet(s"cornelius.head", s"images/cutscenes/cornelius_head.png", actualWidth, actualHeight))
+}

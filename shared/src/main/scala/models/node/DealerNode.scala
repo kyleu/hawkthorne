@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object DealerNode {
@@ -17,4 +18,6 @@ case class DealerNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(DealerNode.key)
+) extends Node(DealerNode.key) {
+  override val assets = Seq(Asset.Spritesheet(s"dealer", s"images/sprites/town/dealer.png", 72, 72))
+}

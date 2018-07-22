@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object LightningNode {
@@ -17,4 +18,6 @@ case class LightningNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(LightningNode.key)
+) extends Node(LightningNode.key) {
+  override val assets = Seq(Asset.Spritesheet(s"cornelius.lightning", s"images/cutscenes/lightning.png", actualWidth, actualHeight))
+}

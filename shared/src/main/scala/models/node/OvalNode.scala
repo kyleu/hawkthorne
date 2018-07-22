@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object OvalNode {
@@ -17,4 +18,6 @@ case class OvalNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(OvalNode.key)
+) extends Node(OvalNode.key) {
+  override val assets = Seq(Asset.Spritesheet(s"cornelius.oval", s"images/cutscenes/corn_circles.png", actualWidth, actualWidth))
+}

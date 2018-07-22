@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object CeilingHippyNode {
@@ -25,4 +26,10 @@ case class CeilingHippyNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: Option[CeilingHippyNode.Props]
-) extends Node(CeilingHippyNode.key)
+) extends Node(CeilingHippyNode.key) {
+  override def assets = Seq(
+    Asset.Image(s"hippy.open.ceiling", s"images/sprites/greendale/open_ceiling.png"),
+    Asset.Image(s"hippy.broken.tiles", s"images/sprites/greendale/broken_tiles.png"),
+    Asset.Spritesheet(s"enemy.ceiling.hippy", s"images/enemies/hippy.png", 48, 48)
+  )
+}

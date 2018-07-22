@@ -1,11 +1,16 @@
 package models.component.node
 
-import com.definitelyscala.phaserce.{Game, Group}
+import com.definitelyscala.phaserce.{Game, Group, Rectangle}
 import models.component.StaticSprite
 import models.node.MaterialNode
 
 object MaterialComponents {
-  def apply(game: Game, group: Group, n: MaterialNode) = Seq(
-    StaticSprite(game = game, group = group, name = "material." + n.actualName, x = n.actualX, y = n.actualY, key = s"material.${n.actualName}")
-  )
+  lazy val cropRect = new Rectangle(0, 0, 24, 24)
+
+  def apply(game: Game, group: Group, n: MaterialNode) = {
+    val s = StaticSprite(game = game, group = group, name = "material." + n.actualName, x = n.actualX, y = n.actualY, key = s"material.${n.actualName}")
+    s.sprite.cropRect = cropRect
+    s.sprite.updateCrop()
+    Seq(s)
+  }
 }

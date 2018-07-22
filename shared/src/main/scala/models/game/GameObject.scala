@@ -11,8 +11,8 @@ case class GameObject(
     t: String,
     id: Int,
     n: String,
-    var x: Int,
-    var y: Int,
+    var x: Double,
+    var y: Double,
     var w: Int,
     var h: Int
 )

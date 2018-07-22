@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object SparkleNode {
@@ -17,4 +18,6 @@ case class SparkleNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(SparkleNode.key)
+) extends Node(SparkleNode.key) {
+  override val assets = Seq(Asset.Spritesheet(s"cornelius.sparkle", s"images/cutscenes/cornelius_sparkles.png", actualWidth, actualHeight))
+}

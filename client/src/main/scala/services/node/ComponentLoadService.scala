@@ -8,6 +8,7 @@ object ComponentLoadService {
   def fromNodes(nodes: Seq[Node], game: Game, group: Group) = nodes.flatMap {
     case n: BouncerNode => BouncerComponents(game, group, n)
     case n: BreakableBlockNode => BreakableBlockComponents(game, group, n)
+    case n: BuildingNode => BuildingComponents(game, group, n)
     case n: CauldronNode => CauldronComponents(game, group, n)
     case n: CeilingHippyNode => CeilingHippyComponents(game, group, n)
     case n: CeilingNode => CeilingComponents(game, group, n)
@@ -44,9 +45,10 @@ object ComponentLoadService {
     case n: ThrowableNode => ThrowableComponents(game, group, n)
     case n: TrampolineNode => TrampolineComponents(game, group, n)
     case n: TutorialNode => TutorialComponents(game, group, n)
+    case n: UnknownNode => UnknownComponents(game, group, n)
     case n: VehicleNode => VehicleComponents(game, group, n)
     case n: WeaponNode => WeaponComponents(game, group, n)
 
-    case n: UnknownNode => throw new IllegalStateException(s"Unhandled [$n] component.")
+    case n => throw new IllegalStateException(s"Unhandled [$n] component.")
   }
 }
