@@ -2,7 +2,7 @@ package services.game
 
 import com.definitelyscala.phaserce.Game
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashComponent}
-import models.game.{GameInstance, GameOptions}
+import models.game.GameOptions
 import models.node.DoorNode
 import models.player.{Player, PlayerSprite}
 import services.input.InputService

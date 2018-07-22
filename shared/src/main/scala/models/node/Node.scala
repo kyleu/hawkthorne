@@ -1,7 +1,7 @@
 package models.node
 
 import models.asset.Asset
-import models.game.obj.GameObject
+import models.game.GameObject
 import util.JsonSerializers._
 
 object Node {

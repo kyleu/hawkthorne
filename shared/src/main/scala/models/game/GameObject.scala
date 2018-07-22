@@ -1,4 +1,4 @@
-package models.game.obj
+package models.game
 
 import util.JsonSerializers._
 

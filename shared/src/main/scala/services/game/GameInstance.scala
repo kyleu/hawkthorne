@@ -1,14 +1,15 @@
-package models.game
+package services.game
 
+import models.game.{GameOptions, GameUpdate}
 import models.player.Player
 import models.scenario.Scenario
 
 class GameInstance(val options: GameOptions, initialPlayers: Seq[Player]) {
   private[this] var logger: Option[String => Unit] = None
-  private[this] def log(s: String) = logger.getOrElse(throw new IllegalStateException("Not initialized."))(s)
+  def log(s: String) = logger.getOrElse(throw new IllegalStateException("Not initialized."))(s)
 
   private[this] var notification: Option[String => Unit] = None
-  private[this] def notify(s: String) = logger.getOrElse(throw new IllegalStateException("Not initialized."))(s)
+  def notify(s: String) = notification.getOrElse(throw new IllegalStateException("Not initialized."))(s)
 
   def setCallbacks(log: String => Unit, notify: String => Unit) = {
     logger = Some(log)
