@@ -9,9 +9,9 @@ object SpriteComponents {
     case Some(anim) => Seq(AnimatedSprite.single(
       game = game,
       group = group,
-      name = n.nameWithDefault,
-      x = n.x,
-      y = n.y,
+      name = n.actualName,
+      x = n.actualX,
+      y = n.actualY,
       key = n.sheetKey,
       animation = anim,
       flip = n.properties.flip.contains("true")
@@ -19,9 +19,9 @@ object SpriteComponents {
     case None => Seq(StaticSprite(
       game = game,
       group = group,
-      name = n.nameWithDefault,
-      x = n.x,
-      y = n.y,
+      name = n.actualName,
+      x = n.actualX,
+      y = n.actualY,
       key = n.sheetKey,
       flip = n.properties.flip.contains("true")
     ))

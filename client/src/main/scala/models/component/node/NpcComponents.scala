@@ -6,6 +6,6 @@ import models.node.NpcNode
 
 object NpcComponents {
   def apply(game: Game, group: Group, n: NpcNode) = Seq(
-    StaticSprite(game = game, group = group, name = n.nameWithDefault, x = n.x, y = n.y, key = s"npc.${n.nameWithDefault}")
+    StaticSprite(game = game, group = group, name = n.actualName, x = n.actualX, y = n.actualY, key = s"npc.${n.actualName}")
   )
 }

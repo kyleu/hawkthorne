@@ -3,7 +3,7 @@ package services.game
 import com.definitelyscala.phaserce.Camera
 
 class CameraService(camera: Camera) {
-  private[this] def getScale(width: Int, height: Int) = 2.0
+  private[this] def getScale(width: Int, height: Int) = 1.0
   private[this] var (currentX, currentY) = (0, 0)
   private[this] var (currentStageWidth, currentStageHeight) = (0, 0)
   private[this] var (currentWorldWidth, currentWorldHeight) = (0, 0)

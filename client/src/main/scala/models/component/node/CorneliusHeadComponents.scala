@@ -9,9 +9,9 @@ object CorneliusHeadComponents {
   def apply(game: Game, group: Group, n: CorneliusHeadNode) = Seq(AnimatedSprite.single(
     game = game,
     group = group,
-    name = n.nameWithDefault,
-    x = n.x,
-    y = n.y,
+    name = n.actualName,
+    x = n.actualX,
+    y = n.actualY,
     key = "cornelius",
     animation = Animation(id = "", frames = IndexedSeq(1, 2, 1, 2, 1, 0), delay = 0.2, loop = true)
   ))

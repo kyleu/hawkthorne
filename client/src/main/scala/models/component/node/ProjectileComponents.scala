@@ -10,9 +10,9 @@ object ProjectileComponents {
     Seq(AnimatedSprite.single(
       game = game,
       group = group,
-      name = n.nameWithDefault,
-      x = n.x,
-      y = n.y,
+      name = n.actualName,
+      x = n.actualX,
+      y = n.actualY,
       key = s"projectile.${n.name}",
       animation = Animation("projectile", 0 until game.cache.getFrameCount(s"projectile.${n.name}").toInt, loop = true)
     ))

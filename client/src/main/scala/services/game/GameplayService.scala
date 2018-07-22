@@ -1,7 +1,6 @@
 package services.game
 
 import com.definitelyscala.phaserce.Game
-import models.component.BaseComponent.Resizable
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashComponent}
 import models.game.{GameInstance, GameOptions}
 import models.node.DoorNode
@@ -19,7 +18,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
 
   val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
   val mainDoor = nodes.collect { case n: DoorNode => n }.find(_.name == "main")
-  val (initialX, initialY) = mainDoor.map(d => (d.x + (d.actualWidth / 2)) -> (d.y + (d.actualHeight / 2))).getOrElse(400 -> 400)
+  val (initialX, initialY) = mainDoor.map(d => (d.actualX + (d.actualWidth / 2)) -> (d.actualY + (d.actualHeight / 2))).getOrElse(400 -> 400)
 
   val instance = GameInstance(options, nodes, s => util.Logging.info(s), s => util.Logging.warn(s))
 
@@ -64,6 +63,6 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
 
   def resize(width: Int, height: Int) = {
     camera.resize(width, height, mapService.mapPxWidth, mapService.mapPxHeight)
-    components.collect { case r: Resizable => r.resize(width, height) }
+    components.collect { case r: BaseComponent.Resizable => r.resize(width, height) }
   }
 }

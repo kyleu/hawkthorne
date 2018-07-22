@@ -9,10 +9,10 @@ object LiquidComponents {
     Seq(LiquidComponent(
       game = game,
       group = group,
-      name = n.nameWithDefault,
+      name = n.actualName,
       key = n.sheetKey,
-      x = n.x,
-      y = n.y,
+      x = n.actualX,
+      y = n.actualY,
       opacity = n.opacityDouble,
       width = n.actualWidth / 24,
       height = n.actualHeight / 24
