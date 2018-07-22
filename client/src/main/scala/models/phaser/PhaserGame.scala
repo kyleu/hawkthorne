@@ -15,12 +15,13 @@ object PhaserGame {
     antialias = false,
     multiTexture = true,
     parent = "hawkthorne",
-    resolution = 1 // TODO org.scalajs.dom.window.devicePixelRatio
+    resolution = 1 // Not org.scalajs.dom.window.devicePixelRatio
   ))
 }
 
 class PhaserGame(val path: String, val webGL: Boolean, val isDebug: Boolean) extends Game(PhaserGame.getConfig(webGL)) {
   def begin() = {
+    time.advancedTiming = true
     val nextState = NavigationService.initialState(this, path)
     state.add("initial", new InitialGameState(nextState = nextState, phaser = this, debug = isDebug))
     state.start("initial", clearWorld = true, clearCache = true)

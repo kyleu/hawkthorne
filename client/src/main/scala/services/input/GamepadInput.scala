@@ -46,12 +46,14 @@ object GamepadInput {
 case class GamepadInput(game: Game) {
   game.input.gamepad.start()
 
-  val pads = IndexedSeq(game.input.gamepad.pad1, game.input.gamepad.pad2, game.input.gamepad.pad3, game.input.gamepad.pad4)
+  private[this] val pads = IndexedSeq(game.input.gamepad.pad1, game.input.gamepad.pad2, game.input.gamepad.pad3, game.input.gamepad.pad4)
   pads.zipWithIndex.foreach(pad => pad._1.addCallbacks(pad._1, scalajs.js.Dynamic.literal(
     "onConnect" -> onConnect(pad._1, pad._2) _,
     "onDisconnect" -> onDisconnect(pad._1, pad._2) _
   )))
-  var keymaps = Array(pads.map(GamepadInput.xboxKeymap): _*)
+
+  private[this] var keymaps = Array(pads.map(GamepadInput.xboxKeymap): _*)
+  def setKeymap(idx: Int, keymap: GamepadInput.Keymap) = keymaps(idx) = keymap
 
   private[this] def onConnect(pad: SinglePad, idx: Int)(x: Any) = util.Logging.info(s"Gamepad [${pad.index.toInt}] connected.")
   private[this] def onDisconnect(pad: SinglePad, idx: Int)(x: Any) = util.Logging.info(s"Gamepad [${pad.index.toInt}] disconnected.")

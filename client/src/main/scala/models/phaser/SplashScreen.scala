@@ -1,8 +1,8 @@
-package models.component
+package models.phaser
 
 import com.definitelyscala.phaserce._
 
-object SplashComponent {
+object SplashScreen {
   def show(game: Game, x: Int = 0, y: Int = 0) = {
     val solidBlack = game.make.bitmapData(1, 1)
     solidBlack.fill(0, 0, 0)

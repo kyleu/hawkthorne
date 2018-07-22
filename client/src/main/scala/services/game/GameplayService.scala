@@ -1,8 +1,9 @@
 package services.game
 
 import com.definitelyscala.phaserce.Game
-import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashComponent}
+import models.component.{BaseComponent, ConsoleLog, HudOverlay}
 import models.game.GameOptions
+import models.phaser.SplashScreen
 import models.player.{Player, PlayerSprite}
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -43,7 +44,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] val camera = new CameraService(game.camera)
   // private[this] val camera = new GroupCameraService(game, mapService.group)
 
-  private[this] val splashComplete = SplashComponent.show(game)
+  private[this] val splashComplete = SplashScreen.show(game)
 
   new NodeLoader(game, mapService.group).load(nodes = nodes, onComplete = newComponents => {
     newComponents.foreach(addComponent)

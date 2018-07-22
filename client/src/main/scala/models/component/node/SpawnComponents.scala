@@ -8,9 +8,7 @@ import util.ColorUtils
 
 object SpawnComponents {
   def apply(game: Game, group: Group, n: SpawnNode) = n.properties.sprite match {
-    case Some(s) => Seq(
-      StaticSprite(game = game, group = group, name = "spawn." + n.actualName, x = n.actualX, y = n.actualY, key = s"spawn.${n.actualName}")
-    )
+    case Some(_) => Seq(StaticSprite(game = game, group = group, name = "spawn." + n.actualName, x = n.actualX, y = n.actualY, key = s"spawn.${n.actualName}"))
     case None =>
       val g = new Graphics(game = game)
       g.beginFill(ColorUtils.purple.toDouble)

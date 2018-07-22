@@ -5,6 +5,7 @@ import models.component._
 import util.DatGuiUtils
 
 object DebugComponents {
+  @scala.annotation.tailrec
   def addFolder(root: GUI, name: String, depth: Int = 0): GUI = try {
     root.addFolder(depth match {
       case 0 => name
@@ -20,7 +21,7 @@ object DebugComponents {
       case as: AnimatedSprite => f.add(as.sprite, "visible")
       case cl: ConsoleLog => f.add(cl.group, "visible")
       case ho: HudOverlay => f.add(ho.group, "visible")
-      case lc: LiquidComponent => // TODO
+      case lc: LiquidComponent => f.add(lc.group, "visible")
       case si: StaticImage => f.add(si.image, "visible")
       case ss: StaticSprite => f.add(ss.sprite, "visible")
     }

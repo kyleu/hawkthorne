@@ -17,6 +17,7 @@ class GroupCameraService(game: Game, group: Group) {
     if (newScale != currentScale) {
       group.scale.x = newScale
       group.scale.y = newScale
+      currentScale = newScale
     }
 
     currentStageWidth = stageWidth

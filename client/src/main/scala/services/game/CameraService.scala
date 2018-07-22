@@ -15,9 +15,10 @@ class CameraService(camera: Camera) {
 
   def resize(stageWidth: Int, stageHeight: Int, worldWidth: Int, worldHeight: Int) = {
     val newScale = getScale(stageWidth, stageHeight)
-    if (newScale != camera.scale.x) {
+    if (newScale != currentScale) {
       camera.scale.setTo(newScale, newScale)
-      camera.bounds.setTo(0, 0, worldWidth * camera.scale.x, worldHeight * camera.scale.y)
+      camera.bounds.setTo(0, 0, worldWidth * newScale, worldHeight * newScale)
+      currentScale = newScale
     }
 
     currentStageWidth = stageWidth
