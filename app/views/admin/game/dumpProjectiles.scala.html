@@ -1,0 +1,39 @@
+@(user: models.user.SystemUser)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "gamedata", util.Config.projectName + " Asset Dump") {
+  <ul class="collection with-header">
+    <li class="collection-item" style="text-align: center; background-color: #000;">
+      <img src="@controllers.routes.Assets.versioned("game/images/splash.png")" />
+    </li>
+    @models.projectile.ProjectileListing.all.map { n =>
+      <li class="collection-item">
+        <h5>@n.name</h5>
+        @defining(s"background-image: url('${controllers.routes.Assets.versioned(s"game/images/weapons/${n.key}.png")}');") { imgStyle =>
+          <div class="projectile" style="width: @{n.width}px; height: @{n.height}px;@imgStyle"></div>
+        }
+        <div class="clear" style="margin-bottom: 16px;"></div>
+      </li>
+    }
+  </ul>
+  <style type="text/css">
+    main {
+      background-color: #000;
+    }
+    .collection .collection-item {
+      background-color: #000;
+      color: #fff;
+    }
+  </style>
+  <script type="application/javascript">
+    function rotate() {
+      var x = Math.floor(Math.random() * Math.floor(12)) * -48;
+      var y = Math.floor(Math.random() * Math.floor(16)) * -48;
+      $(".character").css('background-position', x + 'px ' + y + 'px');
+      setTimeout(rotate, 2000);
+    }
+
+    $(function() {
+      rotate();
+    });
+  </script>
+}

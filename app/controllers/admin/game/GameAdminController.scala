@@ -29,7 +29,19 @@ class GameAdminController @javax.inject.Inject() (override val app: Application)
     Future.successful(Ok(views.html.admin.game.unparsed(request.identity)))
   }
 
-  def dumpAssets = withSession("asset.dump", admin = true) { implicit request => implicit td =>
-    Future.successful(Ok(views.html.admin.game.dump(request.identity)))
+  def dumpCharacters = withSession("dumpCharacters", admin = true) { implicit request => implicit td =>
+    Future.successful(Ok(views.html.admin.game.dumpCharacters(request.identity)))
+  }
+
+  def dumpEnemies = withSession("dumpEnemies", admin = true) { implicit request => implicit td =>
+    Future.successful(Ok(views.html.admin.game.dumpEnemies(request.identity)))
+  }
+
+  def dumpNpcs = withSession("dumpNpcs", admin = true) { implicit request => implicit td =>
+    Future.successful(Ok(views.html.admin.game.dumpNpcs(request.identity)))
+  }
+
+  def dumpProjectiles = withSession("dumpProjectiles", admin = true) { implicit request => implicit td =>
+    Future.successful(Ok(views.html.admin.game.dumpProjectiles(request.identity)))
   }
 }

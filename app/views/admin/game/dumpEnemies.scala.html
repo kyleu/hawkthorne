@@ -5,14 +5,11 @@
     <li class="collection-item" style="text-align: center; background-color: #000;">
       <img src="@controllers.routes.Assets.versioned("game/images/splash.png")" />
     </li>
-    @models.player.CharacterTemplate.all.map { c =>
+    @models.enemy.EnemyListing.all.map { n =>
       <li class="collection-item">
-        <div style="float: right;">@c.name</div>
-        <h5>@c.givenName</h5>
-        @c.costumes.map { costume =>
-          @defining(s"background-image: url('${controllers.routes.Assets.versioned(s"game/images/character/${c.name}/${costume.key}.png")}');") { imgStyle =>
-            <div class="character" style="@imgStyle" title="@costume.name (@costume.episode.value - @costume.episode.name)"></div>
-          }
+        <h5>@n.name</h5>
+        @defining(s"background-image: url('${controllers.routes.Assets.versioned(s"game/images/enemies/${n.key}.png")}');") { imgStyle =>
+          <div class="enemy" style="width: @{n.width}px; height: @{n.height}px;@imgStyle"></div>
         }
         <div class="clear" style="margin-bottom: 16px;"></div>
       </li>
@@ -25,11 +22,6 @@
     .collection .collection-item {
       background-color: #000;
       color: #fff;
-    }
-    .character {
-      float: left;
-      width: 48px;
-      height: 48px;
     }
   </style>
   <script type="application/javascript">
