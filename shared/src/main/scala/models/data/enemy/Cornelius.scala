@@ -11,5 +11,9 @@ object Cornelius extends EnemyTemplate(
   hp = 200,
   damage = 30,
   isBoss = true,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq("teleport", "cornelius-ending"),
   animations = Seq.empty
 )

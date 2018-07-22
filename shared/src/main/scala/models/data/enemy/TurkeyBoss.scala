@@ -11,5 +11,9 @@ object TurkeyBoss extends EnemyTemplate(
   hp = 100,
   damage = 40,
   isBoss = true,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

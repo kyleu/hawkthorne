@@ -8,5 +8,8 @@ object CherryPopper extends WeaponTemplate(
   name = "CherryPopper",
   width = 50,
   height = 35,
+  hitAudioClip = None,
+  swingAudioClip = None,
+  unuseAudioClip = None,
   animations = Seq.empty
 )

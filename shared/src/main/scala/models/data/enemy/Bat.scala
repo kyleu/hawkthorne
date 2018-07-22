@@ -11,5 +11,9 @@ object Bat extends EnemyTemplate(
   hp = 1,
   damage = 10,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Seq("bat_attack"),
+  dieSound = Some("bat_die"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

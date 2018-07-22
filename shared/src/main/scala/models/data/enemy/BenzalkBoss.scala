@@ -11,5 +11,9 @@ object BenzalkBoss extends EnemyTemplate(
   hp = 100,
   damage = 40,
   isBoss = true,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq("benzalk_growl", "jump_boom"),
   animations = Seq.empty
 )

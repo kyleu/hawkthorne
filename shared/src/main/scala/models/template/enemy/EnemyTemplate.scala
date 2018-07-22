@@ -18,5 +18,9 @@ case class EnemyTemplate(
     damage: Int,
     hp: Int,
     isBoss: Boolean,
+    passiveSound: Option[String],
+    attackSounds: Seq[String],
+    dieSound: Option[String],
+    sounds: Seq[String],
     animations: Seq[Animation]
 )

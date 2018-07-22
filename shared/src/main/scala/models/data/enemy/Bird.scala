@@ -11,5 +11,9 @@ object Bird extends EnemyTemplate(
   hp = 6,
   damage = 10,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

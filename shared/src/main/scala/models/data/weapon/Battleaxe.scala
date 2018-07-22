@@ -8,5 +8,8 @@ object Battleaxe extends WeaponTemplate(
   name = "Battleaxe",
   width = 50,
   height = 35,
+  hitAudioClip = Some("mace_hit"),
+  swingAudioClip = None,
+  unuseAudioClip = None,
   animations = Seq.empty
 )

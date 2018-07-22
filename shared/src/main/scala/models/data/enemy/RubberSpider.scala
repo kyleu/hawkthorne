@@ -11,5 +11,9 @@ object RubberSpider extends EnemyTemplate(
   hp = 100000,
   damage = 0,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("boing"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

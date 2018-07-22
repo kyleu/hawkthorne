@@ -11,5 +11,9 @@ object Spider extends EnemyTemplate(
   hp = 12,
   damage = 20,
   isBoss = false,
+  passiveSound = Some("spider-growl"),
+  attackSounds = Nil,
+  dieSound = Some("acorn_crush"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

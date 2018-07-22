@@ -11,5 +11,9 @@ object AlienTurret extends EnemyTemplate(
   hp = 5,
   damage = 25,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("boulder-crumble"),
+  sounds = Seq("alien_gatling"),
   animations = Seq.empty
 )

@@ -11,5 +11,9 @@ object AmbushAlienHeavy extends EnemyTemplate(
   hp = 12,
   damage = 8,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("alien_hurt"),
+  sounds = Seq("alien_gatling"),
   animations = Seq.empty
 )

@@ -8,5 +8,8 @@ object Mallet extends WeaponTemplate(
   name = "Mallet",
   width = 30,
   height = 40,
+  hitAudioClip = Some("mallet_hit"),
+  swingAudioClip = None,
+  unuseAudioClip = None,
   animations = Seq.empty
 )

@@ -30,6 +30,7 @@ case class CeilingHippyNode(
   override def assets = Seq(
     Asset.Image(s"hippy.open.ceiling", s"images/sprites/greendale/open_ceiling.png"),
     Asset.Image(s"hippy.broken.tiles", s"images/sprites/greendale/broken_tiles.png"),
-    Asset.Spritesheet(s"enemy.ceiling.hippy", s"images/enemies/hippy.png", 48, 48)
+    Asset.Spritesheet(s"enemy.ceiling.hippy", s"images/enemies/hippy.png", 48, 48),
+    Asset.Audio(s"sfx.hippy_enter", s"audio/sfx/hippy_enter.ogg")
   )
 }

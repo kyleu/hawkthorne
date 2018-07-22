@@ -20,6 +20,12 @@ object EnemyFiles {
       val damage = LuaUtils.lineFor(src.name, lines, "damage = ").toInt
       val isBoss = LuaUtils.lineOpt(lines, "isBoss = ").contains("true")
 
+      val passiveSound = LuaUtils.lineOpt(lines, "passive_sound = ")
+      val attackSounds = LuaUtils.lineOpt(lines, "attack_sound = ").map(_.replaceAllLiterally("'", "")).toSeq.flatMap { s =>
+        s.stripPrefix("{").stripSuffix("}").split(',').map(_.trim)
+      }
+      val dieSound = LuaUtils.lineOpt(lines, "die_sound = ")
+
       val pkg = Seq("models", "data", "enemy")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
@@ -33,6 +39,19 @@ object EnemyFiles {
       file.add(s"""hp = $hp,""")
       file.add(s"""damage = $damage,""")
       file.add(s"""isBoss = $isBoss,""")
+      file.add(s"""passiveSound = ${passiveSound.toString.replaceAllLiterally("'", "\"")},""")
+      if (attackSounds.isEmpty) {
+        file.add(s"""attackSounds = Nil,""")
+      } else {
+        file.add(s"""attackSounds = Seq(${attackSounds.map("\"" + _ + "\"").mkString(", ")}),""")
+      }
+      file.add(s"""dieSound = ${dieSound.toString.replaceAllLiterally("'", "\"")},""")
+      val sounds = LuaUtils.findSounds(lines)
+      if (sounds.isEmpty) {
+        file.add(s"sounds = Seq.empty,")
+      } else {
+        file.add(s"sounds = Seq(${sounds.mkString(", ")}),")
+      }
       val anims = LuaUtils.findAnimations(lines)
       if (anims.isEmpty) {
         file.add(s"animations = Seq.empty")

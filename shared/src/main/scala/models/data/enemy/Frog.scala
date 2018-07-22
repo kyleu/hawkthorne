@@ -11,5 +11,9 @@ object Frog extends EnemyTemplate(
   hp = 1,
   damage = 20,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("karramba_pop"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

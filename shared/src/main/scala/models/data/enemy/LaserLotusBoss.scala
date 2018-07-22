@@ -11,5 +11,9 @@ object LaserLotusBoss extends EnemyTemplate(
   hp = 50,
   damage = 20,
   isBoss = true,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

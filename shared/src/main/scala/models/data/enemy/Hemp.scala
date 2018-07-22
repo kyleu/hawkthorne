@@ -11,5 +11,9 @@ object Hemp extends EnemyTemplate(
   hp = 1,
   damage = 20,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("hemp"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

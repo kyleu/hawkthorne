@@ -8,5 +8,8 @@ object Switch extends WeaponTemplate(
   name = "Switch",
   width = 50,
   height = 40,
+  hitAudioClip = Some("punch"),
+  swingAudioClip = Some("sword_air"),
+  unuseAudioClip = Some("sword_sheathed"),
   animations = Seq.empty
 )

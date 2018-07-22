@@ -11,5 +11,9 @@ object AcornBoss extends EnemyTemplate(
   hp = 100,
   damage = 10,
   isBoss = true,
+  passiveSound = None,
+  attackSounds = Seq("acorn_growl"),
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

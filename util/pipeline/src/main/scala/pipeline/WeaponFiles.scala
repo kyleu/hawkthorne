@@ -16,6 +16,10 @@ object WeaponFiles {
       val width = LuaUtils.lineFor(src.name, lines, "width = ").toInt
       val height = LuaUtils.lineFor(src.name, lines, "height = ").toInt
 
+      val hitAudioClip = LuaUtils.lineOpt(lines, "hitAudioClip = ").map(_.replaceAllLiterally("'", "\""))
+      val swingAudioClip = LuaUtils.lineOpt(lines, "swingAudioClip = ").map(_.replaceAllLiterally("'", "\""))
+      val unuseAudioClip = LuaUtils.lineOpt(lines, "unuseAudioClip = ").map(_.replaceAllLiterally("'", "\""))
+
       val pkg = Seq("models", "data", "weapon")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
@@ -27,6 +31,10 @@ object WeaponFiles {
       file.add(s"width = $width,")
       file.add(s"height = $height,")
 
+      file.add(s"hitAudioClip = $hitAudioClip,")
+      file.add(s"swingAudioClip = $swingAudioClip,")
+      file.add(s"unuseAudioClip = $unuseAudioClip,")
+
       val anims = LuaUtils.findAnimations(lines)
       if (anims.isEmpty) {
         file.add(s"animations = Seq.empty")
@@ -35,8 +43,6 @@ object WeaponFiles {
         anims.foreach(a => file.add(a))
         file.add(s")", -1)
       }
-
-      file.add(s")", -1)
 
       file.add(")", -1)
 

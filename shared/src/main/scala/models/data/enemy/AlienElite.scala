@@ -11,5 +11,9 @@ object AlienElite extends EnemyTemplate(
   hp = 20,
   damage = 35,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("alien_hurt"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

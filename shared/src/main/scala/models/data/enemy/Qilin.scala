@@ -11,5 +11,9 @@ object Qilin extends EnemyTemplate(
   hp = 25,
   damage = 30,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("manicorn_neigh"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

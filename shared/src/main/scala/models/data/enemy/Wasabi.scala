@@ -11,5 +11,9 @@ object Wasabi extends EnemyTemplate(
   hp = 8,
   damage = 30,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("acorn_crush"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

@@ -11,5 +11,9 @@ object Violinist extends EnemyTemplate(
   hp = 12,
   damage = 20,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("trombone_temp"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

@@ -11,5 +11,9 @@ object Mike extends EnemyTemplate(
   hp = 40,
   damage = 20,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

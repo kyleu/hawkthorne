@@ -11,5 +11,9 @@ object Penguin extends EnemyTemplate(
   hp = 1,
   damage = 0,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("acorn_crush"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

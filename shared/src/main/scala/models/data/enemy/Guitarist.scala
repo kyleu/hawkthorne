@@ -11,5 +11,9 @@ object Guitarist extends EnemyTemplate(
   hp = 16,
   damage = 30,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("trombone_temp"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

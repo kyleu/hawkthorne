@@ -8,5 +8,8 @@ object Sword extends WeaponTemplate(
   name = "Sword",
   width = 50,
   height = 40,
+  hitAudioClip = Some("sword_hit"),
+  swingAudioClip = Some("sword_air"),
+  unuseAudioClip = Some("sword_sheathed"),
   animations = Seq.empty
 )

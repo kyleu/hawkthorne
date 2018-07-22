@@ -11,5 +11,9 @@ object Cat extends EnemyTemplate(
   hp = 1,
   damage = 0,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("meow"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

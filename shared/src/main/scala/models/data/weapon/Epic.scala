@@ -8,5 +8,8 @@ object Epic extends WeaponTemplate(
   name = "Epic",
   width = 44,
   height = 46,
+  hitAudioClip = None,
+  swingAudioClip = None,
+  unuseAudioClip = None,
   animations = Seq.empty
 )

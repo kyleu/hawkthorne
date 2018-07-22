@@ -11,5 +11,9 @@ object TSnake extends EnemyTemplate(
   hp = 70,
   damage = 40,
   isBoss = true,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("snake_hurt"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

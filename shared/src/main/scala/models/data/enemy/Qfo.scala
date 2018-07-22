@@ -11,5 +11,9 @@ object Qfo extends EnemyTemplate(
   hp = 60,
   damage = 30,
   isBoss = true,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("explosion_quiet"),
+  sounds = Seq("qfo_land"),
   animations = Seq.empty
 )

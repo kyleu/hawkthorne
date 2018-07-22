@@ -11,5 +11,9 @@ object Ducky extends EnemyTemplate(
   hp = 8,
   damage = 20,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("duckysqueak"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

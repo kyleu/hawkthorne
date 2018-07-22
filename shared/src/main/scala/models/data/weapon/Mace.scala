@@ -8,5 +8,8 @@ object Mace extends WeaponTemplate(
   name = "Mace",
   width = 50,
   height = 35,
+  hitAudioClip = Some("mace_hit"),
+  swingAudioClip = None,
+  unuseAudioClip = None,
   animations = Seq.empty
 )

@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object TrampolineNode {
@@ -25,4 +26,6 @@ case class TrampolineNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: TrampolineNode.Props
-) extends Node(TrampolineNode.key)
+) extends Node(TrampolineNode.key) {
+  override val assets = Seq(Asset.Audio(s"sfx.trampoline", s"audio/sfx/trampoline_bounce.ogg"))
+}

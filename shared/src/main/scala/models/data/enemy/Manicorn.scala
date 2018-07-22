@@ -11,5 +11,9 @@ object Manicorn extends EnemyTemplate(
   hp = 13,
   damage = 40,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("manicorn_neigh"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

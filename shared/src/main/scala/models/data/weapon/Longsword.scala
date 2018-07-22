@@ -8,5 +8,8 @@ object Longsword extends WeaponTemplate(
   name = "Longsword",
   width = 30,
   height = 30,
+  hitAudioClip = Some("sword_hit"),
+  swingAudioClip = Some("sword_air"),
+  unuseAudioClip = None,
   animations = Seq.empty
 )

@@ -11,5 +11,9 @@ object Hippy extends EnemyTemplate(
   hp = 6,
   damage = 10,
   isBoss = false,
+  passiveSound = Some("peace"),
+  attackSounds = Seq("sex", "drugs"),
+  dieSound = Some("hippy_kill"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

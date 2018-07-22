@@ -43,5 +43,8 @@ case class BreakableBlockNode(
     properties: BreakableBlockNode.Props
 ) extends Node(BreakableBlockNode.key) {
   override val actualName = if (name.isEmpty) { properties.sprite.getOrElse(throw new IllegalStateException(s"Unknown block [$id].")) } else { name }
-  override val assets = Seq(Asset.Image(s"block.$actualName", s"images/blocks/$actualName.png"))
+  override val assets = Seq(
+    Asset.Image(s"block.$actualName", s"images/blocks/$actualName.png"),
+    Asset.Audio(s"sfx.block_explode", s"audio/sfx/block_explode.ogg")
+  ) ++ properties.sound.map(k => Asset.Audio(s"sfx.$k", s"audio/sfx/$k.ogg"))
 }

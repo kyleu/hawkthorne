@@ -8,5 +8,8 @@ object Wrench extends WeaponTemplate(
   name = "Wrench",
   width = 30,
   height = 40,
+  hitAudioClip = Some("anvil"),
+  swingAudioClip = None,
+  unuseAudioClip = None,
   animations = Seq.empty
 )

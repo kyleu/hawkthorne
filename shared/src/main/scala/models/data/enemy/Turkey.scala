@@ -11,5 +11,9 @@ object Turkey extends EnemyTemplate(
   hp = 8,
   damage = 30,
   isBoss = false,
+  passiveSound = Some("turkey_attack"),
+  attackSounds = Seq("turkey_attack"),
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

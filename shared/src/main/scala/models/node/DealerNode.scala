@@ -19,5 +19,8 @@ case class DealerNode(
     override val rotation: Int,
     override val visible: Boolean
 ) extends Node(DealerNode.key) {
-  override val assets = Seq(Asset.Spritesheet(s"dealer", s"images/sprites/town/dealer.png", 72, 72))
+  override val assets = Seq(
+    Asset.Spritesheet(s"dealer", s"images/sprites/town/dealer.png", 72, 72),
+    Asset.Audio(s"sfx.letsPlayPoker", s"audio/sfx/letsPlayPoker.ogg")
+  )
 }

@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object DoorNode {
@@ -55,4 +56,8 @@ case class DoorNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: Option[DoorNode.Props]
-) extends Node(DoorNode.key)
+) extends Node(DoorNode.key) {
+  override val assets = Seq(Asset.Audio(s"sfx.locked", s"audio/sfx/locked.ogg")) ++
+    properties.flatMap(_.sound).map(k => Asset.Audio(s"sfx.$k", s"audio/sfx/$k.ogg")) ++
+    properties.flatMap(_.show_sfx).map(k => Asset.Audio(s"sfx.$k", s"audio/sfx/$k.ogg"))
+}

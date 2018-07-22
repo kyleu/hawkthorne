@@ -11,5 +11,9 @@ object Wipe extends EnemyTemplate(
   hp = 3,
   damage = 20,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

@@ -11,5 +11,9 @@ object AlienPilot extends EnemyTemplate(
   hp = 8,
   damage = 30,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

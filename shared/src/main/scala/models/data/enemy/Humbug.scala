@@ -11,5 +11,9 @@ object Humbug extends EnemyTemplate(
   hp = 1,
   damage = 10,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("acorn_crush"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

@@ -8,5 +8,8 @@ object Bow extends WeaponTemplate(
   name = "Bow",
   width = 69,
   height = 27,
+  hitAudioClip = None,
+  swingAudioClip = None,
+  unuseAudioClip = None,
   animations = Seq.empty
 )

@@ -11,5 +11,9 @@ object Cannon extends EnemyTemplate(
   hp = 5,
   damage = 0,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

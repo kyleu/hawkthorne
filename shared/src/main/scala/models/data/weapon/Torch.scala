@@ -8,5 +8,8 @@ object Torch extends WeaponTemplate(
   name = "Torch",
   width = 48,
   height = 48,
+  hitAudioClip = None,
+  swingAudioClip = Some("fire_thrown"),
+  unuseAudioClip = None,
   animations = Seq.empty
 )

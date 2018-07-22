@@ -11,5 +11,9 @@ object Canister extends EnemyTemplate(
   hp = 12,
   damage = 0,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = None,
+  sounds = Seq.empty,
   animations = Seq.empty
 )

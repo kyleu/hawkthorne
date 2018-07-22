@@ -2,6 +2,8 @@ package util
 
 import better.files.File
 
+import scala.collection.immutable
+
 object LuaUtils {
   def qualifies(f: File) = f.name.endsWith(".lua") && (f.name != "init.lua")
 
@@ -26,4 +28,8 @@ object LuaUtils {
         Seq.empty[String]
     }
   }
+
+  def findSounds(lines: immutable.IndexedSeq[String]) = lines.filter(_.startsWith("sound.playSfx")).map { l =>
+    l.stripPrefix("sound.playSfx").stripPrefix("(").stripSuffix(")").replaceAllLiterally("'", "\"").trim
+  }.distinct
 }

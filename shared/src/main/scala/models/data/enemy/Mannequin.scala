@@ -11,5 +11,9 @@ object Mannequin extends EnemyTemplate(
   hp = 3,
   damage = 20,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("mannequin_death"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

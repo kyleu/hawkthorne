@@ -11,5 +11,9 @@ object FishHorizontal extends EnemyTemplate(
   hp = 4,
   damage = 10,
   isBoss = false,
+  passiveSound = None,
+  attackSounds = Nil,
+  dieSound = Some("acorn_squeak"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )

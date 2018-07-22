@@ -15,5 +15,8 @@ case class WeaponTemplate(
     name: String,
     width: Int,
     height: Int,
+    hitAudioClip: Option[String],
+    swingAudioClip: Option[String],
+    unuseAudioClip: Option[String],
     animations: Seq[Animation]
 )

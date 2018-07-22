@@ -11,5 +11,9 @@ object Goat extends EnemyTemplate(
   hp = 1,
   damage = 0,
   isBoss = false,
+  passiveSound = Some("goat"),
+  attackSounds = Nil,
+  dieSound = Some("goat"),
+  sounds = Seq.empty,
   animations = Seq.empty
 )
