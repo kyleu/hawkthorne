@@ -19,14 +19,25 @@ object WeaponFiles {
       val pkg = Seq("models", "data", "weapon")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
-      file.addImport("models.weapon", "WeaponTemplate")
+      file.addImport("models.template.weapon", "WeaponTemplate")
 
       file.add(s"object $name extends WeaponTemplate(", 1)
       file.add(s"""key = "$key",""")
       file.add(s"""name = "$name",""")
-      file.add(s"""width = $width,""")
-      file.add(s"""height = $height,""")
-      file.add(s"""animations = Seq.empty""")
+      file.add(s"width = $width,")
+      file.add(s"height = $height,")
+
+      val anims = LuaUtils.findAnimations(lines)
+      if (anims.isEmpty) {
+        file.add(s"animations = Seq.empty")
+      } else {
+        file.add(s"animations = Seq(", 1)
+        anims.foreach(a => file.add(a))
+        file.add(s")", -1)
+      }
+
+      file.add(s")", -1)
+
       file.add(")", -1)
 
       name -> cfg.writeScalaResult(s"weapons/${src.name}", file.path -> file.rendered)

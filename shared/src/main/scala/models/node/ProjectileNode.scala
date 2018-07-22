@@ -1,7 +1,7 @@
 package models.node
 
 import models.asset.Asset
-import models.projectile.{ProjectileListing, ProjectileTemplate}
+import models.template.projectile.ProjectileListing
 import util.JsonSerializers._
 
 object ProjectileNode {

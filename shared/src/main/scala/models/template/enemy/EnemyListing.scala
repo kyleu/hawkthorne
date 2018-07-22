@@ -1,5 +1,5 @@
 /* Generated File */
-package models.enemy
+package models.template.enemy
 
 import models.data.enemy._
 

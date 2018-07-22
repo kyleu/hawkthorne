@@ -1,6 +1,17 @@
 package pipeline
 
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
 object PipelineService {
+  def main(args: Array[String]): Unit = run()
+
+  def run() = {
+    val cfg = PipelineConfig(srcProjectLoc = "../../Libraries/hawkthorne-journey/src", tgtRootLoc = ".", wipe = false)
+    val resultF = PipelineService.go(cfg)
+    Await.result(resultF, 10.seconds)
+  }
+
   def go(cfg: PipelineConfig) = {
     val started = util.DateUtils.now
     val startNanos = System.nanoTime

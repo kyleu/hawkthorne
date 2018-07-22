@@ -4,6 +4,7 @@ import enumeratum.{CirceEnum, Enum, EnumEntry}
 import graphql.GraphQLService
 import models.Application
 import models.auth.Credentials
+import pipeline.PipelineService
 import services.ServiceRegistry
 import services.database.BackupRestore
 import util.FutureUtils.defaultContext
@@ -41,7 +42,7 @@ object SandboxTask extends Enum[SandboxTask] with CirceEnum[SandboxTask] {
   }
 
   case object PipelineExport extends SandboxTask("pipeline", "Pipeline Export", "Converts the source assets from the original game.") {
-    override def call(cfg: Config)(implicit trace: TraceData) = Future.successful(pipeline.Entrypoint.run().asJson.spaces2)
+    override def call(cfg: Config)(implicit trace: TraceData) = Future.successful(PipelineService.run().asJson.spaces2)
   }
 
   case object Testbed extends SandboxTask("testbed", "Testbed", "A simple sandbox for messing around.") {

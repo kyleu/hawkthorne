@@ -1,4 +1,4 @@
-package models.projectile
+package models.template.projectile
 
 import models.animation.Animation
 import util.JsonSerializers._

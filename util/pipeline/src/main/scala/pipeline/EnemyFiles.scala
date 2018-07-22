@@ -23,7 +23,7 @@ object EnemyFiles {
       val pkg = Seq("models", "data", "enemy")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
-      file.addImport("models.enemy", "EnemyTemplate")
+      file.addImport("models.template.enemy", "EnemyTemplate")
 
       file.add(s"object $name extends EnemyTemplate(", 1)
       file.add(s"""key = "$key",""")
@@ -33,7 +33,14 @@ object EnemyFiles {
       file.add(s"""hp = $hp,""")
       file.add(s"""damage = $damage,""")
       file.add(s"""isBoss = $isBoss,""")
-      file.add(s"""animations = Seq.empty""")
+      val anims = LuaUtils.findAnimations(lines)
+      if (anims.isEmpty) {
+        file.add(s"animations = Seq.empty")
+      } else {
+        file.add(s"animations = Seq(", 1)
+        anims.foreach(a => file.add(a))
+        file.add(s")", -1)
+      }
       file.add(")", -1)
 
       name -> cfg.writeScalaResult(s"node/enemies/${src.name}", file.path -> file.rendered)

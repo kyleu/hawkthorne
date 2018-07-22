@@ -23,7 +23,7 @@ object NpcFiles {
       val pkg = Seq("models", "data", "npc")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
-      file.addImport("models.npc", "NpcTemplate")
+      file.addImport("models.template.npc", "NpcTemplate")
 
       file.add(s"object $name extends NpcTemplate(", 1)
       file.add(s"""key = "$key",""")

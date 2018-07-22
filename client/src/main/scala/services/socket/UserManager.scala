@@ -11,7 +11,7 @@ object UserManager {
   val rowsReturned = 100
 
   def onUserSettings(us: UserSettings) = {
-    util.Logging.info(s"Received user settings for [${us.userId}].")
+    util.Logging.debug(s"Received user settings for [${us.userId}].")
     userId = Some(us.userId)
     username = Some(us.username)
     email = Some(us.email)

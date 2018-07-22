@@ -10,10 +10,8 @@ class SocketConnection(key: String, val handler: EventHandler, val binary: Boole
 
   def connect(path: String) = {
     NetworkMessage.register(sendMessage)
-    Logging.debug(util.Config.projectName + " is connecting...")
-
     val url = websocketUrl(path)
-    Logging.info(s"Socket [$key] starting with url [$url].")
+    Logging.debug(s"Socket [$key] starting with url [$url].")
     socket.open(url)
   }
 

@@ -1,5 +1,5 @@
 /* Generated File */
-package models.weapon
+package models.template.weapon
 
 import models.data.weapon._
 

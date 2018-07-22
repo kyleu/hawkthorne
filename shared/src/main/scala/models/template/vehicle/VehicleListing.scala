@@ -1,5 +1,5 @@
 /* Generated File */
-package models.vehicle
+package models.template.vehicle
 
 import models.data.vehicle._
 

@@ -1,7 +1,7 @@
 package models.node
 
 import models.asset.Asset
-import models.weapon.WeaponTemplate
+import models.template.weapon.WeaponTemplate
 import util.JsonSerializers._
 
 object WeaponNode {

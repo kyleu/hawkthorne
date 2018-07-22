@@ -5,7 +5,7 @@
     <li class="collection-item" style="text-align: center; background-color: #000;">
       <img src="@controllers.routes.Assets.versioned("game/images/menu/splash.png")" />
     </li>
-    @models.npc.NpcListing.all.map { n =>
+    @models.template.npc.NpcListing.all.map { n =>
       <li class="collection-item">
         <h5>@n.name</h5>
         @defining(s"background-image: url('${controllers.routes.Assets.versioned(s"game/images/npc/${n.key}.png")}');") { imgStyle =>

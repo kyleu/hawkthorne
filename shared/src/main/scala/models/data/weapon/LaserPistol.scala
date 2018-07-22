@@ -1,7 +1,7 @@
 /* Generated File */
 package models.data.weapon
 
-import models.weapon.WeaponTemplate
+import models.template.weapon.WeaponTemplate
 
 object LaserPistol extends WeaponTemplate(
   key = "laser_pistol",

@@ -30,8 +30,8 @@ class NodeLoader(game: Game, group: Group) {
 
       val components = ComponentLoadService.fromNodes(nodes, game, group)
 
-      val msg = s"Loaded [${components.size}] components from [${assets.size}] assets in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms]."
-      util.Logging.info(msg)
+      def msg = s"Loaded [${components.size}] components from [${assets.size}] assets in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms]."
+      util.Logging.debug(msg)
       onComplete(components)
     })
     game.load.start()

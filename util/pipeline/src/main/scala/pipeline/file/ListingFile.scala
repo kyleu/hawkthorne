@@ -4,7 +4,7 @@ import pipeline.{ExportHelper, PipelineConfig}
 
 object ListingFile {
   def listingFile(cfg: PipelineConfig, key: String, instances: Seq[String]) = {
-    val pkg = Seq("models", key)
+    val pkg = Seq("models", "template", key)
     val n = ExportHelper.toClassName(key)
     val file = ScalaFile(pkg = pkg, key = n + "Listing", root = Some("shared/src/main/scala"))
 

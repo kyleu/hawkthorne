@@ -1,7 +1,7 @@
 /* Generated File */
 package models.data.npc
 
-import models.npc.NpcTemplate
+import models.template.npc.NpcTemplate
 
 object TutorialWizard extends NpcTemplate(
   key = "tutorial_wizard",

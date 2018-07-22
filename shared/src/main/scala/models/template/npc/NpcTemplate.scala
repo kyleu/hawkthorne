@@ -1,4 +1,4 @@
-package models.npc
+package models.template.npc
 
 import models.animation.Animation
 import util.JsonSerializers._

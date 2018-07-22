@@ -1,5 +1,5 @@
 /* Generated File */
-package models.npc
+package models.template.npc
 
 import models.data.npc._
 

@@ -1,5 +1,5 @@
 /* Generated File */
-package models.projectile
+package models.template.projectile
 
 import models.data.projectile._
 

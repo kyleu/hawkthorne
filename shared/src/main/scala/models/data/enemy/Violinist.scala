@@ -1,7 +1,7 @@
 /* Generated File */
 package models.data.enemy
 
-import models.enemy.EnemyTemplate
+import models.template.enemy.EnemyTemplate
 
 object Violinist extends EnemyTemplate(
   key = "violinist",

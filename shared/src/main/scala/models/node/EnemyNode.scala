@@ -1,7 +1,7 @@
 package models.node
 
 import models.asset.Asset
-import models.enemy.EnemyListing
+import models.template.enemy.EnemyListing
 import util.JsonSerializers._
 
 object EnemyNode {

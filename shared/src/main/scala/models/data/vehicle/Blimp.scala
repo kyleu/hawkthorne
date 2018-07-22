@@ -1,7 +1,7 @@
 /* Generated File */
 package models.data.vehicle
 
-import models.vehicle.VehicleTemplate
+import models.template.vehicle.VehicleTemplate
 
 object Blimp extends VehicleTemplate(
   key = "blimp",

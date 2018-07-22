@@ -1,7 +1,7 @@
 /* Generated File */
 package models.data.vehicle
 
-import models.vehicle.VehicleTemplate
+import models.template.vehicle.VehicleTemplate
 
 object Robot extends VehicleTemplate(
   key = "robot",

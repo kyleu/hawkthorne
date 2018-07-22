@@ -1,7 +1,7 @@
 /* Generated File */
 package models.data.projectile
 
-import models.projectile.ProjectileTemplate
+import models.template.projectile.ProjectileTemplate
 
 object AlienLaser extends ProjectileTemplate(
   key = "alien_laser",

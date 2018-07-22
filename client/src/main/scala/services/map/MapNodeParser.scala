@@ -25,8 +25,8 @@ object MapNodeParser {
     })
 
     val time = ((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)
-    Logging.info(s"Loaded [${ret.size}] nodes in [${time}ms].")
-    ret.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).toSeq.sorted.foreach(s => Logging.info("  - " + s))
+    Logging.debug(s"Loaded [${ret.size}] nodes in [${time}ms].")
+    ret.groupBy(_.getClass).map(x => x._1.getSimpleName.stripSuffix("$") + ": " + x._2.size).toSeq.sorted.foreach(s => Logging.debug("  - " + s))
     ret
   }
 }

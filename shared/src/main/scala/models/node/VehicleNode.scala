@@ -1,8 +1,8 @@
 package models.node
 
 import models.asset.Asset
+import models.template.vehicle.VehicleTemplate
 import util.JsonSerializers._
-import models.vehicle.VehicleTemplate
 
 object VehicleNode {
   val key = "vehicle"

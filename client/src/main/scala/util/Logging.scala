@@ -22,19 +22,19 @@ object Logging {
     global.console.log(o)
   }
 
-  def debug(msg: String): Unit = if (showDebug) {
+  def debug(msg: => String): Unit = if (showDebug) {
     global.console.log(msg)
   }
 
-  def info(msg: String): Unit = {
+  def info(msg: => String): Unit = {
     global.console.info(msg)
   }
 
-  def warn(msg: String): Unit = {
+  def warn(msg: => String): Unit = {
     global.console.warn(msg)
   }
 
-  def error(msg: String): Unit = {
+  def error(msg: => String): Unit = {
     global.console.error(msg)
   }
 

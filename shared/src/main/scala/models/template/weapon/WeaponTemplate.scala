@@ -1,4 +1,4 @@
-package models.weapon
+package models.template.weapon
 
 import models.animation.Animation
 import util.JsonSerializers._

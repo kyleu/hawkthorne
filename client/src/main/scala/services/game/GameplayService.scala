@@ -20,7 +20,8 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   val mainDoor = nodes.collect { case n: DoorNode => n }.find(_.name == "main")
   val (initialX, initialY) = mainDoor.map(d => (d.actualX + (d.actualWidth / 2)) -> (d.actualY + (d.actualHeight / 2))).getOrElse(400 -> 400)
 
-  val instance = GameInstance(options, nodes, s => util.Logging.info(s), s => util.Logging.warn(s))
+  val instance = new GameInstance(options, Seq(player))
+  instance.setCallbacks(s => util.Logging.info(s), s => util.Logging.warn(s))
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
@@ -28,7 +29,6 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     game = game, group = mapService.group, player = player, initialX = initialX, initialY = initialY, physics = false
   )
   addComponent(playerSprite)
-  // game.camera.follow(target = playerSprite.sprite, style = Camera.FOLLOW_PLATFORMER)
 
   private[this] val hudOverlay = HudOverlay(game = game, player = player)
   addComponent(hudOverlay)
@@ -43,7 +43,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
 
   new NodeLoader(game, mapService.group).load(nodes = nodes, onComplete = newComponents => {
     newComponents.foreach(addComponent)
-    DebugService.inst.foreach(_.setMap(mapService, instance.nodes, components, Seq(playerSprite)))
+    DebugService.inst.foreach(_.setMap(mapService, nodes, components, Seq(playerSprite)))
     splashComplete()
     playerSprite.sprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)

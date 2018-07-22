@@ -1,4 +1,4 @@
-package models.vehicle
+package models.template.vehicle
 
 import models.animation.Animation
 import util.JsonSerializers._

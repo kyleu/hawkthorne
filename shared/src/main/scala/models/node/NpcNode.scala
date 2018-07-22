@@ -1,7 +1,7 @@
 package models.node
 
 import models.asset.Asset
-import models.npc.NpcTemplate
+import models.template.npc.NpcTemplate
 import util.JsonSerializers._
 
 object NpcNode {

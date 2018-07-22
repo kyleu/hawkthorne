@@ -1,4 +1,4 @@
-package models.enemy
+package models.template.enemy
 
 import models.animation.Animation
 import util.JsonSerializers._

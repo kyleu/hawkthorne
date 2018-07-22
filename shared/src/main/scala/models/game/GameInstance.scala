@@ -1,20 +1,26 @@
 package models.game
 
-import models.node.Node
 import models.player.Player
+import models.scenario.Scenario
 
-case class GameInstance(
-    options: GameOptions,
-    nodes: Seq[Node],
-    logger: String => Unit,
-    notification: String => Unit
-) {
-  options.scenario match {
-    case "new" => logger("Starting default game...")
+class GameInstance(val options: GameOptions, initialPlayers: Seq[Player]) {
+  private[this] var logger: Option[String => Unit] = None
+  private[this] def log(s: String) = logger.getOrElse(throw new IllegalStateException("Not initialized."))(s)
+
+  private[this] var notification: Option[String => Unit] = None
+  private[this] def notify(s: String) = logger.getOrElse(throw new IllegalStateException("Not initialized."))(s)
+
+  def setCallbacks(log: String => Unit, notify: String => Unit) = {
+    logger = Some(log)
+    notification = Some(notify)
+  }
+
+  val scenario = options.scenario match {
+    case "new" => Scenario.fromOptions(options, initialPlayers)
     case x => throw new IllegalStateException(s"Unhandled scenario [$x].")
   }
 
-  private[this] var players = Seq.empty[Player]
+  private[this] var players = initialPlayers
 
   def onMessage(gu: GameUpdate) = gu match {
     case GameUpdate.AddPlayer(_, p) => players = players :+ p
