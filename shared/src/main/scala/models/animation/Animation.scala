@@ -5,6 +5,13 @@ import util.JsonSerializers._
 object Animation {
   implicit val jsonEncoder: Encoder[Animation] = deriveEncoder
   implicit val jsonDecoder: Decoder[Animation] = deriveDecoder
+
+  def fromString(id: String, s: String, speed: Double = 0.1, loop: Boolean = false) = {
+    val coords = AnimationCoords.fromString(s)
+    val stride = coords.map(_._1).max + 1
+    val frames = coords.map(c => c._1 + (c._2 * stride))
+    Animation(id = id, frames = frames, delay = speed, loop = loop)
+  }
 }
 
 case class Animation(id: String, frames: IndexedSeq[Int], delay: Double = 0.1, loop: Boolean = false) {

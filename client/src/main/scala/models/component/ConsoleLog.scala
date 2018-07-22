@@ -1,11 +1,12 @@
 package models.component
 
 import com.definitelyscala.phaserce._
-import models.component.BaseComponent.Resizable
 import models.font.Font
 
-case class ConsoleLog(override val game: Game, override val x: Int = 120, override val y: Int = 10) extends BaseComponent with Resizable {
-  override val name = "console"
+case class ConsoleLog(
+    override val game: Game, override val x: Int = 120, override val y: Int = 10
+) extends BaseComponent with BaseComponent.Resizable {
+  override val name = "ui.console"
 
   val group = new Group(game, name = "console.log")
   group.x = x.toDouble
