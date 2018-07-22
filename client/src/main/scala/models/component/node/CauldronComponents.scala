@@ -6,7 +6,7 @@ import models.node.CauldronNode
 
 object CauldronComponents {
   def apply(game: Game, group: Group, n: CauldronNode) = {
-    val sprite = StaticSprite(game = game, group = group, name = n.name, x = n.x, y = n.y, key = s"cauldron.${n.name}")
+    val sprite = StaticSprite(game = game, group = group, name = n.name, x = n.x, y = n.y, key = s"cauldron.${n.nameWithDefault}")
     Seq(sprite)
   }
 }
