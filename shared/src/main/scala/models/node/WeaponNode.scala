@@ -1,5 +1,7 @@
 package models.node
 
+import models.asset.Asset
+import models.weapon.WeaponTemplate
 import util.JsonSerializers._
 
 object WeaponNode {
@@ -25,4 +27,9 @@ case class WeaponNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: Option[WeaponNode.Props]
-) extends Node(WeaponNode.key)
+) extends Node(WeaponNode.key) {
+  val template = WeaponTemplate.withKey(nameWithDefault)
+  override val assets = Seq(
+    Asset.Spritesheet(s"weapon.$nameWithDefault", s"images/weapons/$nameWithDefault.png", template.width, template.height)
+  )
+}

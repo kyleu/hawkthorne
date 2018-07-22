@@ -20,6 +20,7 @@ object ComponentLoadService {
       case n: NpcNode => NpcComponents(game, group, n)
       case n: ProjectileNode => ProjectileComponents(game, group, n)
       case n: SpriteNode => SpriteComponents(game, group, n)
+      case n: WeaponNode => WeaponComponents(game, group, n)
       case n =>
         unhandled = unhandled + n.getClass.getSimpleName
         Nil
