@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object ThrowableNode {
@@ -17,4 +18,8 @@ case class ThrowableNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(ThrowableNode.key)
+) extends Node(ThrowableNode.key) {
+  override val assets = Seq(
+    Asset.Image(s"throwable.$nameWithDefault", s"images/throwables/$nameWithDefault.png")
+  )
+}

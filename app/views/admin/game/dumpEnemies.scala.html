@@ -3,7 +3,7 @@
 )@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "gamedata", util.Config.projectName + " Asset Dump") {
   <ul class="collection with-header">
     <li class="collection-item" style="text-align: center; background-color: #000;">
-      <img src="@controllers.routes.Assets.versioned("game/images/splash.png")" />
+      <img src="@controllers.routes.Assets.versioned("game/images/menu/splash.png")" />
     </li>
     @models.enemy.EnemyListing.all.map { n =>
       <li class="collection-item">

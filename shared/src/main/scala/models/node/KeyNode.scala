@@ -1,5 +1,6 @@
 package models.node
 
+import models.asset.Asset
 import util.JsonSerializers._
 
 object KeyNode {
@@ -25,4 +26,8 @@ case class KeyNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: Option[KeyNode.Props]
-) extends Node(KeyNode.key)
+) extends Node(KeyNode.key) {
+  override val assets = Seq(
+    Asset.Image(s"key.$nameWithDefault", s"images/keys/$nameWithDefault.png")
+  )
+}

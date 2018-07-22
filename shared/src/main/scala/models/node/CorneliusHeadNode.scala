@@ -19,5 +19,5 @@ case class CorneliusHeadNode(
     override val rotation: Int,
     override val visible: Boolean
 ) extends Node(CorneliusHeadNode.key) {
-  override val assets = Seq(Asset.Spritesheet("cornelius", "images/misc/cornelius.png", 148, 195))
+  override val assets = Seq(Asset.Spritesheet("cornelius", "images/cornelius_head_2.png", 148, 195))
 }
