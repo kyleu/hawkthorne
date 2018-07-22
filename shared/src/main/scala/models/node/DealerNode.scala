@@ -21,6 +21,6 @@ case class DealerNode(
 ) extends Node(DealerNode.key) {
   override val assets = Seq(
     Asset.Spritesheet(s"dealer", s"images/sprites/town/dealer.png", 72, 72),
-    Asset.Audio(s"sfx.letsPlayPoker", s"audio/sfx/letsPlayPoker.ogg")
+    Asset.sfx("letsPlayPoker")
   )
 }

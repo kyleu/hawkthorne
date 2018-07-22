@@ -6,6 +6,7 @@ import models.component.HudOverlay
 import models.font.Font
 import models.game.GameOptions
 import models.player.Player
+import services.audio.SoundEffectService
 import services.game.GameplayService
 import services.map.MapService
 
@@ -13,7 +14,8 @@ object GameplayState {
   def load(phaser: Game, options: GameOptions, player: Player) = new LoadingState(
     next = new GameplayState(phaser, options, player),
     phaser = phaser,
-    assets = (MapService.assetsFor(options.map) ++ HudOverlay.assets ++ Font.assets) :+ Asset.spritesheetFromTuple(player.spritesheet)
+    assets = SoundEffectService.gameplayAssets ++ MapService.assetsFor(options.map) ++
+      HudOverlay.assets ++ Font.assets ++ Seq(Asset.spritesheetFromTuple(player.spritesheet))
   )
 }
 

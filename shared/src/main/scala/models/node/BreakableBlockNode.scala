@@ -46,5 +46,5 @@ case class BreakableBlockNode(
   override val assets = Seq(
     Asset.Image(s"block.$actualName", s"images/blocks/$actualName.png"),
     Asset.Audio(s"sfx.block_explode", s"audio/sfx/block_explode.ogg")
-  ) ++ properties.sound.map(k => Asset.Audio(s"sfx.$k", s"audio/sfx/$k.ogg"))
+  ) ++ properties.sound.map(Asset.sfx)
 }

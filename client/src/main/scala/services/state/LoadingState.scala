@@ -2,6 +2,7 @@ package services.state
 
 import com.definitelyscala.phaserce.{Game, Point, Tilemap}
 import models.asset._
+import services.audio.SoundEffectService
 import util.PhaserUtils
 
 object LoadingState {
@@ -32,6 +33,7 @@ class LoadingState(
 
     game.state.add(next.key, next, autoStart = false)
 
+    SoundEffectService.menuAssets.foreach(LoadingState.load(_, game))
     assets.foreach(LoadingState.load(_, game))
     var filesCompleted = 0
 

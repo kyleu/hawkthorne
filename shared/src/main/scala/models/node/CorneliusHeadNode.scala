@@ -21,6 +21,6 @@ case class CorneliusHeadNode(
 ) extends Node(CorneliusHeadNode.key) {
   override val assets = Seq(
     Asset.Spritesheet("cornelius", "images/cornelius_head_2.png", 148, 195),
-    Asset.Audio(s"sfx.cornelius_thats_my_boy", s"audio/sfx/cornelius_thats_my_boy.ogg")
+    Asset.sfx("cornelius_thats_my_boy")
   )
 }

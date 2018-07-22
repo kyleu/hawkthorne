@@ -21,7 +21,7 @@ case class FireAlarmNode(
 ) extends Node(FireAlarmNode.key) {
   override val assets = Seq(
     Asset.Spritesheet("fire.alarm", "images/sprites/greendale/firealarm.png", 24, 72),
-    Asset.Audio(s"sfx.spray", s"audio/sfx/spray.ogg"),
-    Asset.Audio(s"sfx.alarmswitch", s"audio/sfx/alarmswitch.ogg")
+    Asset.sfx("spray"),
+    Asset.sfx("alarmswitch")
   )
 }
