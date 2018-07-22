@@ -9,7 +9,7 @@ object LiquidComponents {
     Seq(LiquidComponent(
       game = game,
       group = group,
-      name = n.actualName,
+      name = "liquid." + n.actualName,
       key = n.sheetKey,
       x = n.actualX,
       y = n.actualY,

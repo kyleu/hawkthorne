@@ -14,6 +14,7 @@ case class LiquidComponent(
     height: Int
 ) extends BaseComponent {
   val liquidGroup = new Group(game, group, name)
+  liquidGroup.name = s"liquid.$name"
   liquidGroup.x = x.toDouble
   liquidGroup.y = y.toDouble
 
@@ -24,7 +25,7 @@ case class LiquidComponent(
       val nf = if (yIdx == 0) { xIdx % frameCount } else { (xIdx % frameCount) + frameCount }
 
       val image = new Image(game = game, x = xIdx * 24.0, y = yIdx * 24.0, key = key, frame = nf)
-      image.name = name
+      image.name = s"liquid.$name.$xIdx.$yIdx"
       image.alpha = opacity
       liquidGroup.add(image)
       image

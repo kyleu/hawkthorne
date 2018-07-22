@@ -1,8 +1,10 @@
 package services.game
 
-import com.definitelyscala.phaserce.Camera
+import com.definitelyscala.phaserce.Game
 
-class CameraService(camera: Camera) {
+class CameraService(game: Game) {
+  val camera = game.camera
+
   val shittyDefaultScale = 1.0
 
   private[this] def getScale(width: Int, height: Int) = shittyDefaultScale

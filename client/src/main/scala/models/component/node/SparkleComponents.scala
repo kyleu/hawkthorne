@@ -6,6 +6,6 @@ import models.node.SparkleNode
 
 object SparkleComponents {
   def apply(game: Game, group: Group, n: SparkleNode) = Seq(
-    StaticSprite(game = game, group = group, name = n.actualName, x = n.actualX, y = n.actualY, key = "cornelius.sparkle")
+    StaticSprite(game = game, group = group, name = "cornelius." + n.actualName, x = n.actualX, y = n.actualY, key = "cornelius.sparkle")
   )
 }

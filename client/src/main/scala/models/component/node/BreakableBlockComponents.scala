@@ -6,6 +6,6 @@ import models.node.BreakableBlockNode
 
 object BreakableBlockComponents {
   def apply(game: Game, group: Group, n: BreakableBlockNode) = Seq(
-    StaticSprite(game = game, group = group, name = n.actualName, x = n.actualX, y = n.actualY, key = s"block.${n.actualName}")
+    StaticSprite(game = game, group = group, name = "block." + n.actualName, x = n.actualX, y = n.actualY, key = s"block.${n.actualName}")
   )
 }

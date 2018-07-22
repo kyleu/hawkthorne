@@ -37,7 +37,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   addComponent(consoleLog)
 
   private[this] val input = new InputService(game, IndexedSeq(playerSprite))
-  private[this] val camera = new CameraService(game.camera)
+  private[this] val camera = new CameraService(game)
 
   private[this] val splashComplete = SplashComponent.show(game)
 

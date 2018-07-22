@@ -29,7 +29,7 @@ abstract class Node(val t: String) {
   def assets = Seq.empty[Asset]
   def update(deltaMs: Double) = {}
 
-  def actualName = if (name.trim.isEmpty) { s"$t.$id" } else { name }
+  def actualName = if (name.trim.isEmpty) { id.toString } else { name }
 
   def actualX = x
   def actualY = y
@@ -37,5 +37,5 @@ abstract class Node(val t: String) {
   def actualWidth = width
   def actualHeight = height
 
-  def asNewGameObject = GameObject(t = getClass.getSimpleName, id = id, n = name, x = actualX, y = actualY, w = actualWidth, h = actualHeight)
+  def asNewGameObject = GameObject(t = getClass.getSimpleName, id = id, n = name, x = actualX.toDouble, y = actualY.toDouble, w = actualWidth, h = actualHeight)
 }
