@@ -1,4 +1,4 @@
-package services.ui
+package services.debug
 
 import com.definitelyscala.datgui.GUI
 import models.component._

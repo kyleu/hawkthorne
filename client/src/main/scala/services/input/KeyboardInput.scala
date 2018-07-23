@@ -1,7 +1,7 @@
 package services.input
 
 import com.definitelyscala.phaserce.{Game, Key, KeyCode}
-import services.ui.DebugService
+import services.debug.DebugService
 import util.PhaserUtils
 
 object KeyboardInput {

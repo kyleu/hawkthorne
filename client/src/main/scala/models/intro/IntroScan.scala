@@ -3,9 +3,13 @@ package models.intro
 import com.definitelyscala.phaserce.{Game, Group}
 import models.animation.Animation
 import models.component.AnimatedSprite
-import services.state.IntroState._
 
 class IntroScan(game: Game) {
+  val rtime = 10.0
+  val ctime = rtime / 7
+  val ftime = ctime / 3
+  val stime = ctime - ftime
+
   private[this] val margin = 20
   val dimensions = (400 + (margin * 2)) -> (250 + (margin * 2))
   private[this] val charOffset = 28 + margin
@@ -32,15 +36,8 @@ class IntroScan(game: Game) {
   private[this] val blank = AnimatedSprite(game, group, "blankscan", charOffset + 220, charOffset, "intro.blankscan", animationMap(Animation("intro.blankscan", 0 until 12, stime / 12, loop = true)))
   private[this] val scanningbar = AnimatedSprite(game, group, "scanningbar", charOffset + 220, labelOffset, "intro.scanningbar", animationMap(Animation("intro.scanningbar", 0 until 17, ctime / 17, loop = true)))
 
-  /*
-  group.add(background.sprite)
-  chars.foreach(c => group.add(c.sprite))
-  group.add(description.sprite)
-  group.add(computer.sprite)
-  group.add(blank.sprite)
-  group.add(scanningbar.sprite)
-  */
-  game.add.audio("music.opening").play(loop = true)
+  game.add.audio("music.opening").play(loop = false)
+  game.world.add(group)
 
   def update(dt: Double, elapsed: Double) = {
     background.update(dt)

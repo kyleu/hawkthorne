@@ -5,10 +5,10 @@ import models.component.{BaseComponent, ConsoleLog, HudOverlay}
 import models.game.GameOptions
 import models.phaser.SplashScreen
 import models.player.{Player, PlayerSprite}
+import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
-import services.ui.DebugService
 
 class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] var started = false
