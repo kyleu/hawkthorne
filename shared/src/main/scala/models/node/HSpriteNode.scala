@@ -35,7 +35,7 @@ case class HSpriteNode(
     properties: HSpriteNode.Props
 ) extends Node(HSpriteNode.key) {
   val sheetKey = "hsprite." + properties.sheet.substring(properties.sheet.lastIndexOf('/') + 1).stripSuffix(".png")
-  val animation = Animation.fromString(actualName, properties.animation)
+  val animation = Animation.fromString(id = actualName, s = properties.animation, speed = 0.1, loop = false)
 
   override def actualName = if (name.trim.isEmpty) { s"$sheetKey.$id" } else { name }
 

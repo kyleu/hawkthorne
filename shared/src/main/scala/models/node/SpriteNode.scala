@@ -51,7 +51,7 @@ case class SpriteNode(
 ) extends Node(SpriteNode.key) {
   val sheetKey = "sprite." + properties.sheet.substring(properties.sheet.lastIndexOf('/') + 1).stripSuffix(".png")
   val animation = properties.animation.map { a =>
-    Animation.fromString(actualName, a, properties.speed.map(_.toDouble).getOrElse(0.1), loop = true)
+    Animation.fromString(id = actualName, s = a, speed = properties.speed.map(_.toDouble).getOrElse(0.1), loop = true)
   }
   if (properties.random.contains("true")) { animation.foreach(_.setJitter(Random.nextDouble())) }
 

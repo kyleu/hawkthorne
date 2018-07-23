@@ -6,7 +6,7 @@ object Animation {
   implicit val jsonEncoder: Encoder[Animation] = deriveEncoder
   implicit val jsonDecoder: Decoder[Animation] = deriveDecoder
 
-  def fromString(id: String, s: String, speed: Double = 0.1, loop: Boolean = false) = {
+  def fromString(id: String, s: String, speed: Double, loop: Boolean) = {
     val coords = AnimationCoords.fromString(s)
     val stride = coords.map(_._1).max + 1
     val frames = coords.map(c => c._1 + (c._2 * stride))
@@ -14,7 +14,7 @@ object Animation {
   }
 }
 
-case class Animation(id: String, frames: IndexedSeq[Int], delay: Double = 0.1, loop: Boolean = false) {
+case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean) {
   val durationMs = frames.size * delay
   val firstFrame = frames.headOption.getOrElse(throw new IllegalMonitorStateException(s"Empty frames for animation [$id]."))
 

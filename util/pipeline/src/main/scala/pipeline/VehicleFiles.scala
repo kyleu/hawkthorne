@@ -19,6 +19,7 @@ object VehicleFiles {
       val pkg = Seq("models", "data", "vehicle")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
+      file.addImport("models.animation", "Animation")
       file.addImport("models.template.vehicle", "VehicleTemplate")
 
       file.add(s"object $name extends VehicleTemplate(", 1)
@@ -26,7 +27,7 @@ object VehicleFiles {
       file.add(s"""name = "$name",""")
       file.add(s"""width = $width,""")
       file.add(s"""height = $height,""")
-      val anims = LuaUtils.findAnimations(lines)
+      val anims = LuaUtils.findAnimations("Vehicle: " + name, lines)
       if (anims.isEmpty) {
         file.add(s"animations = Seq.empty")
       } else {

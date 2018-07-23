@@ -29,6 +29,7 @@ object EnemyFiles {
       val pkg = Seq("models", "data", "enemy")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
+      file.addImport("models.animation", "Animation")
       file.addImport("models.template.enemy", "EnemyTemplate")
 
       file.add(s"object $name extends EnemyTemplate(", 1)
@@ -52,7 +53,7 @@ object EnemyFiles {
       } else {
         file.add(s"sounds = Seq(${sounds.mkString(", ")}),")
       }
-      val anims = LuaUtils.findAnimations(lines)
+      val anims = LuaUtils.findAnimations("Enemy: " + name, lines)
       if (anims.isEmpty) {
         file.add(s"animations = Seq.empty")
       } else {

@@ -23,6 +23,7 @@ object WeaponFiles {
       val pkg = Seq("models", "data", "weapon")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
+      file.addImport("models.animation", "Animation")
       file.addImport("models.template.weapon", "WeaponTemplate")
 
       file.add(s"object $name extends WeaponTemplate(", 1)
@@ -35,7 +36,7 @@ object WeaponFiles {
       file.add(s"swingAudioClip = $swingAudioClip,")
       file.add(s"unuseAudioClip = $unuseAudioClip,")
 
-      val anims = LuaUtils.findAnimations(lines)
+      val anims = LuaUtils.findAnimations("Weapon: " + name, lines)
       if (anims.isEmpty) {
         file.add(s"animations = Seq.empty")
       } else {
