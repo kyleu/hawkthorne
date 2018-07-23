@@ -1,6 +1,7 @@
 /* Generated File */
 package models.data.vehicle
 
+import models.animation.Animation
 import models.template.vehicle.VehicleTemplate
 
 object Dinosaur extends VehicleTemplate(
