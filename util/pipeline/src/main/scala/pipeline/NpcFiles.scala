@@ -23,6 +23,7 @@ object NpcFiles {
       val pkg = Seq("models", "data", "npc")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
+      file.addImport("models.animation", "Animation")
       file.addImport("models.template.npc", "NpcTemplate")
 
       file.add(s"object $name extends NpcTemplate(", 1)
@@ -33,7 +34,14 @@ object NpcFiles {
       file.add(s"""greeting = ${greeting.map("Some(\"" + _ + "\")").getOrElse("None")},""")
       file.add(s"""noInventory = ${noInventory.map("Some(\"" + _ + "\")").getOrElse("None")},""")
       file.add(s"""noCommands = ${noCommands.map("Some(\"" + _ + "\")").getOrElse("None")},""")
-      file.add(s"""animations = Seq.empty""")
+      val anims = LuaUtils.findAnimations("Npc: " + name, lines)
+      if (anims.isEmpty) {
+        file.add(s"animations = Seq.empty")
+      } else {
+        file.add(s"animations = Seq(", 1)
+        anims.foreach(a => file.add(a))
+        file.add(s")", -1)
+      }
       file.add(")", -1)
 
       name -> cfg.writeScalaResult(s"npcs/${src.name}", file.path -> file.rendered)

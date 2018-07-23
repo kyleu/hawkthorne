@@ -31,7 +31,7 @@ object LuaUtils {
           depth += l.count(_ == '{')
           depth -= l.count(_ == '}')
           depth > 0
-        }.map(_.trim).dropWhile(_ == "animations = {")
+        }.map(_.trim.stripSuffix(",")).dropWhile(_ == "animations = {")
 
         var acc = Seq.empty[String]
         val anims = matched.flatMap { line =>
@@ -41,10 +41,11 @@ object LuaUtils {
               acc = acc :+ line.substring(0, line.indexOf('=')).trim
               None
             case 0 if line.contains('=') => Some(parseAnimationLine(acc.map(_ + ".").mkString + line))
+            case 0 if acc.nonEmpty => Some(parseAnimationLine(acc.map(_ + ".").mkString + " = " + line))
             case -1 =>
               acc = acc.drop(1)
               None
-            case x => throw new IllegalStateException(s"Unbalanced ($x) line [$line]")
+            case x => throw new IllegalStateException(s"Unbalanced $ctx line [$line] with $x results.")
           }
         }
         anims.dropRight(1).map(_ + ",") :+ anims.last
@@ -56,7 +57,7 @@ object LuaUtils {
     val cleaned = line.dropWhile(_ != '=').trim.stripPrefix("=").trim.stripPrefix("{").stripSuffix(",").stripSuffix("}").trim
     val typ = cleaned.substring(0, cleaned.indexOf(',')).replaceAllLiterally("'", "").trim
     val delay = cleaned.substring(cleaned.lastIndexOf(',') + 1).trim.toDouble
-    val coordString = cleaned.substring(cleaned.indexOf(',') + 1, cleaned.lastIndexOf(',')).trim.stripPrefix("{").stripSuffix("}").trim
+    val coordString = cleaned.substring(cleaned.indexOf(',') + 1, cleaned.lastIndexOf(',')).trim.stripPrefix("{").stripSuffix("}").stripSuffix(",").trim
     val coords = parseCoords(coordString)
     val stride = coords.map(_._1).max + 1
     val frames = coords.map(c => c._1 + (c._2 * stride))
