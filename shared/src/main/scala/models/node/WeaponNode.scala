@@ -10,14 +10,14 @@ object WeaponNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(direction: Option[String], flipY: Option[String], foreground: Option[String], sprite: Option[String])
+  final case class Props(direction: Option[String], flipY: Option[String], foreground: Option[String], sprite: Option[String])
 
   val key = "weapon"
   implicit val jsonEncoder: Encoder[WeaponNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[WeaponNode] = deriveDecoder
 }
 
-case class WeaponNode(
+final case class WeaponNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

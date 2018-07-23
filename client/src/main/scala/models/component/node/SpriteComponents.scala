@@ -13,7 +13,7 @@ object SpriteComponents {
       x = n.actualX,
       y = n.actualY,
       key = n.sheetKey,
-      animation = anim,
+      animation = anim.newCopy,
       flip = n.properties.flip.contains("true")
     ))
     case None => Seq(StaticSprite(

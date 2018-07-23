@@ -9,13 +9,13 @@ object PipelineResult {
     implicit val jsonDecoder: Decoder[File] = deriveDecoder
   }
 
-  case class File(src: String, tgts: Seq[String])
+  final case class File(src: String, tgts: Seq[String])
 
   implicit val jsonEncoder: Encoder[PipelineResult] = deriveEncoder
   implicit val jsonDecoder: Decoder[PipelineResult] = deriveDecoder
 }
 
-case class PipelineResult(
+final case class PipelineResult(
     config: PipelineConfig,
     started: LocalDateTime = util.DateUtils.now,
     durationNanos: Long = 0L,

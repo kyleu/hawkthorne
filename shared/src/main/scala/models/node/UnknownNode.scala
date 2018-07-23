@@ -9,7 +9,7 @@ object UnknownNode {
   implicit val jsonDecoder: Decoder[UnknownNode] = deriveDecoder
 }
 
-case class UnknownNode(typ: String, json: JsonObject) extends Node(UnknownNode.key) {
+final case class UnknownNode(typ: String, json: JsonObject) extends Node(UnknownNode.key) {
   override val id = json("id").get.asNumber.map(_.toInt.get).getOrElse(0)
   override val name = json("name").get.asString.getOrElse("?")
   override val x = json("x").get.asNumber.map(_.toInt.get).getOrElse(0)

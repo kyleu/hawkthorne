@@ -9,7 +9,7 @@ object AnimatedSprite {
   }
 }
 
-case class AnimatedSprite(
+final case class AnimatedSprite(
     override val game: Game,
     group: Group,
     override val name: String,

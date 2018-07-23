@@ -3,7 +3,7 @@ package services.input
 import com.definitelyscala.phaserce.{Game, Gamepad, SinglePad}
 
 object GamepadInput {
-  case class Keymap(
+  final case class Keymap(
       up: Double, down: Double, left: Double, right: Double,
       leftStickX: Double, leftStickY: Double, rightStickX: Double, rightStickY: Double,
       jump: Double, attack: Double, select: Double,
@@ -43,7 +43,7 @@ object GamepadInput {
   )
 }
 
-case class GamepadInput(game: Game) {
+final case class GamepadInput(game: Game) {
   game.input.gamepad.start()
 
   private[this] val pads = IndexedSeq(game.input.gamepad.pad1, game.input.gamepad.pad2, game.input.gamepad.pad3, game.input.gamepad.pad4)

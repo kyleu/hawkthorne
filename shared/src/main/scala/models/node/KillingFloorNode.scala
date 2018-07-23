@@ -8,7 +8,7 @@ object KillingFloorNode {
   implicit val jsonDecoder: Decoder[KillingFloorNode] = deriveDecoder
 }
 
-case class KillingFloorNode(
+final case class KillingFloorNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

@@ -7,4 +7,4 @@ object BoundingBox {
   implicit val jsonDecoder: Decoder[BoundingBox] = deriveDecoder
 }
 
-case class BoundingBox(width: Int, height: Int, duckHeight: Int, x: Int, y: Int)
+final case class BoundingBox(width: Int, height: Int, duckHeight: Int, x: Int, y: Int)

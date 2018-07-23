@@ -9,7 +9,7 @@ object CowNode {
   implicit val jsonDecoder: Decoder[CowNode] = deriveDecoder
 }
 
-case class CowNode(
+final case class CowNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

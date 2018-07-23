@@ -4,7 +4,7 @@ object ScalaFile {
   val sharedSrc = "shared/src/main/scala"
 }
 
-case class ScalaFile(
+final case class ScalaFile(
     override val pkg: Seq[String], override val key: String, root: Option[String] = None, override val core: Boolean = false
 ) extends OutputFile(dir = root.getOrElse("app"), pkg = pkg, key = key, filename = key + ".scala", core) {
 

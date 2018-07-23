@@ -8,7 +8,7 @@ object SavepointNode {
   implicit val jsonDecoder: Decoder[SavepointNode] = deriveDecoder
 }
 
-case class SavepointNode(
+final case class SavepointNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

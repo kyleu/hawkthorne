@@ -8,7 +8,7 @@ object CeilingNode {
   implicit val jsonDecoder: Decoder[CeilingNode] = deriveDecoder
 }
 
-case class CeilingNode(
+final case class CeilingNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

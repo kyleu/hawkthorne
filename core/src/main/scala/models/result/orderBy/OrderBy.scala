@@ -20,7 +20,7 @@ object OrderBy {
   def forVals(col: Option[String], asc: Boolean) = col.map(c => OrderBy(col = c, dir = OrderBy.Direction.fromBoolAsc(asc)))
 }
 
-case class OrderBy(
+final case class OrderBy(
     col: String = "?",
     dir: OrderBy.Direction = OrderBy.Direction.Ascending
 )

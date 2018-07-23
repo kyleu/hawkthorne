@@ -8,7 +8,7 @@ object CharacterTemplate {
   implicit val jsonDecoder: Decoder[CharacterTemplate] = deriveDecoder
 }
 
-case class CharacterTemplate(
+final case class CharacterTemplate(
     key: String,
     name: String,
     givenName: String,

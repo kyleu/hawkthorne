@@ -9,7 +9,7 @@ object LightningNode {
   implicit val jsonDecoder: Decoder[LightningNode] = deriveDecoder
 }
 
-case class LightningNode(
+final case class LightningNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

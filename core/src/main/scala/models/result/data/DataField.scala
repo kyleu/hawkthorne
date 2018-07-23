@@ -10,6 +10,6 @@ object DataField {
 }
 
 @JSExportTopLevel("DataField")
-case class DataField(@JSExport k: String, v: Option[String]) {
+final case class DataField(@JSExport k: String, v: Option[String]) {
   @JSExport val value = v.getOrElse(util.NullUtils.inst)
 }

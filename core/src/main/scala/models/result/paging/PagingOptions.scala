@@ -35,7 +35,7 @@ object PagingOptions {
   }
 }
 
-case class PagingOptions(
+final case class PagingOptions(
     current: Int = 1,
     limit: Option[Int] = None,
 

@@ -9,14 +9,14 @@ object BuildingNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(trigger: String)
+  final case class Props(trigger: String)
 
   val key = "building"
   implicit val jsonEncoder: Encoder[BuildingNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[BuildingNode] = deriveDecoder
 }
 
-case class BuildingNode(
+final case class BuildingNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

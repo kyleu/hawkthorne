@@ -9,7 +9,7 @@ object FireAlarmNode {
   implicit val jsonDecoder: Decoder[FireAlarmNode] = deriveDecoder
 }
 
-case class FireAlarmNode(
+final case class FireAlarmNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

@@ -9,7 +9,7 @@ object CorneliusHeadNode {
   implicit val jsonDecoder: Decoder[CorneliusHeadNode] = deriveDecoder
 }
 
-case class CorneliusHeadNode(
+final case class CorneliusHeadNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

@@ -7,4 +7,4 @@ object Point {
   implicit val jsonDecoder: Decoder[Point] = deriveDecoder
 }
 
-case class Point(x: Int, y: Int)
+final case class Point(x: Int, y: Int)

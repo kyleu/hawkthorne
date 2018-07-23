@@ -15,9 +15,9 @@ import util.metrics.Instrumented
 import util.{DateUtils, Logging}
 
 object GameSupervisor {
-  case class Broadcast(msg: ResponseMessage)
-  case class StartGame(id: UUID, options: GameOptions, playerInfo: IndexedSeq[PlayerDetails])
-  case class SocketRecord(socketId: UUID, userId: UUID, name: String, channel: String, actorRef: ActorRef, started: LocalDateTime) {
+  final case class Broadcast(msg: ResponseMessage)
+  final case class StartGame(id: UUID, options: GameOptions, playerInfo: IndexedSeq[PlayerDetails])
+  final case class SocketRecord(socketId: UUID, userId: UUID, name: String, channel: String, actorRef: ActorRef, started: LocalDateTime) {
     def toDescription = SocketDescription(socketId, userId, name, channel, started)
   }
 }

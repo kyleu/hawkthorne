@@ -3,7 +3,7 @@ package models.component
 import com.definitelyscala.phaserce.{Game, Group, Image}
 import com.definitelyscala.phasercepixi.Texture
 
-case class StaticImage(
+final case class StaticImage(
     override val game: Game,
     group: Group,
     override val name: String,

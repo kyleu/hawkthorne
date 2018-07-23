@@ -11,11 +11,11 @@ sealed trait GameUpdate extends EnumEntry
 
 object GameUpdate extends Enum[GameUpdate] with CirceEnum[GameUpdate] {
   sealed trait PlayerMessage extends GameUpdate { def idx: Int }
-  case class AddPlayer(override val idx: Int, player: Player) extends PlayerMessage
-  case class RemovePlayer(override val idx: Int, id: UUID) extends PlayerMessage
-  case class PlayerTest(override val idx: Int) extends PlayerMessage
+  final case class AddPlayer(override val idx: Int, player: Player) extends PlayerMessage
+  final case class RemovePlayer(override val idx: Int, id: UUID) extends PlayerMessage
+  final case class PlayerTest(override val idx: Int) extends PlayerMessage
 
-  case class Debug(id: UUID = UUID.randomUUID, t: String = "debug", msg: String = "") extends GameUpdate
+  final case class Debug(id: UUID = UUID.randomUUID, t: String = "debug", msg: String = "") extends GameUpdate
 
   implicit val jsonEncoder: Encoder[GameUpdate] = deriveEncoder
   implicit val jsonDecoder: Decoder[GameUpdate] = deriveDecoder

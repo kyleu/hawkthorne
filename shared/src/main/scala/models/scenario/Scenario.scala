@@ -11,7 +11,7 @@ object Scenario {
   }
 }
 
-case class Scenario(
+final case class Scenario(
     id: UUID,
     map: TiledMap,
     maxPlayers: Int = 1,

@@ -8,7 +8,7 @@ object PipelineConfig {
   implicit val jsonDecoder: Decoder[PipelineConfig] = deriveDecoder
 }
 
-case class PipelineConfig(srcProjectLoc: String, tgtRootLoc: String, wipe: Boolean) {
+final case class PipelineConfig(srcProjectLoc: String, tgtRootLoc: String, wipe: Boolean) {
   val src = {
     val f = srcProjectLoc.toFile
     if (!f.isDirectory) { throw new IllegalStateException(s"Source directory [$srcProjectLoc] is not valid.") }

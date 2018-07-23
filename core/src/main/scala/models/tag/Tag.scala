@@ -28,4 +28,4 @@ object Tag {
   }
 }
 
-case class Tag(k: String, v: String)
+final case class Tag(k: String, v: String)

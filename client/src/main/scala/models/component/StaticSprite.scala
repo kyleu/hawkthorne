@@ -2,7 +2,7 @@ package models.component
 
 import com.definitelyscala.phaserce.{Game, Group, Sprite}
 
-case class StaticSprite(
+final case class StaticSprite(
     override val game: Game,
     group: Group,
     override val name: String,

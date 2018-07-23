@@ -8,14 +8,14 @@ object TutorialNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(`type`: String)
+  final case class Props(`type`: String)
 
   val key = "tutorial"
   implicit val jsonEncoder: Encoder[TutorialNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[TutorialNode] = deriveDecoder
 }
 
-case class TutorialNode(
+final case class TutorialNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

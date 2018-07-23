@@ -9,14 +9,14 @@ object TrampolineNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(dbadd: String, dbval: String)
+  final case class Props(dbadd: String, dbval: String)
 
   val key = "trampoline"
   implicit val jsonEncoder: Encoder[TrampolineNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[TrampolineNode] = deriveDecoder
 }
 
-case class TrampolineNode(
+final case class TrampolineNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

@@ -10,14 +10,14 @@ object NpcNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(foreground: String)
+  final case class Props(foreground: String)
 
   val key = "npc"
   implicit val jsonEncoder: Encoder[NpcNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[NpcNode] = deriveDecoder
 }
 
-case class NpcNode(
+final case class NpcNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

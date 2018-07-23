@@ -15,8 +15,8 @@ object PlayerSupervisor {
   protected var factory: Option[ActorRefFactory] = None
   def getFactory = factory.getOrElse(throw new IllegalStateException("No PlayerSupervisor has been started."))
 
-  case class Broadcast(msg: ResponseMessage)
-  case class SocketRecord(socketId: UUID, userId: UUID, name: String, actorRef: ActorRef, started: LocalDateTime) {
+  final case class Broadcast(msg: ResponseMessage)
+  final case class SocketRecord(socketId: UUID, userId: UUID, name: String, actorRef: ActorRef, started: LocalDateTime) {
     val desc = SocketDescription(socketId, userId, name, "player", started)
   }
 }

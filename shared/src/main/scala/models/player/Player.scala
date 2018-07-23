@@ -13,7 +13,7 @@ object Player {
   val default = Player()
 }
 
-case class Player(
+final case class Player(
     idx: Int = 0,
     user: UUID = UUID.fromString("00000000-0000-0000-0000-000000000000"),
     health: Int = 100,

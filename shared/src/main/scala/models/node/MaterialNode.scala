@@ -9,14 +9,14 @@ object MaterialNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(info: Option[String], persistent: Option[String])
+  final case class Props(info: Option[String], persistent: Option[String])
 
   val key = "material"
   implicit val jsonEncoder: Encoder[MaterialNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[MaterialNode] = deriveDecoder
 }
 
-case class MaterialNode(
+final case class MaterialNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

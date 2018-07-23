@@ -10,7 +10,7 @@ object EnemyNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       direction: Option[String],
       displacement: Option[String],
       drop: Option[String],
@@ -24,7 +24,7 @@ object EnemyNode {
   implicit val jsonDecoder: Decoder[EnemyNode] = deriveDecoder
 }
 
-case class EnemyNode(
+final case class EnemyNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

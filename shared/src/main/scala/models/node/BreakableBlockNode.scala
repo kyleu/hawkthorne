@@ -10,7 +10,7 @@ object BreakableBlockNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       brokenBy: Option[String],
       crack: Option[String],
       dying_animation: Option[String],
@@ -30,7 +30,7 @@ object BreakableBlockNode {
   implicit val jsonDecoder: Decoder[BreakableBlockNode] = deriveDecoder
 }
 
-case class BreakableBlockNode(
+final case class BreakableBlockNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

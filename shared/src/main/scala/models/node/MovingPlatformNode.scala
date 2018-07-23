@@ -9,7 +9,7 @@ object MovingPlatformNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       anim_speed: Option[String],
       animation: Option[String],
       chain: Option[String],
@@ -38,7 +38,7 @@ object MovingPlatformNode {
   implicit val jsonDecoder: Decoder[MovingPlatformNode] = deriveDecoder
 }
 
-case class MovingPlatformNode(
+final case class MovingPlatformNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

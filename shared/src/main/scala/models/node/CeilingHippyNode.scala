@@ -9,14 +9,14 @@ object CeilingHippyNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(delay: Option[String], prob: Option[String], proximity: Option[String])
+  final case class Props(delay: Option[String], prob: Option[String], proximity: Option[String])
 
   val key = "ceiling_hippy"
   implicit val jsonEncoder: Encoder[CeilingHippyNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[CeilingHippyNode] = deriveDecoder
 }
 
-case class CeilingHippyNode(
+final case class CeilingHippyNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

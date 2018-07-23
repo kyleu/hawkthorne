@@ -3,7 +3,7 @@ package models.component
 import com.definitelyscala.phaserce._
 import models.font.Font
 
-case class ConsoleLog(
+final case class ConsoleLog(
     override val game: Game, override val x: Int = 120, override val y: Int = 10
 ) extends BaseComponent with BaseComponent.Resizable {
   override val name = "ui.console"

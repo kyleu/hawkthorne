@@ -29,7 +29,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
   private[this] val playerSprite = new PlayerSprite(
-    game = game, group = mapService.group, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y, physics = false
+    game = game, group = mapService.group, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y, physics = true
   )
   addComponent(playerSprite)
 
@@ -50,7 +50,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     newComponents.foreach(addComponent)
     DebugService.inst.foreach(_.setMap(game, mapService, nodes, components, Seq(playerSprite)))
     splashComplete()
-    playerSprite.sprite.bringToTop()
+    playerSprite.as.sprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
     util.Logging.info("Hawkthorne game service started.")
     instance.initialMessages() // TODO
@@ -63,7 +63,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
 
     input.update(menu = false, delta = dt)
     components.foreach(_.update(dt))
-    camera.focusOn(playerSprite.sprite.x.toInt, playerSprite.sprite.y.toInt)
+    camera.focusOn(playerSprite.as.sprite.x.toInt, playerSprite.as.sprite.y.toInt)
   }
 
   def resize(width: Int, height: Int) = {

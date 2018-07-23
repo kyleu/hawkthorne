@@ -7,8 +7,8 @@ import models.animation.Animation
 sealed abstract class CharacterAnimation(
     override val value: String, val left: Seq[(Int, Int)], val right: Seq[(Int, Int)], val duration: Double, val loop: Boolean
 ) extends StringEnumEntry {
-  def leftAnim = Animation(id = value + ".left", frames = left.map(x => x._1 + (x._2 * 12)).toIndexedSeq, delay = duration, loop = loop, archetype = false)
-  def rightAnim = Animation(id = value + ".right", frames = right.map(x => x._1 + (x._2 * 12)).toIndexedSeq, delay = duration, loop = loop, archetype = false)
+  lazy val leftAnim = Animation(value + ".left", left.map(x => x._1 + (x._2 * 12)).toIndexedSeq, duration, loop)
+  lazy val rightAnim = Animation(value + ".right", right.map(x => x._1 + (x._2 * 12)).toIndexedSeq, duration, loop)
 }
 
 object CharacterAnimation extends StringEnum[CharacterAnimation] with StringCirceEnum[CharacterAnimation] {

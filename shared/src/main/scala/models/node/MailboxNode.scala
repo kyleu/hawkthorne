@@ -8,7 +8,7 @@ object MailboxNode {
   implicit val jsonDecoder: Decoder[MailboxNode] = deriveDecoder
 }
 
-case class MailboxNode(
+final case class MailboxNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

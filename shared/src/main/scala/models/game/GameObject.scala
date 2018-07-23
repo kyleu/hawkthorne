@@ -7,7 +7,7 @@ object GameObject {
   implicit val jsonDecoder: Decoder[GameObject] = deriveDecoder
 }
 
-case class GameObject(
+final case class GameObject(
     t: String,
     id: Int,
     n: String,

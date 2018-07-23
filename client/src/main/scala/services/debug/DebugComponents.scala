@@ -2,6 +2,7 @@ package services.debug
 
 import com.definitelyscala.datgui.GUI
 import models.component._
+import models.player.PlayerSprite
 import util.DatGuiUtils
 
 object DebugComponents {
@@ -22,8 +23,10 @@ object DebugComponents {
       case cl: ConsoleLog => f.add(cl.group, "visible")
       case ho: HudOverlay => f.add(ho.group, "visible")
       case lc: LiquidComponent => f.add(lc.group, "visible")
+      case ps: PlayerSprite => f.add(ps.as.sprite, "visible")
       case si: StaticImage => f.add(si.image, "visible")
       case ss: StaticSprite => f.add(ss.sprite, "visible")
+      case _ => throw new IllegalStateException(s"Unhandled component [${c.getClass.getSimpleName}].")
     }
     DatGuiUtils.addFunction(gui = f, title = "Debug", f = () => util.Logging.info(c.toString))
   } catch {

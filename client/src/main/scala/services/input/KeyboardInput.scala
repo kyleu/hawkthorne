@@ -5,7 +5,7 @@ import services.debug.DebugService
 import util.PhaserUtils
 
 object KeyboardInput {
-  case class Keymap(
+  final case class Keymap(
       up: Key, down: Key, left: Key, right: Key,
       jump: Key, attack: Key, select: Key,
       options: Key, debug: Key
@@ -15,7 +15,7 @@ object KeyboardInput {
   }
 }
 
-case class KeyboardInput(game: Game) {
+final case class KeyboardInput(game: Game) {
   val keymap = KeyboardInput.Keymap(
     up = game.input.keyboard.addKey(KeyCode.UP),
     down = game.input.keyboard.addKey(KeyCode.DOWN),

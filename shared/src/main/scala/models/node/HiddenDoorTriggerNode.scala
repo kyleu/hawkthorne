@@ -9,7 +9,7 @@ object HiddenDoorTriggerNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       height: Option[String],
       message: Option[String],
       needKey: Option[String],
@@ -23,7 +23,7 @@ object HiddenDoorTriggerNode {
   implicit val jsonDecoder: Decoder[HiddenDoorTriggerNode] = deriveDecoder
 }
 
-case class HiddenDoorTriggerNode(
+final case class HiddenDoorTriggerNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

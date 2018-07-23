@@ -7,7 +7,7 @@ object Filter {
   implicit val jsonDecoder: Decoder[Filter] = deriveDecoder
 }
 
-case class Filter(
+final case class Filter(
     k: String = "?",
     o: FilterOp = Equal,
     v: Seq[String] = Nil

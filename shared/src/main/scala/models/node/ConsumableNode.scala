@@ -9,7 +9,7 @@ object ConsumableNode {
   implicit val jsonDecoder: Decoder[ConsumableNode] = deriveDecoder
 }
 
-case class ConsumableNode(
+final case class ConsumableNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

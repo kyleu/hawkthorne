@@ -8,14 +8,14 @@ object ClimbableNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(blockTop: String)
+  final case class Props(blockTop: String)
 
   val key = "climbable"
   implicit val jsonEncoder: Encoder[ClimbableNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[ClimbableNode] = deriveDecoder
 }
 
-case class ClimbableNode(
+final case class ClimbableNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

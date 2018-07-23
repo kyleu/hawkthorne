@@ -10,7 +10,7 @@ object HSpriteNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       animation: String,
       height: Option[String],
       sheet: String,
@@ -23,7 +23,7 @@ object HSpriteNode {
   implicit val jsonDecoder: Decoder[HSpriteNode] = deriveDecoder
 }
 
-case class HSpriteNode(
+final case class HSpriteNode(
     override val id: Int,
     override val name: String,
     override val x: Int,
@@ -35,7 +35,7 @@ case class HSpriteNode(
     properties: HSpriteNode.Props
 ) extends Node(HSpriteNode.key) {
   val sheetKey = "hsprite." + properties.sheet.substring(properties.sheet.lastIndexOf('/') + 1).stripSuffix(".png")
-  val animation = Animation.fromString(id = actualName, s = properties.animation, speed = 0.1, loop = false)
+  val animation = Animation.fromString(id = actualName, s = properties.animation, speed = 0.1, loop = false).newCopy
 
   override def actualName = if (name.trim.isEmpty) { s"$sheetKey.$id" } else { name }
 

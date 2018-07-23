@@ -9,12 +9,12 @@ class PlayerInputHandler(player: PlayerSprite) {
     events.foreach(e => util.Logging.info("Event: " + e))
 
     val anim = findAnimation(velocity)
-    anim.foreach(x => player.setAnimation(Some(x)))
+    anim.foreach(x => player.as.setAnimation(Some(x)))
 
     val loc = updateLocation(delta, velocity)
     loc.foreach { l =>
-      player.sprite.x = l._1
-      player.sprite.y = l._2
+      player.as.sprite.x = l._1
+      player.as.sprite.y = l._2
     }
 
     lastVelocity = velocity
@@ -37,6 +37,6 @@ class PlayerInputHandler(player: PlayerSprite) {
     val xDelta = xVel * delta * speed
     val yDelta = yVel * delta * speed
 
-    Some((player.sprite.x + xDelta) -> (player.sprite.y + yDelta))
+    Some((player.as.sprite.x + xDelta) -> (player.as.sprite.y + yDelta))
   }
 }

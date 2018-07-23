@@ -2,7 +2,7 @@ package services.input
 
 import com.definitelyscala.phaserce.Game
 
-case class PointerInput(game: Game) {
+final case class PointerInput(game: Game) {
   game.input.mouse.capture = true
 
   def update(menu: Boolean, delta: Double) = {

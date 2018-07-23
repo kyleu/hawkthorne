@@ -8,14 +8,14 @@ object SceneTriggerNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(cutscene: String)
+  final case class Props(cutscene: String)
 
   val key = "scenetrigger"
   implicit val jsonEncoder: Encoder[SceneTriggerNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[SceneTriggerNode] = deriveDecoder
 }
 
-case class SceneTriggerNode(
+final case class SceneTriggerNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

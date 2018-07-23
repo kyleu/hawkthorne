@@ -12,13 +12,13 @@ object RequestMessage {
   implicit val jsonDecoder: Decoder[RequestMessage] = deriveDecoder
 
   // System
-  case class MalformedRequest(reason: String, content: String) extends RequestMessage
-  case class GetVersion(v: String) extends RequestMessage
-  case class Ping(ts: Long) extends RequestMessage
-  case class DebugRequest(t: String, msg: String) extends RequestMessage
+  final case class MalformedRequest(reason: String, content: String) extends RequestMessage
+  final case class GetVersion(v: String) extends RequestMessage
+  final case class Ping(ts: Long) extends RequestMessage
+  final case class DebugRequest(t: String, msg: String) extends RequestMessage
 
   // Game
-  case class JoinGame(id: UUID) extends RequestMessage
-  case class ObserveGame(id: UUID) extends RequestMessage
-  case class PlayerUpdate(msgs: Seq[GameUpdate], ts: Long = System.currentTimeMillis) extends RequestMessage
+  final case class JoinGame(id: UUID) extends RequestMessage
+  final case class ObserveGame(id: UUID) extends RequestMessage
+  final case class PlayerUpdate(msgs: Seq[GameUpdate], ts: Long = System.currentTimeMillis) extends RequestMessage
 }

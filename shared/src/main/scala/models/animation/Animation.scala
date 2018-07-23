@@ -2,6 +2,8 @@ package models.animation
 
 import util.JsonSerializers._
 
+import scala.util.Random
+
 object Animation {
   implicit val jsonEncoder: Encoder[Animation] = deriveEncoder
   implicit val jsonDecoder: Decoder[Animation] = deriveDecoder
@@ -14,7 +16,7 @@ object Animation {
   }
 }
 
-case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean, archetype: Boolean = true) {
+final case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean, archetype: Boolean = true) {
   val durationMs = frames.size * delay
   val firstFrame = frames.headOption.getOrElse(throw new IllegalMonitorStateException(s"Empty frames for animation [$id]."))
 
@@ -45,6 +47,8 @@ case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: B
 
   def newCopy = {
     if (!archetype) { throw new IllegalStateException(s"Use `copy` to get a clone of non-archetype [$id]") }
-    Animation(id = id, frames = frames, delay = delay, loop = loop, archetype = false)
+    val ret = Animation(id = id, frames = frames, delay = delay, loop = loop, archetype = false)
+    if (jitter != 0) { ret.setJitter(Random.nextDouble) }
+    ret
   }
 }

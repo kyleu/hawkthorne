@@ -12,7 +12,7 @@ object SpriteNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       animation: Option[String],
       depth: Option[String],
       direction: Option[String],
@@ -38,7 +38,7 @@ object SpriteNode {
   implicit val jsonDecoder: Decoder[SpriteNode] = deriveDecoder
 }
 
-case class SpriteNode(
+final case class SpriteNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

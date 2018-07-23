@@ -10,7 +10,7 @@ object VehicleTemplate {
   def withKey(key: String) = VehicleListing.all.find(_.key == key).getOrElse(throw new IllegalStateException(s"No weapon [$key]."))
 }
 
-case class VehicleTemplate(
+final case class VehicleTemplate(
     key: String,
     name: String,
     width: Int,

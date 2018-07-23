@@ -9,7 +9,7 @@ object ThrowableNode {
   implicit val jsonDecoder: Decoder[ThrowableNode] = deriveDecoder
 }
 
-case class ThrowableNode(
+final case class ThrowableNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

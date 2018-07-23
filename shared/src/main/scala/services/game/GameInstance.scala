@@ -4,20 +4,7 @@ import models.game.{GameObject, GameOptions, GameUpdate}
 import models.scenario.Scenario
 import util.Point
 
-case class GameInstance(options: GameOptions, var objects: IndexedSeq[GameObject], spawn: Point) {
-  private[this] val startMs = System.currentTimeMillis
-
-  private[this] var logger: Option[String => Unit] = None
-  def log(s: String) = logger.getOrElse(throw new IllegalStateException("Not initialized."))(s)
-
-  private[this] var notification: Option[String => Unit] = None
-  def notify(s: String) = notification.getOrElse(throw new IllegalStateException("Not initialized."))(s)
-
-  def setCallbacks(log: String => Unit, notify: String => Unit) = {
-    logger = Some(log)
-    notification = Some(notify)
-  }
-
+final case class GameInstance(options: GameOptions, var objects: IndexedSeq[GameObject], spawn: Point) extends GameInstanceDebug {
   private[this] var _lastId = objects.map(_.id).max + 1
   protected def nextId() = {
     _lastId += 1
@@ -36,7 +23,8 @@ case class GameInstance(options: GameOptions, var objects: IndexedSeq[GameObject
   val startupTime = System.currentTimeMillis - startMs
 
   def initialMessages() = {
-    log(s"Game [${options.id}] started in [${startupTime}ms].")
+    val systemTime = System.currentTimeMillis - startMs - startupTime
+    log(s"System loaded in [${systemTime}ms]. Game [${options.id}] started in [${startupTime}ms].")
   }
 
   def onMessage(gu: GameUpdate) = gu match {

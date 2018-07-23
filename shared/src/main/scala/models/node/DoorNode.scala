@@ -9,7 +9,7 @@ object DoorNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       aniframes: Option[String],
       aniframes2: Option[String],
       animode: Option[String],
@@ -46,7 +46,7 @@ object DoorNode {
   implicit val jsonDecoder: Decoder[DoorNode] = deriveDecoder
 }
 
-case class DoorNode(
+final case class DoorNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

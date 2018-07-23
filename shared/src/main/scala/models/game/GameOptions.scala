@@ -10,7 +10,7 @@ object GameOptions {
   implicit val jsonDecoder: Decoder[GameOptions] = deriveDecoder
 }
 
-case class GameOptions(
+final case class GameOptions(
     id: UUID = UUID.randomUUID,
     map: TiledMap,
     scenario: String,

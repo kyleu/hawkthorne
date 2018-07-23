@@ -8,14 +8,14 @@ object BouncerNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(bval: Option[String], dbval: String)
+  final case class Props(bval: Option[String], dbval: String)
 
   val key = "bouncer"
   implicit val jsonEncoder: Encoder[BouncerNode] = deriveEncoder
   implicit val jsonDecoder: Decoder[BouncerNode] = deriveDecoder
 }
 
-case class BouncerNode(
+final case class BouncerNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

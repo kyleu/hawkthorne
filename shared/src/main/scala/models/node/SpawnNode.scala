@@ -9,7 +9,7 @@ object SpawnNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       enemytype: Option[String],
       infinite: Option[String],
       initialState: Option[String],
@@ -35,7 +35,7 @@ object SpawnNode {
   implicit val jsonDecoder: Decoder[SpawnNode] = deriveDecoder
 }
 
-case class SpawnNode(
+final case class SpawnNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

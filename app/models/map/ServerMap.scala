@@ -9,6 +9,6 @@ object ServerMap {
   implicit val jsonDecoder: Decoder[ServerMap] = deriveDecoder
 }
 
-case class ServerMap(key: String, layers: Seq[String], nodes: Seq[Node]) {
+final case class ServerMap(key: String, layers: Seq[String], nodes: Seq[Node]) {
   lazy val tiled = TiledMap.withValue(key)
 }

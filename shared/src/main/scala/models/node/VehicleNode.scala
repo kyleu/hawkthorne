@@ -10,7 +10,7 @@ object VehicleNode {
   implicit val jsonDecoder: Decoder[VehicleNode] = deriveDecoder
 }
 
-case class VehicleNode(
+final case class VehicleNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

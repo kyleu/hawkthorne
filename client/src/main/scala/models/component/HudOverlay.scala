@@ -13,7 +13,7 @@ object HudOverlay {
   )
 }
 
-case class HudOverlay(override val game: Game, player: Player, override val x: Int = 0, override val y: Int = 0) extends BaseComponent {
+final case class HudOverlay(override val game: Game, player: Player, override val x: Int = 0, override val y: Int = 0) extends BaseComponent {
   override val name = "ui.hud"
 
   val group = new Group(game, name = "hud.overlay")

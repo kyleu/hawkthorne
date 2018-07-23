@@ -9,7 +9,7 @@ object LiquidNode {
     implicit val jsonDecoder: Decoder[Props] = deriveDecoder
   }
 
-  case class Props(
+  final case class Props(
       death: Option[String],
       drag: Option[String],
       drown: Option[String],
@@ -29,7 +29,7 @@ object LiquidNode {
   implicit val jsonDecoder: Decoder[LiquidNode] = deriveDecoder
 }
 
-case class LiquidNode(
+final case class LiquidNode(
     override val id: Int,
     override val name: String,
     override val x: Int,

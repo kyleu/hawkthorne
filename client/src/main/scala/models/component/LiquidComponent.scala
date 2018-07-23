@@ -2,7 +2,7 @@ package models.component
 
 import com.definitelyscala.phaserce.{Game, Group, Image}
 
-case class LiquidComponent(
+final case class LiquidComponent(
     override val game: Game,
     group: Group,
     override val name: String,
