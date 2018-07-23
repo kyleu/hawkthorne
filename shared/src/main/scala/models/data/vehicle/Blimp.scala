@@ -9,5 +9,5 @@ object Blimp extends VehicleTemplate(
   name = "Blimp",
   width = 199,
   height = 206,
-  animations = Seq.empty
+  animations = Seq(Animation(id = "default", frames = IndexedSeq(0), delay = 0.1, loop = false))
 )

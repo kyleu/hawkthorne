@@ -13,6 +13,6 @@ object NotStarburns extends NpcTemplate(
   noInventory = None,
   noCommands = None,
   animations = Seq(
-    Animation(id = "default.", frames = IndexedSeq(0, 1, 2, 0, 0, 0), delay = 0.5, loop = true)
+    Animation(id = "default", frames = IndexedSeq(0, 1, 2, 0, 0, 0), delay = 0.5, loop = true)
   )
 )

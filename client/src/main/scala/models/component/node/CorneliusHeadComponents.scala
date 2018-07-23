@@ -6,6 +6,8 @@ import models.component.AnimatedSprite
 import models.node.CorneliusHeadNode
 
 object CorneliusHeadComponents {
+  private[this] val anim = Animation(id = "", frames = IndexedSeq(1, 2, 1, 2, 1, 0), delay = 0.2, loop = true)
+
   def apply(game: Game, group: Group, n: CorneliusHeadNode) = Seq(AnimatedSprite.single(
     game = game,
     group = group,
@@ -13,6 +15,6 @@ object CorneliusHeadComponents {
     x = n.actualX,
     y = n.actualY,
     key = "cornelius",
-    animation = Animation(id = "", frames = IndexedSeq(1, 2, 1, 2, 1, 0), delay = 0.2, loop = true)
+    animation = anim.newCopy
   ))
 }

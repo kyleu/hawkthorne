@@ -13,7 +13,7 @@ object ProfHolly extends NpcTemplate(
   noInventory = Some("Sorry, blueberry. All I have is on the shelves!"),
   noCommands = Some("Command is such a strong, ugly word."),
   animations = Seq(
-    Animation(id = "default.", frames = IndexedSeq(0, 10), delay = 0.5, loop = true),
-    Animation(id = "walking.", frames = IndexedSeq(0, 1, 2), delay = 0.2, loop = true)
+    Animation(id = "default", frames = IndexedSeq(0, 10), delay = 0.5, loop = true),
+    Animation(id = "walking", frames = IndexedSeq(0, 1, 2), delay = 0.2, loop = true)
   )
 )

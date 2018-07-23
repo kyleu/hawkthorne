@@ -13,6 +13,6 @@ object Shmitty extends NpcTemplate(
   noInventory = None,
   noCommands = Some("We don't take commands from shmitty.  Uh-duh!"),
   animations = Seq(
-    Animation(id = "default.", frames = IndexedSeq(0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0), delay = 0.2, loop = true)
+    Animation(id = "default", frames = IndexedSeq(0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0), delay = 0.2, loop = true)
   )
 )

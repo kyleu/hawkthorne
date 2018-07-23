@@ -41,7 +41,7 @@ object LuaUtils {
               acc = acc :+ line.substring(0, line.indexOf('=')).trim
               None
             case 0 if line.contains('=') => Some(parseAnimationLine(acc.map(_ + ".").mkString + line))
-            case 0 if acc.nonEmpty => Some(parseAnimationLine(acc.map(_ + ".").mkString + " = " + line))
+            case 0 if acc.nonEmpty => Some(parseAnimationLine(acc.mkString(".") + " = " + line))
             case -1 =>
               acc = acc.drop(1)
               None

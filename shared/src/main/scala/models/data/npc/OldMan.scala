@@ -13,7 +13,7 @@ object OldMan extends NpcTemplate(
   noInventory = None,
   noCommands = None,
   animations = Seq(
-    Animation(id = "default.", frames = IndexedSeq(8), delay = 0.5, loop = true),
-    Animation(id = "walking.", frames = IndexedSeq(0, 1, 2, 3, 4, 5, 6, 7, 8), delay = 0.1, loop = true)
+    Animation(id = "default", frames = IndexedSeq(8), delay = 0.5, loop = true),
+    Animation(id = "walking", frames = IndexedSeq(0, 1, 2, 3, 4, 5, 6, 7, 8), delay = 0.1, loop = true)
   )
 )

@@ -23,8 +23,12 @@ class IntroScan(game: Game) {
     animations = animationMap(Animation("intro.bg", 0 to 6, rtime / 7, loop = true))
   )
 
+  def am(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean = false) = {
+    animationMap(Animation(id = id, frames = 0 until 19, delay = ctime / 19, loop = loop))
+  }
+
   private[this] def cs(key: String) = {
-    val animMap = animationMap(Animation(id = s"intro.${key}scan", frames = 0 until 19, delay = ctime / 19, loop = false))
+    val animMap = am(id = s"intro.${key}scan", frames = 0 until 19, delay = ctime / 19)
     AnimatedSprite(game = game, group = group, name = s"${key}scan", x = charOffset, y = charOffset, key = s"intro.${key}scan", animations = animMap)
   }
 
@@ -32,19 +36,19 @@ class IntroScan(game: Game) {
 
   private[this] val description = AnimatedSprite(
     game = game, group = group, name = "description", x = charOffset, y = labelOffset, key = "intro.description",
-    animations = animationMap(Animation("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true))
+    animations = am("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true)
   )
   private[this] val computer = AnimatedSprite(
     game = game, group = group, name = "computer", x = charOffset + 132, y = charOffset + 5 + (172 / 2), key = "intro.computer",
-    animations = animationMap(Animation("intro.computer", 0 until 9, ctime / 9 / 2, loop = true))
+    animations = am("intro.computer", 0 until 9, ctime / 9 / 2, loop = true)
   )
   private[this] val blank = AnimatedSprite(
     game = game, group = group, name = "blankscan", x = charOffset + 220, y = charOffset, key = "intro.blankscan",
-    animations = animationMap(Animation("intro.blankscan", 0 until 12, stime / 12, loop = true))
+    animations = am("intro.blankscan", 0 until 12, stime / 12, loop = true)
   )
   private[this] val scanningbar = AnimatedSprite(
     game = game, group = group, name = "scanningbar", x = charOffset + 220, y = labelOffset, key = "intro.scanningbar",
-    animations = animationMap(Animation("intro.scanningbar", 0 until 17, ctime / 17, loop = true))
+    animations = am("intro.scanningbar", 0 until 17, ctime / 17, loop = true)
   )
 
   game.add.audio("music.opening").play(loop = false)

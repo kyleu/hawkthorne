@@ -9,5 +9,5 @@ object Dinosaur extends VehicleTemplate(
   name = "Dinosaur",
   width = 324,
   height = 194,
-  animations = Seq.empty
+  animations = Seq(Animation(id = "default", frames = IndexedSeq(0), delay = 0.1, loop = false))
 )

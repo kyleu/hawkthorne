@@ -14,7 +14,7 @@ object Animation {
   }
 }
 
-case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean) {
+case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean, archetype: Boolean = true) {
   val durationMs = frames.size * delay
   val firstFrame = frames.headOption.getOrElse(throw new IllegalMonitorStateException(s"Empty frames for animation [$id]."))
 
@@ -25,6 +25,7 @@ case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: B
   def setJitter(j: Double) = jitter = j * frames.size
 
   def nextFrame(deltaMs: Double) = {
+    if (archetype) { throw new IllegalStateException(s"Animation [$id] is an archetype, and cannot be started.") }
     elapsedMs += deltaMs
     val time = elapsedMs + jitter
     if (frames.size == 1 || (!loop && (time > durationMs))) {
@@ -41,4 +42,9 @@ case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: B
   }
 
   def elapsed = elapsedMs
+
+  def newCopy = {
+    if (!archetype) { throw new IllegalStateException(s"Use `copy` to get a clone of non-archetype [$id]") }
+    Animation(id = id, frames = frames, delay = delay, loop = loop, archetype = false)
+  }
 }

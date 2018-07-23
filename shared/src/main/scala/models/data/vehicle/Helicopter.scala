@@ -9,5 +9,5 @@ object Helicopter extends VehicleTemplate(
   name = "Helicopter",
   width = 246,
   height = 224,
-  animations = Seq.empty
+  animations = Seq(Animation(id = "default", frames = IndexedSeq(0), delay = 0.1, loop = false))
 )

@@ -9,5 +9,5 @@ object Robot extends VehicleTemplate(
   name = "Robot",
   width = 216,
   height = 223,
-  animations = Seq.empty
+  animations = Seq(Animation(id = "default", frames = IndexedSeq(0), delay = 0.1, loop = false))
 )

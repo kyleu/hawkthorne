@@ -13,6 +13,6 @@ object MayorJuan extends NpcTemplate(
   noInventory = None,
   noCommands = None,
   animations = Seq(
-    Animation(id = "default.", frames = IndexedSeq(0, 1), delay = 0.4, loop = true)
+    Animation(id = "default", frames = IndexedSeq(0, 1), delay = 0.4, loop = true)
   )
 )

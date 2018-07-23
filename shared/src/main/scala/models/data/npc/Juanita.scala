@@ -13,7 +13,7 @@ object Juanita extends NpcTemplate(
   noInventory = None,
   noCommands = None,
   animations = Seq(
-    Animation(id = "default.", frames = IndexedSeq(10, 10, 10, 9), delay = 0.5, loop = true),
-    Animation(id = "walking.", frames = IndexedSeq(0), delay = 0.2, loop = true)
+    Animation(id = "default", frames = IndexedSeq(10, 10, 10, 9), delay = 0.5, loop = true),
+    Animation(id = "walking", frames = IndexedSeq(0), delay = 0.2, loop = true)
   )
 )

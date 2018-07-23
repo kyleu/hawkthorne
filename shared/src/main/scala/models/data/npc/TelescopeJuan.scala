@@ -13,8 +13,8 @@ object TelescopeJuan extends NpcTemplate(
   noInventory = None,
   noCommands = None,
   animations = Seq(
-    Animation(id = "default.", frames = IndexedSeq(0, 1), delay = 0.6, loop = true),
-    Animation(id = "startled.", frames = IndexedSeq(2, 3), delay = 0.5, loop = false),
-    Animation(id = "talking.", frames = IndexedSeq(4, 4, 4, 4, 5), delay = 0.5, loop = true)
+    Animation(id = "default", frames = IndexedSeq(0, 1), delay = 0.6, loop = true),
+    Animation(id = "startled", frames = IndexedSeq(2, 3), delay = 0.5, loop = false),
+    Animation(id = "talking", frames = IndexedSeq(4, 4, 4, 4, 5), delay = 0.5, loop = true)
   )
 )

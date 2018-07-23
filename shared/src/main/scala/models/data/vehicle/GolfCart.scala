@@ -9,5 +9,5 @@ object GolfCart extends VehicleTemplate(
   name = "GolfCart",
   width = 56,
   height = 39,
-  animations = Seq.empty
+  animations = Seq(Animation(id = "default", frames = IndexedSeq(0), delay = 0.1, loop = false))
 )

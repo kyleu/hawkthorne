@@ -29,7 +29,7 @@ object VehicleFiles {
       file.add(s"""height = $height,""")
       val anims = LuaUtils.findAnimations("Vehicle: " + name, lines)
       if (anims.isEmpty) {
-        file.add(s"animations = Seq.empty")
+        file.add(s"""animations = Seq(Animation(id = "default", frames = IndexedSeq(0), delay = 0.1, loop = false))""")
       } else {
         file.add(s"animations = Seq(", 1)
         anims.foreach(a => file.add(a))

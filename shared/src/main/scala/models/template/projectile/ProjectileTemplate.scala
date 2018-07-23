@@ -20,4 +20,6 @@ case class ProjectileTemplate(
   val defaultAnimation = animations.find(_.id == "default").getOrElse {
     throw new IllegalStateException(s"Missing default animation for [$key] among [${animations.map(_.id).mkString(", ")}]")
   }
+
+  val animationMap = animations.map(a => a.id -> a).toMap
 }
