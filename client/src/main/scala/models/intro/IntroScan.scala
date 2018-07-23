@@ -18,23 +18,34 @@ class IntroScan(game: Game) {
 
   val group = new Group(game = game, name = s"intro.scan")
 
-  private[this] val background = AnimatedSprite(game, group, "background", margin, margin, "intro.backgrounds", animationMap(Animation("intro.bg", 0 to 6, rtime / 7, loop = true)))
-
-  private[this] val chars = Seq(
-    // TODO Correct animations
-    AnimatedSprite(game, group, "jeffscan", charOffset, charOffset, "intro.jeffscan", animationMap(Animation("intro.jeffscan", 0 until 19, ctime / 19))),
-    AnimatedSprite(game, group, "brittascan", charOffset, charOffset, "intro.brittascan", animationMap(Animation("intro.brittascan", 0 until 19, ctime / 19))),
-    AnimatedSprite(game, group, "abedscan", charOffset, charOffset, "intro.abedscan", animationMap(Animation("intro.abedscan", 0 until 19, ctime / 19))),
-    AnimatedSprite(game, group, "shirleyscan", charOffset, charOffset, "intro.shirleyscan", animationMap(Animation("intro.shirleyscan", 0 until 19, ctime / 19))),
-    AnimatedSprite(game, group, "anniescan", charOffset, charOffset, "intro.anniescan", animationMap(Animation("intro.anniescan", 0 until 19, ctime / 19))),
-    AnimatedSprite(game, group, "troyscan", charOffset, charOffset, "intro.troyscan", animationMap(Animation("intro.troyscan", 0 until 19, ctime / 19))),
-    AnimatedSprite(game, group, "piercescan", charOffset, charOffset, "intro.piercescan", animationMap(Animation("intro.piercescan", 0 until 19, ctime / 19)))
+  private[this] val background = AnimatedSprite(
+    game = game, group = group, name = "background", x = margin, y = margin, key = "intro.backgrounds",
+    animations = animationMap(Animation("intro.bg", 0 to 6, rtime / 7, loop = true))
   )
 
-  private[this] val description = AnimatedSprite(game, group, "description", charOffset, labelOffset, "intro.description", animationMap(Animation("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true)))
-  private[this] val computer = AnimatedSprite(game, group, "computer", charOffset + 132, charOffset + 5 + (172 / 2), "intro.computer", animationMap(Animation("intro.computer", 0 until 9, ctime / 9 / 2, loop = true)))
-  private[this] val blank = AnimatedSprite(game, group, "blankscan", charOffset + 220, charOffset, "intro.blankscan", animationMap(Animation("intro.blankscan", 0 until 12, stime / 12, loop = true)))
-  private[this] val scanningbar = AnimatedSprite(game, group, "scanningbar", charOffset + 220, labelOffset, "intro.scanningbar", animationMap(Animation("intro.scanningbar", 0 until 17, ctime / 17, loop = true)))
+  private[this] def cs(key: String) = {
+    val animMap = animationMap(Animation(id = s"intro.${key}scan", frames = 0 until 19, delay = ctime / 19, loop = false))
+    AnimatedSprite(game = game, group = group, name = s"${key}scan", x = charOffset, y = charOffset, key = s"intro.${key}scan", animations = animMap)
+  }
+
+  private[this] val chars = Seq(cs("jeff"), cs("britta"), cs("abed"), cs("shirley"), cs("annie"), cs("troy"), cs("pierce"))
+
+  private[this] val description = AnimatedSprite(
+    game = game, group = group, name = "description", x = charOffset, y = labelOffset, key = "intro.description",
+    animations = animationMap(Animation("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true))
+  )
+  private[this] val computer = AnimatedSprite(
+    game = game, group = group, name = "computer", x = charOffset + 132, y = charOffset + 5 + (172 / 2), key = "intro.computer",
+    animations = animationMap(Animation("intro.computer", 0 until 9, ctime / 9 / 2, loop = true))
+  )
+  private[this] val blank = AnimatedSprite(
+    game = game, group = group, name = "blankscan", x = charOffset + 220, y = charOffset, key = "intro.blankscan",
+    animations = animationMap(Animation("intro.blankscan", 0 until 12, stime / 12, loop = true))
+  )
+  private[this] val scanningbar = AnimatedSprite(
+    game = game, group = group, name = "scanningbar", x = charOffset + 220, y = labelOffset, key = "intro.scanningbar",
+    animations = animationMap(Animation("intro.scanningbar", 0 until 17, ctime / 17, loop = true))
+  )
 
   game.add.audio("music.opening").play(loop = false)
   game.world.add(group)

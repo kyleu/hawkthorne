@@ -14,7 +14,7 @@ object ProjectileComponents {
       x = n.actualX,
       y = n.actualY,
       key = s"projectile.${n.actualName}",
-      animation = Animation("projectile", 0 until game.cache.getFrameCount(s"projectile.${n.actualName}").toInt, loop = true)
+      animation = Animation(id = "projectile", frames = 0 until game.cache.getFrameCount(s"projectile.${n.actualName}").toInt, delay = 0.1, loop = true)
     ))
   }
 }

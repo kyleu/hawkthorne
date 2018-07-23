@@ -45,8 +45,7 @@ class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) exten
 
     game.stage.disableVisibilityChange = true
 
-    game.scale.scaleMode = ScaleManager.USER_SCALE
-    game.scale.setUserScale(hScale = 1, vScale = 1)
+    game.scale.scaleMode = ScaleManager.NO_SCALE
 
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
     s.anchor = new Point(0.5, 0.5)
