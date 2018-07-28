@@ -10,7 +10,7 @@ object EnemyTemplate {
   def withKey(key: String) = EnemyListing.all.find(_.key == key).getOrElse(throw new IllegalStateException(s"No npc [$key]."))
 }
 
-final case class EnemyTemplate(
+case class EnemyTemplate(
     key: String,
     name: String,
     width: Int,

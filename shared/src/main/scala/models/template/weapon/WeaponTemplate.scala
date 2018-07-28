@@ -10,7 +10,7 @@ object WeaponTemplate {
   def withKey(key: String) = WeaponListing.all.find(_.key == key).getOrElse(throw new IllegalStateException(s"No weapon [$key]."))
 }
 
-final case class WeaponTemplate(
+case class WeaponTemplate(
     key: String,
     name: String,
     width: Int,

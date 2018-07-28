@@ -10,7 +10,7 @@ object ProjectileTemplate {
   def withKey(key: String) = ProjectileListing.all.find(_.key == key).getOrElse(throw new IllegalStateException(s"No npc [$key]."))
 }
 
-final case class ProjectileTemplate(
+case class ProjectileTemplate(
     key: String,
     name: String,
     width: Int,

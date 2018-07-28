@@ -10,7 +10,7 @@ object NpcTemplate {
   def withKey(key: String) = NpcListing.all.find(_.key == key).getOrElse(throw new IllegalStateException(s"No npc [$key]."))
 }
 
-final case class NpcTemplate(
+case class NpcTemplate(
     key: String,
     name: String,
     width: Int,
