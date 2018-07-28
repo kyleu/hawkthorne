@@ -5,7 +5,9 @@ import models.data.npc._
 
 object NpcListing {
   val all = Seq(
-    Juan, XmasWizard, SophieB, TutorialWizard, MayorJuan, Frankie, AnniesBoobs, HumanBeing, TownLady, Blacksmith, NotStarburns, GayNpc, BlacksmithJuan, TelescopeJuan, TownKnight, BlacksmithWife, AlienRegroup, JumpingGirl, Shmitty, LaserLotus1, SenorJuan, LaserLotus2, Alien, Townsperson, Juanita, OldMan, Leslie, BabyAbed, Hilda, Tilda, Jerry, ProfHolly, Hermit
+    Alien, AlienRegroup, AnniesBoobs, BabyAbed, Blacksmith, BlacksmithJuan, BlacksmithWife, Frankie, GayNpc, Hermit, Hilda, HumanBeing,
+    Jerry, Juan, Juanita, JumpingGirl, LaserLotus1, LaserLotus2, Leslie, MayorJuan, NotStarburns, OldMan, ProfHolly, SenorJuan,
+    Shmitty, SophieB, TelescopeJuan, Tilda, TownKnight, TownLady, Townsperson, TutorialWizard, XmasWizard
   )
 
   def withKey(key: String) = all.find(_.key == key).getOrElse(throw new IllegalStateException(s"No npc [$key]."))

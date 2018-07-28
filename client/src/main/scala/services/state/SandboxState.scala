@@ -3,7 +3,8 @@ package services.state
 import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.{Game, Point}
 import models.asset.Asset
-import models.player.{CharacterListing, Player, PlayerSprite}
+import models.player.{Player, PlayerSprite}
+import models.template.character.CharacterListing
 import util.JavaScriptUtils
 
 import scala.util.Random

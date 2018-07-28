@@ -1,4 +1,3 @@
-@import models.template.projectile.ProjectileListing
 @(user: models.user.SystemUser)(
     implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
 )@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "gamedata", util.Config.projectName + " Asset Dump") {
@@ -6,7 +5,7 @@
     <li class="collection-item" style="text-align: center; background-color: #000;">
       <img src="@controllers.routes.Assets.versioned("game/images/menu/splash.png")" />
     </li>
-    @ProjectileListing.all.map { n =>
+    @models.template.projectile.ProjectileListing.all.map { n =>
       <li class="collection-item">
         <h5>@n.name</h5>
         @defining(s"background-image: url('${controllers.routes.Assets.versioned(s"game/images/weapons/${n.key}.png")}');") { imgStyle =>

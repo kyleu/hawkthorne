@@ -16,7 +16,7 @@ object CharacterFiles {
 
       file.addImport("models.player", "Costume")
       file.addImport("util", "BoundingBox")
-      file.addImport("models.player", "CharacterTemplate")
+      file.addImport("models.template.character", "CharacterTemplate")
       file.addImport("models.data.series", "Episode")
 
       file.add(s"object $name extends CharacterTemplate(", 1)

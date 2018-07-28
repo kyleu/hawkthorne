@@ -12,7 +12,12 @@ object ListingFile {
 
     file.add(s"object ${n}Listing {", 1)
     file.add("val all = Seq(", 1)
-    file.add(instances.mkString(", "))
+
+    val groups = instances.sorted.grouped(12).toSeq
+    groups.foreach { g =>
+      val comma = if (groups.lastOption.contains(g)) { "" } else { "," }
+      file.add(g.mkString(", ") + comma)
+    }
     file.add(")", -1)
     file.add()
     file.add(s"""def withKey(key: String) = all.find(_.key == key).getOrElse(throw new IllegalStateException(s"No $key [$$key]."))""")
