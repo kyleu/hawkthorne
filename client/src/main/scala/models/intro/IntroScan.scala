@@ -12,43 +12,41 @@ class IntroScan(game: Game) {
 
   private[this] val margin = 20
   val dimensions = (400 + (margin * 2)) -> (250 + (margin * 2))
+
   private[this] val charOffset = 28 + margin
   private[this] val labelOffset = charOffset + 180
-  private[this] def animationMap(a: Animation*) = a.map(a => a.id -> a).toMap
 
   val group = new Group(game = game, name = s"intro.scan")
 
-  private[this] val background = AnimatedSprite(
+  private[this] val background = AnimatedSprite.single(
     game = game, group = group, name = "background", x = margin, y = margin, key = "intro.backgrounds",
-    animations = animationMap(Animation("intro.bg", 0 to 6, rtime / 7, loop = true))
+    animation = Animation("intro.bg", 0 to 6, rtime / 7, loop = true).newCopy
   )
-
-  def am(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean = false) = {
-    animationMap(Animation(id = id, frames = 0 until 19, delay = ctime / 19, loop = loop))
-  }
 
   private[this] def cs(key: String) = {
-    val animMap = am(id = s"intro.${key}scan", frames = 0 until 19, delay = ctime / 19)
-    AnimatedSprite(game = game, group = group, name = s"${key}scan", x = charOffset, y = charOffset, key = s"intro.${key}scan", animations = animMap)
+    val anim = Animation(id = s"intro.${key}scan", frames = 0 until 19, delay = ctime / 19, loop = false).newCopy
+    AnimatedSprite.single(game = game, group = group, name = s"${key}scan", x = charOffset, y = charOffset, key = s"intro.${key}scan", animation = anim)
   }
 
-  private[this] val chars = Seq(cs("jeff"), cs("britta"), cs("abed"), cs("shirley"), cs("annie"), cs("troy"), cs("pierce"))
+  private[this] val chars = Seq(
+    cs("jeff"), cs("britta"), cs("abed"), cs("shirley"), cs("annie"), cs("troy"), cs("pierce")
+  )
 
-  private[this] val description = AnimatedSprite(
+  private[this] val description = AnimatedSprite.single(
     game = game, group = group, name = "description", x = charOffset, y = labelOffset, key = "intro.description",
-    animations = am("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true)
+    animation = Animation("intro.description", (0 until 12) :+ 11, ctime / 12, loop = true).newCopy
   )
-  private[this] val computer = AnimatedSprite(
+  private[this] val computer = AnimatedSprite.single(
     game = game, group = group, name = "computer", x = charOffset + 132, y = charOffset + 5 + (172 / 2), key = "intro.computer",
-    animations = am("intro.computer", 0 until 9, ctime / 9 / 2, loop = true)
+    animation = Animation("intro.computer", 0 until 9, ctime / 9 / 2, loop = true).newCopy
   )
-  private[this] val blank = AnimatedSprite(
+  private[this] val blank = AnimatedSprite.single(
     game = game, group = group, name = "blankscan", x = charOffset + 220, y = charOffset, key = "intro.blankscan",
-    animations = am("intro.blankscan", 0 until 12, stime / 12, loop = true)
+    animation = Animation("intro.blankscan", 0 until 12, stime / 12, loop = true).newCopy
   )
-  private[this] val scanningbar = AnimatedSprite(
+  private[this] val scanningBar = AnimatedSprite.single(
     game = game, group = group, name = "scanningbar", x = charOffset + 220, y = labelOffset, key = "intro.scanningbar",
-    animations = am("intro.scanningbar", 0 until 17, ctime / 17, loop = true)
+    animation = Animation("intro.scanningbar", 0 until 17, ctime / 17, loop = true).newCopy
   )
 
   game.add.audio("music.opening").play(loop = false)
@@ -66,6 +64,6 @@ class IntroScan(game: Game) {
     description.update(dt)
     computer.update(dt)
     blank.update(dt)
-    scanningbar.update(dt)
+    scanningBar.update(dt)
   }
 }
