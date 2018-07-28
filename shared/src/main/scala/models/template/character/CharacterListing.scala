@@ -1,4 +1,4 @@
-package models.player
+package models.template.character
 
 import models.data.character._
 

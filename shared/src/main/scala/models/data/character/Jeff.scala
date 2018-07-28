@@ -2,7 +2,8 @@
 package models.data.character
 
 import models.data.series.Episode
-import models.player.{CharacterTemplate, Costume}
+import models.player.Costume
+import models.template.character.CharacterTemplate
 import util.BoundingBox
 
 object Jeff extends CharacterTemplate(

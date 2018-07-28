@@ -3,6 +3,7 @@ package models.player
 import java.util.UUID
 
 import models.game.GameObject
+import models.template.character.CharacterListing
 import util.JsonSerializers._
 import util.Point
 

@@ -1,5 +1,6 @@
-package models.player
+package models.template.character
 
+import models.player.Costume
 import util.BoundingBox
 import util.JsonSerializers._
 
