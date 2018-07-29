@@ -49,6 +49,7 @@ final case class MovingPlatformNode(
     override val visible: Boolean,
     properties: MovingPlatformNode.Props
 ) extends Node(MovingPlatformNode.key) {
-  val sheetKey = "sprite." + properties.sprite.substring(properties.sprite.lastIndexOf('/') + 1).stripSuffix(".png")
+  override def actualName = if (name.isEmpty) { properties.sprite.substring(properties.sprite.lastIndexOf('/') + 1).stripSuffix(".png") } else { name }
+  val sheetKey = "sprite." + actualName
   override lazy val assets = Seq(Asset.Image(sheetKey, properties.sprite))
 }

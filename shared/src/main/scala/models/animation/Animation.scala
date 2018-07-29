@@ -5,6 +5,13 @@ import util.JsonSerializers._
 import scala.util.Random
 
 object Animation {
+  object Keyframe {
+    implicit val jsonEncoder: Encoder[Keyframe] = deriveEncoder
+    implicit val jsonDecoder: Decoder[Keyframe] = deriveDecoder
+  }
+
+  final case class Keyframe(idx: Int, delay: Double)
+
   implicit val jsonEncoder: Encoder[Animation] = deriveEncoder
   implicit val jsonDecoder: Decoder[Animation] = deriveDecoder
 
@@ -49,7 +56,9 @@ final case class Animation(
     } else if (frames.size == 1) {
       None
     } else {
-      val ret = frames(((time % durationMs) / delay).toInt)
+      val modTime = time % durationMs
+      val targetFrame = (modTime / delay).toInt
+      val ret = frames(targetFrame)
       if (ret == activeFrame) {
         None
       } else {

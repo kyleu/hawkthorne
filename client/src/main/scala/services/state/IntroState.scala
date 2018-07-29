@@ -14,7 +14,7 @@ object IntroState {
 }
 
 class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
-  private[this] var elapsed: Double = 0.0
+  private[this] var elapsed = 0.0
 
   private[this] lazy val inputService = new InputService(game)
 

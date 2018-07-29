@@ -14,6 +14,7 @@ object LiquidComponents {
       x = n.actualX,
       y = n.actualY,
       opacity = n.opacityDouble,
+      speed = n.properties.speed.map(_.toDouble).getOrElse(0.2),
       width = n.actualWidth / 24,
       height = n.actualHeight / 24
     ))
