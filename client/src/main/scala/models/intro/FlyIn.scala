@@ -22,7 +22,6 @@ class FlyIn(game: Game, onComplete: () => Unit) {
 
   def destroy() = {
     game.world.remove(group)
-    group.alive = false
-    group.visible = false
+    group.destroy(destroyChildren = true)
   }
 }

@@ -2,9 +2,7 @@ package models.component
 
 import com.definitelyscala.phaserce.{Game, Group, Image}
 
-import scala.util.Random
-
-final case class LiquidComponent(
+final case class Liquid(
     override val game: Game,
     group: Group,
     override val name: String,

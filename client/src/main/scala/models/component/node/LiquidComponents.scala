@@ -1,12 +1,12 @@
 package models.component.node
 
 import com.definitelyscala.phaserce.{Game, Group}
-import models.component.LiquidComponent
+import models.component.Liquid
 import models.node.LiquidNode
 
 object LiquidComponents {
   def apply(game: Game, group: Group, n: LiquidNode) = {
-    Seq(LiquidComponent(
+    Seq(Liquid(
       game = game,
       group = group,
       name = "liquid." + n.actualName,

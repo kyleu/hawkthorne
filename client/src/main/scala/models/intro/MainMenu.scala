@@ -1,7 +1,7 @@
 package models.intro
 
 import com.definitelyscala.phaserce.{Game, Group, Point}
-import models.component.StaticSprite
+import models.component.{Menu, StaticSprite}
 import models.component.node.SparkleComponents
 import models.font.Font
 import models.input.PointerAction
@@ -33,6 +33,19 @@ class MainMenu(game: Game) {
   attract.position = new Point(0, background.sprite.height - 40)
   group.add(attract)
 
+  private[this] val menuY = background.sprite.height.toInt - 180
+  private[this] val menu = Menu(game = game, name = "intro.menu", x = 0, y = menuY, fontKey = "small", backgroundKey = "intro.menu.bg", width = 101, height = 75)
+  group.add(menu.group)
+  menu.group.visible = false
+  menu.group.scale = new Point(2, 2)
+  menu.setOptions(Seq(
+    ("Campaign", () => Logging.info("Campaign")),
+    ("Multiplayer", () => Logging.info("Multiplayer")),
+    ("Options", () => Logging.info("Options")),
+    ("Something", () => Logging.info("Something")),
+    ("Credits", () => Logging.info("Credits"))
+  ))
+
   game.world.add(group)
   resize(game.width.toInt, game.height.toInt)
 
@@ -44,6 +57,7 @@ class MainMenu(game: Game) {
     val (logoX, logoY) = ((width / 2.0) / zoom, background.sprite.height - (height / 1.4 / zoom))
     logoGroup.position = new Point(logoX, logoY)
     attract.position = new Point((width / zoom) / 2, attract.position.y)
+    menu.group.position = new Point(((width / zoom) / 2) - menu.background.width, menu.group.position.y)
   }
 
   def update(dt: Double) = {
@@ -71,5 +85,6 @@ class MainMenu(game: Game) {
     if (menuShown) { throw new IllegalStateException("Double init") }
     menuShown = true
     attract.visible = false
+    menu.group.visible = true
   }
 }

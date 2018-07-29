@@ -33,6 +33,8 @@ object IntroAssets {
     Asset.Image("intro.logo", "images/menu/logo.png"),
 
     Asset.Image(s"font.big", s"images/fonts/big.png"),
+    Asset.Image(s"font.small", s"images/fonts/small.png"),
+    Asset.Image("intro.menu.bg", "images/openingmenu.png"),
 
     models.node.SparkleNode.asset
   )
