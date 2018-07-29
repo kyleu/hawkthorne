@@ -80,7 +80,7 @@ class GameplayService(game: PhaserGame, options: GameOptions, player: Player) {
   }
 
   private[this] def pointerAct(p: PointerAction) = nodes.foreach {
-    case n if n.x < p.worldX && n.y < p.worldY && (n.x + n.width) > p.worldX && (n.y + n.height) < p.worldY => Logging.info(s"Collision: $n")
+    case n if n.x < p.worldX && n.y < p.worldY && (n.x + n.width) >= p.worldX && (n.y + n.height) >= p.worldY => Logging.info(s"Collision: $n")
     case _ => // noop
   }
 }
