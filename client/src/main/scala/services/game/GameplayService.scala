@@ -3,12 +3,14 @@ package services.game
 import com.definitelyscala.phaserce.Game
 import models.component.{BaseComponent, ConsoleLog, HudOverlay}
 import models.game.GameOptions
+import models.input.PointerAction
 import models.phaser.{PhaserGame, SplashScreen}
 import models.player.{Player, PlayerSprite}
 import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
+import util.Logging
 
 class GameplayService(game: PhaserGame, options: GameOptions, player: Player) {
   private[this] var started = false
@@ -34,6 +36,7 @@ class GameplayService(game: PhaserGame, options: GameOptions, player: Player) {
   addComponent(playerSprite)
 
   val inputService = new InputService(game)
+  inputService.setPointerEventCallback(Some(pointerAct))
   inputService.addPlayer(playerSprite)
 
   private[this] val hudOverlay = HudOverlay(game = game, player = player)
@@ -70,6 +73,14 @@ class GameplayService(game: PhaserGame, options: GameOptions, player: Player) {
 
   def resize(width: Int, height: Int) = {
     camera.resize(width, height, mapService.mapPxWidth, mapService.mapPxHeight)
-    components.collect { case r: BaseComponent.Resizable => r.resize(width, height) }
+    components.foreach {
+      case r: BaseComponent.Resizable => r.resize(width, height)
+      case _ => // noop
+    }
+  }
+
+  private[this] def pointerAct(p: PointerAction) = nodes.foreach {
+    case n if n.x < p.worldX && n.y < p.worldY && (n.x + n.width) > p.worldX && (n.y + n.height) < p.worldY => Logging.info(s"Collision: $n")
+    case _ => // noop
   }
 }
