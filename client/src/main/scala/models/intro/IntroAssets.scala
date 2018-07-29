@@ -29,7 +29,11 @@ object IntroAssets {
     Asset.Spritesheet("intro.piercescan", "images/scanning/piercescan.png", charWidth, charHeight),
 
     Asset.Image("intro.cityscape", "images/menu/cityscape.png"),
-    Asset.Image("intro.logo", "images/menu/logo.png"),
     Asset.Spritesheet("intro.beams", "images/menu/beams.png", 99, 99),
+    Asset.Image("intro.logo", "images/menu/logo.png"),
+
+    Asset.Image(s"font.big", s"images/fonts/big.png"),
+
+    models.node.SparkleNode.asset
   )
 }

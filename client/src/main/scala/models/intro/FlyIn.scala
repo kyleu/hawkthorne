@@ -17,6 +17,7 @@ class FlyIn(game: Game, onComplete: () => Unit) {
   def resize(width: Int, height: Int) = PhaserUtils.simpleResize(group, width, height, dimensions)
 
   def update(dt: Double) = {
+    onComplete() // TODO
   }
 
   def destroy() = {

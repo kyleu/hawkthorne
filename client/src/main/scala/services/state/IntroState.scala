@@ -43,7 +43,7 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
       case Some(is) => is.update(dt)
       case None => flyIn match {
         case Some(fi) => fi.update(dt)
-        case None => // throw new IllegalStateException("Intro complete...")
+        case None => mainMenu.foreach(_.update(dt))
       }
     }
   }
