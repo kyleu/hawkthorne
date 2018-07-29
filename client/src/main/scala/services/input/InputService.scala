@@ -1,12 +1,17 @@
 package services.input
 
 import com.definitelyscala.phaserce.Game
+import models.input.InputUpdate
 import models.player.PlayerSprite
 
-class InputService(game: Game, players: IndexedSeq[PlayerSprite]) {
+class InputService(game: Game) {
   private[this] val keyboardInput = KeyboardInput(game)
   private[this] val gamepadInput = GamepadInput(game)
   private[this] val pointerInput = PointerInput(game)
+
+  private[this] val players = collection.mutable.ArrayBuffer.empty[PlayerSprite]
+
+  val menuHandler = new MenuInputHandler()
 
   def close() = {
     keyboardInput.close()
@@ -14,17 +19,24 @@ class InputService(game: Game, players: IndexedSeq[PlayerSprite]) {
     pointerInput.close()
   }
 
-  def update(menu: Boolean, delta: Double) = {
-    pointerInput.update(menu, delta)
+  def addPlayer(playerSprite: PlayerSprite) = {
+    players += playerSprite
+  }
 
-    val updates = (keyboardInput.update(menu, delta) +: gamepadInput.update(menu, delta)).groupBy(_._1).values.flatMap {
-      case u if u.length > 1 => Seq((u.map(_._1).head, (u.map(_._2._1).sum, u.map(_._2._2).sum), u.flatMap(_._3)))
+  def update(delta: Double) = {
+    pointerInput.update(delta)
+
+    val updates = (keyboardInput.update(delta) +: gamepadInput.update(delta)).groupBy(_.idx).values.flatMap {
+      case u if u.length > 1 => Seq(InputUpdate(u.map(_.idx).head, u.map(_.x).sum, u.map(_.y).sum, u.flatMap(_.commands)))
       case u => u
     }.toSeq
 
     updates.foreach {
-      case u if u._1 == -1 => util.Logging.info("Menu update!") // menu.processInput(delta, u._2, u._3)
-      case u => players(u._1).processInput(delta, u._2, u._3)
+      case u if menuHandler.enabled => menuHandler.update(u)
+      case u => players.size match {
+        case x if u.idx < x => players(u.idx).processInput(delta, (u.x, u.y), u.commands)
+        case x => throw new IllegalStateException(s"Received input for player [$u], but only have [$x] players.")
+      }
     }
   }
 }

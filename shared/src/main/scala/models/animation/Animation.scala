@@ -16,12 +16,22 @@ object Animation {
   }
 }
 
-final case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, loop: Boolean, archetype: Boolean = true) {
+final case class Animation(
+    id: String,
+    frames: IndexedSeq[Int],
+    delay: Double,
+    loop: Boolean,
+    archetype: Boolean = true
+) {
   val durationMs = frames.size * delay
   val firstFrame = frames.headOption.getOrElse(throw new IllegalMonitorStateException(s"Empty frames for animation [$id]."))
 
   private[this] var activeFrame = 0
   private[this] var elapsedMs = 0.0
+  private[this] var running = true
+
+  private[this] var onComplete: Option[(String, Double) => Unit] = None
+  def setOnComplete(f: (String, Double) => Unit) = onComplete = Some(f)
 
   private[this] var jitter = 0.0
   def setJitter(j: Double) = jitter = j * frames.size
@@ -30,7 +40,13 @@ final case class Animation(id: String, frames: IndexedSeq[Int], delay: Double, l
     if (archetype) { throw new IllegalStateException(s"Animation [$id] is an archetype, and cannot be started.") }
     elapsedMs += deltaMs
     val time = elapsedMs + jitter
-    if (frames.size == 1 || (!loop && (time > durationMs))) {
+    if (!loop && (time > durationMs) && running) {
+      running = false
+      onComplete.foreach(_(id, time - durationMs))
+      None
+    } else if (!running) {
+      None
+    } else if (frames.size == 1) {
       None
     } else {
       val ret = frames(((time % durationMs) / delay).toInt)

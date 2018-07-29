@@ -23,6 +23,10 @@ object IntroAssets {
     Asset.Spritesheet("intro.shirleyscan", "images/scanning/shirleyscan.png", 121, 172),
     Asset.Spritesheet("intro.anniescan", "images/scanning/anniescan.png", 121, 172),
     Asset.Spritesheet("intro.troyscan", "images/scanning/troyscan.png", 121, 172),
-    Asset.Spritesheet("intro.piercescan", "images/scanning/piercescan.png", 121, 172)
+    Asset.Spritesheet("intro.piercescan", "images/scanning/piercescan.png", 121, 172),
+
+    Asset.Image("intro.cityscape", "images/menu/cityscape.png"),
+    Asset.Image("intro.logo", "images/menu/logo.png"),
+    Asset.Spritesheet("intro.beams", "images/menu/beams.png", 99, 99),
   )
 }

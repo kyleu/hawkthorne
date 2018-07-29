@@ -1,6 +1,7 @@
 package models.phaser
 
 import com.definitelyscala.phaserce.{Game, IGameConfig, Phaser}
+import services.input.InputService
 import services.state._
 import util.JavaScriptUtils
 

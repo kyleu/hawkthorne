@@ -42,6 +42,7 @@ class LoadingState(
       progress.frame = ((filesCompleted / assets.size.toDouble) * 17).toInt
     })
     PhaserUtils.addToSignal(game.load.onLoadComplete, _ => {
+      progress.frame = 16
       game.load.onFileComplete.removeAll()
       game.load.onLoadComplete.removeAll()
       game.state.start(next.key, clearWorld = true, clearCache = false)

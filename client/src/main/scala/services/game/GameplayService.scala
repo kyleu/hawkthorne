@@ -3,14 +3,14 @@ package services.game
 import com.definitelyscala.phaserce.Game
 import models.component.{BaseComponent, ConsoleLog, HudOverlay}
 import models.game.GameOptions
-import models.phaser.SplashScreen
+import models.phaser.{PhaserGame, SplashScreen}
 import models.player.{Player, PlayerSprite}
 import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 
-class GameplayService(game: Game, options: GameOptions, player: Player) {
+class GameplayService(game: PhaserGame, options: GameOptions, player: Player) {
   private[this] var started = false
   private[this] var elapsed = 0.0
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
@@ -33,27 +33,29 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   )
   addComponent(playerSprite)
 
+  val inputService = new InputService(game)
+  inputService.addPlayer(playerSprite)
+
   private[this] val hudOverlay = HudOverlay(game = game, player = player)
   addComponent(hudOverlay)
 
   private[this] val consoleLog = ConsoleLog(game = game)
   addComponent(consoleLog)
 
-  private[this] val input = new InputService(game, IndexedSeq(playerSprite))
-
   private[this] val camera = new CameraService(game.camera)
   // private[this] val camera = new GroupCameraService(game, mapService.group)
 
-  private[this] val splashComplete = SplashScreen.show(game)
+  private[this] val (progress, splashComplete) = SplashScreen.show(game)
 
-  new NodeLoader(game, mapService.group).load(nodes = nodes, onComplete = newComponents => {
+  new NodeLoader(game, mapService.group, progress).load(nodes = nodes, onComplete = newComponents => {
     newComponents.foreach(addComponent)
     DebugService.inst.foreach(_.setMap(game, mapService, nodes, components, Seq(playerSprite)))
-    splashComplete()
     playerSprite.as.sprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
     util.Logging.info("Hawkthorne game service started.")
     instance.initialMessages() // TODO
+
+    splashComplete()
     started = true
   })
 
@@ -61,7 +63,7 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
     val dt = game.time.physicsElapsed
     elapsed += dt
 
-    input.update(menu = false, delta = dt)
+    inputService.update(delta = dt)
     components.foreach(_.update(dt))
     camera.focusOn(playerSprite.as.sprite.x.toInt, playerSprite.as.sprite.y.toInt)
   }

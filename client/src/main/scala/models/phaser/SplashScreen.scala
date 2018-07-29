@@ -1,6 +1,7 @@
 package models.phaser
 
 import com.definitelyscala.phaserce._
+import util.PhaserUtils
 
 object SplashScreen {
   def show(game: Game, x: Int = 0, y: Int = 0) = {
@@ -20,11 +21,11 @@ object SplashScreen {
     progress.anchor = new Point(0.5, 0.5)
     progress.scale = new Point(splashScale, splashScale)
 
-    () => {
+    progress -> (() => {
       game.world.removeChild(backdrop)
       game.world.removeChild(splash)
       game.world.removeChild(progress)
       ()
-    }
+    })
   }
 }

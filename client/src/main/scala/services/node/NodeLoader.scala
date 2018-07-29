@@ -1,12 +1,12 @@
 package services.node
 
-import com.definitelyscala.phaserce.{Game, Group}
+import com.definitelyscala.phaserce.{Game, Group, Sprite}
 import models.component.BaseComponent
 import models.node.Node
 import services.state.LoadingState
 import util.PhaserUtils
 
-class NodeLoader(game: Game, group: Group) {
+class NodeLoader(game: Game, group: Group, progress: Sprite) {
   def load(
     nodes: Seq[Node],
     onFileComplete: (Int, Int) => Unit = (_, _) => (),
@@ -22,9 +22,11 @@ class NodeLoader(game: Game, group: Group) {
     PhaserUtils.addToSignal(game.load.onFileComplete, _ => {
       filesCompleted += 1
       onFileComplete(filesCompleted, assets.size)
+      progress.frame = ((filesCompleted / assets.size.toDouble) * 17).toInt
     })
 
     PhaserUtils.addToSignal(game.load.onLoadComplete, _ => {
+      progress.frame = 16
       game.load.onFileComplete.removeAll()
       game.load.onLoadComplete.removeAll()
 
