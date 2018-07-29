@@ -1,74 +1,78 @@
 package models.intro
 
 import com.definitelyscala.phaserce.{Game, Group, Math, Point}
-import models.animation.Animation
-import models.component.AnimatedSprite
+import models.component.StaticSprite
+import util.Logging
 
 class IntroScan(game: Game, onComplete: () => Unit) {
-  private[this] val rTime = 10.0
-  private[this] val cTime = rTime / 7
-  private[this] val fTime = cTime / 3
-  private[this] val sTime = cTime - fTime
+  private[this] var elapsed = 0.0
 
   private[this] val margin = 20
   private[this] val dimensions = (400 + (margin * 2)) -> (250 + (margin * 2))
 
-  private[this] val charOffset = 28 + margin
-  private[this] val labelOffset = charOffset + 180
+  private[this] val charHorizontalOffset = 36 + margin
+  private[this] val charVerticalOffset = 28 + margin
+  private[this] val labelOffset = charHorizontalOffset + IntroAssets.charHeight
+  private[this] val rightStartEdge = dimensions._1 - charHorizontalOffset - IntroAssets.charWidth - 1
 
   val group = new Group(game = game, name = s"intro.scan")
 
-  private[this] val background = AnimatedSprite.single(
-    game = game, group = group, name = "background", x = margin, y = margin, key = "intro.backgrounds",
-    animation = Animation("intro.bg", 0 to 6, rTime / 7, loop = true).newCopy
-  )
-
-  private[this] def cs(key: String) = {
-    val charFrames = key match {
-      case "jeff" => 0 until 19
-      case _ => 0 until 19
-    }
-    val anim = Animation(id = s"intro.${key}scan", frames = charFrames, delay = cTime / 19, loop = false).newCopy
-    AnimatedSprite.single(game = game, group = group, name = s"${key}scan", x = charOffset, y = charOffset, key = s"intro.${key}scan", animation = anim)
-  }
+  private[this] val background = StaticSprite(game = game, group = group, name = "background", x = margin, y = margin, key = "intro.backgrounds")
 
   private[this] val characters = Seq("jeff", "britta", "abed", "shirley", "annie", "troy", "pierce")
-  private[this] val charSprites = characters.map(cs)
+  private[this] val charSprites = characters.map(key => StaticSprite(
+    game = game, group = group, name = s"${key}scan", x = charHorizontalOffset, y = charVerticalOffset, key = s"intro.${key}scan", visible = false
+  ))
 
-  private[this] val description = AnimatedSprite.single(
-    game = game, group = group, name = "description", x = charOffset, y = labelOffset, key = "intro.description",
-    animation = Animation("intro.description", (0 until 12) :+ 11, cTime / 12, loop = true).newCopy
+  private[this] val computer = StaticSprite(
+    game = game, group = group, name = "computer", x = (dimensions._1 - 75) / 2, y = 160, key = "intro.computer"
   )
-  private[this] val computer = AnimatedSprite.single(
-    game = game, group = group, name = "computer", x = charOffset + 132, y = charOffset + 5 + (172 / 2), key = "intro.computer",
-    animation = Animation("intro.computer", 0 until 9, cTime / 9 / 2, loop = true).newCopy
+  private[this] val inverted = StaticSprite(
+    game = game, group = group, name = "inverted", x = charHorizontalOffset, y = charVerticalOffset, key = "intro.invertedscan", visible = false
   )
-  private[this] val blank = AnimatedSprite.single(
-    game = game, group = group, name = "blankscan", x = charOffset + 220, y = charOffset, key = "intro.blankscan",
-    animation = Animation("intro.blankscan", 0 until 12, sTime / 12, loop = true).newCopy
+  private[this] val description = StaticSprite(
+    game = game, group = group, name = "description", x = charHorizontalOffset, y = labelOffset, key = "intro.description"
   )
-  private[this] val scanningBar = AnimatedSprite.single(
-    game = game, group = group, name = "scanningbar", x = charOffset + 220, y = labelOffset, key = "intro.scanningbar",
-    animation = Animation("intro.scanningbar", 0 until 17, cTime / 17, loop = true).newCopy
+  private[this] val name = StaticSprite(
+    game = game, group = group, name = "name", x = (dimensions._1 - 75) / 2, y = charVerticalOffset + 5, key = "intro.names"
   )
+  private[this] val scanBlank = StaticSprite(
+    game = game, group = group, name = "scanBlank", x = rightStartEdge, y = charVerticalOffset, key = "intro.blankscan"
+  )
+  private[this] val scanSprites = StaticSprite(
+    game = game, group = group, name = "scanSprites", x = rightStartEdge, y = charVerticalOffset, key = "intro.invertedsprites", visible = false
+  )
+  private[this] val scanningBar = StaticSprite(
+    game = game, group = group, name = "scanningBar", x = rightStartEdge, y = labelOffset, key = "intro.scanningbar"
+  )
+  private[this] val scanningWords = StaticSprite(
+    game = game, group = group, name = "scanningWords", x = rightStartEdge, y = labelOffset + 16, key = "intro.scanningwords"
+  )
+
+  private[this] val events = Seq(
+    IntroAnimations.backgroundEvents(background.sprite, characters),
+    IntroAnimations.characterEvents(inverted.sprite, characters.zip(charSprites.map(_.sprite))),
+    IntroAnimations.computerEvents(computer.sprite, characters.size),
+    IntroAnimations.descriptionEvents(description.sprite, characters.size),
+    IntroAnimations.nameEvents(name.sprite, characters.size),
+    IntroAnimations.progressEvents(scanningBar.sprite, characters.size),
+    IntroAnimations.scanEvents(scanBlank.sprite, scanSprites.sprite, characters.size),
+    IntroAnimations.wordsEvents(scanningWords.sprite, characters.size),
+    IntroAnimations.onComplete(() => {
+      // TODO
+    })
+  ).flatten.sortBy(x => x.delay)
+  private[this] val eventQueue = collection.mutable.Queue.apply(events: _*)
 
   game.world.add(group)
 
-  def update(dt: Double, elapsed: Double) = {
-    ((elapsed / rTime) * 7).toInt match {
-      case charIdx if charIdx < characters.length =>
-        background.update(dt)
-        charSprites.zipWithIndex.foreach { c =>
-          c._1.sprite.visible = c._2 == charIdx
-          if (c._1.sprite.visible) {
-            c._1.update(dt)
-          }
-        }
-        description.update(dt)
-        computer.update(dt)
-        blank.update(dt)
-        scanningBar.update(dt)
-      case _ => onComplete()
+  def update(dt: Double) = {
+    elapsed += dt
+
+    while (eventQueue.headOption.exists(_.delay < elapsed)) {
+      val event = eventQueue.dequeue()
+      Logging.info(s"Performing event [$event].")
+      event.trigger()
     }
   }
 

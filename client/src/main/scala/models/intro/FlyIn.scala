@@ -24,7 +24,7 @@ class FlyIn(game: Game, onComplete: () => Unit) {
     group.scale = new Point(scale, scale)
   }
 
-  def update(dt: Double, elapsed: Double) = {
+  def update(dt: Double) = {
   }
 
   def destroy() = {
