@@ -2,7 +2,7 @@ package services.state
 
 import com.definitelyscala.phaserce._
 import models.input.PointerAction
-import models.intro.{FlyIn, IntroAssets, IntroScan}
+import models.intro.{FlyIn, IntroAssets, IntroScan, MainMenu}
 import models.phaser.PhaserGame
 import services.input.InputService
 import util.Logging
@@ -20,12 +20,16 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
 
   private[this] var introScan: Option[IntroScan] = None
   private[this] var flyIn: Option[FlyIn] = None
+  private[this] var mainMenu: Option[MainMenu] = None
 
   override def create(game: Game) = {
     inputService.setPointerEventCallback(Some(pointerAct))
     inputService.menuHandler.setCallback(Some(acts => menuActs(acts)))
+
     introScan = Some(new IntroScan(phaser, () => switchToFlyIn()))
+
     // game.add.audio("music.opening").play(loop = false)
+
     onResize(game.width.toInt, game.height.toInt)
   }
 
@@ -47,6 +51,7 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
   override def onResize(width: Int, height: Int) = {
     introScan.foreach(_.resize(width, height))
     flyIn.foreach(_.resize(width, height))
+    mainMenu.foreach(_.resize(width, height))
   }
 
   private[this] def skip() = introScan match {
@@ -61,7 +66,7 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
     case Some(is) => skip()
     case None => flyIn match {
       case Some(fi) => skip()
-      case None => throw new IllegalStateException(s"TODO: Pointer action: $pointerAction")
+      case None => mainMenu.foreach(_.onPointer(pointerAction))
     }
   }
 
@@ -69,7 +74,7 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
     case Some(is) => skip()
     case None => flyIn match {
       case Some(fi) => skip()
-      case None => throw new IllegalStateException(s"TODO: Menu actions: ${acts.mkString(", ")}")
+      case None => mainMenu.foreach(_.menuActions(acts))
     }
   }
 
@@ -82,5 +87,6 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
   private[this] def switchToMenu() = {
     flyIn.foreach(_.destroy())
     flyIn = None
+    mainMenu = Some(new MainMenu(phaser))
   }
 }

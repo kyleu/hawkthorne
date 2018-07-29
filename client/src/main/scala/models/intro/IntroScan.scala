@@ -1,8 +1,7 @@
 package models.intro
 
-import com.definitelyscala.phaserce.{Game, Group, Math, Point}
+import com.definitelyscala.phaserce.{Game, Group}
 import models.component.StaticSprite
-import util.Logging
 
 class IntroScan(game: Game, onComplete: () => Unit) {
   private[this] var elapsed = 0.0
@@ -58,9 +57,7 @@ class IntroScan(game: Game, onComplete: () => Unit) {
     IntroAnimations.progressEvents(scanningBar.sprite, characters.size),
     IntroAnimations.scanEvents(scanBlank.sprite, scanSprites.sprite, characters.size),
     IntroAnimations.wordsEvents(scanningWords.sprite, characters.size),
-    IntroAnimations.onComplete(() => {
-      // TODO
-    })
+    IntroAnimations.onComplete(onComplete)
   ).flatten.sortBy(x => x.delay)
   private[this] val eventQueue = collection.mutable.Queue.apply(events: _*)
 
@@ -70,22 +67,11 @@ class IntroScan(game: Game, onComplete: () => Unit) {
     elapsed += dt
 
     while (eventQueue.headOption.exists(_.delay < elapsed)) {
-      val event = eventQueue.dequeue()
-      Logging.info(s"Performing event [$event].")
-      event.trigger()
+      eventQueue.dequeue().trigger()
     }
   }
 
-  def resize(width: Int, height: Int) = {
-    val wRatio = width.toDouble / dimensions._1
-    val hRatio = height.toDouble / dimensions._2
-    val scale = Math.min(wRatio, hRatio)
-    val x = (width - (dimensions._1 * scale)) / 2
-    val y = (height - (dimensions._2 * scale)) / 2
-    util.Logging.info(s"width: $width, height: $height, wRatio: $wRatio, hRatio: $hRatio, scale: $scale, x: $x, y: $y")
-    group.position.set(Math.max(x, 0), Math.max(y, 0))
-    group.scale = new Point(scale, scale)
-  }
+  def resize(width: Int, height: Int) = util.PhaserUtils.simpleResize(group, width, height, dimensions)
 
   def destroy() = {
     game.world.remove(group)

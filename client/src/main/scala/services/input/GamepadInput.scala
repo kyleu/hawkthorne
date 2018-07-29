@@ -7,7 +7,8 @@ object GamepadInput {
   final case class Keymap(
       up: Double, down: Double, left: Double, right: Double,
       leftStickX: Double, leftStickY: Double, rightStickX: Double, rightStickY: Double,
-      jump: Double, attack: Double, select: Double,
+      jump: Double, attack: Double,
+      select: Double, confirm: Double,
       options: Double, debug: Double
   )
 
@@ -23,6 +24,7 @@ object GamepadInput {
     jump = Gamepad.XBOX360_X,
     attack = Gamepad.XBOX360_A,
     select = Gamepad.XBOX360_B,
+    confirm = Gamepad.XBOX360_RIGHT_BUMPER,
     options = Gamepad.XBOX360_START,
     debug = Gamepad.XBOX360_BACK
   )
@@ -39,6 +41,7 @@ object GamepadInput {
     jump = Gamepad.PS3XC_SQUARE,
     attack = Gamepad.PS3XC_X,
     select = Gamepad.PS3XC_CIRCLE,
+    confirm = Gamepad.PS3XC_R1,
     options = Gamepad.PS3XC_START,
     debug = Gamepad.PS3XC_SELECT
   )
@@ -67,7 +70,11 @@ final case class GamepadInput(game: Game) {
       val y = if (pad.getButton(map.up).isDown) { -1.0 } else if (pad.getButton(map.down).isDown) { 1.0 } else { 0.0 /* pad.axis(map.leftStickY) */ }
       val commands = Seq(
         if (pad.getButton(map.jump).justPressed(delta)) { Some("jump") } else { None },
-        if (pad.getButton(map.options).justPressed(delta)) { Some("options") } else { None }
+        if (pad.getButton(map.attack).justPressed(delta)) { Some("attack") } else { None },
+        if (pad.getButton(map.select).justPressed(delta)) { Some("select") } else { None },
+        if (pad.getButton(map.confirm).justPressed(delta)) { Some("confirm") } else { None },
+        if (pad.getButton(map.options).justPressed(delta)) { Some("options") } else { None },
+        if (pad.getButton(map.debug).justPressed(delta)) { Some("debug") } else { None }
       ).flatten
       InputUpdate(idx, x, y, commands)
   }

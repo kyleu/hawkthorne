@@ -29,7 +29,7 @@ class MenuInputHandler() {
     }
     lastMenuX = u.x
     lastMenuY = u.y
-    val acts = xAct.toSeq ++ yAct.toSeq
+    val acts = xAct.toSeq ++ yAct.toSeq ++ u.commands
 
     if (acts.nonEmpty) {
       menuCallback.getOrElse(throw new IllegalStateException("Menu update called with no active callback."))(acts)

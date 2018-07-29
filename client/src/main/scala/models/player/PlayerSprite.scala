@@ -30,7 +30,7 @@ class PlayerSprite(
   }
 
   as.sprite.name = s"${player.templateKey}.${player.costume.key}"
-  as.sprite.anchor = new Point(0.5, 0.5)
+  as.sprite.anchor = util.PhaserUtils.centerPoint
 
   if (physics) {
     game.physics.arcade.enable(as.sprite)

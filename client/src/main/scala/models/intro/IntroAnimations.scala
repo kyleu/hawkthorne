@@ -8,7 +8,7 @@ object IntroAnimations {
   private[this] val fTime = cTime / 3
   private[this] val compTime = cTime / 9
   private[this] val sTime = cTime - fTime
-  private[this] val xTime = sTime * 2 / 5
+  private[this] val charFrames = Map("jeff" -> 19, "britta" -> 18, "abed" -> 17, "annie" -> 16, "troy" -> 15)
 
   def backgroundEvents(sprite: Sprite, characters: Seq[String]) = {
     characters.zipWithIndex.map(c => IntroEvent("background", c._1, cTime * c._2, () => sprite.frame = c._2))
@@ -17,31 +17,20 @@ object IntroAnimations {
   def characterEvents(inverted: Sprite, characters: Seq[(String, Sprite)]) = characters.zipWithIndex.flatMap { c =>
     val ((charKey, charSprite), charIdx) = c
     val offset = charIdx * cTime
-    val charFrames = charKey match {
-      case "jeff" => 19
-      case "britta" => 18
-      case "abed" => 17
-      case "annie" => 16
-      case "troy" => 15
-      case _ => 12
-    }
-    val inc = sTime / charFrames
+    val charFrameCount = charFrames.getOrElse(charKey, 12)
+    val inc = sTime / charFrameCount
 
     val initial = IntroEvent(charKey, "initial", offset + 0.0, () => {
       inverted.visible = false
       charSprite.visible = true
     })
-    val spriteEvents = (0 until charFrames).map(f => IntroEvent(charKey, s"char.$charKey", offset + (inc * f), () => charSprite.frame = f))
-    val invertStartEvent = IntroEvent(charKey, s"char.invert.0", offset + sTime, () => {
+    val spriteEvents = (0 until charFrameCount).map(f => IntroEvent(charKey, s"char.$charKey", offset + (inc * f), () => charSprite.frame = f))
+    val invertEvents = IntroEvent(charKey, s"char.invert.0", offset + sTime, () => {
       inverted.visible = true
       charSprite.visible = false
-    })
-    val invertEvents = invertStartEvent +: Seq(
-      IntroEvent(charKey, s"inverted.0", offset + sTime, () => inverted.frame = (charIdx * 2) + 2),
-      IntroEvent(charKey, s"inverted.1", offset + sTime + (fTime / 4), () => inverted.frame = (charIdx * 2) + 3),
-      IntroEvent(charKey, s"inverted.2", offset + sTime + ((fTime / 4) * 2), () => inverted.frame = (charIdx * 2) + 2),
-      IntroEvent(charKey, s"inverted.3", offset + sTime + ((fTime / 4) * 3), () => inverted.frame = (charIdx * 2) + 3)
-    )
+    }) +: Seq(2, 3, 2, 3).zipWithIndex.map {
+      case (frame, idx) => IntroEvent(charKey, s"inverted.$idx", offset + sTime + ((fTime / 4) * idx), () => inverted.frame = (charIdx * 2) + frame)
+    }
     val complete = IntroEvent(charKey, "complete", offset + cTime, () => charSprite.visible = false)
 
     initial +: (spriteEvents ++ invertEvents) :+ complete
@@ -67,22 +56,17 @@ object IntroAnimations {
   }
 
   def scanEvents(blank: Sprite, sprites: Sprite, size: Int) = (0 until size).flatMap { idx =>
-    IndexedSeq.empty[IntroEvent]
+    Seq(IntroEvent(s"scan.$idx", s"blank.start", cTime * idx, () => blank.visible = true)) ++
+      (0 until 11).map(sIdx => IntroEvent(s"scan.$idx", s"blank.$sIdx", (cTime * idx) + ((sTime / 12) * sIdx), () => blank.frame = sIdx)) ++
+      Seq(IntroEvent(s"scan.$idx", s"blank.complete", cTime * idx + sTime, () => blank.visible = false)) ++
+      Seq(IntroEvent(s"scan.$idx", s"sprites.start", cTime * idx + sTime, () => sprites.visible = true)) ++
+      (0 until 4).map(si => IntroEvent(s"scan.$idx", s"sprites.$si", (cTime * idx) + sTime + ((fTime / 4) * si), () => sprites.frame = (idx * 4) + si)) ++
+      Seq(IntroEvent(s"scan.$idx", s"sprites.complete", cTime * idx + cTime, () => sprites.visible = false))
   }
 
-  def wordsEvents(sprite: Sprite, size: Int) = (0 until size).flatMap { idx =>
-    Seq(
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 0), () => sprite.frame = 0),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 1), () => sprite.frame = 1),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 2), () => sprite.frame = 2),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 3), () => sprite.frame = 3),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 4), () => sprite.frame = 0),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 5), () => sprite.frame = 1),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 6), () => sprite.frame = 2),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 7), () => sprite.frame = 3),
-      IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * 8), () => sprite.frame = 4)
-    )
-  }
+  def wordsEvents(sprite: Sprite, size: Int) = (0 until size).flatMap(idx => Seq(0, 1, 2, 3, 0, 1, 2, 3, 4).zipWithIndex.map {
+    case (frame, fIdx) => IntroEvent(s"words.$idx", "scan", (cTime * idx) + (compTime * fIdx), () => sprite.frame = frame)
+  })
 
   def onComplete(f: () => Unit) = Seq(IntroEvent("intro", "complete", rTime, f))
 }
