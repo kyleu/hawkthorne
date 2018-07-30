@@ -14,6 +14,7 @@ object NavigationService {
         IntroState.load(phaser = game, debug = debug)
       case "intro" => IntroState.load(phaser = game, debug = debug)
       case "menu" => IntroState.load(phaser = game, skipToMenu = true, debug = debug)
+      case "options" => OptionsState.load(phaser = game, debug = debug)
       case "test" => TestState.load(phaser = game)
       case "sandbox" => SandboxState.load(phaser = game)
 

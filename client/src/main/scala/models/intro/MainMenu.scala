@@ -46,7 +46,7 @@ class MainMenu(game: Game, debug: Boolean) {
     ("Solo", () => NavigationService.navigateTo(game = game, path = "map/studyroom", debug = debug)),
     ("Multiplayer", () => Logging.info("multiplayer")),
     ("Something", () => NavigationService.navigateTo(game = game, path = "sandbox", debug = debug)),
-    ("Options", () => Logging.info("options")),
+    ("Options", () => NavigationService.navigateTo(game = game, path = "options", debug = debug)),
     ("Credits", () => Logging.info("credits"))
   ))
 

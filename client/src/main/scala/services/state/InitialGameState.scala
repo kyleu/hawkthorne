@@ -5,6 +5,7 @@ import com.definitelyscala.phasercepixi.WebGLRenderer
 import models.data.map.TiledMap
 import models.game.GameOptions
 import models.player.Player
+import models.settings.ClientSettings
 import org.scalajs.dom
 import services.debug.DebugService
 import util.JavaScriptUtils
@@ -41,6 +42,8 @@ class InitialGameState(nextState: GameState, phaser: Game, debug: Boolean) exten
       val h = org.scalajs.dom.window.innerHeight
       game.state.getCurrentState().resize(w, h)
     })
+
+    val settings = ClientSettings.load()
 
     if (debug) { DebugService.init(phaser) }
 

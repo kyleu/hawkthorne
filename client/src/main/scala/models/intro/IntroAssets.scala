@@ -1,6 +1,8 @@
 package models.intro
 
 import models.asset.Asset
+import models.font.Font
+import services.audio.SoundEffectService
 
 object IntroAssets {
   val charWidth = 121
@@ -32,11 +34,9 @@ object IntroAssets {
     Asset.Spritesheet("intro.beams", "images/menu/beams.png", 99, 99),
     Asset.Image("intro.logo", "images/menu/logo.png"),
 
-    Asset.Image(s"font.big", s"images/fonts/big.png"),
-    Asset.Image(s"font.small", s"images/fonts/small.png"),
     Asset.Image(s"intro.menu.arrow", s"images/menu/small_arrow.png"),
     Asset.Image("intro.menu.bg", "images/openingmenu.png"),
 
     models.node.SparkleNode.asset
-  )
+  ) ++ SoundEffectService.menuAssets ++ Font.assets
 }

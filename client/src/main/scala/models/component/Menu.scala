@@ -5,14 +5,8 @@ import models.font.Font
 import models.input.MenuAction
 
 final case class Menu(
-    override val game: Game,
-    override val name: String,
-    override val x: Int,
-    override val y: Int,
-    fontKey: String,
-    backgroundKey: String,
-    width: Int,
-    height: Int
+    override val game: Game, override val name: String, override val x: Int, override val y: Int,
+    fontKey: String, backgroundKey: String, width: Int, height: Int
 ) extends BaseComponent {
   val group = new Group(game, name = name)
   group.position = new Point(x.toDouble, y.toDouble)
