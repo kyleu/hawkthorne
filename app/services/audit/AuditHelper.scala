@@ -16,7 +16,7 @@ object AuditHelper extends Logging {
   private[this] def getInst = inst.getOrElse(throw new IllegalStateException("Not initialized."))
 
   def init(service: AuditService) = {
-    inst.foreach(_ => throw new IllegalStateException("Double init."))
+    inst.foreach(_ => throw new IllegalStateException("Double audit service init."))
     inst = Some(service)
   }
 

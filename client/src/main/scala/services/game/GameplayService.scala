@@ -2,6 +2,7 @@ package services.game
 
 import com.definitelyscala.phaserce.Game
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashScreen}
+import models.font.Font
 import models.game.GameOptions
 import models.input.PointerAction
 import models.player.{Player, PlayerSprite}
@@ -37,6 +38,8 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   val inputService = new InputService(game)
   inputService.setPointerEventCallback(Some(pointerAct))
   inputService.addPlayer(playerSprite)
+
+  Font.reset()
 
   private[this] val hudOverlay = HudOverlay(game = game, player = player)
   addComponent(hudOverlay)

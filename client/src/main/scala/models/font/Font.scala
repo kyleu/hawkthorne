@@ -12,6 +12,7 @@ object Font {
   private[this] val fontMap = collection.mutable.HashMap.empty[String, Font]
 
   def getFont(key: String, game: Game) = fontMap.getOrElseUpdate(key, load(game, key))
+  def reset() = fontMap.clear()
 
   private case class CharLocation(char: Char, startIndex: Int, width: Int, height: Int) {
     val area = new Rectangle(startIndex.toDouble, 0, width.toDouble, height.toDouble)

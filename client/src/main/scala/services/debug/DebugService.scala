@@ -15,6 +15,7 @@ import scala.scalajs.js
 object DebugService {
   private[this] var debugService: Option[DebugService] = None
 
+  def inititalized = debugService.isDefined
   def inst = debugService
 
   def init(phaser: Game) = {

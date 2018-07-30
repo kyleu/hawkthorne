@@ -1,17 +1,17 @@
 package services.state
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, Sound}
 import models.input.{MenuAction, PointerAction}
 import models.intro.{FlyIn, IntroAssets, IntroScan, MainMenu}
 import services.input.InputService
 
 object IntroState {
-  def load(phaser: Game, skipToMenu: Boolean = false) = {
-    new LoadingState(next = new IntroState(phaser, skipToMenu), phaser = phaser, assets = IntroAssets.assets)
+  def load(phaser: Game, skipToMenu: Boolean = false, debug: Boolean = false) = {
+    new LoadingState(next = new IntroState(phaser, skipToMenu, debug), phaser = phaser, assets = IntroAssets.assets)
   }
 }
 
-class IntroState(phaser: Game, skipToMenu: Boolean) extends GameState("introscan", phaser) {
+class IntroState(phaser: Game, skipToMenu: Boolean, debug: Boolean) extends GameState("introscan", phaser) {
   private[this] var elapsed = 0.0
 
   private[this] lazy val inputService = new InputService(game)
@@ -19,20 +19,22 @@ class IntroState(phaser: Game, skipToMenu: Boolean) extends GameState("introscan
   private[this] var introScan: Option[IntroScan] = None
   private[this] var flyIn: Option[FlyIn] = None
   private[this] var mainMenu: Option[MainMenu] = None
+  private[this] var music: Option[Sound] = None
 
   override def create(game: Game) = {
     inputService.setPointerEventCallback(Some(pointerAct))
     inputService.menuHandler.setCallback(Some(acts => menuActs(acts)))
 
     if (skipToMenu) {
-      mainMenu = Some(new MainMenu(phaser))
+      mainMenu = Some(new MainMenu(game = phaser, debug = debug))
     } else {
-      introScan = Some(new IntroScan(phaser, () => switchToFlyIn()))
+      introScan = Some(new IntroScan(game = phaser, onComplete = () => switchToFlyIn()))
     }
 
-    game.add.audio("music.opening").play()
+    music = Some(game.add.audio(key = "music.opening"))
+    music.foreach(_.play())
 
-    onResize(game.width.toInt, game.height.toInt)
+    onResize(width = game.width.toInt, height = game.height.toInt)
   }
 
   override def update(game: Game) = {
@@ -54,6 +56,11 @@ class IntroState(phaser: Game, skipToMenu: Boolean) extends GameState("introscan
     introScan.foreach(_.resize(width, height))
     flyIn.foreach(_.resize(width, height))
     mainMenu.foreach(_.resize(width, height))
+  }
+
+  override def shutdown(game: Game) = {
+    music.foreach(_.stop())
+    super.shutdown(game)
   }
 
   private[this] def skip() = introScan match {
@@ -89,6 +96,6 @@ class IntroState(phaser: Game, skipToMenu: Boolean) extends GameState("introscan
   private[this] def switchToMenu() = {
     flyIn.foreach(_.destroy())
     flyIn = None
-    mainMenu = Some(new MainMenu(phaser))
+    mainMenu = Some(new MainMenu(phaser, debug))
   }
 }

@@ -6,9 +6,10 @@ import models.component.node.SparkleComponents
 import models.font.Font
 import models.input.{MenuAction, PointerAction}
 import models.node.SparkleNode
+import services.state.NavigationService
 import util.Logging
 
-class MainMenu(game: Game) {
+class MainMenu(game: Game, debug: Boolean) {
   private[this] val group = new Group(game = game, name = s"main.menu")
   private[this] val size = 400.0
   private[this] var zoom = 1.0
@@ -42,13 +43,14 @@ class MainMenu(game: Game) {
   menu.group.visible = false
   menu.group.scale = new Point(2, 2)
   menu.setOptions(IndexedSeq(
-    ("Solo", () => Logging.info("solo")),
+    ("Solo", () => NavigationService.navigateTo(game = game, path = "map/studyroom", debug = debug)),
     ("Multiplayer", () => Logging.info("multiplayer")),
-    ("Something", () => Logging.info("something")),
+    ("Something", () => NavigationService.navigateTo(game = game, path = "sandbox", debug = debug)),
     ("Options", () => Logging.info("options")),
     ("Credits", () => Logging.info("credits"))
   ))
 
+  NavigationService.setPath("menu")
   game.world.add(group)
   resize(game.width.toInt, game.height.toInt)
 
@@ -85,7 +87,7 @@ class MainMenu(game: Game) {
   }
 
   private[this] def showMenu() = {
-    if (menuShown) { throw new IllegalStateException("Double init") }
+    if (menuShown) { throw new IllegalStateException("Double menu init") }
     menuShown = true
     attract.visible = false
     menu.group.visible = true
