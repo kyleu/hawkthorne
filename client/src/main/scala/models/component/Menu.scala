@@ -21,6 +21,9 @@ final case class Menu(
   private[this] var options = IndexedSeq.empty[(String, () => Unit)]
   private[this] var optionImages = Seq.empty[Image]
 
+  private[this] val sfxClick = game.add.audio("sfx.click")
+  private[this] val sfxConfirm = game.add.audio("sfx.confirm")
+
   private[this] val yOffset = 10.0
   val lineHeight = 12.0
   private[this] val font = Font.getFont(fontKey, game)
@@ -53,25 +56,20 @@ final case class Menu(
   }
 
   private[this] def setActiveOption(idx: Int) = {
-    game.sound.play("sfx.click")
+    sfxClick.play()
     activeOption = idx
     arrow.y = yOffset + (idx * lineHeight)
   }
 
   private[this] def onSelect() = {
-    game.sound.play("sfx.confirm")
-    val opt = options(activeOption)
-    opt._2()
+    sfxConfirm.play()
+    options(activeOption)._2()
   }
 
   def onMenuActions(acts: Seq[MenuAction]) = acts.foreach {
     case MenuAction.Up => previousItem()
     case MenuAction.Down => nextItem()
     case MenuAction.Select => onSelect()
-    case a => // noop
-  }
-
-  override def update(deltaMs: Double) = {
-
+    case _ => // noop
   }
 }

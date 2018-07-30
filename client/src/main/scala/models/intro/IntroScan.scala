@@ -85,9 +85,9 @@ class IntroScan(game: Game, onComplete: () => Unit) {
   }
 
   def resize(width: Int, height: Int) = {
-    backdrop.width = game.width
-    backdrop.height = game.height
-    backdrop.position = new Point(group.position.x, -group.position.y)
+    backdrop.width = game.width * 2
+    backdrop.height = game.height * 2
+    backdrop.position = new Point(-width.toDouble, -height.toDouble)
 
     util.PhaserUtils.simpleResize(group, width, height, dimensions)
   }

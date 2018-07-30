@@ -1,6 +1,6 @@
-package models.phaser
+package models.component
 
-import com.definitelyscala.phaserce._
+import com.definitelyscala.phaserce.{Game, Point}
 
 object SplashScreen {
   def show(game: Game, x: Int = 0, y: Int = 0) = {

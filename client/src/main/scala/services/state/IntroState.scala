@@ -1,19 +1,17 @@
 package services.state
 
-import com.definitelyscala.phaserce._
+import com.definitelyscala.phaserce.Game
 import models.input.{MenuAction, PointerAction}
 import models.intro.{FlyIn, IntroAssets, IntroScan, MainMenu}
-import models.phaser.PhaserGame
 import services.input.InputService
-import util.Logging
 
 object IntroState {
-  def load(phaser: PhaserGame) = {
-    new LoadingState(next = new IntroState(phaser), phaser = phaser, assets = IntroAssets.assets)
+  def load(phaser: Game, skipToMenu: Boolean = false) = {
+    new LoadingState(next = new IntroState(phaser, skipToMenu), phaser = phaser, assets = IntroAssets.assets)
   }
 }
 
-class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
+class IntroState(phaser: Game, skipToMenu: Boolean) extends GameState("introscan", phaser) {
   private[this] var elapsed = 0.0
 
   private[this] lazy val inputService = new InputService(game)
@@ -26,9 +24,13 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
     inputService.setPointerEventCallback(Some(pointerAct))
     inputService.menuHandler.setCallback(Some(acts => menuActs(acts)))
 
-    introScan = Some(new IntroScan(phaser, () => switchToFlyIn()))
+    if (skipToMenu) {
+      mainMenu = Some(new MainMenu(phaser))
+    } else {
+      introScan = Some(new IntroScan(phaser, () => switchToFlyIn()))
+    }
 
-    game.sound.play("music.opening")
+    game.add.audio("music.opening").play()
 
     onResize(game.width.toInt, game.height.toInt)
   }
@@ -55,25 +57,25 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
   }
 
   private[this] def skip() = introScan match {
-    case Some(is) => switchToFlyIn()
+    case Some(_) => switchToFlyIn()
     case None => flyIn match {
-      case Some(fi) => switchToMenu()
+      case Some(_) => switchToMenu()
       case None => throw new IllegalStateException("Cannot skip...")
     }
   }
 
   private[this] def pointerAct(pointerAction: PointerAction) = introScan match {
-    case Some(is) => skip()
+    case Some(_) => skip()
     case None => flyIn match {
-      case Some(fi) => skip()
+      case Some(_) => skip()
       case None => mainMenu.foreach(_.onPointer(pointerAction))
     }
   }
 
   private[this] def menuActs(acts: Seq[MenuAction]) = introScan match {
-    case Some(is) => skip()
+    case Some(_) => skip()
     case None => flyIn match {
-      case Some(fi) => skip()
+      case Some(_) => skip()
       case None => mainMenu.foreach(_.menuActions(acts))
     }
   }

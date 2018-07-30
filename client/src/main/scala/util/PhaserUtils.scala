@@ -1,6 +1,6 @@
 package util
 
-import com.definitelyscala.phaserce.{Group, Math, Signal}
+import com.definitelyscala.phaserce.{Group, IGameConfig, Math, Phaser, Signal}
 
 import scala.scalajs.js
 
@@ -14,6 +14,18 @@ object PhaserUtils {
     util.Logging.logJs(x)
     js.Dynamic.global.obj = x
   }
+
+  def getConfig(isWebGL: Boolean) = JavaScriptUtils.as[IGameConfig](scalajs.js.Dynamic.literal(
+    width = "100%",
+    height = "100%",
+    renderer = if (isWebGL) { Phaser.WEBGL_MULTI } else { Phaser.CANVAS },
+    enableDebug = true,
+    clearBeforeRender = true,
+    antialias = false,
+    multiTexture = true,
+    parent = "hawkthorne",
+    resolution = 1 // Not org.scalajs.dom.window.devicePixelRatio
+  ))
 
   def simpleResize(group: Group, width: Int, height: Int, dimensions: (Int, Int)) = {
     val wRatio = width.toDouble / dimensions._1

@@ -1,9 +1,8 @@
 package services.state
 
 import com.definitelyscala.phaserce.Game
-import models.component.BaseComponent
+import models.component.{BaseComponent, SplashScreen}
 import models.data.map.TiledMap
-import models.phaser.SplashScreen
 import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 

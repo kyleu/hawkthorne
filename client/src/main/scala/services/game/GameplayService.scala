@@ -1,10 +1,9 @@
 package services.game
 
 import com.definitelyscala.phaserce.Game
-import models.component.{BaseComponent, ConsoleLog, HudOverlay}
+import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashScreen}
 import models.game.GameOptions
 import models.input.PointerAction
-import models.phaser.{PhaserGame, SplashScreen}
 import models.player.{Player, PlayerSprite}
 import services.debug.DebugService
 import services.input.InputService
@@ -12,7 +11,7 @@ import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 import util.Logging
 
-class GameplayService(game: PhaserGame, options: GameOptions, player: Player) {
+class GameplayService(game: Game, options: GameOptions, player: Player) {
   private[this] var started = false
   private[this] var elapsed = 0.0
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]

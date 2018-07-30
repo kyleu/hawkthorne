@@ -1,7 +1,9 @@
-import models.phaser.PhaserGame
+import com.definitelyscala.phaserce.Game
 import org.scalajs.dom
 import services.event.EventHandler
 import services.socket.SocketConnection
+import services.state.{InitialGameState, NavigationService}
+import util.PhaserUtils
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -22,7 +24,15 @@ class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
   private[this] def initPhaser() = {
     js.Dynamic.global.window.PhaserGlobal = js.Dynamic.literal(hideBanner = true)
     val webGL = dom.window.navigator.userAgent.indexOf("AppleWebKit") > -1
-    js.Dynamic.global.phaser = new PhaserGame(path = path, webGL = webGL, isDebug = debug).begin()
+
+    val game = new Game(PhaserUtils.getConfig(webGL))
+    js.Dynamic.global.phaser = game
+
+    val nextState = NavigationService.initialState(game, path)
+    game.state.add("initial", new InitialGameState(nextState = nextState, phaser = game, debug = debug))
+    game.state.start("initial", clearWorld = true, clearCache = true)
+
+    game
   }
 
   private[this] def initNetwork() = {
