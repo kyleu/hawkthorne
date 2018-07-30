@@ -1,7 +1,8 @@
 package models.intro
 
-import com.definitelyscala.phaserce.{Game, Group}
+import com.definitelyscala.phaserce.{Game, Group, Point, Sprite}
 import models.component.StaticSprite
+import org.scalajs.dom.ext.Color
 
 class IntroScan(game: Game, onComplete: () => Unit) {
   private[this] var elapsed = 0.0
@@ -15,6 +16,17 @@ class IntroScan(game: Game, onComplete: () => Unit) {
   private[this] val rightStartEdge = dimensions._1 - charHorizontalOffset - IntroAssets.charWidth - 1
 
   val group = new Group(game = game, name = s"intro.scan")
+
+  val backdrop = {
+    val bgData = game.make.bitmapData(1, 1)
+    val color = Color("#3854b3")
+    bgData.fill(color.r.toDouble, color.g.toDouble, color.b.toDouble)
+
+    val s = new Sprite(game, 0, 0, bgData)
+    s.name = "backdrop"
+    group.add(s)
+    s
+  }
 
   private[this] val background = StaticSprite(game = game, group = group, name = "background", x = margin, y = margin, key = "intro.backgrounds")
 
@@ -61,6 +73,7 @@ class IntroScan(game: Game, onComplete: () => Unit) {
   ).flatten.sortBy(x => x.delay)
   private[this] val eventQueue = collection.mutable.Queue.apply(events: _*)
 
+  resize(game.width.toInt, game.height.toInt)
   game.world.add(group)
 
   def update(dt: Double) = {
@@ -71,7 +84,13 @@ class IntroScan(game: Game, onComplete: () => Unit) {
     }
   }
 
-  def resize(width: Int, height: Int) = util.PhaserUtils.simpleResize(group, width, height, dimensions)
+  def resize(width: Int, height: Int) = {
+    backdrop.width = game.width
+    backdrop.height = game.height
+    backdrop.position = new Point(group.position.x, -group.position.y)
+
+    util.PhaserUtils.simpleResize(group, width, height, dimensions)
+  }
 
   def destroy() = {
     game.world.remove(group)

@@ -4,7 +4,7 @@ import com.definitelyscala.phaserce.{Game, Group, Point}
 import models.component.{Menu, StaticSprite}
 import models.component.node.SparkleComponents
 import models.font.Font
-import models.input.PointerAction
+import models.input.{MenuAction, PointerAction}
 import models.node.SparkleNode
 import util.Logging
 
@@ -33,17 +33,20 @@ class MainMenu(game: Game) {
   attract.position = new Point(0, background.sprite.height - 40)
   group.add(attract)
 
-  private[this] val menuY = background.sprite.height.toInt - 180
-  private[this] val menu = Menu(game = game, name = "intro.menu", x = 0, y = menuY, fontKey = "small", backgroundKey = "intro.menu.bg", width = 101, height = 75)
+  private[this] val menu = Menu(
+    game = game, name = "intro.menu", x = 0, y = background.sprite.height.toInt - 180,
+    fontKey = "small", backgroundKey = "intro.menu.bg", width = 101, height = 75
+  )
+
   group.add(menu.group)
   menu.group.visible = false
   menu.group.scale = new Point(2, 2)
-  menu.setOptions(Seq(
-    ("Campaign", () => Logging.info("Campaign")),
-    ("Multiplayer", () => Logging.info("Multiplayer")),
-    ("Options", () => Logging.info("Options")),
-    ("Something", () => Logging.info("Something")),
-    ("Credits", () => Logging.info("Credits"))
+  menu.setOptions(IndexedSeq(
+    ("Solo", () => Logging.info("solo")),
+    ("Multiplayer", () => Logging.info("multiplayer")),
+    ("Something", () => Logging.info("something")),
+    ("Options", () => Logging.info("options")),
+    ("Credits", () => Logging.info("credits"))
   ))
 
   game.world.add(group)
@@ -75,8 +78,8 @@ class MainMenu(game: Game) {
     showMenu()
   }
 
-  def menuActions(acts: Seq[String]) = if (menuShown) {
-    Logging.info(s"Main menu actions: [${acts.mkString(", ")}]")
+  def menuActions(acts: Seq[MenuAction]) = if (menuShown) {
+    menu.onMenuActions(acts)
   } else {
     showMenu()
   }

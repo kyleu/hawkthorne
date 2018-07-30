@@ -1,7 +1,7 @@
 package services.state
 
 import com.definitelyscala.phaserce._
-import models.input.PointerAction
+import models.input.{MenuAction, PointerAction}
 import models.intro.{FlyIn, IntroAssets, IntroScan, MainMenu}
 import models.phaser.PhaserGame
 import services.input.InputService
@@ -28,7 +28,7 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
 
     introScan = Some(new IntroScan(phaser, () => switchToFlyIn()))
 
-    // game.add.audio("music.opening").play(loop = false)
+    game.sound.play("music.opening")
 
     onResize(game.width.toInt, game.height.toInt)
   }
@@ -70,7 +70,7 @@ class IntroState(phaser: PhaserGame) extends GameState("introscan", phaser) {
     }
   }
 
-  private[this] def menuActs(acts: Seq[String]) = introScan match {
+  private[this] def menuActs(acts: Seq[MenuAction]) = introScan match {
     case Some(is) => skip()
     case None => flyIn match {
       case Some(fi) => skip()
