@@ -1,6 +1,7 @@
 import com.definitelyscala.phaserce.Game
 import org.scalajs.dom
 import services.event.EventHandler
+import services.input.InputService
 import services.socket.SocketConnection
 import services.state.NavigationService
 import util.PhaserUtils

@@ -6,10 +6,11 @@ import models.component.node.SparkleComponents
 import models.font.Font
 import models.input.{MenuAction, PointerAction}
 import models.node.SparkleNode
+import services.input.InputService
 import services.state.NavigationService
 import util.Logging
 
-class MainMenu(game: Game, debug: Boolean) {
+class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] val group = new Group(game = game, name = s"main.menu")
   private[this] val size = 400.0
   private[this] var zoom = 1.0
@@ -43,10 +44,10 @@ class MainMenu(game: Game, debug: Boolean) {
   menu.group.visible = false
   menu.group.scale = new Point(2, 2)
   menu.setOptions(IndexedSeq(
-    ("Solo", () => NavigationService.navigateTo(game = game, path = "map/studyroom", debug = debug)),
+    ("Solo", () => NavigationService.navigateTo(game = game, input = input, path = "map/studyroom", debug = debug)),
     ("Multiplayer", () => Logging.info("multiplayer")),
-    ("Something", () => NavigationService.navigateTo(game = game, path = "sandbox", debug = debug)),
-    ("Options", () => NavigationService.navigateTo(game = game, path = "options", debug = debug)),
+    ("Something", () => NavigationService.navigateTo(game = game, input = input, path = "sandbox", debug = debug)),
+    ("Options", () => NavigationService.navigateTo(game = game, input = input, path = "options", debug = debug)),
     ("Credits", () => Logging.info("credits"))
   ))
 

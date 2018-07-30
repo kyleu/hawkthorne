@@ -1,22 +1,37 @@
 package services.state
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, Sound}
+import models.asset.Asset
+import models.component.VerticalParticles
 import models.font.Font
+import services.input.InputService
 
 object OptionsState {
-  def load(phaser: Game, debug: Boolean) = new LoadingState(next = new OptionsState(phaser = phaser, debug = debug), phaser = phaser, assets = {
-    Font.assets
-  })
+  def load(phaser: Game, inputService: InputService, debug: Boolean) = new LoadingState(
+    next = new OptionsState(phaser = phaser, inputService = inputService, debug = debug), phaser = phaser,
+    assets = Font.assets :+ Asset.music("daybreak")
+  )
 }
 
-class OptionsState(phaser: Game, debug: Boolean) extends GameState("test", phaser) {
+class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) extends GameState("test", phaser) {
+  private[this] var particles: Option[VerticalParticles] = None
+  private[this] var music: Option[Sound] = None
+
   override def create(game: Game) = {
     Font.reset()
-    val f = Font.getFont("courier", game)
-    val i1 = f.renderToImage(s"test.all", Font.chars.tail, game, 10, 10)
-    val i2 = f.renderToImage(s"test.phrase", "Hello, world! The quick brown fox jumped over the lazy dog.", game, 10, 60)
+    music = Some(game.add.audio(key = "music.daybreak", loop = true))
+    music.foreach(_.play())
+    particles = Some(new VerticalParticles(game))
+  }
 
-    game.add.existing(i1)
-    game.add.existing(i2)
+  override def update(game: Game) = {
+    val dt = game.time.physicsElapsed
+    particles.foreach(_.update(dt))
+    inputService.update(dt)
+  }
+
+  override def shutdown(game: Game) = {
+    music.foreach(_.stop())
+    super.shutdown(game)
   }
 }

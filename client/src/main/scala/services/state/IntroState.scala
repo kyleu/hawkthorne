@@ -6,15 +6,13 @@ import models.intro.{FlyIn, IntroAssets, IntroScan, MainMenu}
 import services.input.InputService
 
 object IntroState {
-  def load(phaser: Game, skipToMenu: Boolean = false, debug: Boolean = false) = {
-    new LoadingState(next = new IntroState(phaser, skipToMenu, debug), phaser = phaser, assets = IntroAssets.assets)
+  def load(phaser: Game, input: InputService, skipToMenu: Boolean = false, debug: Boolean = false) = {
+    new LoadingState(next = new IntroState(phaser, input, skipToMenu, debug), phaser = phaser, assets = IntroAssets.assets)
   }
 }
 
-class IntroState(phaser: Game, skipToMenu: Boolean, debug: Boolean) extends GameState("introscan", phaser) {
+class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, debug: Boolean) extends GameState("introscan", phaser) {
   private[this] var elapsed = 0.0
-
-  private[this] lazy val inputService = new InputService(game)
 
   private[this] var introScan: Option[IntroScan] = None
   private[this] var flyIn: Option[FlyIn] = None
@@ -26,7 +24,7 @@ class IntroState(phaser: Game, skipToMenu: Boolean, debug: Boolean) extends Game
     inputService.menuHandler.setCallback(Some(acts => menuActs(acts)))
 
     if (skipToMenu) {
-      mainMenu = Some(new MainMenu(game = phaser, debug = debug))
+      mainMenu = Some(new MainMenu(game = phaser, input = inputService, debug = debug))
     } else {
       introScan = Some(new IntroScan(game = phaser, onComplete = () => switchToFlyIn()))
     }
@@ -40,15 +38,11 @@ class IntroState(phaser: Game, skipToMenu: Boolean, debug: Boolean) extends Game
   override def update(game: Game) = {
     val dt = game.time.physicsElapsed
     elapsed += dt
-
     inputService.update(dt)
-
-    introScan match {
-      case Some(is) => is.update(dt)
-      case None => flyIn match {
-        case Some(fi) => fi.update(dt)
-        case None => mainMenu.foreach(_.update(dt))
-      }
+    () match {
+      case _ if introScan.isDefined => introScan.foreach(_.update(dt))
+      case _ if flyIn.isDefined => flyIn.foreach(_.update(dt))
+      case _ => mainMenu.foreach(_.update(dt))
     }
   }
 
@@ -60,31 +54,26 @@ class IntroState(phaser: Game, skipToMenu: Boolean, debug: Boolean) extends Game
 
   override def shutdown(game: Game) = {
     music.foreach(_.stop())
+    inputService.menuHandler.setCallback(None)
     super.shutdown(game)
   }
 
-  private[this] def skip() = introScan match {
-    case Some(_) => switchToFlyIn()
-    case None => flyIn match {
-      case Some(_) => switchToMenu()
-      case None => throw new IllegalStateException("Cannot skip...")
-    }
+  private[this] def skip() = () match {
+    case _ if introScan.isDefined => switchToFlyIn()
+    case _ if flyIn.isDefined => switchToMenu()
+    case _ => throw new IllegalStateException("Cannot skip...")
   }
 
-  private[this] def pointerAct(pointerAction: PointerAction) = introScan match {
-    case Some(_) => skip()
-    case None => flyIn match {
-      case Some(_) => skip()
-      case None => mainMenu.foreach(_.onPointer(pointerAction))
-    }
+  private[this] def pointerAct(pointerAction: PointerAction) = () match {
+    case _ if introScan.isDefined => skip()
+    case _ if flyIn.isDefined => skip()
+    case _ => mainMenu.foreach(_.onPointer(pointerAction))
   }
 
-  private[this] def menuActs(acts: Seq[MenuAction]) = introScan match {
-    case Some(_) => skip()
-    case None => flyIn match {
-      case Some(_) => skip()
-      case None => mainMenu.foreach(_.menuActions(acts))
-    }
+  private[this] def menuActs(acts: Seq[MenuAction]) = () match {
+    case _ if introScan.isDefined => skip()
+    case _ if flyIn.isDefined => skip()
+    case _ => mainMenu.foreach(_.menuActions(acts))
   }
 
   private[this] def switchToFlyIn() = {
@@ -96,6 +85,6 @@ class IntroState(phaser: Game, skipToMenu: Boolean, debug: Boolean) extends Game
   private[this] def switchToMenu() = {
     flyIn.foreach(_.destroy())
     flyIn = None
-    mainMenu = Some(new MainMenu(phaser, debug))
+    mainMenu = Some(new MainMenu(game = phaser, input = inputService, debug = debug))
   }
 }

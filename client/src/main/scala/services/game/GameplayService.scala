@@ -12,7 +12,7 @@ import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 import util.Logging
 
-class GameplayService(game: Game, options: GameOptions, player: Player) {
+class GameplayService(game: Game, inputService: InputService, options: GameOptions, player: Player) {
   private[this] var started = false
   private[this] var elapsed = 0.0
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
@@ -35,7 +35,6 @@ class GameplayService(game: Game, options: GameOptions, player: Player) {
   )
   addComponent(playerSprite)
 
-  val inputService = new InputService(game)
   inputService.setPointerEventCallback(Some(pointerAct))
   inputService.addPlayer(playerSprite)
 
