@@ -2,43 +2,52 @@ package models.settings
 
 import java.util.UUID
 
+import models.analytics.AnalyticsActionType
 import org.scalajs.dom
+import services.socket.{AnalyticsService, UserManager}
 import util.JsonSerializers._
-import util.Logging
+
+case class ClientSettings(
+    music: Int,
+    sfx: Int,
+    fullscreen: Boolean
+)
 
 object ClientSettings {
   private[this] var current: Option[ClientSettings] = None
-  private[this] val storageKey = "settings"
+  private[this] val storageKey = "hawkthorne.settings"
 
   implicit val jsonEncoder: Encoder[ClientSettings] = deriveEncoder
   implicit val jsonDecoder: Decoder[ClientSettings] = deriveDecoder
 
-  private[this] def empty(userId: UUID) = ClientSettings(userId, music = 10, sfx = 10, extraThing = "Default", toggle = true)
+  private[this] def empty(userId: UUID) = ClientSettings(music = 10, sfx = 10, fullscreen = true)
 
   def getSettings = current.getOrElse(throw new IllegalStateException("No registered settings"))
 
   def load() = {
-    val s = Option(dom.window.localStorage.getItem("settings")) match {
-      case Some(rsp) => rsp.asJson.as[ClientSettings].right.getOrElse(throw new IllegalStateException(s"Invalid storage response [$rsp]"))
-      case None => empty(UUID.randomUUID)
+    val s = Option(dom.window.localStorage.getItem(storageKey)) match {
+      case Some(rsp) => parseJson(rsp) match {
+        case Right(json) => json.as[ClientSettings] match {
+          case Right(x) => x
+          case Left(x) => throw new IllegalStateException(s"Invalid storage content [  ${rsp.asJson.spaces2}  ]: ${x.getMessage}", x)
+        }
+        case Left(x) => throw new IllegalStateException(s"Invalid storage json [  ${rsp.asJson.spaces2}  ]: ${x.getMessage}", x)
+      }
+      case None =>
+        val s = empty(UserManager.userId.getOrElse(UUID.randomUUID))
+        save(s)
+        s
     }
     current = Some(s)
-    Logging.info(s"Loaded settings [$s]")
+    util.Logging.debug("Settings loaded successfully.")
     s
   }
 
   def save(s: ClientSettings) = {
-    dom.window.localStorage.setItem(storageKey, s.asJson.spaces2)
-    Logging.info(s"Saved settings [$s]")
+    val json = s.asJson
+    dom.window.localStorage.setItem(storageKey, json.spaces2)
+    AnalyticsService.send(AnalyticsActionType.OptionsSet, json)
     current = Some(s)
     s
   }
 }
-
-case class ClientSettings(
-    userId: UUID,
-    music: Int,
-    sfx: Int,
-    extraThing: String,
-    toggle: Boolean
-)

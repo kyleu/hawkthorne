@@ -1,6 +1,7 @@
 package models.intro
 
 import com.definitelyscala.phaserce.{Game, Group, Point}
+import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.{Menu, StaticSprite}
 import models.component.node.SparkleComponents
@@ -11,6 +12,7 @@ import services.input.InputService
 import services.socket.AnalyticsService
 import services.state.NavigationService
 import util.Logging
+import util.JsonSerializers._
 
 class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] val group = new Group(game = game, name = s"main.menu")
@@ -47,11 +49,11 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   menu.group.scale = new Point(2, 2)
 
   private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
-  private[this] def cb(acts: (String, String)*) = acts.map(x => (x._1, () => {
-    AnalyticsService.send(AnalyticsActionType.Menu, "{ \"key\": \"" + x._2 + "\" }")
+  private[this] def opts(acts: (String, String)*) = menu.setOptions(acts.map(x => (x._1, () => {
+    AnalyticsService.send(AnalyticsActionType.Menu, Json.obj("key" -> x._2.asJson))
     nav(path = x._2)
-  })).toIndexedSeq
-  menu.setOptions(cb("Campaign" -> "map/studyroom", "Multiplayer" -> "multiplayer", "Options" -> "options", "Credits" -> "credits", "Help" -> "help"))
+  })).toIndexedSeq)
+  opts("Campaign" -> "map/studyroom", "Multiplayer" -> "multiplayer", "Options" -> "options", "Credits" -> "credits", "Help" -> "help")
 
   NavigationService.setPath("menu")
   game.world.add(group)

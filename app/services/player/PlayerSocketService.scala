@@ -57,10 +57,7 @@ class PlayerSocketService(
     case pu: PlayerUpdate => time(pu, withGame("playerUpdate")((a, g) => a.tell(GameServiceMessage.Update(g.playerIdx, pu), self)))
 
     // Analytics
-    case am: AnalyticsMessage => time(am, callbacks.analytics(am.t, parseJson(am.arg) match {
-      case Left(x) => Json.obj("error" -> "Invalid JSON".asJson, "content" -> am.arg.asJson)
-      case Right(json) => json
-    }))
+    case am: AnalyticsMessage => time(am, callbacks.analytics(am.t, am.arg))
 
     // Responses
     case rm: ResponseMessage => time(rm, out.tell(rm, self))

@@ -35,7 +35,7 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
     music.foreach(_.play())
 
     onResize(width = game.width.toInt, height = game.height.toInt)
-    AnalyticsService.send(AnalyticsActionType.IntroStart, "{}")
+    AnalyticsService.send(AnalyticsActionType.IntroStart, io.circe.Json.obj())
   }
 
   override def update(game: Game) = {
@@ -81,7 +81,7 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
 
   private[this] def switchToFlyIn(skipped: Boolean) = {
     if (skipped) {
-      AnalyticsService.send(AnalyticsActionType.IntroSkip, "{}")
+      AnalyticsService.send(AnalyticsActionType.IntroSkip, io.circe.Json.obj())
     }
     introScan.foreach(_.destroy())
     introScan = None

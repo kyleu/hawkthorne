@@ -24,5 +24,5 @@ object RequestMessage {
   final case class PlayerUpdate(msgs: Seq[GameUpdate], ts: Long = System.currentTimeMillis) extends RequestMessage
 
   // Analytics
-  final case class AnalyticsMessage(t: AnalyticsActionType, arg: String) extends RequestMessage
+  final case class AnalyticsMessage(t: AnalyticsActionType, arg: Json) extends RequestMessage
 }

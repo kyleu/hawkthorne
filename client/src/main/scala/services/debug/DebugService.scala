@@ -2,10 +2,12 @@ package services.debug
 
 import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.{Game, PluginObj}
+import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.BaseComponent
 import models.node.Node
 import models.player.PlayerSprite
+import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element
 import services.map.MapService
@@ -17,7 +19,7 @@ import scala.scalajs.js
 object DebugService {
   private[this] var debugService: Option[DebugService] = None
 
-  def inititalized = debugService.isDefined
+  def initialized = debugService.isDefined
   def inst = debugService
 
   def init(phaser: Game) = {
@@ -32,8 +34,14 @@ class DebugService private (phaser: Game) {
   val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
   val gui = new GUI(params)
 
+  val settingsFolder = gui.addFolder("Settings")
+  DatGuiUtils.addFunction(settingsFolder, "Reload Settings", () => util.Logging.info(s"Loaded Settings: ${ClientSettings.load()}"))
+  DatGuiUtils.addFunction(settingsFolder, "Debug Settings", () => util.Logging.info(s"Current Settings: ${ClientSettings.getSettings}"))
+
   val networkFolder = gui.addFolder("Network")
-  DatGuiUtils.addFunction(networkFolder, "Send Test Message", () => AnalyticsService.send(AnalyticsActionType.Debug, "{ \"cause\": \"ui\"}"))
+  DatGuiUtils.addFunction(networkFolder, "Send Test Message", () => {
+    AnalyticsService.send(AnalyticsActionType.Debug, Json.obj("cause" -> Json.fromString("ui")))
+  })
 
   val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
   if (debugPlugin.toString != "undefined") {
