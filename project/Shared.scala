@@ -81,8 +81,8 @@ object Shared {
   lazy val coreJvm = core.jvm
 
   lazy val shared = (crossProject(JSPlatform, JVMPlatform).withoutSuffixFor(JVMPlatform).crossType(CrossType.Pure) in file("shared")).settings(
-    commonSettings: _*
-  ).dependsOn(core)
+    (sourceGenerators in Compile) += ProjectVersion.writeConfig(projectId, projectName, projectPort).taskValue
+  ).settings(commonSettings: _*).dependsOn(core)
 
   lazy val sharedJs = shared.js.enablePlugins(ScalaJSWeb)
   lazy val sharedJvm = shared.jvm

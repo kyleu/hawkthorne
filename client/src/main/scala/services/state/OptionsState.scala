@@ -22,6 +22,7 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
     music = Some(game.add.audio(key = "music.daybreak", loop = true))
     music.foreach(_.play())
     particles = Some(new VerticalParticles(game))
+    inputService.menuHandler.setCallback(Some(_ => ()))
   }
 
   override def update(game: Game) = {
@@ -32,6 +33,7 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
 
   override def shutdown(game: Game) = {
     music.foreach(_.stop())
+    inputService.menuHandler.setCallback(None)
     super.shutdown(game)
   }
 }

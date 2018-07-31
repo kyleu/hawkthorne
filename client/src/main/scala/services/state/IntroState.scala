@@ -1,9 +1,11 @@
 package services.state
 
 import com.definitelyscala.phaserce.{Game, Sound}
+import models.analytics.AnalyticsActionType
 import models.input.{MenuAction, PointerAction}
 import models.intro.{FlyIn, IntroAssets, IntroScan, MainMenu}
 import services.input.InputService
+import services.socket.AnalyticsService
 
 object IntroState {
   def load(phaser: Game, input: InputService, skipToMenu: Boolean = false, debug: Boolean = false) = {
@@ -26,13 +28,14 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
     if (skipToMenu) {
       mainMenu = Some(new MainMenu(game = phaser, input = inputService, debug = debug))
     } else {
-      introScan = Some(new IntroScan(game = phaser, onComplete = () => switchToFlyIn()))
+      introScan = Some(new IntroScan(game = phaser, onComplete = () => switchToFlyIn(skipped = false)))
     }
 
     music = Some(game.add.audio(key = "music.opening"))
     music.foreach(_.play())
 
     onResize(width = game.width.toInt, height = game.height.toInt)
+    AnalyticsService.send(AnalyticsActionType.IntroStart, "{}")
   }
 
   override def update(game: Game) = {
@@ -59,7 +62,7 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
   }
 
   private[this] def skip() = () match {
-    case _ if introScan.isDefined => switchToFlyIn()
+    case _ if introScan.isDefined => switchToFlyIn(skipped = true)
     case _ if flyIn.isDefined => switchToMenu()
     case _ => throw new IllegalStateException("Cannot skip...")
   }
@@ -76,7 +79,10 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
     case _ => mainMenu.foreach(_.menuActions(acts))
   }
 
-  private[this] def switchToFlyIn() = {
+  private[this] def switchToFlyIn(skipped: Boolean) = {
+    if (skipped) {
+      AnalyticsService.send(AnalyticsActionType.IntroSkip, "{}")
+    }
     introScan.foreach(_.destroy())
     introScan = None
     flyIn = Some(new FlyIn(phaser, () => switchToMenu()))

@@ -2,13 +2,15 @@ package services.debug
 
 import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.{Game, PluginObj}
+import models.analytics.AnalyticsActionType
 import models.component.BaseComponent
 import models.node.Node
 import models.player.PlayerSprite
 import org.scalajs.dom
 import org.scalajs.dom.Element
 import services.map.MapService
-import util.JavaScriptUtils
+import services.socket.AnalyticsService
+import util.{DatGuiUtils, JavaScriptUtils}
 
 import scala.scalajs.js
 
@@ -29,6 +31,9 @@ class DebugService private (phaser: Game) {
 
   val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
   val gui = new GUI(params)
+
+  val networkFolder = gui.addFolder("Network")
+  DatGuiUtils.addFunction(networkFolder, "Send Test Message", () => AnalyticsService.send(AnalyticsActionType.Debug, "{ \"cause\": \"ui\"}"))
 
   val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
   if (debugPlugin.toString != "undefined") {

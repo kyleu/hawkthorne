@@ -11,7 +11,7 @@ final case class StaticSprite(
     key: String,
     frame: Int = 0,
     visible: Boolean = true,
-    flip: Boolean = false,
+    flip: Boolean = false
 ) extends BaseComponent {
   val sprite = new Sprite(game = game, x = x.toDouble, y = y.toDouble, key = key, frame = frame)
   sprite.name = name

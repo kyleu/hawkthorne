@@ -30,7 +30,7 @@ class SocketConnection(key: String, val handler: EventHandler, val binary: Boole
       }
       handler.onRequestMessage(rm)
     } else {
-      throw new IllegalStateException("Not connected.")
+      util.Logging.warn("Attempted message send when not connected.")
     }
   }
 }

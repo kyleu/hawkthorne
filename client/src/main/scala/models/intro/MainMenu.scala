@@ -1,12 +1,14 @@
 package models.intro
 
 import com.definitelyscala.phaserce.{Game, Group, Point}
+import models.analytics.AnalyticsActionType
 import models.component.{Menu, StaticSprite}
 import models.component.node.SparkleComponents
 import models.font.Font
 import models.input.{MenuAction, PointerAction}
 import models.node.SparkleNode
 import services.input.InputService
+import services.socket.AnalyticsService
 import services.state.NavigationService
 import util.Logging
 
@@ -43,13 +45,13 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   group.add(menu.group)
   menu.group.visible = false
   menu.group.scale = new Point(2, 2)
-  menu.setOptions(IndexedSeq(
-    ("Solo", () => NavigationService.navigateTo(game = game, input = input, path = "map/studyroom", debug = debug)),
-    ("Multiplayer", () => Logging.info("multiplayer")),
-    ("Something", () => NavigationService.navigateTo(game = game, input = input, path = "sandbox", debug = debug)),
-    ("Options", () => NavigationService.navigateTo(game = game, input = input, path = "options", debug = debug)),
-    ("Credits", () => Logging.info("credits"))
-  ))
+
+  private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
+  private[this] def cb(acts: (String, String)*) = acts.map(x => (x._1, () => {
+    AnalyticsService.send(AnalyticsActionType.Menu, "{ \"key\": \"" + x._2 + "\" }")
+    nav(path = x._2)
+  })).toIndexedSeq
+  menu.setOptions(cb("Campaign" -> "map/studyroom", "Multiplayer" -> "multiplayer", "Options" -> "options", "Credits" -> "credits", "Help" -> "help"))
 
   NavigationService.setPath("menu")
   game.world.add(group)

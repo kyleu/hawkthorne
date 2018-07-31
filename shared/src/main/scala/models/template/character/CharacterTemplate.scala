@@ -1,8 +1,11 @@
 package models.template.character
 
+import models.data.series.Episode
 import models.player.Costume
 import util.BoundingBox
 import util.JsonSerializers._
+
+import scala.util.Random
 
 object CharacterTemplate {
   implicit val jsonEncoder: Encoder[CharacterTemplate] = deriveEncoder
@@ -19,4 +22,6 @@ case class CharacterTemplate(
 ) {
   private[this] def costumeMap = costumes.map(c => c.key -> c).toMap
   def costume(k: String) = costumeMap.getOrElse(k, throw new IllegalStateException(s"Character [$key] has no costume [$k]."))
+  def relatedCostume(c: Costume) = costumeMap.get(c.key).orElse(costumes.find(_.episode == c.episode))
+  def randomCostume = costumes(Random.nextInt(costumes.size))
 }

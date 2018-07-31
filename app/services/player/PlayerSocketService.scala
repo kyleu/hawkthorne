@@ -3,24 +3,28 @@ package services.player
 import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, Props, Timers}
-import io.prometheus.client.{Counter, Histogram}
+import io.circe.Json
 import models.InternalMessage.{SocketStarted, SocketStopped}
 import models.RequestMessage._
 import models.{InternalMessage, RequestMessage, ResponseMessage}
 import models.ResponseMessage._
+import models.analytics.AnalyticsActionType
 import models.auth.Credentials
 import models.game.GameServiceMessage
 import util.metrics.Instrumented
-import util.{Config, Logging}
+import util.{Config, Logging, Version}
+import util.JsonSerializers._
 
 object PlayerSocketService {
-  def props(id: Option[UUID], playerSupervisor: ActorRef, creds: Credentials, out: ActorRef, sourceAddr: String) = {
-    Props(new PlayerSocketService(id.getOrElse(UUID.randomUUID), playerSupervisor, creds, out, sourceAddr))
+  case class Callbacks(analytics: (AnalyticsActionType, Json) => Unit)
+
+  def props(id: Option[UUID], playerSupervisor: ActorRef, creds: Credentials, out: ActorRef, sourceAddr: String, callbacks: Callbacks) = {
+    Props(new PlayerSocketService(id.getOrElse(UUID.randomUUID), playerSupervisor, creds, out, sourceAddr, callbacks))
   }
 }
 
 class PlayerSocketService(
-    id: UUID, playerSupervisor: ActorRef, creds: Credentials, out: ActorRef, sourceAddr: String
+    id: UUID, playerSupervisor: ActorRef, creds: Credentials, out: ActorRef, sourceAddr: String, callbacks: PlayerSocketService.Callbacks
 ) extends Actor with Timers with Logging {
   private[this] var activeGameOpt: Option[(ActorRef, GameStarted)] = None
   private[this] def withGame(ctx: String)(f: (ActorRef, GameStarted) => Unit) = activeGameOpt match {
@@ -32,6 +36,7 @@ class PlayerSocketService(
     log.info(s"Starting player connection for user [${creds.user.id}: ${creds.user.username}].")
     playerSupervisor.tell(SocketStarted(creds, "player", id, self), self)
     out.tell(UserSettings(creds.user.id, creds.user.username, creds.user.profile.providerID), self)
+    callbacks.analytics(AnalyticsActionType.Connect, Json.obj("source" -> sourceAddr.asJson, "version" -> Version.version.asJson))
   }
 
   private[this] def time(msg: Any, f: => Unit) = Instrumented.timeReceive(msg, msg.getClass.getSimpleName.stripSuffix("$"))(f)
@@ -50,6 +55,12 @@ class PlayerSocketService(
 
     // Game Requests
     case pu: PlayerUpdate => time(pu, withGame("playerUpdate")((a, g) => a.tell(GameServiceMessage.Update(g.playerIdx, pu), self)))
+
+    // Analytics
+    case am: AnalyticsMessage => time(am, callbacks.analytics(am.t, parseJson(am.arg) match {
+      case Left(x) => Json.obj("error" -> "Invalid JSON".asJson, "content" -> am.arg.asJson)
+      case Right(json) => json
+    }))
 
     // Responses
     case rm: ResponseMessage => time(rm, out.tell(rm, self))

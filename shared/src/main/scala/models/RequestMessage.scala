@@ -2,6 +2,7 @@ package models
 
 import java.util.UUID
 
+import models.analytics.AnalyticsActionType
 import models.game.GameUpdate
 import util.JsonSerializers._
 
@@ -21,4 +22,7 @@ object RequestMessage {
   final case class JoinGame(id: UUID) extends RequestMessage
   final case class ObserveGame(id: UUID) extends RequestMessage
   final case class PlayerUpdate(msgs: Seq[GameUpdate], ts: Long = System.currentTimeMillis) extends RequestMessage
+
+  // Analytics
+  final case class AnalyticsMessage(t: AnalyticsActionType, arg: String) extends RequestMessage
 }
