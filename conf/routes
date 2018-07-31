@@ -13,6 +13,7 @@ GET         /connect                                 controllers.GameplayControl
 ->          /admin/game                              gameadmin.Routes
 
 # Start model route files
+->          /admin/analytics                         analytics.Routes
 ->          /admin/settings                          settings.Routes
 ->          /admin/audit                             audit.Routes
 ->          /admin/ddl                               ddl.Routes

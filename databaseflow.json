@@ -20,10 +20,229 @@
         "AllowRegistration",
         "DefaultNewUserRole"
       ],
+      "shared" : false,
+      "ignored" : false
+    },
+    {
+      "pkg" : [
+        "analytics"
+      ],
+      "name" : "analytics_action_type",
+      "className" : "AnalyticsActionType",
+      "pkgPrefix" : [
+      ],
+      "values" : [
+        "connect",
+        "intro.start",
+        "intro.skip",
+        "menu",
+        "options.set",
+        "game.start",
+        "game.pause",
+        "game.resume",
+        "game.complete",
+        "game.checkpoint",
+        "error",
+        "unknown",
+        "debug"
+      ],
+      "shared" : true,
       "ignored" : false
     }
   ],
   "models" : [
+    {
+      "tableName" : "analytics_action",
+      "pkg" : [
+        "analytics"
+      ],
+      "propertyName" : "analyticsAction",
+      "className" : "AnalyticsAction",
+      "title" : "Analytics Action",
+      "description" : null,
+      "plural" : "Analytics Actions",
+      "fields" : [
+        {
+          "columnName" : "id",
+          "propertyName" : "id",
+          "title" : "Id",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 0,
+          "t" : "uuid",
+          "sqlTypeName" : "uuid",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : true,
+          "unique" : true,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        },
+        {
+          "columnName" : "t",
+          "propertyName" : "t",
+          "title" : "Type",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 1,
+          "t" : "enum",
+          "sqlTypeName" : "analytics_action_type",
+          "enumOpt" : {
+            "pkg" : [
+              "analytics"
+            ],
+            "name" : "analytics_action_type",
+            "className" : "AnalyticsActionType",
+            "pkgPrefix" : [
+            ],
+            "values" : [
+              "connect",
+              "intro.start",
+              "intro.skip",
+              "menu",
+              "options.set",
+              "game.start",
+              "game.pause",
+              "game.resume",
+              "game.complete",
+              "game.checkpoint",
+              "error",
+              "unknown",
+              "debug"
+            ],
+            "shared" : true,
+            "ignored" : false
+          },
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : true,
+          "unique" : false,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        },
+        {
+          "columnName" : "arg",
+          "propertyName" : "arg",
+          "title" : "Argument",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 2,
+          "t" : "json",
+          "sqlTypeName" : "json",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : false,
+          "unique" : false,
+          "inSearch" : false,
+          "inView" : true,
+          "inSummary" : false,
+          "ignored" : false
+        },
+        {
+          "columnName" : "author",
+          "propertyName" : "author",
+          "title" : "Author",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 3,
+          "t" : "uuid",
+          "sqlTypeName" : "uuid",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : true,
+          "unique" : false,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        },
+        {
+          "columnName" : "status",
+          "propertyName" : "status",
+          "title" : "Status",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 4,
+          "t" : "string",
+          "sqlTypeName" : "varchar",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : false,
+          "unique" : false,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        },
+        {
+          "columnName" : "occurred",
+          "propertyName" : "occurred",
+          "title" : "Occurred",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 5,
+          "t" : "timestamp",
+          "sqlTypeName" : "timestamp",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : false,
+          "unique" : false,
+          "inSearch" : false,
+          "inView" : true,
+          "inSummary" : false,
+          "ignored" : false
+        }
+      ],
+      "pkColumns" : [
+        {
+          "name" : "id",
+          "description" : null,
+          "definition" : null,
+          "primaryKey" : false,
+          "notNull" : true,
+          "autoIncrement" : false,
+          "columnType" : "uuid",
+          "sqlTypeCode" : 1111,
+          "sqlTypeName" : "uuid",
+          "size" : "2147483647",
+          "sizeAsInt" : 2147483647,
+          "scale" : 0,
+          "defaultValue" : null
+        }
+      ],
+      "foreignKeys" : [
+        {
+          "name" : "analytics_action_author_fkey",
+          "targetTable" : "system_users",
+          "references" : [
+            {
+              "source" : "author",
+              "target" : "id"
+            }
+          ]
+        }
+      ],
+      "references" : [
+      ],
+      "extendsClass" : null,
+      "icon" : null,
+      "pkgPrefix" : [
+      ],
+      "scalaJs" : false,
+      "ignored" : false,
+      "audited" : false,
+      "provided" : false,
+      "readOnly" : false
+    },
     {
       "tableName" : "audit",
       "pkg" : [
@@ -262,7 +481,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : false
+      "provided" : false,
+      "readOnly" : false
     },
     {
       "tableName" : "audit_record",
@@ -409,7 +629,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : false
+      "provided" : false,
+      "readOnly" : false
     },
     {
       "tableName" : "flyway_schema_history",
@@ -641,7 +862,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : false
+      "provided" : false,
+      "readOnly" : false
     },
     {
       "tableName" : "note",
@@ -807,7 +1029,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : false
+      "provided" : false,
+      "readOnly" : false
     },
     {
       "tableName" : "oauth2_info",
@@ -1016,7 +1239,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : true
+      "provided" : true,
+      "readOnly" : false
     },
     {
       "tableName" : "password_info",
@@ -1187,7 +1411,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : true
+      "provided" : true,
+      "readOnly" : false
     },
     {
       "tableName" : "scheduled_task_run",
@@ -1362,7 +1587,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : false
+      "provided" : false,
+      "readOnly" : false
     },
     {
       "tableName" : "setting_values",
@@ -1396,6 +1622,7 @@
               "AllowRegistration",
               "DefaultNewUserRole"
             ],
+            "shared" : false,
             "ignored" : false
           },
           "defaultValue" : null,
@@ -1455,7 +1682,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : true
+      "provided" : true,
+      "readOnly" : false
     },
     {
       "tableName" : "sync_progress",
@@ -1573,7 +1801,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : false,
-      "provided" : false
+      "provided" : false,
+      "readOnly" : false
     },
     {
       "tableName" : "system_users",
@@ -1741,6 +1970,14 @@
       ],
       "references" : [
         {
+          "name" : "analyticsActionAuthorFkey",
+          "propertyName" : "analyticsActionAuthorFkey",
+          "srcTable" : "analytics_action",
+          "srcCol" : "author",
+          "tgt" : "id",
+          "notNull" : true
+        },
+        {
           "name" : "noteAuthorFkey",
           "propertyName" : "noteAuthorFkey",
           "srcTable" : "note",
@@ -1756,7 +1993,8 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : true,
-      "provided" : false
+      "provided" : false,
+      "readOnly" : false
     }
   ],
   "source" : "boilerplay",

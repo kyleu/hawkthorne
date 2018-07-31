@@ -1,4 +1,5 @@
 /* Begin generated Thrift model includes */
+include "models/analytics/AnalyticsAction.thrift"
 include "models/audit/Audit.thrift"
 include "models/audit/AuditRecord.thrift"
 include "models/ddl/SchemaMigration.thrift"

@@ -63,7 +63,7 @@ object SchemaMigrationSchema extends GraphQLSchemaHelper("schemaMigration") {
     )
   )
 
-  val mutationFields = fields(unitField(name = "schemaMigration", desc = None, t = schemaMigrationMutationType, f = (c, td) => scala.concurrent.Future.successful(())))
+  val mutationFields = fields(unitField(name = "schemaMigration", desc = None, t = schemaMigrationMutationType, f = (_, _) => scala.concurrent.Future.successful(())))
 
   private[this] def toResult(r: GraphQLSchemaHelper.SearchResult[SchemaMigration]) = {
     SchemaMigrationResult(paging = r.paging, filters = r.args.filters, orderBys = r.args.orderBys, totalCount = r.count, results = r.results, durationMs = r.dur)

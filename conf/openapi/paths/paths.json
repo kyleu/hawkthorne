@@ -2,10 +2,12 @@
   "#include:common.json": "*",
 
   // Start enum paths
+  "#include:analytics/analyticsActionType.json": "*",
   "#include:settings/settingKey.json": "*",
   // End enum paths
 
   // Start schema paths
+  "#include:analytics/analyticsAction.json": "*",
   "#include:audit/audit.json": "*",
   "#include:audit/auditRecord.json": "*",
   "#include:ddl/schemaMigration.json": "*",

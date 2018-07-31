@@ -13,6 +13,8 @@ object Schema {
   val modelFetchers = {
     // Start model fetchers
     Seq(
+      models.analytics.AnalyticsActionSchema.analyticsActionByAuthorFetcher,
+      models.analytics.AnalyticsActionSchema.analyticsActionByPrimaryKeyFetcher,
       models.audit.AuditRecordSchema.auditRecordByAuditIdFetcher,
       models.audit.AuditRecordSchema.auditRecordByPrimaryKeyFetcher,
       models.audit.AuditSchema.auditByPrimaryKeyFetcher,
@@ -41,7 +43,8 @@ object Schema {
 
   val modelQueryFields = {
     // Start model query fields
-    models.audit.AuditRecordSchema.queryFields ++
+    models.analytics.AnalyticsActionSchema.queryFields ++
+      models.audit.AuditRecordSchema.queryFields ++
       models.audit.AuditSchema.queryFields ++
       models.ddl.SchemaMigrationSchema.queryFields ++
       models.note.NoteSchema.queryFields ++
@@ -53,7 +56,8 @@ object Schema {
 
   val enumQueryFields = {
     // Start enum query fields
-    models.settings.SettingKeySchema.queryFields
+    models.analytics.AnalyticsActionTypeSchema.queryFields ++
+      models.settings.SettingKeySchema.queryFields
     // End enum query fields
   }
 
@@ -68,7 +72,8 @@ object Schema {
 
   val modelMutationFields = {
     // Start model mutation fields
-    models.audit.AuditRecordSchema.mutationFields ++
+    models.analytics.AnalyticsActionSchema.mutationFields ++
+      models.audit.AuditRecordSchema.mutationFields ++
       models.audit.AuditSchema.mutationFields ++
       models.ddl.SchemaMigrationSchema.mutationFields ++
       models.note.NoteSchema.mutationFields ++

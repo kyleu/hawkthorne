@@ -1,0 +1,49 @@
+@* Generated File *@
+@(user: models.user.SystemUser, model: models.analytics.AnalyticsAction, notes: Seq[models.note.Note], debug: Boolean)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "explore", s"Analytics Action [${model.id}]") {
+  <div class="collection with-header">
+    <div class="collection-header">
+      <div class="right"><a class="theme-text" href="@controllers.admin.analytics.routes.AnalyticsActionController.editForm(model.id)">Edit</a></div>
+      <div class="right"><a class="theme-text remove-link" onclick="return confirm('Are you sure you want to remove this Analytics Action?')" href="@controllers.admin.analytics.routes.AnalyticsActionController.remove(model.id)">Remove</a></div>
+      <h5>
+        <a class="theme-text" href="@controllers.admin.analytics.routes.AnalyticsActionController.list()"><i class="fa @models.template.Icons.analyticsAction"></i></a>
+        Analytics Action [@model.id]
+      </h5>
+    </div>
+    <div class="collection-item">
+      <table class="highlight">
+        <tbody>
+          <tr>
+            <th>Id</th>
+            <td>@model.id</td>
+          </tr>
+          <tr>
+            <th>Type</th>
+            <td>@model.t</td>
+          </tr>
+          <tr>
+            <th>Argument</th>
+            <td><pre>@model.arg<pre></td>
+          </tr>
+          <tr>
+            <th>Author</th>
+            <td>
+              @model.author
+              <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(model.author)"><i class="fa @models.template.Icons.systemUser"></i></a>
+            </td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>@model.status</td>
+          </tr>
+          <tr>
+            <th>Occurred</th>
+            <td>@model.occurred</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    @views.html.admin.note.notes(notes, "analyticsAction", "Analytics Action", model.id)
+  </div>
+}

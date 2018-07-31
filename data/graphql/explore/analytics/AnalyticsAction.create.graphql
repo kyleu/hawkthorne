@@ -1,0 +1,14 @@
+# Generated File
+# Creates a new AnalyticsAction entity.
+mutation AnalyticsActionCreate {
+  analyticsAction {
+    create(fields: [{k: "", v: ""}]) {
+      id
+      t
+      arg
+      author
+      status
+      occurred
+    }
+  }
+}

@@ -1,0 +1,30 @@
+@* Generated File *@
+@(user: models.user.SystemUser, author: java.util.UUID, modelSeq: Seq[models.analytics.AnalyticsAction], orderBy: Option[String], orderAsc: Boolean, limit: Int, offset: Int)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)
+@views.html.admin.explore.list(
+  user = user,
+  model = "Analytics Action",
+  modelPlural = "Analytics Actions",
+  icon = models.template.Icons.analyticsAction,
+  cols = Seq(
+    "id" -> "Id",
+    "t" -> "Type",
+    "author" -> "Author",
+    "status" -> "Status"
+  ),
+  orderBy = orderBy,
+  orderAsc = orderAsc,
+  totalCount = None,
+  rows = modelSeq.map(model => views.html.admin.analytics.analyticsActionDataRow(model)),
+  calls = models.result.web.ListCalls(
+    orderBy = Some(controllers.admin.analytics.routes.AnalyticsActionController.byAuthor(author, _, _, Some(limit), Some(0))),
+    search = None,
+    next = controllers.admin.analytics.routes.AnalyticsActionController.byAuthor(author, orderBy, orderAsc, Some(limit), Some(offset + limit)),
+    prev = controllers.admin.analytics.routes.AnalyticsActionController.byAuthor(author, orderBy, orderAsc, Some(limit), Some(offset - limit)),
+  ),
+  limit = limit,
+  offset = offset,
+  q = None,
+  fullUI = false
+)

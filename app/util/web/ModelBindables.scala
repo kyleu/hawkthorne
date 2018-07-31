@@ -32,6 +32,20 @@ object ModelBindables {
   }
 
   /* Begin model bindables */
+  import models.analytics.AnalyticsActionType
+  private[this] def analyticsActionTypeExtractor(v: Either[String, String]) = v match {
+    case Right(s) => Right(AnalyticsActionType.withValue(s))
+    case Left(x) => throw new IllegalStateException(x)
+  }
+  implicit def analyticsActionTypePathBindable(implicit stringBinder: PathBindable[String]): PathBindable[AnalyticsActionType] = new PathBindable[AnalyticsActionType] {
+    override def bind(key: String, value: String) = analyticsActionTypeExtractor(stringBinder.bind(key, value))
+    override def unbind(key: String, x: AnalyticsActionType) = x.value
+  }
+  implicit def analyticsActionTypeQueryStringBindable(implicit stringBinder: QueryStringBindable[String]): QueryStringBindable[AnalyticsActionType] = new QueryStringBindable[AnalyticsActionType] {
+    override def bind(key: String, params: Map[String, Seq[String]]) = stringBinder.bind(key, params).map(analyticsActionTypeExtractor)
+    override def unbind(key: String, x: AnalyticsActionType) = x.value
+  }
+
   import models.settings.SettingKey
   private[this] def settingKeyExtractor(v: Either[String, String]) = v match {
     case Right(s) => Right(SettingKey.withValue(s))
@@ -41,11 +55,9 @@ object ModelBindables {
     override def bind(key: String, value: String) = settingKeyExtractor(stringBinder.bind(key, value))
     override def unbind(key: String, x: SettingKey) = x.value
   }
-  implicit def settingKeyQueryStringBindable(implicit stringBinder: QueryStringBindable[String]): QueryStringBindable[SettingKey] = {
-    new QueryStringBindable[SettingKey] {
-      override def bind(key: String, params: Map[String, Seq[String]]) = stringBinder.bind(key, params).map(settingKeyExtractor)
-      override def unbind(key: String, x: SettingKey) = x.value
-    }
+  implicit def settingKeyQueryStringBindable(implicit stringBinder: QueryStringBindable[String]): QueryStringBindable[SettingKey] = new QueryStringBindable[SettingKey] {
+    override def bind(key: String, params: Map[String, Seq[String]]) = stringBinder.bind(key, params).map(settingKeyExtractor)
+    override def unbind(key: String, x: SettingKey) = x.value
   }
 
   /* End model bindables */

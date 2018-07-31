@@ -1,0 +1,14 @@
+# Generated File
+# Remove a single AnalyticsAction entity from the system.
+mutation AnalyticsActionRemove {
+  analyticsAction {
+    remove(id: "00000000-0000-0000-0000-000000000000") {
+      id
+      t
+      arg
+      author
+      status
+      occurred
+    }
+  }
+}

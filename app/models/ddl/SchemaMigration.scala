@@ -8,19 +8,23 @@ import util.JsonSerializers._
 object SchemaMigration {
   implicit val jsonEncoder: Encoder[SchemaMigration] = deriveEncoder
   implicit val jsonDecoder: Decoder[SchemaMigration] = deriveDecoder
+
+  def empty(installedRank: Long = 0L, version: Option[String] = None, description: String = "", typ: String = "", script: String = "", checksum: Option[Long] = None, installedBy: String = "", installedOn: LocalDateTime = util.DateUtils.now, executionTime: Long = 0L, success: Boolean = false) = {
+    SchemaMigration(installedRank, version, description, typ, script, checksum, installedBy, installedOn, executionTime, success)
+  }
 }
 
 final case class SchemaMigration(
-    installedRank: Long = 0L,
-    version: Option[String] = None,
-    description: String = "",
-    typ: String = "",
-    script: String = "",
-    checksum: Option[Long] = None,
-    installedBy: String = "",
-    installedOn: LocalDateTime = util.DateUtils.now,
-    executionTime: Long = 0L,
-    success: Boolean = false
+    installedRank: Long,
+    version: Option[String],
+    description: String,
+    typ: String,
+    script: String,
+    checksum: Option[Long],
+    installedBy: String,
+    installedOn: LocalDateTime,
+    executionTime: Long,
+    success: Boolean
 ) extends DataFieldModel {
   override def toDataFields = Seq(
     DataField("installedRank", Some(installedRank.toString)),

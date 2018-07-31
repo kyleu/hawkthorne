@@ -9,6 +9,7 @@ object AuditRoutes extends Logging {
 
   private[this] def routeFor(key: String, arg: Int => String): Call = key.toLowerCase match {
     /* Start audit calls */
+    case "analyticsaction" => controllers.admin.analytics.routes.AnalyticsActionController.view(uuidArg(arg(0)))
     case "audit" => controllers.admin.audit.routes.AuditController.view(uuidArg(arg(0)))
     case "auditrecord" => controllers.admin.audit.routes.AuditRecordController.view(uuidArg(arg(0)))
     case "note" => controllers.admin.note.routes.NoteController.view(uuidArg(arg(0)))

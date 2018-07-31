@@ -1,4 +1,5 @@
 /* Begin generated Thrift service includes */
+include "services/analytics/AnalyticsActionService.thrift"
 include "services/audit/AuditRecordService.thrift"
 include "services/audit/AuditService.thrift"
 include "services/ddl/SchemaMigrationService.thrift"

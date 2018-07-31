@@ -22,7 +22,7 @@ class SchemaMigrationController @javax.inject.Inject() (
     val cancel = controllers.admin.ddl.routes.SchemaMigrationController.list()
     val call = controllers.admin.ddl.routes.SchemaMigrationController.create()
     Future.successful(Ok(views.html.admin.ddl.schemaMigrationForm(
-      request.identity, models.ddl.SchemaMigration(), "New Schema Migration", cancel, call, isNew = true, debug = app.config.debug
+      request.identity, models.ddl.SchemaMigration.empty(), "New Schema Migration", cancel, call, isNew = true, debug = app.config.debug
     )))
   }
 

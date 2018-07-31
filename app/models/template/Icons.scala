@@ -49,6 +49,7 @@ object Icons {
   val systemUser = "fa-user"
 
   // Start model icons
+  val analyticsAction = "fa-magic"
   val oAuth2Info = "fa-lemon-o"
   val schemaMigration = "fa-hdd-o"
   val settingValues = "fa-hand-spock-o"

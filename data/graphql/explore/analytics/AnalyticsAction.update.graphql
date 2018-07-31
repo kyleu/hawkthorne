@@ -1,0 +1,14 @@
+# Generated File
+# Updates a single AnalyticsAction entity using the provided fields.
+mutation AnalyticsActionUpdate {
+  analyticsAction {
+    update(id: "00000000-0000-0000-0000-000000000000", fields: [{k: "", v: ""}]) {
+      id
+      t
+      arg
+      author
+      status
+      occurred
+    }
+  }
+}

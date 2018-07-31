@@ -7,6 +7,7 @@ import controllers.admin.ServiceController
 import models.Application
 import models.result.RelationCount
 import play.api.http.MimeTypes
+import services.analytics.AnalyticsActionService
 import services.audit.AuditRecordService
 import services.note.NoteService
 import services.user.SystemUserService
@@ -17,7 +18,7 @@ import util.ReftreeUtils._
 @javax.inject.Singleton
 class SystemUserController @javax.inject.Inject() (
     override val app: Application, svc: SystemUserService, auditRecordSvc: AuditRecordService, val authInfoRepository: AuthInfoRepository, val hasher: PasswordHasher,
-    noteS: NoteService
+    analyticsActionS: AnalyticsActionService, noteS: NoteService
 ) extends ServiceController(svc) with UserEditHelper with UserSearchHelper {
   def view(id: java.util.UUID, t: Option[String] = None) = withSession("view", admin = true) { implicit request => implicit td =>
     val modelF = svc.getByPrimaryKey(request, id)
@@ -37,9 +38,11 @@ class SystemUserController @javax.inject.Inject() (
 
   def relationCounts(id: java.util.UUID) = withSession("relation.counts", admin = true) { implicit request => implicit td =>
     val creds = models.auth.Credentials.fromRequest(request)
+    val analyticsActionByAuthorF = analyticsActionS.countByAuthor(creds, id)
     val noteByAuthorF = noteS.countByAuthor(creds, id)
-    for (noteC <- noteByAuthorF) yield {
+    for (analyticsActionC <- analyticsActionByAuthorF; noteC <- noteByAuthorF) yield {
       Ok(Seq(
+        RelationCount(model = "analyticsAction", field = "author", count = analyticsActionC),
         RelationCount(model = "note", field = "author", count = noteC)
       ).asJson)
     }

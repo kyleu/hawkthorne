@@ -1,0 +1,12 @@
+@* Generated File *@
+@(model: models.analytics.AnalyticsAction)<tr>
+  <td><a href="@controllers.admin.analytics.routes.AnalyticsActionController.view(model.id)" class="theme-text">@model.id</a></td>
+  <td>@model.t</td>
+  <td>
+    @model.author
+    <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(model.author)">
+      <i class="fa @models.template.Icons.systemUser"></i>
+    </a>
+  </td>
+  <td>@model.status</td>
+</tr>

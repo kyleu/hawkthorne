@@ -1,0 +1,5 @@
+# Generated File
+# Retrieves the list of possible AnalyticsActionType values.
+query AnalyticsActionType {
+  analyticsActionType
+}

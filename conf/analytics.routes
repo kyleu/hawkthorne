@@ -1,0 +1,14 @@
+# Generated File
+# Analytics Action Routes
+GET         /analyticsAction                                          controllers.admin.analytics.AnalyticsActionController.list(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /analyticsAction/autocomplete                             controllers.admin.analytics.AnalyticsActionController.autocomplete(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None)
+GET         /analyticsAction/form                                     controllers.admin.analytics.AnalyticsActionController.createForm
+POST        /analyticsAction                                          controllers.admin.analytics.AnalyticsActionController.create
+GET         /analyticsAction/byAuthor/:author                         controllers.admin.analytics.AnalyticsActionController.byAuthor(author: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /analyticsAction/:id                                      controllers.admin.analytics.AnalyticsActionController.view(id: java.util.UUID, t: Option[String] ?= None)
+GET         /analyticsAction/:id/form                                 controllers.admin.analytics.AnalyticsActionController.editForm(id: java.util.UUID)
+POST        /analyticsAction/:id                                      controllers.admin.analytics.AnalyticsActionController.edit(id: java.util.UUID)
+GET         /analyticsAction/:id/remove                               controllers.admin.analytics.AnalyticsActionController.remove(id: java.util.UUID)
+
+GET         /analyticsActionType                                      controllers.admin.analytics.AnalyticsActionTypeController.list()
+
