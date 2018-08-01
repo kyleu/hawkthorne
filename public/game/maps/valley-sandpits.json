@@ -2376,7 +2376,8 @@
      "offset":"16",
      "overworldName":"valley_1",
      "red":"0",
-     "soundtrack":"sandpits"
+     "soundtrack":"sandpits",
+     "title":"Sandpits 1"
     },
  "propertytypes":
     {
@@ -2385,7 +2386,8 @@
      "offset":"string",
      "overworldName":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

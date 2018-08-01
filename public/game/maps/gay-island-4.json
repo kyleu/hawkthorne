@@ -319,13 +319,15 @@
     {
      "offset":"10",
      "overworldName":"island_5",
-     "soundtrack":"mamma-mia"
+     "soundtrack":"mamma-mia",
+     "title":"Gay Island 4"
     },
  "propertytypes":
     {
      "offset":"string",
      "overworldName":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

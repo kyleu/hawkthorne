@@ -412,12 +412,14 @@
  "properties":
     {
      "offset":"10",
-     "soundtrack":"abeds-castle"
+     "soundtrack":"abeds-castle",
+     "title":"Mines Storage"
     },
  "propertytypes":
     {
      "offset":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

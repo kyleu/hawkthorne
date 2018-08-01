@@ -286,7 +286,8 @@
      "green":"154",
      "offset":"18",
      "red":"125",
-     "soundtrack":"lovesoalike"
+     "soundtrack":"lovesoalike",
+     "title":"Trampoline"
     },
  "propertytypes":
     {
@@ -294,7 +295,8 @@
      "green":"string",
      "offset":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

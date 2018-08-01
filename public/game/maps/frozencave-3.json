@@ -2428,13 +2428,15 @@
     {
      "offset":"36",
      "respawn":"frozencave-3",
-     "soundtrack":"winter2"
+     "soundtrack":"winter2",
+     "title":"Frozen Cave 3"
     },
  "propertytypes":
     {
      "offset":"string",
      "respawn":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

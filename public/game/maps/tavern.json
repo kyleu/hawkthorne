@@ -391,12 +391,14 @@
  "properties":
     {
      "overworldName":"town_1",
-     "soundtrack":"tavern"
+     "soundtrack":"tavern",
+     "title":"Tavern"
     },
  "propertytypes":
     {
      "overworldName":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

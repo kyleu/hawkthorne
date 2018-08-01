@@ -406,12 +406,14 @@
  "properties":
     {
      "floor":"9",
-     "respawn":"studyroom"
+     "respawn":"studyroom",
+     "title":"Hallway"
     },
  "propertytypes":
     {
      "floor":"string",
-     "respawn":"string"
+     "respawn":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

@@ -2344,7 +2344,8 @@
      "offset":"23",
      "overworldName":"vforest_2",
      "red":"74",
-     "soundtrack":"forest"
+     "soundtrack":"forest",
+     "title":"Test Level"
     },
  "propertytypes":
     {
@@ -2353,7 +2354,8 @@
      "offset":"string",
      "overworldName":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

@@ -1833,12 +1833,14 @@
  "properties":
     {
      "offset":"56",
-     "soundtrack":"mountains"
+     "soundtrack":"mountains",
+     "title":"Acorn Peak 2"
     },
  "propertytypes":
     {
      "offset":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

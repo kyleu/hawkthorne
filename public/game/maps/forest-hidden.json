@@ -823,7 +823,8 @@
      "offset":"36",
      "overworldName":"forest_3",
      "red":"115",
-     "soundtrack":"forest-2"
+     "soundtrack":"forest-2",
+     "title":"Forest Hidden"
     },
  "propertytypes":
     {
@@ -832,7 +833,8 @@
      "offset":"string",
      "overworldName":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

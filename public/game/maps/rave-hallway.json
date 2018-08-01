@@ -382,14 +382,16 @@
      "blue":"47",
      "green":"37",
      "red":"31",
-     "soundtrack":"audio\/music\/rave.ogg"
+     "soundtrack":"audio\/music\/rave.ogg",
+     "title":"Rave Hallway"
     },
  "propertytypes":
     {
      "blue":"string",
      "green":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

@@ -157,7 +157,8 @@
      "offset":"0",
      "overworldName":"caverns",
      "red":"0",
-     "soundtrack":"castle"
+     "soundtrack":"castle",
+     "title":"Castle Room 2"
     },
  "propertytypes":
     {
@@ -166,7 +167,8 @@
      "offset":"string",
      "overworldName":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

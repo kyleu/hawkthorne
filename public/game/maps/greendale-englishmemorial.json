@@ -373,7 +373,8 @@
      "green":"154",
      "offset":"1",
      "red":"125",
-     "soundtrack":"greendale-alt"
+     "soundtrack":"greendale-alt",
+     "title":"English Memorial"
     },
  "propertytypes":
     {
@@ -381,7 +382,8 @@
      "green":"string",
      "offset":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

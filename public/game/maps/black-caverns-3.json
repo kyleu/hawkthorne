@@ -301,25 +301,25 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "Title":"Black Caverns 3",
      "autosave":"false",
      "blue":"0",
      "green":"0",
      "offset":"0",
      "overworldName":"caverns",
      "red":"0",
-     "soundtrack":"blackcaves"
+     "soundtrack":"blackcaves",
+     "title":"Black Caverns 3"
     },
  "propertytypes":
     {
-     "Title":"string",
      "autosave":"string",
      "blue":"string",
      "green":"string",
      "offset":"string",
      "overworldName":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

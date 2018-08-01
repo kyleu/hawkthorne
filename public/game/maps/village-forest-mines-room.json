@@ -221,12 +221,14 @@
  "properties":
     {
      "offset":"6",
-     "soundtrack":"abeds-castle"
+     "soundtrack":"abeds-castle",
+     "title":"Mines Room"
     },
  "propertytypes":
     {
      "offset":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

@@ -163,7 +163,8 @@
      "green":"117",
      "offset":"1",
      "red":"117",
-     "soundtrack":"dancingqueen"
+     "soundtrack":"dancingqueen",
+     "title":"Dean's Closet 2"
     },
  "propertytypes":
     {
@@ -171,7 +172,8 @@
      "green":"string",
      "offset":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

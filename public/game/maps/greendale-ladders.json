@@ -116,11 +116,13 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "soundtrack":"greendale-alt"
+     "soundtrack":"greendale-alt",
+     "title":"Ladders Classroom"
     },
  "propertytypes":
     {
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

@@ -8644,13 +8644,15 @@
     {
      "offset":"76",
      "overworldName":"caverns",
-     "soundtrack":"blackcaves"
+     "soundtrack":"blackcaves",
+     "title":"Black Caverns 1"
     },
  "propertytypes":
     {
      "offset":"string",
      "overworldName":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

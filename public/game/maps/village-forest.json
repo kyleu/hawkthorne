@@ -1573,13 +1573,15 @@
     {
      "offset":"66",
      "overworldName":"vforest_1",
-     "soundtrack":"mountains"
+     "soundtrack":"mountains",
+     "title":"Village Forest 1"
     },
  "propertytypes":
     {
      "offset":"string",
      "overworldName":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

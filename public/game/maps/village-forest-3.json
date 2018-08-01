@@ -417,7 +417,8 @@
      "offset":"16",
      "overworldName":"vforest_1",
      "red":"74",
-     "soundtrack":"village-forest"
+     "soundtrack":"village-forest",
+     "title":"Village Forest 3"
     },
  "propertytypes":
     {
@@ -426,7 +427,8 @@
      "offset":"string",
      "overworldName":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

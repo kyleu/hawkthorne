@@ -819,13 +819,15 @@
     {
      "offset":"31",
      "overworldName":"valley_1",
-     "soundtrack":"valley"
+     "soundtrack":"valley",
+     "title":"Sandpits Entrance"
     },
  "propertytypes":
     {
      "offset":"string",
      "overworldName":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

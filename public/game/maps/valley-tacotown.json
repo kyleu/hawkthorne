@@ -657,13 +657,15 @@
     {
      "offset":"11",
      "overworldName":"valley_1",
-     "soundtrack":"tacotown"
+     "soundtrack":"tacotown",
+     "title":"Taco Town"
     },
  "propertytypes":
     {
      "offset":"string",
      "overworldName":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

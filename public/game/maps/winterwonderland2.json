@@ -170,7 +170,8 @@
      "offset":"16",
      "red":"0",
      "respawn":"winterwonderland2",
-     "soundtrack":"winter"
+     "soundtrack":"winter",
+     "title":"Winter Wonderland 2"
     },
  "propertytypes":
     {
@@ -179,7 +180,8 @@
      "offset":"string",
      "red":"string",
      "respawn":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

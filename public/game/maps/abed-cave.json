@@ -891,13 +891,15 @@
     {
      "offset":"5",
      "overworldName":"town_2",
-     "soundtrack":"abeds-castle"
+     "soundtrack":"abeds-castle",
+     "title":"Abed's Cave"
     },
  "propertytypes":
     {
      "offset":"string",
      "overworldName":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

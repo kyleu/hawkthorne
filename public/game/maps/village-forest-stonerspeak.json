@@ -1770,12 +1770,14 @@
  "properties":
     {
      "offset":"36",
-     "soundtrack":"forest"
+     "soundtrack":"forest",
+     "title":"Stoner's Peak 1"
     },
  "propertytypes":
     {
      "offset":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

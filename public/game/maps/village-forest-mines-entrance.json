@@ -996,12 +996,14 @@
  "properties":
     {
      "offset":"46",
-     "soundtrack":"mountains"
+     "soundtrack":"mountains",
+     "title":"Mines Entrance"
     },
  "propertytypes":
     {
      "offset":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

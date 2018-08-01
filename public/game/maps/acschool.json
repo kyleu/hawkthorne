@@ -273,6 +273,14 @@
         }],
  "nextobjectid":13,
  "orientation":"orthogonal",
+ "properties":
+    {
+     "title":"AC School"
+    },
+ "propertytypes":
+    {
+     "title":"string"
+    },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",
  "tileheight":24,

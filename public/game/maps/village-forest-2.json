@@ -637,7 +637,8 @@
      "green":"216",
      "offset":"36",
      "red":"74",
-     "soundtrack":"mountains"
+     "soundtrack":"mountains",
+     "title":"Village Forest 2"
     },
  "propertytypes":
     {
@@ -645,7 +646,8 @@
      "green":"string",
      "offset":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

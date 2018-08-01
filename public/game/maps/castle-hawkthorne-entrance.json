@@ -727,7 +727,8 @@
      "offset":"9",
      "overworldName":"caverns",
      "red":"0",
-     "soundtrack":"castle-entrance"
+     "soundtrack":"castle-entrance",
+     "title":"Castle Entrance"
     },
  "propertytypes":
     {
@@ -736,7 +737,8 @@
      "offset":"string",
      "overworldName":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

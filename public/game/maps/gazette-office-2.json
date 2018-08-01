@@ -541,7 +541,8 @@
      "green":"114",
      "jumping":"false",
      "red":"92",
-     "soundtrack":"mash-theme"
+     "soundtrack":"mash-theme",
+     "title":"Gazette Office 2"
     },
  "propertytypes":
     {
@@ -549,7 +550,8 @@
      "green":"string",
      "jumping":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",

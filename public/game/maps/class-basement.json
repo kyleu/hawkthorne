@@ -535,14 +535,16 @@
      "blue":"115",
      "green":"109",
      "red":"105",
-     "soundtrack":"greendale-alt"
+     "soundtrack":"greendale-alt",
+     "title":"Class Basement"
     },
  "propertytypes":
     {
      "blue":"string",
      "green":"string",
      "red":"string",
-     "soundtrack":"string"
+     "soundtrack":"string",
+     "title":"string"
     },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",
