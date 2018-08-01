@@ -1,5 +1,3 @@
 package services.audio
 
-object MusicService {
-
-}
+object MusicService extends AudioService("music")

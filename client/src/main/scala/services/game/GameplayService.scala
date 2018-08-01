@@ -1,6 +1,8 @@
 package services.game
 
 import com.definitelyscala.phaserce.Game
+import io.circe.Json
+import models.analytics.AnalyticsActionType
 import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashScreen}
 import models.font.Font
 import models.game.GameOptions
@@ -10,13 +12,17 @@ import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
+import services.socket.AnalyticsService
 import util.Logging
+import util.JsonSerializers._
 
 class GameplayService(game: Game, inputService: InputService, options: GameOptions, player: Player) {
   private[this] var started = false
   private[this] var elapsed = 0.0
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
   private[this] def addComponent(c: BaseComponent) = components += c
+
+  AnalyticsService.send(AnalyticsActionType.GameStart, Json.obj("options" -> options.asJson, "players" -> Seq(player).asJson))
 
   val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
 

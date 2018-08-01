@@ -1,8 +1,8 @@
 package models.intro
 
-import com.definitelyscala.phaserce.{Game, Group, Point, Sprite}
+import com.definitelyscala.phaserce.{Game, Group, Point}
 import models.component.StaticSprite
-import org.scalajs.dom.ext.Color
+import util.PhaserUtils
 
 class IntroScan(game: Game, onComplete: () => Unit) {
   private[this] var elapsed = 0.0
@@ -17,16 +17,8 @@ class IntroScan(game: Game, onComplete: () => Unit) {
 
   val group = new Group(game = game, name = s"intro.scan")
 
-  val backdrop = {
-    val bgData = game.make.bitmapData(1, 1)
-    val color = Color("#3854b3")
-    bgData.fill(color.r.toDouble, color.g.toDouble, color.b.toDouble)
-
-    val s = new Sprite(game, 0, 0, bgData)
-    s.name = "backdrop"
-    group.add(s)
-    s
-  }
+  val backdrop = PhaserUtils.makeBackdrop(game, color = "#3854b3")
+  group.add(backdrop)
 
   private[this] val background = StaticSprite(game = game, group = group, name = "background", x = margin, y = margin, key = "intro.backgrounds")
 

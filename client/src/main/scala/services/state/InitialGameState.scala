@@ -4,9 +4,11 @@ import com.definitelyscala.phaserce._
 import com.definitelyscala.phasercepixi.WebGLRenderer
 import models.data.map.TiledMap
 import models.game.GameOptions
+import models.input.InputCommand
 import models.player.Player
 import models.settings.ClientSettings
 import org.scalajs.dom
+import services.audio.{MusicService, SoundEffectService}
 import services.debug.DebugService
 import services.input.InputService
 import util.JavaScriptUtils
@@ -49,11 +51,13 @@ class InitialGameState(nextState: InputService => GameState, phaser: Game, debug
       game.state.getCurrentState().resize(w, h)
     })
 
-    val inputService = new InputService(game)
-    inputService.menuHandler.setCallback(Some(x => ()))
+    val inputService = new InputService(game, systemCommandHandler)
+    inputService.menuHandler.setCallback(Some(_ => ()))
     input = Some(inputService)
 
-    val settings = ClientSettings.load()
+    MusicService.reset(game)
+    SoundEffectService.reset(game)
+    ClientSettings.loadAndApply()
 
     if (debug) { DebugService.init(phaser) }
 
@@ -78,6 +82,11 @@ class InitialGameState(nextState: InputService => GameState, phaser: Game, debug
     splash.parentNode.removeChild(splash)
 
     game.state.start(nState.key, clearWorld = false, clearCache = false)
+  }
+
+  def systemCommandHandler(cmd: InputCommand) = cmd match {
+    case InputCommand.Debug => DebugService.inst.foreach(_.toggle())
+    case _ => throw new IllegalStateException(s"Unhandled system command [$cmd]")
   }
 
   override def shutdown(game: Game) = {

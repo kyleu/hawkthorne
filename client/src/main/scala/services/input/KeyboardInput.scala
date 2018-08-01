@@ -1,9 +1,7 @@
 package services.input
 
 import com.definitelyscala.phaserce.{Game, Key, KeyCode}
-import models.input.InputUpdate
-import services.debug.DebugService
-import util.PhaserUtils
+import models.input.{InputCommand, InputUpdate}
 
 object KeyboardInput {
   final case class Keymap(
@@ -36,20 +34,18 @@ final case class KeyboardInput(game: Game) {
     debug = game.input.keyboard.addKey(KeyCode.QUESTION_MARK)
   )
 
-  PhaserUtils.addToSignal(keymap.debug.onDown, _ => DebugService.inst.foreach(_.toggle()))
-
   def update(delta: Double) = {
     val x = if (keymap.left.isDown) { -1.0 } else if (keymap.right.isDown) { 1.0 } else { 0.0 }
     val y = if (keymap.up.isDown) { -1.0 } else if (keymap.down.isDown) { 1.0 } else { 0.0 }
     val commands = Seq(
-      if (keymap.jump.justDown) { Some("jump") } else { None },
-      if (keymap.attack.justDown) { Some("attack") } else { None },
+      if (keymap.jump.justDown) { Some(InputCommand.Jump) } else { None },
+      if (keymap.attack.justDown) { Some(InputCommand.Attack) } else { None },
 
-      if (keymap.select.justDown) { Some("select") } else { None },
-      if (keymap.confirm.justDown) { Some("confirm") } else { None },
+      if (keymap.select.justDown) { Some(InputCommand.Select) } else { None },
+      if (keymap.confirm.justDown) { Some(InputCommand.Confirm) } else { None },
 
-      if (keymap.options.justDown) { Some("options") } else { None },
-      if (keymap.debug.justDown) { Some("debug") } else { None }
+      if (keymap.options.justDown) { Some(InputCommand.Options) } else { None },
+      if (keymap.debug.justDown) { Some(InputCommand.Debug) } else { None }
     ).flatten
     InputUpdate(0, x, y, commands)
   }

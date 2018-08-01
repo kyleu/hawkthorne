@@ -1,10 +1,22 @@
 package util
 
-import com.definitelyscala.phaserce.{Group, IGameConfig, Math, Phaser, Signal}
+import com.definitelyscala.phaserce.{Game, Group, IGameConfig, Math, Phaser, Signal, Sprite}
+import org.scalajs.dom.ext.Color
 
 import scala.scalajs.js
 
 object PhaserUtils {
+  def makeBackdrop(game: Game, width: Double = 1, height: Double = 1, color: String = "#ffffff") = {
+    val bgData = game.make.bitmapData(1, 1)
+    val c = Color(color)
+    bgData.fill(c.r.toDouble, c.g.toDouble, c.b.toDouble)
+    val s = new Sprite(game, 0, 0, bgData)
+    s.name = "backdrop"
+    s.width = width
+    s.height = height
+    s
+  }
+
   val centerPoint = new com.definitelyscala.phaserce.Point(0.5, 0.5)
 
   def addToSignal(signal: Signal, x: Any => Unit) = signal.add(x, 0, 1.0)

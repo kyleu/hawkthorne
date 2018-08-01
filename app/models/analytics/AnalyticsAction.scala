@@ -33,5 +33,5 @@ final case class AnalyticsAction(
     DataField("occurred", Some(occurred.toString))
   )
 
-  def toSummary = DataSummary(model = "analyticsAction", pk = Seq(id.toString), title = s"$t / $author / $status ($id)")
+  def toSummary = DataSummary(model = "analyticsAction", pk = Seq(id.toString), title = s"$t / $author / $status / $occurred ($id)")
 }

@@ -15,15 +15,6 @@
               <label for="input-username" class="theme-text">Username</label>
             </div>
           </div>
-          <input id="input-theme" type="hidden" class="" name="theme" value="@user.preferences.theme" />
-          <label for="input-theme" class="theme-text">Theme</label>
-          <div id="theme-choices">
-            @models.template.Theme.values.map { t =>
-              <div id="swatch-@t" class="swatch z-depth-1" data-name="@t" data-color="@t.color" style="background-color: @t.color;">
-                <i class="indicator fa @models.template.Icons.check white-text"></i>
-              </div>
-            }
-          </div>
         </div>
         <div>
           <button id="save-button" class="right btn theme waves-effect waves-light" type="submit">Save</button>
@@ -35,8 +26,6 @@
 
   <script>
     $(function() {
-      var activeSwatch = '@user.preferences.theme';
-
       $(".swatch").click(function(e) {
         var el = $(e.currentTarget);
         var newSwatch = el.data('name');

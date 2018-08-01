@@ -2,14 +2,14 @@ package models.intro
 
 import models.asset.Asset
 import models.font.Font
-import services.audio.SoundEffectService
+import services.audio.{MusicService, SoundEffectService}
 
 object IntroAssets {
   val charWidth = 121
   val charHeight = 172
 
   val assets = Seq(
-    Asset.Audio("music.opening", s"audio/music/opening.ogg"),
+    MusicService.asset("opening"),
 
     Asset.Spritesheet("intro.backgrounds", "images/scanning/backgrounds.png", 400, 250),
     Asset.Spritesheet("intro.names", "images/scanning/names.png", 75, 15),

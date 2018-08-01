@@ -1,11 +1,12 @@
 package services.input
 
+import models.input.InputCommand
 import models.player.PlayerSprite
 
 class PlayerInputHandler(player: PlayerSprite) {
   private[this] var lastVelocity = 0.0 -> 0.0
 
-  def process(delta: Double, velocity: (Double, Double), events: Seq[String]) = {
+  def process(delta: Double, velocity: (Double, Double), events: Seq[InputCommand]) = {
     events.foreach(e => util.Logging.info("Event: " + e))
 
     val anim = findAnimation(velocity)

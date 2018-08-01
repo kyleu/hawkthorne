@@ -1,9 +1,10 @@
 package models.player
 
 import com.definitelyscala.phaserce.Physics.Arcade.Body
-import com.definitelyscala.phaserce.{Game, Group, Point}
+import com.definitelyscala.phaserce.{Game, Group}
 import models.component.{AnimatedSprite, BaseComponent}
 import models.data.character.CharacterAnimation
+import models.input.InputCommand
 import services.input.PlayerInputHandler
 
 object PlayerSprite {
@@ -25,8 +26,8 @@ class PlayerSprite(
 
   private[this] val input = new PlayerInputHandler(this)
 
-  def processInput(delta: Double, velocity: (Double, Double), actions: Seq[String]) = {
-    input.process(delta = delta, velocity = velocity, events = actions)
+  def processInput(delta: Double, velocity: (Double, Double), commands: Seq[InputCommand]) = {
+    input.process(delta = delta, velocity = velocity, events = commands)
   }
 
   as.sprite.name = s"${player.templateKey}.${player.costume.key}"

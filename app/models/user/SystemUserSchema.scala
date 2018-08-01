@@ -9,14 +9,12 @@ import sangria.macros.derive.{AddFields, deriveObjectType}
 import sangria.schema._
 import graphql.GraphQLUtils._
 import models.note.NoteSchema
-import models.template.Theme
 import sangria.execution.deferred.{Fetcher, HasId, Relation}
 
 import scala.concurrent.Future
 
 object SystemUserSchema extends GraphQLSchemaHelper("systemUser") {
   implicit val roleEnum: EnumType[Role] = CommonSchema.deriveStringEnumeratumType(name = "RoleEnum", values = Role.values)
-  implicit val themeEnum: EnumType[Theme] = CommonSchema.deriveStringEnumeratumType(name = "ThemeEnum", values = Theme.values)
   implicit val profileType: ObjectType[GraphQLContext, UserProfile] = deriveObjectType()
 
   implicit val systemUserPrimaryKeyId: HasId[SystemUser, UUID] = HasId[SystemUser, UUID](_.id)

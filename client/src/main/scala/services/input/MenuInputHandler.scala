@@ -1,6 +1,6 @@
 package services.input
 
-import models.input.{InputUpdate, MenuAction}
+import models.input.{InputCommand, MenuAction}
 
 class MenuInputHandler() {
   private[this] var lastMenuX = 0.0
@@ -16,25 +16,25 @@ class MenuInputHandler() {
     menuCallback = f
   }
 
-  def translate(c: String) = c match {
-    case "jump" | "confirm" => MenuAction.Select
+  def translate(c: InputCommand) = c match {
+    case InputCommand.Jump | InputCommand.Confirm => MenuAction.Select
     case _ => throw new IllegalStateException(s"Unhandled command [$c].")
   }
 
-  def update(u: InputUpdate) = {
+  def update(x: Double, y: Double, commands: Seq[InputCommand]) = {
     val xAct = lastMenuX match {
-      case _ if lastMenuX >= -0.5 && u.x < -0.5 => Some(MenuAction.Left)
-      case _ if lastMenuX <= 0.5 && u.x > 0.5 => Some(MenuAction.Right)
+      case _ if lastMenuX >= -0.5 && x < -0.5 => Some(MenuAction.Left)
+      case _ if lastMenuX <= 0.5 && x > 0.5 => Some(MenuAction.Right)
       case _ => None
     }
     val yAct = lastMenuY match {
-      case _ if lastMenuY >= -0.5 && u.y < -0.5 => Some(MenuAction.Up)
-      case _ if lastMenuY <= 0.5 && u.y > 0.5 => Some(MenuAction.Down)
+      case _ if lastMenuY >= -0.5 && y < -0.5 => Some(MenuAction.Up)
+      case _ if lastMenuY <= 0.5 && y > 0.5 => Some(MenuAction.Down)
       case _ => None
     }
-    lastMenuX = u.x
-    lastMenuY = u.y
-    val acts = xAct.toSeq ++ yAct.toSeq ++ u.commands.map(c => translate(c))
+    lastMenuX = x
+    lastMenuY = y
+    val acts = xAct.toSeq ++ yAct.toSeq ++ commands.map(c => translate(c))
 
     if (acts.nonEmpty) {
       menuCallback.getOrElse(throw new IllegalStateException("Menu update called with no active callback."))(acts)

@@ -3,6 +3,7 @@ package models.component
 import com.definitelyscala.phaserce.{Game, Group, Image, Point}
 import models.font.Font
 import models.input.MenuAction
+import services.audio.SoundEffectService
 
 final case class Menu(
     override val game: Game, override val name: String, override val x: Int, override val y: Int,
@@ -15,8 +16,8 @@ final case class Menu(
   private[this] var options = IndexedSeq.empty[(String, () => Unit)]
   private[this] var optionImages = Seq.empty[Image]
 
-  private[this] val sfxClick = game.add.audio("sfx.click")
-  private[this] val sfxConfirm = game.add.audio("sfx.confirm")
+  SoundEffectService.load("click")
+  SoundEffectService.load("confirm")
 
   private[this] val yOffset = 10.0
   val lineHeight = 12.0
@@ -50,13 +51,13 @@ final case class Menu(
   }
 
   private[this] def setActiveOption(idx: Int) = {
-    sfxClick.play()
+    SoundEffectService.play("click")
     activeOption = idx
     arrow.y = yOffset + (idx * lineHeight)
   }
 
   private[this] def onSelect() = {
-    sfxConfirm.play()
+    SoundEffectService.play("confirm")
     options(activeOption)._2()
   }
 

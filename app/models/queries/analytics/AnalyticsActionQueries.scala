@@ -23,7 +23,7 @@ object AnalyticsActionQueries extends BaseQueries[AnalyticsAction]("analyticsAct
     DatabaseField(title = "Occurred", prop = "occurred", col = "occurred", typ = TimestampType)
   )
   override protected val pkColumns = Seq("id")
-  override protected val searchColumns = Seq("id", "t", "author", "status")
+  override protected val searchColumns = Seq("id", "t", "author", "status", "occurred")
 
   def countAll(filters: Seq[Filter] = Nil) = onCountAll(filters)
   def getAll(filters: Seq[Filter] = Nil, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None) = {
@@ -52,6 +52,13 @@ object AnalyticsActionQueries extends BaseQueries[AnalyticsAction]("analyticsAct
     limit = limit, offset = offset, values = Seq(id)
   )
   final case class GetByIdSeq(idSeq: Seq[UUID]) extends ColSeqQuery(column = "id", values = idSeq)
+
+  final case class CountByOccurred(occurred: LocalDateTime) extends ColCount(column = "occurred", values = Seq(occurred))
+  final case class GetByOccurred(occurred: LocalDateTime, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None) extends SeqQuery(
+    whereClause = Some(quote("occurred") + "  = ?"), orderBy = ResultFieldHelper.orderClause(fields, orderBys: _*),
+    limit = limit, offset = offset, values = Seq(occurred)
+  )
+  final case class GetByOccurredSeq(occurredSeq: Seq[LocalDateTime]) extends ColSeqQuery(column = "occurred", values = occurredSeq)
 
   final case class CountByStatus(status: String) extends ColCount(column = "status", values = Seq(status))
   final case class GetByStatus(status: String, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None) extends SeqQuery(

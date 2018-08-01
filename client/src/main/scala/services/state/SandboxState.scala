@@ -5,6 +5,7 @@ import com.definitelyscala.phaserce.{Game, Point}
 import models.asset.Asset
 import models.player.{Player, PlayerSprite}
 import models.template.character.CharacterListing
+import services.audio.MusicService
 import util.JavaScriptUtils
 
 import scala.util.Random
@@ -14,7 +15,7 @@ object SandboxState {
     new LoadingState(
       next = new SandboxState(phaser),
       phaser = phaser,
-      assets = Asset.Audio("music.daybreak", s"audio/music/daybreak.ogg") +: CharacterListing.allCostumes.map { c =>
+      assets = MusicService.asset("daybreak") +: CharacterListing.allCostumes.map { c =>
         Asset.Spritesheet(s"${c._1.key}.${c._2.key}", s"images/characters/${c._1.key}/${c._2.key}.png", 48, 48)
       }
     )
@@ -38,7 +39,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
   override def create(game: Game) = {
     players.toString
 
-    game.add.audio("music.daybreak").play(loop = true)
+    MusicService.play("daybreak", loop = true)
 
     val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
     val gui = new GUI(params)

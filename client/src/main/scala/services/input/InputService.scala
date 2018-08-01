@@ -1,10 +1,10 @@
 package services.input
 
 import com.definitelyscala.phaserce.Game
-import models.input.{InputUpdate, PointerAction}
+import models.input.{InputCommand, InputUpdate, PointerAction}
 import models.player.PlayerSprite
 
-class InputService(game: Game) {
+class InputService(game: Game, systemCommandHandler: InputCommand => Unit) {
   private[this] val keyboardInput = KeyboardInput(game)
   private[this] val gamepadInput = GamepadInput(game)
   private[this] val pointerInput = PointerInput(game)
@@ -33,11 +33,17 @@ class InputService(game: Game) {
       case u => u
     }.toSeq
 
-    updates.foreach {
-      case u if menuHandler.enabled => menuHandler.update(u)
-      case u => players.size match {
-        case x if u.idx < x => players(u.idx).processInput(delta, (u.x, u.y), u.commands)
-        case x => throw new IllegalStateException(s"Received input for player [$u], but only have [$x] players.")
+    updates.foreach { u =>
+      val (systemCommands, playerCommands) = u.commands.partition(_ == InputCommand.Debug)
+      systemCommands.foreach(systemCommandHandler)
+      if (menuHandler.enabled) {
+        menuHandler.update(u.x, u.y, playerCommands)
+      } else {
+        if (u.idx < players.size) {
+          players(u.idx).processInput(delta, (u.x, u.y), playerCommands)
+        } else {
+          throw new IllegalStateException(s"Received input for player [$u], but only have [${players.size}] players.")
+        }
       }
     }
   }

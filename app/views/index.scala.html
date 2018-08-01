@@ -1,6 +1,16 @@
 @(user: Option[models.user.SystemUser], devmode: Boolean)(
     implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
 )@traceData.logViewClass(getClass)@layout.simple(user, util.Config.projectName) {
+  <style type="text/css">
+    .item {
+      text-align: center;
+      border: 1px solid #ddd;
+      margin: 6px;
+      padding: 6px;
+      border-radius: 4px;
+      display: block;
+    }
+  </style>
   <div class="row">
     <div class="col s12">
       <ul class="collection with-header">
@@ -11,29 +21,40 @@
           }
         </li>
         <li class="collection-item">
-          <h5><a class="theme-text" href="@controllers.routes.GameplayController.root()">Play Now</a></h5>
+          <a style="font-size: 200%; padding: 18px;" class="theme-text item" href="@controllers.routes.GameplayController.root()">Play Now</a>
         </li>
         <li class="collection-item">
           <h5>Tests</h5>
-          <ul>
-            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("intro")">Intro</a></li>
-            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("menu")">Menu</a></li>
-            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("options")">Options</a></li>
-            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("portal")">Portal</a></li>
-            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("test")">Tests</a></li>
-            <li><a class="theme-text" href="@controllers.routes.GameplayController.gameplay("sandbox")">Sandbox</a></li>
-          </ul>
+          <div class="row">
+            <div class="col s12 m6 l4">
+              <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay("intro")">Intro</a>
+            </div>
+            <div class="col s12 m6 l4">
+              <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay("portal")">Portal</a>
+            </div>
+            <div class="col s12 m6 l4">
+              <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay("menu")">Menu</a>
+            </div>
+            <div class="col s12 m6 l4">
+              <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay("options")">Options</a>
+            </div>
+            <div class="col s12 m6 l4">
+              <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay("test")">Tests</a>
+            </div>
+            <div class="col s12 m6 l4">
+              <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay("sandbox")">Sandbox</a>
+            </div>
+          </div>
         </li>
         <li class="collection-item">
           <h5>Maps</h5>
-          <ul>
-            @models.data.map.TiledMap.values.map { m =>
-              <li>
-                <a class="theme-text" href="@controllers.routes.GameplayController.gameplay(s"map/${m.value}")" title="@m.title">@m.value</a>
-                (<a class="theme-text" href="@controllers.routes.GameplayController.gameplay(s"test/${m.value}")" title="@m.title">Test</a>)
-              </li>
+          <div class="row">
+            @models.data.map.TiledMap.values.sortBy(_.title).map { m =>
+              <div class="col s12 m6 l4">
+                <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay(s"map/${m.value}")" title="@m.title">@m.title</a>
+              </div>
             }
-          </ul>
+          </div>
         </li>
       </ul>
     </div>

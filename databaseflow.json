@@ -196,9 +196,9 @@
           "notNull" : true,
           "indexed" : false,
           "unique" : false,
-          "inSearch" : false,
+          "inSearch" : true,
           "inView" : true,
-          "inSummary" : false,
+          "inSummary" : true,
           "ignored" : false
         }
       ],

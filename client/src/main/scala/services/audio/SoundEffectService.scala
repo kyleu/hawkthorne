@@ -2,7 +2,7 @@ package services.audio
 
 import models.asset.Asset
 
-object SoundEffectService {
+object SoundEffectService extends AudioService("sfx") {
   val menuAssets = Seq(
     Seq("click", "confirm").map(Asset.sfx)
   ).flatten

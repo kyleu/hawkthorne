@@ -1,6 +1,7 @@
 /* Generated File */
 package services.analytics
 
+import java.time.LocalDateTime
 import java.util.UUID
 import models.analytics.{AnalyticsAction, AnalyticsActionType}
 import models.auth.Credentials
@@ -67,6 +68,16 @@ class AnalyticsActionService @javax.inject.Inject() (override val tracing: Traci
   }
   def getByIdSeq(creds: Credentials, idSeq: Seq[UUID])(implicit trace: TraceData) = traceF("get.by.id.seq") { td =>
     ApplicationDatabase.queryF(AnalyticsActionQueries.GetByIdSeq(idSeq))(td)
+  }
+
+  def countByOccurred(creds: Credentials, occurred: LocalDateTime)(implicit trace: TraceData) = traceF("count.by.occurred") { td =>
+    ApplicationDatabase.queryF(AnalyticsActionQueries.CountByOccurred(occurred))(td)
+  }
+  def getByOccurred(creds: Credentials, occurred: LocalDateTime, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None)(implicit trace: TraceData) = traceF("get.by.occurred") { td =>
+    ApplicationDatabase.queryF(AnalyticsActionQueries.GetByOccurred(occurred, orderBys, limit, offset))(td)
+  }
+  def getByOccurredSeq(creds: Credentials, occurredSeq: Seq[LocalDateTime])(implicit trace: TraceData) = traceF("get.by.occurred.seq") { td =>
+    ApplicationDatabase.queryF(AnalyticsActionQueries.GetByOccurredSeq(occurredSeq))(td)
   }
 
   def countByStatus(creds: Credentials, status: String)(implicit trace: TraceData) = traceF("count.by.status") { td =>

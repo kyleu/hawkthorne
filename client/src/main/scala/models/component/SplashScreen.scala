@@ -1,15 +1,12 @@
 package models.component
 
 import com.definitelyscala.phaserce.{Game, Point}
+import util.PhaserUtils
 
 object SplashScreen {
   def show(game: Game, x: Int = 0, y: Int = 0) = {
-    val solidBlack = game.make.bitmapData(1, 1)
-    solidBlack.fill(0, 0, 0)
-
-    val backdrop = game.add.sprite(0, 0, solidBlack)
-    backdrop.width = game.width
-    backdrop.height = game.height
+    val backdrop = PhaserUtils.makeBackdrop(game = game, width = game.width, height = game.height, color = "#000000")
+    game.add.existing(backdrop)
 
     val splash = game.add.sprite(game.width / 2, game.height / 2, "splash")
     splash.anchor = util.PhaserUtils.centerPoint

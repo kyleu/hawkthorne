@@ -1,7 +1,7 @@
 package services.input
 
 import com.definitelyscala.phaserce.{Game, Gamepad, SinglePad}
-import models.input.InputUpdate
+import models.input.{InputCommand, InputUpdate}
 
 object GamepadInput {
   final case class Keymap(
@@ -56,7 +56,7 @@ final case class GamepadInput(game: Game) {
     "onDisconnect" -> onDisconnect(pad._1, pad._2) _
   )))
 
-  private[this] var keymaps = Array(pads.map(GamepadInput.xboxKeymap): _*)
+  private[this] val keymaps = Array(pads.map(GamepadInput.xboxKeymap): _*)
   def setKeymap(idx: Int, keymap: GamepadInput.Keymap) = keymaps(idx) = keymap
 
   private[this] def onConnect(pad: SinglePad, idx: Int)(x: Any) = util.Logging.info(s"Gamepad [${pad.index.toInt}] connected.")
@@ -69,12 +69,14 @@ final case class GamepadInput(game: Game) {
       val x = if (pad.getButton(map.left).isDown) { -1.0 } else if (pad.getButton(map.right).isDown) { 1.0 } else { 0.0 /* pad.axis(map.leftStickX) */ }
       val y = if (pad.getButton(map.up).isDown) { -1.0 } else if (pad.getButton(map.down).isDown) { 1.0 } else { 0.0 /* pad.axis(map.leftStickY) */ }
       val commands = Seq(
-        if (pad.getButton(map.jump).justPressed(delta)) { Some("jump") } else { None },
-        if (pad.getButton(map.attack).justPressed(delta)) { Some("attack") } else { None },
-        if (pad.getButton(map.select).justPressed(delta)) { Some("select") } else { None },
-        if (pad.getButton(map.confirm).justPressed(delta)) { Some("confirm") } else { None },
-        if (pad.getButton(map.options).justPressed(delta)) { Some("options") } else { None },
-        if (pad.getButton(map.debug).justPressed(delta)) { Some("debug") } else { None }
+        if (pad.getButton(map.jump).justPressed(delta)) { Some(InputCommand.Jump) } else { None },
+        if (pad.getButton(map.attack).justPressed(delta)) { Some(InputCommand.Attack) } else { None },
+
+        if (pad.getButton(map.select).justPressed(delta)) { Some(InputCommand.Select) } else { None },
+        if (pad.getButton(map.confirm).justPressed(delta)) { Some(InputCommand.Confirm) } else { None },
+
+        if (pad.getButton(map.options).justPressed(delta)) { Some(InputCommand.Options) } else { None },
+        if (pad.getButton(map.debug).justPressed(delta)) { Some(InputCommand.Debug) } else { None }
       ).flatten
       InputUpdate(idx, x, y, commands)
   }

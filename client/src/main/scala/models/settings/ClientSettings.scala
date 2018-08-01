@@ -4,6 +4,7 @@ import java.util.UUID
 
 import models.analytics.AnalyticsActionType
 import org.scalajs.dom
+import services.audio.{MusicService, SoundEffectService}
 import services.socket.{AnalyticsService, UserManager}
 import util.JsonSerializers._
 
@@ -20,7 +21,7 @@ object ClientSettings {
   implicit val jsonEncoder: Encoder[ClientSettings] = deriveEncoder
   implicit val jsonDecoder: Decoder[ClientSettings] = deriveDecoder
 
-  private[this] def empty(userId: UUID) = ClientSettings(music = 10, sfx = 10, fullscreen = true)
+  private[this] def empty(userId: UUID) = ClientSettings(music = 0, sfx = 10, fullscreen = true)
 
   def getSettings = current.getOrElse(throw new IllegalStateException("No registered settings"))
 
@@ -40,6 +41,14 @@ object ClientSettings {
     }
     current = Some(s)
     util.Logging.debug("Settings loaded successfully.")
+    s
+  }
+
+  def loadAndApply() = {
+    val s = load()
+    util.Logging.info(s"Applying settings [$s].")
+    MusicService.setVolume(s.music)
+    SoundEffectService.setVolume(s.sfx)
     s
   }
 

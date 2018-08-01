@@ -19,7 +19,6 @@ object Font {
   }
 
   private[this] def load(game: Game, key: String) = {
-    val startMs = System.currentTimeMillis
     val img = new Image(game, 0, 0, s"font.$key")
     val height = img.height.toInt
     val data = game.add.bitmapData(img.width, img.height, s"font.$key.data")
@@ -44,9 +43,7 @@ object Font {
     if (charStartIndexes.size != chars.length) {
       util.Logging.warn(s"Font [$key] expected [${chars.length}] chars, found [${charStartIndexes.size}].")
     }
-    val font = new Font(key, img, charStartIndexes.zip(chars).map(x => CharLocation(x._2, x._1._1, x._1._2, height)))
-    // util.Logging.info(s"Loaded font [$key] in [${System.currentTimeMillis - startMs}ms]: $font")
-    font
+    new Font(key, img, charStartIndexes.zip(chars).map(x => CharLocation(x._2, x._1._1, x._1._2, height)))
   }
 }
 

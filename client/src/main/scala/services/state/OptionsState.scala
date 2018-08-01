@@ -4,6 +4,8 @@ import com.definitelyscala.phaserce.{Game, Sound}
 import models.asset.Asset
 import models.component.VerticalParticles
 import models.font.Font
+import models.input.MenuAction
+import services.audio.MusicService
 import services.input.InputService
 
 object OptionsState {
@@ -15,14 +17,12 @@ object OptionsState {
 
 class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) extends GameState("test", phaser) {
   private[this] var particles: Option[VerticalParticles] = None
-  private[this] var music: Option[Sound] = None
 
   override def create(game: Game) = {
     Font.reset()
-    music = Some(game.add.audio(key = "music.daybreak", loop = true))
-    music.foreach(_.play())
+    MusicService.play("daybreak", loop = true)
     particles = Some(new VerticalParticles(game))
-    inputService.menuHandler.setCallback(Some(_ => ()))
+    inputService.menuHandler.setCallback(Some(x => onMenuAction(x)))
   }
 
   override def update(game: Game) = {
@@ -32,8 +32,12 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
   }
 
   override def shutdown(game: Game) = {
-    music.foreach(_.stop())
+    MusicService.stop("daybreak")
     inputService.menuHandler.setCallback(None)
     super.shutdown(game)
+  }
+
+  private[this] def onMenuAction(acts: Seq[MenuAction]) = acts.foreach { act =>
+    util.Logging.info(s"Options menu action: $act")
   }
 }

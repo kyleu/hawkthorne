@@ -1,6 +1,5 @@
 package models.user
 
-import models.template.Theme
 import util.JsonSerializers._
 
 object UserPreferences {
@@ -15,6 +14,4 @@ object UserPreferences {
   }
 }
 
-final case class UserPreferences(
-    theme: Theme = Theme.BlueGrey
-)
+final case class UserPreferences(favoriteAnimal: String = "Annie's Boobs")
