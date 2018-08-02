@@ -21,7 +21,7 @@ object ClientSettings {
   implicit val jsonEncoder: Encoder[ClientSettings] = deriveEncoder
   implicit val jsonDecoder: Decoder[ClientSettings] = deriveDecoder
 
-  private[this] def empty(userId: UUID) = ClientSettings(music = 0, sfx = 10, fullscreen = true)
+  private[this] def empty(userId: UUID) = ClientSettings(music = 10, sfx = 10, fullscreen = true)
 
   def getSettings = current.getOrElse(throw new IllegalStateException("No registered settings"))
 

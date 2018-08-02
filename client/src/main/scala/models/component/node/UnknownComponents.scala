@@ -12,7 +12,9 @@ object UnknownComponents {
     g.drawRect(0, 0, n.actualWidth.toDouble, n.actualHeight.toDouble)
     val t = g.generateTexture().asInstanceOf[Texture]
     val name = s"unknown.${n.actualName}"
-    val i = StaticImage(game = game, group = group, name = name, x = n.actualX, y = n.actualY, tex = t)
+    val i = StaticImage(game = game, group = group, name = name, tex = t)
+    i.setPositionInt(n.actualX, n.actualY)
+
     Seq(i)
   }
 }

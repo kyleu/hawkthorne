@@ -9,7 +9,7 @@ class FlyIn(game: Game, onComplete: () => Unit) {
 
   private[this] val group = new Group(game = game, name = s"intro.fly.in")
 
-  private[this] val background = StaticSprite(game, group, "intro.cityscape", 0, 0, "intro.cityscape")
+  private[this] val background = StaticSprite(game, group, "intro.cityscape", "intro.cityscape")
 
   game.world.add(group)
   resize(game.width.toInt, game.height.toInt)

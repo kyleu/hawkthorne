@@ -10,8 +10,6 @@ object BaseModal {
 class BaseModal(
     override val game: Game,
     val name: String,
-    val x: Int = 0,
-    val y: Int = 0,
     val maxWidth: Int = 256,
     val maxHeight: Int = 72
 ) extends BaseComponent {
@@ -85,4 +83,16 @@ class BaseModal(
       util.Logging.info(s"Updating modal content: Width [$width/$targetWidth], Height: [$height/$targetHeight]")
     }
   }
+
+  private[this] var _x = 0.0 // TODO replace with group call
+  override def x = _x
+  override def x_=(newX: Double) = _x = newX
+
+  private[this] var _y = 0.0 // TODO replace with group call
+  override def y = _y
+  override def y_=(newY: Double) = _y = newY
+
+  private[this] var _visible = true // TODO replace with group call
+  override def visible = _visible
+  override def visible_=(v: Boolean) = _visible = v
 }

@@ -5,10 +5,12 @@ import models.component.AnimatedSprite
 import models.node.WeaponNode
 
 object WeaponComponents {
-  def apply(game: Game, group: Group, n: WeaponNode) = Seq(
-    AnimatedSprite(
-      game = game, group = group, name = n.actualName, x = n.actualX, y = n.actualY, key = s"weapon.${n.actualName}",
+  def apply(game: Game, group: Group, n: WeaponNode) = {
+    val as = AnimatedSprite(
+      game = game, group = group, name = n.actualName, key = s"weapon.${n.actualName}",
       animations = n.template.animationMap.mapValues(_.newCopy), defAnim = Some("default")
     )
-  )
+    as.setPositionInt(n.actualX, n.actualY)
+    Seq(as)
+  }
 }

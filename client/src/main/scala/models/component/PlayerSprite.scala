@@ -1,28 +1,24 @@
-package models.player
+package models.component
 
-import com.definitelyscala.phaserce.Physics.Arcade.Body
 import com.definitelyscala.phaserce.{Game, Group}
-import models.component.{AnimatedSprite, BaseComponent}
 import models.data.character.CharacterAnimation
 import models.input.InputCommand
+import models.player.Player
 import services.input.PlayerInputHandler
 
 object PlayerSprite {
   val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim)).map(a => a.id -> a).toMap
 }
 
-class PlayerSprite(
-    override val game: Game, group: Group, player: Player, initialX: Int, initialY: Int, scaled: Boolean = true, physics: Boolean = true
-) extends BaseComponent {
+class PlayerSprite(override val game: Game, group: Group, player: Player, initialX: Int, initialY: Int) extends BaseComponent {
   override val name = s"player.${player.idx}"
 
   val as = AnimatedSprite(
-    game = game, group = group, name = s"player.${player.idx}", x = initialX, y = initialY,
+    game = game, group = group, name = s"player.${player.idx}",
     key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations.mapValues(_.newCopy), defAnim = Some("idle.right")
   )
-
-  override def x: Int = as.x
-  override def y: Int = as.y
+  as.x = initialX.toDouble
+  as.y = initialY.toDouble
 
   private[this] val input = new PlayerInputHandler(this)
 
@@ -33,13 +29,13 @@ class PlayerSprite(
   as.sprite.name = s"${player.templateKey}.${player.costume.key}"
   as.sprite.anchor = util.PhaserUtils.centerPoint
 
-  if (physics) {
-    game.physics.arcade.enable(as.sprite)
-    val body = as.sprite.body.asInstanceOf[Body]
-    body.gravity.y = 100
-    body.bounce.y = 0
-    body.collideWorldBounds = true
-  }
-
   override def update(deltaMs: Double) = as.update(deltaMs)
+
+  override def x = as.x
+  override def x_=(newX: Double) = as.x = newX
+  override def y = as.y
+  override def y_=(newY: Double) = as.y = newY
+
+  override def visible = as.visible
+  override def visible_=(v: Boolean) = as.visible = v
 }

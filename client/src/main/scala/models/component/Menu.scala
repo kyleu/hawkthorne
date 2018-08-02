@@ -1,16 +1,14 @@
 package models.component
 
-import com.definitelyscala.phaserce.{Game, Group, Image, Point}
+import com.definitelyscala.phaserce.{Game, Group, Image}
 import models.font.Font
 import models.input.MenuAction
 import services.audio.SoundEffectService
 
 final case class Menu(
-    override val game: Game, override val name: String, override val x: Int, override val y: Int,
-    fontKey: String, backgroundKey: String, width: Int, height: Int
+    override val game: Game, override val name: String, fontKey: String, backgroundKey: String, width: Int, height: Int
 ) extends BaseComponent {
   val group = new Group(game, name = name)
-  group.position = new Point(x.toDouble, y.toDouble)
 
   private[this] var activeOption = -1
   private[this] var options = IndexedSeq.empty[(String, () => Unit)]
@@ -67,4 +65,12 @@ final case class Menu(
     case MenuAction.Select => onSelect()
     case _ => // noop
   }
+
+  override def x = group.x
+  override def x_=(newX: Double) = group.x = newX
+  override def y = group.y
+  override def y_=(newY: Double) = group.y = newY
+
+  override def visible = group.visible
+  override def visible_=(v: Boolean) = group.visible = v
 }

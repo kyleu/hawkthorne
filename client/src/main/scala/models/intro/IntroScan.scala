@@ -7,7 +7,7 @@ import util.PhaserUtils
 class IntroScan(game: Game, onComplete: () => Unit) {
   private[this] var elapsed = 0.0
 
-  private[this] val margin = 20
+  private[this] val margin = 20.0
   private[this] val dimensions = (400 + (margin * 2)) -> (250 + (margin * 2))
 
   private[this] val charHorizontalOffset = 36 + margin
@@ -20,37 +20,51 @@ class IntroScan(game: Game, onComplete: () => Unit) {
   val backdrop = PhaserUtils.makeBackdrop(game, color = "#3854b3")
   group.add(backdrop)
 
-  private[this] val background = StaticSprite(game = game, group = group, name = "background", x = margin, y = margin, key = "intro.backgrounds")
+  private[this] val background = StaticSprite(game = game, group = group, name = "background", key = "intro.backgrounds")
+  background.x = margin
+  background.y = margin
 
   private[this] val characters = Seq("jeff", "britta", "abed", "shirley", "annie", "troy", "pierce")
-  private[this] val charSprites = characters.map(key => StaticSprite(
-    game = game, group = group, name = s"${key}scan", x = charHorizontalOffset, y = charVerticalOffset, key = s"intro.${key}scan", visible = false
-  ))
+  private[this] val charSprites = characters.map(key => StaticSprite(game = game, group = group, name = s"${key}scan", key = s"intro.${key}scan"))
+  charSprites.foreach { s =>
+    s.x = charHorizontalOffset
+    s.y = charVerticalOffset
+    s.visible = false
+  }
 
-  private[this] val computer = StaticSprite(
-    game = game, group = group, name = "computer", x = (dimensions._1 - 75) / 2, y = 160, key = "intro.computer"
-  )
-  private[this] val inverted = StaticSprite(
-    game = game, group = group, name = "inverted", x = charHorizontalOffset, y = charVerticalOffset, key = "intro.invertedscan", visible = false
-  )
-  private[this] val description = StaticSprite(
-    game = game, group = group, name = "description", x = charHorizontalOffset, y = labelOffset, key = "intro.description"
-  )
-  private[this] val name = StaticSprite(
-    game = game, group = group, name = "name", x = (dimensions._1 - 75) / 2, y = charVerticalOffset + 5, key = "intro.names"
-  )
-  private[this] val scanBlank = StaticSprite(
-    game = game, group = group, name = "scanBlank", x = rightStartEdge, y = charVerticalOffset, key = "intro.blankscan"
-  )
-  private[this] val scanSprites = StaticSprite(
-    game = game, group = group, name = "scanSprites", x = rightStartEdge, y = charVerticalOffset, key = "intro.invertedsprites", visible = false
-  )
-  private[this] val scanningBar = StaticSprite(
-    game = game, group = group, name = "scanningBar", x = rightStartEdge, y = labelOffset, key = "intro.scanningbar"
-  )
-  private[this] val scanningWords = StaticSprite(
-    game = game, group = group, name = "scanningWords", x = rightStartEdge, y = labelOffset + 16, key = "intro.scanningwords"
-  )
+  private[this] val computer = StaticSprite(game = game, group = group, name = "computer", key = "intro.computer")
+  computer.x = (dimensions._1 - 75) / 2
+  computer.y = 160
+
+  private[this] val inverted = StaticSprite(game = game, group = group, name = "inverted", key = "intro.invertedscan")
+  inverted.x = charHorizontalOffset
+  inverted.y = charVerticalOffset
+  inverted.visible = false
+
+  private[this] val description = StaticSprite(game = game, group = group, name = "description", key = "intro.description")
+  description.x = charHorizontalOffset
+  description.y = labelOffset
+
+  private[this] val name = StaticSprite(game = game, group = group, name = "name", key = "intro.names")
+  name.x = (dimensions._1 - 75) / 2
+  name.y = charVerticalOffset + 5
+
+  private[this] val scanBlank = StaticSprite(game = game, group = group, name = "scanBlank", key = "intro.blankscan")
+  scanBlank.x = rightStartEdge
+  scanBlank.y = charVerticalOffset
+
+  private[this] val scanSprites = StaticSprite(game = game, group = group, name = "scanSprites", key = "intro.invertedsprites")
+  scanSprites.x = rightStartEdge
+  scanSprites.y = charVerticalOffset
+  scanSprites.visible = false
+
+  private[this] val scanningBar = StaticSprite(game = game, group = group, name = "scanningBar", key = "intro.scanningbar")
+  scanningBar.x = rightStartEdge
+  scanningBar.y = labelOffset
+
+  private[this] val scanningWords = StaticSprite(game = game, group = group, name = "scanningWords", key = "intro.scanningwords")
+  scanningWords.x = rightStartEdge
+  scanningWords.y = labelOffset + 16
 
   private[this] val events = Seq(
     IntroAnimations.backgroundEvents(background.sprite, characters),
@@ -81,7 +95,7 @@ class IntroScan(game: Game, onComplete: () => Unit) {
     backdrop.height = game.height * 2
     backdrop.position = new Point(-width.toDouble, -height.toDouble)
 
-    util.PhaserUtils.simpleResize(group, width, height, dimensions)
+    util.PhaserUtils.simpleResize(group, width, height, dimensions._1.toInt -> dimensions._2.toInt)
   }
 
   def destroy() = {

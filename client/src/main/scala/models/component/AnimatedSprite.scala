@@ -4,8 +4,8 @@ import com.definitelyscala.phaserce.{Game, Group, Sprite}
 import models.animation.Animation
 
 object AnimatedSprite {
-  def single(game: Game, group: Group, name: String, x: Int, y: Int, key: String, animation: Animation, flip: Boolean = false) = {
-    AnimatedSprite(game, group, name, x, y, key, Map(animation.id -> animation), Some(animation.id))
+  def single(game: Game, group: Group, name: String, key: String, animation: Animation, flip: Boolean = false) = {
+    AnimatedSprite(game, group, name, key, Map(animation.id -> animation), Some(animation.id))
   }
 }
 
@@ -13,8 +13,6 @@ final case class AnimatedSprite(
     override val game: Game,
     group: Group,
     override val name: String,
-    override val x: Int,
-    override val y: Int,
     key: String,
     animations: Map[String, Animation],
     defAnim: Option[String] = None,
@@ -22,11 +20,12 @@ final case class AnimatedSprite(
 ) extends BaseComponent {
   private[this] var activeAnimation = defAnim.map(animations.apply)
 
-  val sprite = new Sprite(game, x.toDouble, y.toDouble, key)
+  val sprite = new Sprite(game, 0, 0, key)
   sprite.name = if (name.isEmpty) { key.substring(key.lastIndexOf('.') + 1) } else { name }
   if (flip) {
-    sprite.x += sprite.width
-    sprite.scale.x = -1
+    // TODO reverse texture
+    // sprite.x += sprite.width
+    // sprite.scale.x = -1
   }
   group.add(sprite)
 
@@ -39,4 +38,12 @@ final case class AnimatedSprite(
   override def update(deltaMs: Double) = activeAnimation.foreach(_.nextFrame(deltaMs).foreach { f =>
     sprite.frame = f
   })
+
+  override def x = sprite.x
+  override def x_=(newX: Double) = sprite.x = newX
+  override def y = sprite.y
+  override def y_=(newY: Double) = sprite.y = newY
+
+  override def visible = sprite.visible
+  override def visible_=(v: Boolean) = sprite.visible = v
 }

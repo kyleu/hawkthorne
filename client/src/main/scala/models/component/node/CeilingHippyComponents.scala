@@ -1,15 +1,20 @@
 package models.component.node
 
 import com.definitelyscala.phaserce.{Game, Group}
-import models.component.{BaseComponent, StaticSprite}
+import models.component.StaticSprite
 import models.node.CeilingHippyNode
 
 object CeilingHippyComponents {
   def apply(game: Game, group: Group, n: CeilingHippyNode) = {
     val name = n.actualName
-    val ceiling = StaticSprite(game = game, group = group, name = s"hippy.$name.ceiling", x = n.actualX, y = n.actualY, key = s"hippy.open.ceiling")
-    val tiles = StaticSprite(game = game, group = group, name = s"hippy.$name.tiles", x = n.actualX, y = n.actualY, key = s"hippy.broken.tiles")
-    val hippy = StaticSprite(game = game, group = group, name = s"hippy.$name", x = n.actualX, y = n.actualY, key = s"enemy.ceiling.hippy")
+    val ceiling = StaticSprite(game = game, group = group, name = s"hippy.$name.ceiling", key = s"hippy.open.ceiling")
+    ceiling.setPositionInt(n.actualX, n.actualY)
+
+    val tiles = StaticSprite(game = game, group = group, name = s"hippy.$name.tiles", key = s"hippy.broken.tiles")
+    tiles.setPositionInt(n.actualX, n.actualY)
+
+    val hippy = StaticSprite(game = game, group = group, name = s"hippy.$name", key = s"enemy.ceiling.hippy")
+    hippy.setPositionInt(n.actualX, n.actualY)
 
     Seq(ceiling, tiles, hippy)
   }

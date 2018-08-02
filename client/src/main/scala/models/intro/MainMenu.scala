@@ -20,11 +20,11 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] var zoom = 1.0
   private[this] var menuShown = false
 
-  private[this] val background = StaticSprite(game, group, "intro.cityscape", 0, 0, "intro.cityscape")
+  private[this] val background = StaticSprite(game, group, "intro.cityscape", "intro.cityscape")
 
   private[this] val logoGroup = new Group(game, group, "intro.logoGroup")
   logoGroup.scale = new Point(0.8, 0.8)
-  private[this] val logo = StaticSprite(game, logoGroup, "intro.logo", 0, 0, "intro.logo")
+  private[this] val logo = StaticSprite(game, logoGroup, "intro.logo", "intro.logo")
   logo.sprite.anchor = util.PhaserUtils.centerPoint
 
   val sparkleCoords = Seq(55 -> 34, 42 -> 112, 132 -> 139, 271 -> 115, 274 -> 50).map { c =>
@@ -36,17 +36,14 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] val font = Font.getFont("big", game)
   private[this] val attract = font.renderToImage(name = "attract", s = "Press Start", game = game)
   attract.anchor = util.PhaserUtils.centerPoint
-  attract.position = new Point(0, background.sprite.height - 40)
+  attract.position = new Point(0, background.sprite.height - 40.0)
   group.add(attract)
 
-  private[this] val menu = Menu(
-    game = game, name = "intro.menu", x = 0, y = background.sprite.height.toInt - 180,
-    fontKey = "small", backgroundKey = "intro.menu.bg", width = 101, height = 75
-  )
-
-  group.add(menu.group)
-  menu.group.visible = false
+  private[this] val menu = Menu(game = game, name = "intro.menu", fontKey = "small", backgroundKey = "intro.menu.bg", width = 101, height = 75)
+  menu.y = background.sprite.height.toInt - 180.0
+  menu.visible = false
   menu.group.scale = new Point(2, 2)
+  group.add(menu.group)
 
   private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
   private[this] def opts(acts: (String, String)*) = menu.setOptions(acts.map(x => (x._1, () => {

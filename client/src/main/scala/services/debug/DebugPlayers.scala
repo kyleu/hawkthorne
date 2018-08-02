@@ -1,7 +1,7 @@
 package services.debug
 
 import com.definitelyscala.datgui.GUI
-import models.player.PlayerSprite
+import models.component.PlayerSprite
 import util.{DatGuiUtils, Logging}
 
 import scala.util.Random

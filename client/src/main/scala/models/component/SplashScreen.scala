@@ -5,7 +5,7 @@ import util.PhaserUtils
 
 object SplashScreen {
   def show(game: Game, x: Int = 0, y: Int = 0) = {
-    val backdrop = PhaserUtils.makeBackdrop(game = game, width = game.width, height = game.height, color = "#000000")
+    val backdrop = PhaserUtils.makeBackdrop(game = game, width = game.width, height = game.height)
     game.add.existing(backdrop)
 
     val splash = game.add.sprite(game.width / 2, game.height / 2, "splash")

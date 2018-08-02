@@ -7,8 +7,6 @@ final case class Liquid(
     group: Group,
     override val name: String,
     key: String,
-    override val x: Int,
-    override val y: Int,
     opacity: Double,
     speed: Double,
     width: Int,
@@ -18,8 +16,6 @@ final case class Liquid(
 
   val liquidGroup = new Group(game, group, name)
   liquidGroup.name = s"liquid.$name"
-  liquidGroup.x = x.toDouble
-  liquidGroup.y = y.toDouble
 
   val frameCount = game.cache.getFrameCount(key).toInt / 2
 
@@ -46,6 +42,13 @@ final case class Liquid(
         i.frame = ((currFrame + 1) % frameCount) + buffer
       }
     }
-
   }
+
+  override def x = liquidGroup.x
+  override def x_=(newX: Double) = liquidGroup.x = newX
+  override def y = liquidGroup.y
+  override def y_=(newY: Double) = liquidGroup.y = newY
+
+  override def visible = liquidGroup.visible
+  override def visible_=(v: Boolean) = liquidGroup.visible = v
 }

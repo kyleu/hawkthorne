@@ -1,6 +1,6 @@
 package models.node
 
-import models.animation.{Animation, AnimationCoords}
+import models.animation.Animation
 import models.asset.Asset
 import util.JsonSerializers._
 

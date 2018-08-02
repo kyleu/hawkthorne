@@ -1,7 +1,7 @@
 package services.input
 
+import models.component.PlayerSprite
 import models.input.InputCommand
-import models.player.PlayerSprite
 
 class PlayerInputHandler(player: PlayerSprite) {
   private[this] var lastVelocity = 0.0 -> 0.0
@@ -14,8 +14,8 @@ class PlayerInputHandler(player: PlayerSprite) {
 
     val loc = updateLocation(delta, velocity)
     loc.foreach { l =>
-      player.as.sprite.x = l._1
-      player.as.sprite.y = l._2
+      player.x = l._1
+      player.y = l._2
     }
 
     lastVelocity = velocity
@@ -38,6 +38,6 @@ class PlayerInputHandler(player: PlayerSprite) {
     val xDelta = xVel * delta * speed
     val yDelta = yVel * delta * speed
 
-    Some((player.as.sprite.x + xDelta) -> (player.as.sprite.y + yDelta))
+    Some((player.x + xDelta) -> (player.y + yDelta))
   }
 }

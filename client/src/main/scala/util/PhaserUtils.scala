@@ -6,7 +6,7 @@ import org.scalajs.dom.ext.Color
 import scala.scalajs.js
 
 object PhaserUtils {
-  def makeBackdrop(game: Game, width: Double = 1, height: Double = 1, color: String = "#ffffff") = {
+  def makeBackdrop(game: Game, width: Double = 1, height: Double = 1, color: String = "#000000") = {
     val bgData = game.make.bitmapData(1, 1)
     val c = Color(color)
     bgData.fill(c.r.toDouble, c.g.toDouble, c.b.toDouble)

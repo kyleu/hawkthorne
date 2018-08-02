@@ -3,11 +3,11 @@ package services.game
 import com.definitelyscala.phaserce.Game
 import io.circe.Json
 import models.analytics.AnalyticsActionType
-import models.component.{BaseComponent, ConsoleLog, HudOverlay, SplashScreen}
+import models.component._
 import models.font.Font
 import models.game.GameOptions
 import models.input.PointerAction
-import models.player.{Player, PlayerSprite}
+import models.player.Player
 import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -37,7 +37,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
   private[this] val playerSprite = new PlayerSprite(
-    game = game, group = mapService.group, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y, physics = true
+    game = game, group = mapService.group, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y
   )
   addComponent(playerSprite)
 
@@ -75,7 +75,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
 
     inputService.update(delta = dt)
     components.foreach(_.update(dt))
-    camera.focusOn(playerSprite.as.sprite.x.toInt, playerSprite.as.sprite.y.toInt)
+    camera.focusOn(playerSprite.x.toInt, playerSprite.y.toInt)
   }
 
   def resize(width: Int, height: Int) = {

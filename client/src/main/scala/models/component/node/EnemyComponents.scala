@@ -5,10 +5,12 @@ import models.component.AnimatedSprite
 import models.node.EnemyNode
 
 object EnemyComponents {
-  def apply(game: Game, group: Group, n: EnemyNode) = Seq(
-    AnimatedSprite(
-      game = game, group = group, name = "enemy." + n.actualName, x = n.actualX, y = n.actualY, key = s"enemy.${n.sheet}",
+  def apply(game: Game, group: Group, n: EnemyNode) = {
+    val as = AnimatedSprite(
+      game = game, group = group, name = "enemy." + n.actualName, key = s"enemy.${n.sheet}",
       animations = n.template.animationMap.mapValues(_.newCopy), defAnim = Some("default.right")
     )
-  )
+    as.setPositionInt(n.actualX, n.actualY)
+    Seq(as)
+  }
 }

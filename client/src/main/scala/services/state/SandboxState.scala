@@ -3,7 +3,8 @@ package services.state
 import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.{Game, Point}
 import models.asset.Asset
-import models.player.{Player, PlayerSprite}
+import models.component.PlayerSprite
+import models.player.Player
 import models.template.character.CharacterListing
 import services.audio.MusicService
 import util.JavaScriptUtils
@@ -31,8 +32,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
       group = group,
       player = Player(templateKey = c._1.key, costumeKey = c._2.key),
       initialX = 32 + ((idx % 28) * 48),
-      initialY = 32 + ((idx / 28) * 48),
-      physics = false
+      initialY = 32 + ((idx / 28) * 48)
     )
   }
 

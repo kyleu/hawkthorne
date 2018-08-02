@@ -6,19 +6,24 @@ final case class StaticSprite(
     override val game: Game,
     group: Group,
     override val name: String,
-    override val x: Int,
-    override val y: Int,
     key: String,
     frame: Int = 0,
-    visible: Boolean = true,
     flip: Boolean = false
 ) extends BaseComponent {
-  val sprite = new Sprite(game = game, x = x.toDouble, y = y.toDouble, key = key, frame = frame)
+  val sprite = new Sprite(game = game, x = 0, y = 0, key = key, frame = frame)
   sprite.name = name
-  sprite.visible = visible
   if (flip) {
-    sprite.scale.x = -1
-    sprite.x += sprite.width
+    // TODO Reverse texture
+    //sprite.scale.x = -1
+    //sprite.x += sprite.width
   }
   group.add(sprite)
+
+  override def x: Double = sprite.x
+  override def x_=(newX: Double): Unit = sprite.x = newX
+  override def y: Double = sprite.y
+  override def y_=(newY: Double): Unit = sprite.y = newY
+
+  override def visible = sprite.visible
+  override def visible_=(v: Boolean) = sprite.visible = v
 }

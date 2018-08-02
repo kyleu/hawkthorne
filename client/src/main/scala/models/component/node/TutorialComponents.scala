@@ -12,8 +12,8 @@ object TutorialComponents {
     g.beginFill(ColorUtils.white.toDouble)
     g.drawRect(0, 0, n.actualWidth.toDouble, n.actualHeight.toDouble)
     val t = g.generateTexture().asInstanceOf[Texture]
-    val i = StaticImage(game = game, group = group, name = s"tutorial.${n.actualName}", x = n.actualX, y = n.actualY, tex = t)
-    i.image.visible = false
+    val i = StaticImage(game = game, group = group, name = s"tutorial.${n.actualName}", tex = t)
+    i.setPositionInt(n.actualX, n.actualY, Some(false))
     Seq(i)
   }
 }

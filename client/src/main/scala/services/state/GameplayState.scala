@@ -25,7 +25,6 @@ class GameplayState(phaser: Game, inputService: InputService, options: GameOptio
   private[this] def service = svc.getOrElse(throw new IllegalStateException("Not initialized"))
 
   override def create(game: Game) = svc = {
-    game.physics.startSystem(PhysicsObj.ARCADE)
     Some(new GameplayService(game = game, inputService = inputService, options = options, player = player))
   }
 

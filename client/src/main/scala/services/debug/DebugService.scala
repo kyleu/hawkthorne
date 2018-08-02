@@ -4,9 +4,9 @@ import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.{Game, PluginObj}
 import io.circe.Json
 import models.analytics.AnalyticsActionType
-import models.component.BaseComponent
+import models.component.{BaseComponent, PlayerSprite}
+import models.game.CheatOption
 import models.node.Node
-import models.player.PlayerSprite
 import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element
@@ -49,6 +49,11 @@ class DebugService private (phaser: Game) {
   }
 
   def setMap(game: Game, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
+    val cheatFolder = gui.addFolder("Cheats")
+    CheatOption.values.foreach { c =>
+      DatGuiUtils.addFunction(cheatFolder, c.toString, () => util.Logging.info(s"Cheat [$c] (${c.code}) selected: ${c.description}"))
+    }
+
     DebugPhaser.addWorld(gui, game.world)
     DebugPhaser.addCamera(gui, game.camera)
 
@@ -56,6 +61,7 @@ class DebugService private (phaser: Game) {
     DebugPlayers.addPlayers(gui, players)
 
     val componentFolder = gui.addFolder("Components")
+    DatGuiUtils.addFunction(componentFolder, "Toggle Debug", () => DebugComponents.toggleDebug(components))
     components.foreach(c => DebugComponents.add(componentFolder, c))
   }
 

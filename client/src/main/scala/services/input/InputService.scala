@@ -1,8 +1,8 @@
 package services.input
 
 import com.definitelyscala.phaserce.Game
+import models.component.PlayerSprite
 import models.input.{InputCommand, InputUpdate, PointerAction}
-import models.player.PlayerSprite
 
 class InputService(game: Game, systemCommandHandler: InputCommand => Unit) {
   private[this] val keyboardInput = KeyboardInput(game)
