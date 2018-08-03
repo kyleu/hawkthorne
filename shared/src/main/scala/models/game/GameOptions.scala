@@ -1,7 +1,5 @@
 package models.game
 
-import java.util.UUID
-
 import models.data.map.TiledMap
 import util.JsonSerializers._
 
@@ -11,9 +9,8 @@ object GameOptions {
 }
 
 final case class GameOptions(
-    id: UUID = UUID.randomUUID,
-    map: TiledMap,
-    scenario: String,
+    map: TiledMap = TiledMap.StudyRoom,
     maxPlayers: Int = 1,
+    hardcore: Boolean = false,
     offline: Boolean = true
 )

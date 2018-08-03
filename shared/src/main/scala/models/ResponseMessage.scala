@@ -26,4 +26,3 @@ object ResponseMessage {
   final case class GameUpdates(duration: Long, tick: Int, seq: Seq[GameUpdate]) extends ResponseMessage
   final case class GameFinished(id: UUID, stats: String, playerStats: Seq[String]) extends ResponseMessage
 }
-

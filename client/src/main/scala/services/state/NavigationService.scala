@@ -5,7 +5,11 @@ import models.data.map.TiledMap
 import models.game.GameOptions
 import models.player.Player
 import org.scalajs.dom
+import services.game.GameplayState
 import services.input.InputService
+import services.intro.{IntroState, PortalState}
+import services.options.OptionsState
+import services.test.{SandboxState, TestState}
 
 object NavigationService {
   def stateFromPath(game: Game, input: InputService, path: String, debug: Boolean) = {
@@ -20,10 +24,8 @@ object NavigationService {
       case "test" => TestState.load(phaser = game)
       case "sandbox" => SandboxState.load(phaser = game)
 
-      case x if x.startsWith("test/") => MapTestState.load(phaser = game, map = TiledMap.withValue(x.stripPrefix("test/")))
-
       case x if x.startsWith("map/") => GameplayState.load(
-        phaser = game, input = input, options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), scenario = "new"), player = Player.default
+        phaser = game, input = input, options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/"))), player = Player.default
       )
 
       case _ => throw new IllegalStateException(s"Unknown path [$path]")

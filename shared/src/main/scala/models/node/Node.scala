@@ -26,9 +26,11 @@ abstract class Node(val t: String) {
 
   def actualX = x
   def actualY = y
+  def pos = actualX -> actualY
 
   def actualWidth = width
   def actualHeight = height
+  def size = actualWidth -> actualHeight
 
   def asNewGameObject = GameObject(t = getClass.getSimpleName, id = id, n = name, x = actualX.toDouble, y = actualY.toDouble, w = actualWidth, h = actualHeight)
 }

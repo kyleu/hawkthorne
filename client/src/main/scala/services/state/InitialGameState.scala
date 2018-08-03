@@ -2,37 +2,13 @@ package services.state
 
 import com.definitelyscala.phaserce._
 import com.definitelyscala.phasercepixi.WebGLRenderer
-import models.data.map.TiledMap
-import models.game.GameOptions
 import models.input.InputCommand
-import models.player.Player
 import models.settings.ClientSettings
 import org.scalajs.dom
 import services.audio.{MusicService, SoundEffectService}
 import services.debug.DebugService
 import services.input.InputService
 import util.JavaScriptUtils
-
-object InitialGameState {
-  def initialState(phaser: Game, input: InputService, path: String) = {
-
-    path.trim match {
-      case "" => GameplayState.load(phaser = phaser, input = input, options = GameOptions(
-        map = TiledMap.BlackCaverns2, scenario = "new"), player = Player.default
-      )
-      case "intro" => IntroState.load(phaser = phaser, input = input)
-      case "menu" => IntroState.load(phaser = phaser, input = input, skipToMenu = true)
-      case "test" => TestState.load(phaser = phaser)
-      case "sandbox" => SandboxState.load(phaser = phaser)
-
-      case x if x.startsWith("map/") =>
-        val opts = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), scenario = "new")
-        GameplayState.load(phaser = phaser, input = input, options = opts, player = Player.default)
-      case x if x.startsWith("test/") => MapTestState.load(phaser = phaser, map = TiledMap.withValue(x.stripPrefix("test/")))
-      case _ => throw new IllegalStateException(s"Unknown path [$path]")
-    }
-  }
-}
 
 class InitialGameState(nextState: InputService => GameState, phaser: Game, debug: Boolean) extends GameState("initial", phaser) {
   private[this] var input: Option[InputService] = None

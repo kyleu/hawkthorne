@@ -1,17 +1,18 @@
 package models.settings
 
-import java.util.UUID
-
 import models.analytics.AnalyticsActionType
+import models.game.GameOptions
 import org.scalajs.dom
 import services.audio.{MusicService, SoundEffectService}
-import services.socket.{AnalyticsService, UserManager}
+import services.socket.AnalyticsService
 import util.JsonSerializers._
 
 case class ClientSettings(
-    music: Int,
-    sfx: Int,
-    fullscreen: Boolean
+    music: Int = 10,
+    sfx: Int = 10,
+    defaultOptions: GameOptions = GameOptions(),
+    showTutorials: Boolean = true,
+    fullscreen: Boolean = false
 )
 
 object ClientSettings {
@@ -20,8 +21,6 @@ object ClientSettings {
 
   implicit val jsonEncoder: Encoder[ClientSettings] = deriveEncoder
   implicit val jsonDecoder: Decoder[ClientSettings] = deriveDecoder
-
-  private[this] def empty(userId: UUID) = ClientSettings(music = 10, sfx = 10, fullscreen = true)
 
   def getSettings = current.getOrElse(throw new IllegalStateException("No registered settings"))
 
@@ -35,7 +34,7 @@ object ClientSettings {
         case Left(x) => throw new IllegalStateException(s"Invalid storage json [  ${rsp.asJson.spaces2}  ]: ${x.getMessage}", x)
       }
       case None =>
-        val s = empty(UserManager.userId.getOrElse(UUID.randomUUID))
+        val s = ClientSettings()
         save(s)
         s
     }

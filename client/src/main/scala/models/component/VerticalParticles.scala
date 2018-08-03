@@ -13,7 +13,7 @@ class VerticalParticles(game: Game) {
   }
   all.foreach(_.fill(255, 255, 255))
 
-  private[this] val images = (0 until 200).map { idx =>
+  private[this] val images = (0 until 256).map { idx =>
     val x = Random.nextInt(game.width.toInt).toDouble
     val y = Random.nextInt(game.height.toInt).toDouble
     val ratio = 1.0 - Math.cos(Math.abs(x - game.width / 2) * 2 / game.width) * 0.6
