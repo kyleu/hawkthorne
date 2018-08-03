@@ -18,18 +18,21 @@ object OptionsState {
 
 class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) extends GameState("test", phaser) {
   private[this] var particles: Option[VerticalParticles] = None
+  private[this] var options: Option[OptionsMenu] = None
 
   override def create(game: Game) = {
     Font.reset()
     MusicService.play("daybreak", loop = true)
     particles = Some(new VerticalParticles(game))
+    options = Some(new OptionsMenu(game))
     inputService.menuHandler.setCallback(Some(x => onMenuAction(x)))
-    // w: 272, h: 176
+    resize(game.width, game.height)
   }
 
   override def update(game: Game) = {
     val dt = game.time.physicsElapsed
     particles.foreach(_.update(dt))
+    options.foreach(_.update(dt))
     inputService.update(dt)
   }
 
@@ -37,6 +40,10 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
     MusicService.stop("daybreak")
     inputService.menuHandler.setCallback(None)
     super.shutdown(game)
+  }
+
+  override def onResize(width: Int, height: Int) = {
+    options.foreach(_.resize(width, height))
   }
 
   private[this] def onMenuAction(acts: Seq[MenuAction]) = acts.foreach { act =>
