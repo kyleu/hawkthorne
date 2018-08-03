@@ -17,7 +17,7 @@ final case class Menu(
   SoundEffectService.load("click")
   SoundEffectService.load("confirm")
 
-  private[this] val yOffset = 10.0
+  val yOffset = 10.0
   val lineHeight = 12.0
   private[this] val font = Font.getFont(fontKey, game)
 

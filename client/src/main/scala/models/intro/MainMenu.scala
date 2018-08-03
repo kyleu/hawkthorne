@@ -44,13 +44,15 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   menu.visible = false
   menu.group.scale = new Point(2, 2)
   group.add(menu.group)
+  private[this] val (mw, mh) = (menu.width * menu.group.scale.x, menu.height * menu.group.scale.x)
 
   private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
-  private[this] def opts(acts: (String, String)*) = menu.setOptions(acts.map(x => (x._1, () => {
+  private[this] def actions(acts: (String, String)*) = acts.map(x => (x._1, () => {
     AnalyticsService.send(AnalyticsActionType.Menu, Json.obj("key" -> x._2.asJson))
     nav(path = x._2)
-  })).toIndexedSeq)
-  opts("Campaign" -> "map/studyroom", "Multiplayer" -> "multiplayer", "Options" -> "options", "Credits" -> "credits", "Help" -> "help")
+  })).toIndexedSeq
+  val acts = actions("Campaign" -> "map/studyroom", "Multiplayer" -> "multiplayer", "Options" -> "options", "Credits" -> "credits", "Help" -> "help")
+  menu.setOptions(acts)
 
   NavigationService.setPath("menu")
   game.world.add(group)
@@ -69,15 +71,20 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
 
   def update(dt: Double) = {
     sparkleComponents.foreach(_.update(dt))
-    if (menuShown) {
-
-    } else {
+    if (!menuShown) {
       attract.visible = (System.currentTimeMillis % 1000) > 400
     }
   }
 
   def onPointer(act: PointerAction) = if (menuShown) {
-    Logging.info(s"Main menu pointer event: [$act]")
+    val mp = menu.group.position
+    val (x, y) = ((act.worldX - menu.group.worldPosition.x) / zoom, (act.worldY - menu.group.worldPosition.y) / zoom)
+    if (x >= 0 && x <= mw && y >= 0 && y <= mh) {
+      val idx = ((y + menu.yOffset) / (menu.lineHeight * menu.group.scale.y)).toInt - 1
+      if (idx >= 0 && idx < acts.size) {
+        acts(idx)._2()
+      }
+    }
   } else {
     showMenu()
   }
