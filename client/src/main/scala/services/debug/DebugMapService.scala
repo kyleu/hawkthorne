@@ -1,12 +1,31 @@
 package services.debug
 
 import com.definitelyscala.datgui.GUI
-import com.definitelyscala.phaserce.TilemapLayer
+import com.definitelyscala.phaserce.{Game, TilemapLayer}
+import models.component.{BaseComponent, PlayerSprite}
+import models.game.CheatOption
 import models.node.Node
 import services.map.MapService
 import util.{DatGuiUtils, Logging}
 
 object DebugMapService {
+  def setMap(game: Game, gui: GUI, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
+    val cheatFolder = gui.addFolder("Cheats")
+    CheatOption.values.foreach { c =>
+      DatGuiUtils.addFunction(cheatFolder, c.toString, () => util.Logging.info(s"Cheat [$c] (${c.code}) selected: ${c.description}"))
+    }
+
+    DebugPhaser.addWorld(gui, game.world)
+    DebugPhaser.addCamera(gui, game.camera)
+
+    DebugMapService.addMap(gui, mapService, nodes)
+    DebugPlayers.addPlayers(gui, players)
+
+    val componentFolder = gui.addFolder("Components")
+    DatGuiUtils.addFunction(componentFolder, "Toggle Debug", () => DebugComponents.toggleDebug(components))
+    components.foreach(c => DebugComponents.add(componentFolder, c))
+  }
+
   def addMap(gui: GUI, mapService: MapService, nodes: Seq[Node]) = {
     val f = gui.addFolder(s"Map (${mapService.map.value})")
     val layersFolder = f.addFolder("Layers")

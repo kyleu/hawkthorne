@@ -1,17 +1,17 @@
 package services.debug
 
 import com.definitelyscala.datgui.{GUI, GUIParams}
-import com.definitelyscala.phaserce.{Game, PluginObj}
+import com.definitelyscala.phaserce.{Cache, Game, PluginObj}
 import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.{BaseComponent, PlayerSprite}
-import models.game.CheatOption
 import models.node.Node
 import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element
 import services.map.MapService
 import services.socket.AnalyticsService
+import util.JsonSerializers._
 import util.{DatGuiUtils, JavaScriptUtils}
 
 import scala.scalajs.js
@@ -43,26 +43,22 @@ class DebugService private (phaser: Game) {
     AnalyticsService.send(AnalyticsActionType.Debug, Json.obj("cause" -> Json.fromString("ui")))
   })
 
+  val cacheFolder = gui.addFolder("Cache")
+  DatGuiUtils.addFunction(cacheFolder, "Debug Keys", () => util.Logging.info("Cache keys: " + Json.obj(
+    "image" -> phaser.cache.getKeys(Cache.IMAGE).toIndexedSeq.asJson,
+    "json" -> phaser.cache.getKeys(Cache.JSON).toIndexedSeq.asJson,
+    "sound" -> phaser.cache.getKeys(Cache.SOUND).toIndexedSeq.asJson,
+    "tilemap" -> phaser.cache.getKeys(Cache.TILEMAP).toIndexedSeq.asJson,
+    "texture" -> phaser.cache.getKeys(Cache.TEXTURE).toIndexedSeq.asJson
+  ).spaces2))
+
   val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
   if (debugPlugin.toString != "undefined") {
     phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
   }
 
   def setMap(game: Game, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
-    val cheatFolder = gui.addFolder("Cheats")
-    CheatOption.values.foreach { c =>
-      DatGuiUtils.addFunction(cheatFolder, c.toString, () => util.Logging.info(s"Cheat [$c] (${c.code}) selected: ${c.description}"))
-    }
-
-    DebugPhaser.addWorld(gui, game.world)
-    DebugPhaser.addCamera(gui, game.camera)
-
-    DebugMapService.addMap(gui, mapService, nodes)
-    DebugPlayers.addPlayers(gui, players)
-
-    val componentFolder = gui.addFolder("Components")
-    DatGuiUtils.addFunction(componentFolder, "Toggle Debug", () => DebugComponents.toggleDebug(components))
-    components.foreach(c => DebugComponents.add(componentFolder, c))
+    DebugMapService.setMap(game, gui, mapService, nodes, components, players)
   }
 
   def toggle() = {
