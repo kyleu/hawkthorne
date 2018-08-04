@@ -19,7 +19,7 @@ class OverworldMapState(phaser: Game, inputService: InputService, debug: Boolean
   override def create(game: Game) = {
     Font.reset()
     MusicService.play(OverworldMapAssets.music, loop = true)
-    map = Some(OverworldMap(game))
+    map = Some(OverworldMap(game, "greendale"))
     map.foreach(m => game.add.existing(m.group))
     inputService.menuHandler.setCallback(Some(x => onMenuAction(x)))
     inputService.setPointerEventCallback(Some(pointerAct))
@@ -39,15 +39,11 @@ class OverworldMapState(phaser: Game, inputService: InputService, debug: Boolean
     super.shutdown(game)
   }
 
-  override def onResize(width: Int, height: Int) = {
-
-  }
+  override def onResize(width: Int, height: Int) = map.foreach(_.resize(width, height))
 
   private[this] def pointerAct(pointerAction: PointerAction) = {
 
   }
 
-  private[this] def onMenuAction(acts: Seq[MenuAction]) = {
-
-  }
+  private[this] def onMenuAction(acts: Seq[MenuAction]) = acts.foreach(a => map.foreach(_.menuAct(a)))
 }

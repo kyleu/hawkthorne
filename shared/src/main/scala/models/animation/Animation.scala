@@ -41,7 +41,7 @@ final case class Animation(
   def setOnComplete(f: (String, Double) => Unit) = onComplete = Some(f)
 
   private[this] var jitter = 0.0
-  def setJitter(j: Double) = jitter = j * frames.size
+  def setJitter(j: Double = 1.0) = jitter = j * frames.size
 
   def nextFrame(deltaMs: Double) = {
     if (archetype) { throw new IllegalStateException(s"Animation [$id] is an archetype, and cannot be started.") }

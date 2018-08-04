@@ -9,8 +9,12 @@ object OverworldMapAssets {
   private[this] val keys = Seq(
     "world_01", "world_02", "world_03", "world_04", "world_05", "world_06", "world_07", "world_08",
     "world_overlay_01", "world_overlay_02", "world_overlay_05", "world_overlay_06",
-    "titleboard", "flag", "free_ride_ferry", "world_water", "cloud_puff", "gay_sparkle"
+    "titleboard", "flag", "free_ride_ferry", "cloud_puff"
   )
 
-  val assets = Asset.music("overworld") +: keys.map(k => Asset.Image(s"overworld.$k", s"images/overworld/$k.png"))
+  val assets = keys.map(k => Asset.Image(s"overworld.$k", s"images/overworld/$k.png")) ++ Seq(
+    Asset.music("overworld"),
+    Asset.Spritesheet("overworld.sparkle", "images/overworld/gay_sparkle.png", 24, 24),
+    Asset.Spritesheet("overworld.water", "images/overworld/world_water.png", 36, 36)
+  )
 }

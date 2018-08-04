@@ -9,7 +9,7 @@ import util.ColorUtils
 object ComponentLoadService {
   private[this] val headAnim = Animation(id = "", frames = IndexedSeq(1, 2, 1, 2, 1, 0), delay = 0.2, loop = true)
   private[this] val sparkleAnim = Animation(id = "sparkle", frames = 0 until 4, delay = 0.3, loop = true)
-  sparkleAnim.setJitter(1.0)
+  sparkleAnim.setJitter()
 
   def fromNodes(nodes: Seq[Node], game: Game, group: Group) = nodes.flatMap {
     case n: BouncerNode => ComponentHelper.outline(game = game, group = group, node = n, color = ColorUtils.pink, visible = false)
