@@ -51,5 +51,5 @@ final case class SpawnNode(
   } else {
     name
   }
-  override val assets = properties.sprite.map(s => Asset.Image(s"spawn.$actualName", s"images/spawn/$s.png")).toSeq
+  override val assets = properties.sprite.map(s => Asset.Image(s"$t.$s", s"images/spawn/$s.png")).toSeq
 }

@@ -11,10 +11,11 @@ final case class Liquid(
     speed: Double,
     width: Int,
     height: Int
-) extends BaseComponent {
+) extends SimpleComponent {
   private[this] var currFrameTime = 0.0
 
   val liquidGroup = new Group(game, group, name)
+  override def comp = liquidGroup
   liquidGroup.name = s"liquid.$name"
 
   val frameCount = game.cache.getFrameCount(key).toInt / 2
@@ -43,12 +44,4 @@ final case class Liquid(
       }
     }
   }
-
-  override def x = liquidGroup.x
-  override def x_=(newX: Double) = liquidGroup.x = newX
-  override def y = liquidGroup.y
-  override def y_=(newY: Double) = liquidGroup.y = newY
-
-  override def visible = liquidGroup.visible
-  override def visible_=(v: Boolean) = liquidGroup.visible = v
 }

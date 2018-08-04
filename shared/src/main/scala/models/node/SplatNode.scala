@@ -23,5 +23,5 @@ final case class SplatNode(
   override val actualWidth = 300
   override val actualHeight = 250
 
-  override val assets = Seq(Asset.Spritesheet(s"splat", s"images/splatters.png", actualWidth, actualWidth))
+  override val assets = Seq(Asset.Spritesheet(t, s"images/splatters.png", actualWidth, actualWidth))
 }

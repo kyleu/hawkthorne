@@ -17,10 +17,12 @@ final case class AnimatedSprite(
     animations: Map[String, Animation],
     defAnim: Option[String] = None,
     flip: Boolean = false
-) extends BaseComponent {
+) extends SimpleComponent {
   private[this] var activeAnimation = defAnim.map(animations.apply)
 
   val sprite = new Sprite(game, 0, 0, key)
+  override def comp = sprite
+
   sprite.name = if (name.isEmpty) { key.substring(key.lastIndexOf('.') + 1) } else { name }
   if (flip) {
     // TODO reverse texture
@@ -38,12 +40,4 @@ final case class AnimatedSprite(
   override def update(deltaMs: Double) = activeAnimation.foreach(_.nextFrame(deltaMs).foreach { f =>
     sprite.frame = f
   })
-
-  override def x = sprite.x
-  override def x_=(newX: Double) = sprite.x = newX
-  override def y = sprite.y
-  override def y_=(newY: Double) = sprite.y = newY
-
-  override def visible = sprite.visible
-  override def visible_=(v: Boolean) = sprite.visible = v
 }

@@ -30,6 +30,6 @@ final case class NpcNode(
 ) extends Node(NpcNode.key) {
   val template = NpcTemplate.withKey(actualName)
   override val assets = Seq(
-    Asset.Spritesheet(s"npc.$actualName", s"images/npc/$actualName.png", template.width, template.height)
+    Asset.Spritesheet(s"$t.$actualName", s"images/npc/$actualName.png", template.width, template.height)
   )
 }

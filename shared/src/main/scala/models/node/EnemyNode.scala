@@ -46,7 +46,7 @@ final case class EnemyNode(
 
   val template = EnemyListing.withKey(actualName)
 
-  override val assets = Seq(Asset.Spritesheet(s"enemy.$sheet", s"images/enemies/$sheet.png", template.width, template.height)) ++
+  override val assets = Seq(Asset.Spritesheet(s"$t.$sheet", s"images/enemies/$sheet.png", template.width, template.height)) ++
     template.sounds.map(Asset.sfx) ++
     template.passiveSound.map(Asset.sfx) ++
     template.attackSounds.map(Asset.sfx) ++

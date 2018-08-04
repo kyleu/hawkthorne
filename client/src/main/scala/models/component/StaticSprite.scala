@@ -9,8 +9,9 @@ final case class StaticSprite(
     key: String,
     frame: Int = 0,
     flip: Boolean = false
-) extends BaseComponent {
+) extends SimpleComponent {
   val sprite = new Sprite(game = game, x = 0, y = 0, key = key, frame = frame)
+  override def comp = sprite
   sprite.name = name
   if (flip) {
     // TODO Reverse texture
@@ -18,12 +19,4 @@ final case class StaticSprite(
     //sprite.x += sprite.width
   }
   group.add(sprite)
-
-  override def x: Double = sprite.x
-  override def x_=(newX: Double): Unit = sprite.x = newX
-  override def y: Double = sprite.y
-  override def y_=(newY: Double): Unit = sprite.y = newY
-
-  override def visible = sprite.visible
-  override def visible_=(v: Boolean) = sprite.visible = v
 }

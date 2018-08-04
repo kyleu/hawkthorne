@@ -21,5 +21,5 @@ final case class LightningNode(
 ) extends Node(LightningNode.key) {
   override val actualHeight = 336
 
-  override val assets = Seq(Asset.Spritesheet(s"cornelius.lightning", s"images/cutscenes/lightning.png", actualWidth, actualHeight))
+  override val assets = Seq(Asset.Spritesheet(s"cornelius.$t", s"images/cutscenes/lightning.png", actualWidth, actualHeight))
 }

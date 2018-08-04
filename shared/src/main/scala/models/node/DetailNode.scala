@@ -28,5 +28,5 @@ final case class DetailNode(
     properties: DetailNode.Props
 ) extends Node(DetailNode.key) {
   override val actualName = if (name.isEmpty) { properties.category } else { name }
-  override val assets = Seq(Asset.Image(s"detail.${properties.category}", s"images/details/${properties.category}.png"))
+  override val assets = Seq(Asset.Image(s"$t.${properties.category}", s"images/details/${properties.category}.png"))
 }

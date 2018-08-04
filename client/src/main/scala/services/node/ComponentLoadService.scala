@@ -21,8 +21,11 @@ object ComponentLoadService {
     case n: DetailNode => ComponentHelper.cropped(game, group, n, key = Some(s"${n.t}.${n.properties.category}"))
     case n: DoorNode => ComponentHelper.outline(game = game, group = group, node = n, color = ColorUtils.blue, visible = false)
     case n: EnemyNode => ComponentHelper.anim(game = game, group = group, node = n, anims = n.template.animationMap, defAnim = "default.right")
+    case n: FireAlarmNode => ComponentHelper.sprite(game = game, group = group, node = n, key = Some("fire.alarm"))
+    case n: HiddenDoorTriggerNode => ComponentHelper.sprite(game, group, n, key = Some("hidden.door." + n.properties.sprite))
     case n: HSpriteNode => ComponentHelper.animSingle(game, group, n, a = n.animation, key = Some(n.sheetKey))
     case n: InfoNode => ComponentHelper.outline(game = game, group = group, node = n, color = ColorUtils.white, visible = false)
+    case n: KeyNode => ComponentHelper.cropped(game = game, group = group, node = n)
     case n: KillingFloorNode => ComponentHelper.outline(game = game, group = group, node = n, color = ColorUtils.red, visible = false)
     case n: LiquidNode => ComponentHelper.liquid(game, group, n)
     case n: MailboxNode => ComponentHelper.outline(game = game, group = group, node = n, color = ColorUtils.white, visible = false)
@@ -35,7 +38,7 @@ object ComponentLoadService {
     case n: SimpleNode => SimpleComponents(game, group, n)
     case n: SparkleNode => ComponentHelper.animSingle(game = game, group = group, node = n, a = sparkleAnim, key = Some("cornelius.sparkle"))
     case n: SpawnNode => n.properties.sprite match {
-      case Some(s) => ComponentHelper.sprite(game = game, group = group, node = n, key = Some(s))
+      case Some(s) => ComponentHelper.cropped(game = game, group = group, node = n, key = Some(s"${n.t}.$s"))
       case None => ComponentHelper.outline(game = game, group = group, node = n, color = ColorUtils.purple, visible = false)
     }
     case n: SpriteNode => n.animation match {

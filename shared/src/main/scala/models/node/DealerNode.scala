@@ -19,8 +19,5 @@ final case class DealerNode(
     override val rotation: Int,
     override val visible: Boolean
 ) extends Node(DealerNode.key) {
-  override val assets = Seq(
-    Asset.Spritesheet(s"dealer", s"images/sprites/town/dealer.png", 72, 72),
-    Asset.sfx("letsPlayPoker")
-  )
+  override val assets = Seq(Asset.Spritesheet(t, s"images/sprites/town/dealer.png", 72, 72), Asset.sfx("letsPlayPoker"))
 }

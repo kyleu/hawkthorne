@@ -30,5 +30,5 @@ final case class MaterialNode(
   override val actualWidth = if (name.startsWith("buddha")) { 35 } else { super.actualWidth }
   override val actualHeight = if (name.startsWith("buddha")) { 30 } else { super.actualHeight }
 
-  override val assets = Seq(Asset.Image(s"material.$actualName", s"images/materials/$actualName.png"))
+  override val assets = Seq(Asset.Image(s"$t.$actualName", s"images/materials/$actualName.png"))
 }

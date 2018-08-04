@@ -34,5 +34,5 @@ final case class ProjectileNode(
 ) extends Node(ProjectileNode.key) {
   if (name.isEmpty) { throw new NotImplementedError() }
   val template = ProjectileListing.withKey(name)
-  override val assets = Seq(Asset.Spritesheet(s"projectile.$name", s"images/weapons/$name.png", template.width, template.height))
+  override val assets = Seq(Asset.Spritesheet(s"$t.$name", s"images/weapons/$name.png", template.width, template.height))
 }

@@ -28,6 +28,6 @@ final case class KeyNode(
     properties: Option[KeyNode.Props]
 ) extends Node(KeyNode.key) {
   override val assets = Seq(
-    Asset.Image(s"key.$actualName", s"images/keys/$actualName.png")
+    Asset.Image(s"$t.$actualName", s"images/keys/$actualName.png")
   )
 }

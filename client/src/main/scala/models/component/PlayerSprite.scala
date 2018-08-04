@@ -10,13 +10,14 @@ object PlayerSprite {
   val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim)).map(a => a.id -> a).toMap
 }
 
-class PlayerSprite(override val game: Game, group: Group, player: Player, initialX: Int, initialY: Int) extends BaseComponent {
+class PlayerSprite(override val game: Game, group: Group, player: Player, initialX: Int, initialY: Int) extends SimpleComponent {
   override val name = s"player.${player.idx}"
 
   val as = AnimatedSprite(
     game = game, group = group, name = s"player.${player.idx}",
     key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations.mapValues(_.newCopy), defAnim = Some("idle.right")
   )
+  override def comp = as.sprite
   as.x = initialX.toDouble
   as.y = initialY.toDouble
 
@@ -30,12 +31,4 @@ class PlayerSprite(override val game: Game, group: Group, player: Player, initia
   as.sprite.anchor = util.PhaserUtils.centerPoint
 
   override def update(deltaMs: Double) = as.update(deltaMs)
-
-  override def x = as.x
-  override def x_=(newX: Double) = as.x = newX
-  override def y = as.y
-  override def y_=(newY: Double) = as.y = newY
-
-  override def visible = as.visible
-  override def visible_=(v: Boolean) = as.visible = v
 }

@@ -22,7 +22,7 @@ final case class VehicleNode(
 ) extends Node(VehicleNode.key) {
   val template = VehicleTemplate.withKey(actualName)
   override val assets = Seq(
-    Asset.Spritesheet(s"vehicle.$actualName", s"images/vehicles/$actualName.png", template.width, template.height)
+    Asset.Spritesheet(s"$t.$actualName", s"images/vehicles/$actualName.png", template.width, template.height)
   )
 }
 

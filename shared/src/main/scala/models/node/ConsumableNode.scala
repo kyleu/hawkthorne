@@ -19,5 +19,5 @@ final case class ConsumableNode(
     override val rotation: Int,
     override val visible: Boolean
 ) extends Node(ConsumableNode.key) {
-  override val assets = Seq(Asset.Image(s"consumable.$actualName", s"images/consumables/$actualName.png"))
+  override val assets = Seq(Asset.Image(s"$t.$actualName", s"images/consumables/$actualName.png"))
 }

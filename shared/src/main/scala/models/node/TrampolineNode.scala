@@ -27,5 +27,5 @@ final case class TrampolineNode(
     override val visible: Boolean,
     properties: TrampolineNode.Props
 ) extends Node(TrampolineNode.key) {
-  override val assets = Seq(Asset.Audio(s"sfx.trampoline", s"audio/sfx/trampoline_bounce.ogg"))
+  override val assets = Seq(Asset.sfx("trampoline"))
 }

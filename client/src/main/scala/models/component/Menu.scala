@@ -1,31 +1,35 @@
 package models.component
 
+import com.definitelyscala.phaserce.Easing.Easing
 import com.definitelyscala.phaserce.{Game, Group, Image}
 import models.font.Font
 import models.input.MenuAction
 import services.audio.SoundEffectService
 
+import scala.scalajs.js
+
 final case class Menu(
-    override val game: Game, override val name: String, fontKey: String, backgroundKey: String, width: Int, height: Int
-) extends BaseComponent {
+    override val game: Game, override val name: String, fontKey: String, arrowKey: String, backgroundKey: String,
+    width: Int, height: Int, margin: Double = 10.0, lineHeight: Double = 12.0, fontColor: String = "#ffffff", fontOffset: Double = 0.0
+) extends SimpleComponent {
   val group = new Group(game, name = name)
+  override def comp = group
 
   private[this] var activeOption = -1
   private[this] var options = IndexedSeq.empty[(String, () => Unit)]
   private[this] var optionImages = Seq.empty[Image]
 
-  SoundEffectService.load("click")
-  SoundEffectService.load("confirm")
-
-  val yOffset = 10.0
-  val lineHeight = 12.0
   private[this] val font = Font.getFont(fontKey, game)
 
   val background = new Image(game = game, x = 0, y = 0, key = backgroundKey)
+  background.name = s"menu.$name.background"
   group.add(background)
 
-  private[this] val arrow = new Image(game, 10, yOffset, "intro.menu.arrow")
+  private[this] val arrow = new Image(game, margin, margin, arrowKey)
+  arrow.name = s"menu.$name.arrow"
   group.add(arrow)
+
+  def optionCount = options.size
 
   def setOptions(opts: IndexedSeq[(String, () => Unit)]) = {
     optionImages.foreach { i =>
@@ -33,9 +37,13 @@ final case class Menu(
       i.destroy()
     }
     options = opts
-    optionImages = opts.zipWithIndex.map(opt => font.renderToImage(s"menu.$name.${opt._1._1}", opt._1._1, game, 20, yOffset + (opt._2 * lineHeight)))
+    optionImages = opts.zipWithIndex.map { opt =>
+      val newX = (margin * 2) + arrow.width
+      val newY = margin + (opt._2 * lineHeight) + fontOffset
+      font.renderToImage(name = s"menu.$name.${opt._1._1}", s = opt._1._1, game = game, x = newX, y = newY, color = Some(fontColor))
+    }
     optionImages.foreach(i => group.add(i))
-    activeOption = 0
+    setActiveOption(0)
   }
 
   private[this] def previousItem() = activeOption match {
@@ -48,29 +56,23 @@ final case class Menu(
     case _ => setActiveOption(activeOption + 1)
   }
 
-  private[this] def setActiveOption(idx: Int) = {
-    SoundEffectService.play("click")
+  def setActiveOption(idx: Int, playSound: Boolean = true) = {
+    if (playSound) { SoundEffectService.play("click") }
     activeOption = idx
-    arrow.y = yOffset + (idx * lineHeight)
+    val props = js.Dynamic.literal(y = margin + (idx * lineHeight))
+    game.add.tween(arrow).to(properties = props, duration = 100, ease = Easing.Default, autoStart = true, delay = 0, repeat = 0, yoyo = false)
   }
 
-  private[this] def onSelect() = {
+  def onSelect() = {
     SoundEffectService.play("confirm")
     options(activeOption)._2()
   }
 
-  def onMenuActions(acts: Seq[MenuAction]) = acts.foreach {
+  def onMenuAction(act: MenuAction) = act match {
     case MenuAction.Up => previousItem()
     case MenuAction.Down => nextItem()
     case MenuAction.Select => onSelect()
     case _ => // noop
   }
 
-  override def x = group.x
-  override def x_=(newX: Double) = group.x = newX
-  override def y = group.y
-  override def y_=(newY: Double) = group.y = newY
-
-  override def visible = group.visible
-  override def visible_=(v: Boolean) = group.visible = v
 }

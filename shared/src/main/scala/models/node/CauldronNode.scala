@@ -30,5 +30,5 @@ final case class CauldronNode(
 
   override val actualName = if (name.trim.isEmpty) { "cauldron" } else { name }
 
-  override def assets = Seq(Asset.Image(s"cauldron.$actualName", s"images/potions/$actualName.png"))
+  override def assets = Seq(Asset.Image(s"$t.$actualName", s"images/potions/$actualName.png"))
 }

@@ -13,10 +13,11 @@ object HudOverlay {
   )
 }
 
-final case class HudOverlay(override val game: Game, player: Player) extends BaseComponent {
+final case class HudOverlay(override val game: Game, player: Player) extends SimpleComponent {
   override val name = "ui.hud"
 
   val group = new Group(game, name = "hud.overlay")
+  override def comp = group
 
   val chevron = new Sprite(game, 0, 0, "hud.chevron")
   chevron.name = "hud.chevron"
@@ -42,13 +43,5 @@ final case class HudOverlay(override val game: Game, player: Player) extends Bas
   group.add(pointsText)
 
   game.stage.add(group)
-
-  override def x = group.x
-  override def x_=(newX: Double) = group.x = newX
-  override def y = group.y
-  override def y_=(newY: Double) = group.y = newY
-
-  override def visible = group.visible
-  override def visible_=(v: Boolean) = group.visible = v
 }
 

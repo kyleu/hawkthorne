@@ -30,7 +30,7 @@ final case class WeaponNode(
 ) extends Node(WeaponNode.key) {
   val template = WeaponTemplate.withKey(actualName)
 
-  override val assets = Seq(Asset.Spritesheet(s"weapon.$actualName", s"images/weapons/$actualName.png", template.width, template.height)) ++
+  override val assets = Seq(Asset.Spritesheet(s"$t.$actualName", s"images/weapons/$actualName.png", template.width, template.height)) ++
     template.hitAudioClip.map(Asset.sfx) ++
     template.swingAudioClip.map(Asset.sfx) ++
     template.unuseAudioClip.map(Asset.sfx)

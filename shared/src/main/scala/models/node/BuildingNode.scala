@@ -28,5 +28,5 @@ final case class BuildingNode(
     properties: Option[BuildingNode.Props]
 ) extends Node(BuildingNode.key) {
   private[this] val folder = if (actualName.startsWith("goat")) { "valley-goat-farm" } else { "town" }
-  override val assets = Seq(Asset.Spritesheet(s"building.$actualName", s"images/buildings/$folder/$actualName.png", actualWidth, actualHeight))
+  override val assets = Seq(Asset.Spritesheet(s"$t.$actualName", s"images/buildings/$folder/$actualName.png", actualWidth, actualHeight))
 }

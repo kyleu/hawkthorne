@@ -26,7 +26,9 @@ object ComponentHelper {
   def anim(
     game: Game, group: Group, node: Node, anims: Map[String, Animation], defAnim: String = "default", key: Option[String] = None, flip: Boolean = false
   ) = {
-    val s = AnimatedSprite(game = game, group = group, name = node.actualName, key = key.getOrElse(s"${node.t}.${node.actualName}"), flip = flip, animations = anims.mapValues(_.newCopy), defAnim = Some(defAnim))
+    val k = key.getOrElse(s"${node.t}.${node.actualName}")
+    val a = anims.mapValues(_.newCopy)
+    val s = AnimatedSprite(game = game, group = group, name = node.actualName, key = k, flip = flip, animations = a, defAnim = Some(defAnim))
     s.setPositionInt(node.actualX, node.actualY)
     Seq(s)
   }
