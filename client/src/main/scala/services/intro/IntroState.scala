@@ -57,6 +57,7 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
   override def shutdown(game: Game) = {
     MusicService.stop("opening")
     inputService.menuHandler.setCallback(None)
+    inputService.setPointerEventCallback(None)
     super.shutdown(game)
   }
 

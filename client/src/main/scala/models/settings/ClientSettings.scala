@@ -12,6 +12,7 @@ case class ClientSettings(
     sfx: Int = 10,
     defaultOptions: GameOptions = GameOptions(),
     showTutorials: Boolean = true,
+    showFps: Boolean = false,
     fullscreen: Boolean = false
 )
 

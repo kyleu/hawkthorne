@@ -38,7 +38,9 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   attract.position = new Point(0, background.sprite.height - 40.0)
   group.add(attract)
 
-  private[this] val menu = Menu(game = game, name = "intro.menu", fontKey = "small", backgroundKey = "intro.menu.bg", width = 101, height = 75)
+  private[this] val menu = Menu(
+    game = game, name = "intro.menu", fontKey = "small", arrowKey = "intro.menu.arrow", backgroundKey = "intro.menu.bg", width = 101, height = 75
+  )
   menu.y = background.sprite.height.toInt - 180.0
   menu.visible = false
   menu.group.scale = new Point(2, 2)
@@ -79,9 +81,10 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
     val mp = menu.group.position
     val (x, y) = ((act.worldX - menu.group.worldPosition.x) / zoom, (act.worldY - menu.group.worldPosition.y) / zoom)
     if (x >= 0 && x <= mw && y >= 0 && y <= mh) {
-      val idx = ((y + menu.yOffset) / (menu.lineHeight * menu.group.scale.y)).toInt - 1
+      val idx = ((y + menu.margin) / (menu.lineHeight * menu.group.scale.y)).toInt - 1
       if (idx >= 0 && idx < acts.size) {
-        acts(idx)._2()
+        menu.setActiveOption(idx)
+        menu.onSelect()
       }
     }
   } else {
@@ -89,7 +92,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   }
 
   def menuActions(acts: Seq[MenuAction]) = if (menuShown) {
-    menu.onMenuActions(acts)
+    acts.foreach(menu.onMenuAction)
   } else {
     showMenu()
   }
