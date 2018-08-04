@@ -17,7 +17,8 @@ class MenuInputHandler() {
   }
 
   def translate(c: InputCommand) = c match {
-    case InputCommand.Jump | InputCommand.Confirm => MenuAction.Select
+    case InputCommand.Jump | InputCommand.Confirm | InputCommand.Select => MenuAction.Select
+    case InputCommand.Pause => MenuAction.Back
     case _ => throw new IllegalStateException(s"Unhandled command [$c].")
   }
 

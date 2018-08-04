@@ -8,12 +8,12 @@ object KeyboardInput {
       up: Key, down: Key, left: Key, right: Key,
       jump: Key, attack: Key,
       select: Key, confirm: Key,
-      options: Key, debug: Key
+      pause: Key, debug: Key
   ) {
     override def toString = s"Up: ${up.isDown}, Down: ${down.isDown}, Left: ${left.isDown}, Right: ${right.isDown}, " +
       s"Jump: ${jump.isDown}, Attack: ${attack.isDown}, " +
       s"Select: ${select.isDown}, Confirm: ${confirm.isDown}, " +
-      s"Options: ${options.isDown}, Debug: ${debug.isDown}"
+      s"Options: ${pause.isDown}, Debug: ${debug.isDown}"
   }
 }
 
@@ -30,7 +30,7 @@ final case class KeyboardInput(game: Game) {
     select = game.input.keyboard.addKey(KeyCode.ALT),
     confirm = game.input.keyboard.addKey(KeyCode.ENTER),
 
-    options = game.input.keyboard.addKey(KeyCode.ESC),
+    pause = game.input.keyboard.addKey(KeyCode.ESC),
     debug = game.input.keyboard.addKey(KeyCode.QUESTION_MARK)
   )
 
@@ -44,7 +44,7 @@ final case class KeyboardInput(game: Game) {
       if (keymap.select.justDown) { Some(InputCommand.Select) } else { None },
       if (keymap.confirm.justDown) { Some(InputCommand.Confirm) } else { None },
 
-      if (keymap.options.justDown) { Some(InputCommand.Options) } else { None },
+      if (keymap.pause.justDown) { Some(InputCommand.Pause) } else { None },
       if (keymap.debug.justDown) { Some(InputCommand.Debug) } else { None }
     ).flatten
     InputUpdate(0, x, y, commands)

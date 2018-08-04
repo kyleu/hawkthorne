@@ -19,8 +19,6 @@ final case class ConsoleLog(override val game: Game) extends SimpleComponent wit
 
   game.stage.add(group)
 
-  override def resize(width: Int, height: Int) = {
-    //group.scale = new Point(2.0, 2.0)
-  }
+  override def resize(width: Int, height: Int) = {}
 }
 

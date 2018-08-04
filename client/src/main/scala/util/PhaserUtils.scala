@@ -17,8 +17,6 @@ object PhaserUtils {
     s
   }
 
-  val centerPoint = new com.definitelyscala.phaserce.Point(0.5, 0.5)
-
   def addToSignal(signal: Signal, x: Any => Unit) = signal.add(x, 0, 1.0)
 
   def expose(x: js.Any) = {
@@ -49,4 +47,7 @@ object PhaserUtils {
     group.position.set(Math.max(x, 0), Math.max(y, 0))
     group.scale = new com.definitelyscala.phaserce.Point(scale, scale)
   }
+
+  val centerPoint = new com.definitelyscala.phaserce.Point(0.5, 0.5)
+  val doublePoint = new com.definitelyscala.phaserce.Point(2.0, 2.0)
 }

@@ -11,7 +11,8 @@ object InputCommand extends StringEnum[InputCommand] with StringCirceEnum[InputC
   case object Select extends InputCommand("select")
   case object Confirm extends InputCommand("confirm")
 
-  case object Options extends InputCommand("options")
+  case object Pause extends InputCommand("pause")
+
   case object Debug extends InputCommand("debug")
 
   override val values = findValues

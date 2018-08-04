@@ -1,4 +1,4 @@
-package services.map
+package services.overworld
 
 import com.definitelyscala.phaserce.Game
 import models.font.Font

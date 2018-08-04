@@ -30,10 +30,7 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   layers.foreach(l => group.add(l._2))
 
   val mapPxWidth = map.width * 24
-  game.world.width = mapPxWidth.toDouble
-
   val mapPxHeight = map.height * 24
-  game.world.height = mapPxHeight.toDouble
 
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
   val collisionLayer = layer("collision")

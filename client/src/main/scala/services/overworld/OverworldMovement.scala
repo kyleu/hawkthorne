@@ -1,12 +1,10 @@
-package services.map
+package services.overworld
 
 import com.definitelyscala.phaserce.{Game, Group, Point}
-import models.animation.Animation
-import models.component.AnimatedSprite
 import models.input.MenuAction
 import models.player.Player
 
-class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String) {
+class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String, width: Double, height: Double) {
   private[this] var currentZone: OverworldZones.Zone = OverworldZones.byKey(initialZone)
   private[this] var targetZone: Option[OverworldZones.Zone] = None
 
@@ -39,6 +37,8 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
     }
   }
 
+  private[this] var (lastX, lastY) = 0 -> 0
+
   def update(dt: Double, zoom: Double) = {
     targetZone.foreach(z => overworldPlayer.updateLocation(z) match {
       case Right(_) => // Noop
@@ -58,8 +58,19 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
     overworldPlayer.update(dt, zoom)
 
     val target = new Point((overworldPlayer.sprite.x * zoom) - (game.width / 2), (overworldPlayer.sprite.y * zoom) - (game.height / 2))
-    val newPos = new Point(-target.x.toInt.toDouble, -target.y.toInt.toDouble) // TODO clamp
-    group.position = newPos
+    val (newX, newY) = (target.x.toInt.toDouble, target.y.toInt.toDouble)
+
+    val maxX = 1000000.0 // TODO Arrgh
+    val maxY = 1000000.0 // TODO Arrgh
+
+    val clampedX = Math.max(0.0, Math.min(maxX, newX)).toInt
+    val clampedY = Math.max(0.0, Math.min(maxY, newY)).toInt
+    if (clampedX != lastX || clampedY != lastY) {
+      util.Logging.info(s"zoom: [$zoom] clamped: [$clampedX, $clampedY] max: [$maxX, $maxY] game: [${game.width}, ${game.height}]")
+      lastX = clampedX
+      lastY = clampedY
+      group.position = new Point(-clampedX.toDouble, -clampedY.toDouble)
+    }
   }
 
   def resize(zoom: Double) = titleboard.resize(zoom)

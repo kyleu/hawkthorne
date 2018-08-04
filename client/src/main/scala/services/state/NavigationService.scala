@@ -8,8 +8,8 @@ import org.scalajs.dom
 import services.game.GameplayState
 import services.input.InputService
 import services.intro.{IntroState, PortalState}
-import services.map.OverworldMapState
 import services.options.OptionsState
+import services.overworld.OverworldMapState
 import services.test.{SandboxState, TestState}
 
 object NavigationService {

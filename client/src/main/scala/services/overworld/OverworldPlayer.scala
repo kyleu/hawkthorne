@@ -1,9 +1,8 @@
-package services.map
+package services.overworld
 
-import com.definitelyscala.phaserce.{Game, Group, Point}
+import com.definitelyscala.phaserce.{Game, Group}
 import models.animation.Animation
 import models.component.AnimatedSprite
-import models.input.MenuAction
 import models.player.Player
 
 class OverworldPlayer(game: Game, group: Group, player: Player, initialZone: OverworldZones.Zone) {

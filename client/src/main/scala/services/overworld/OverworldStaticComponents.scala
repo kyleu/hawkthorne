@@ -1,19 +1,15 @@
-package services.map
+package services.overworld
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.animation.Animation
 import models.component.{AnimatedSprite, StaticSprite}
 
 class OverworldStaticComponents(game: Game, group: Group) {
-  private[this] val topRow = (0 until 4).map { i =>
-    val s = StaticSprite(game, group, s"overworld.world.$i", s"overworld.world_0${i + 1}")
-    s.setPositionInt(i * s.sprite.width.toInt, 0)
-    s
-  }
-  private[this] val bottomRow = (0 until 4).map { i =>
-    val s = StaticSprite(game, group, s"overworld.world.${i + 4}", s"overworld.world_0${i + 5}")
-    s.setPositionInt(i * s.sprite.width.toInt, s.sprite.height.toInt)
-    s
+  (0 until 4).foreach { i =>
+    val top = StaticSprite(game, group, s"overworld.world.$i", s"overworld.world_0${i + 1}")
+    top.setPositionInt(i * top.sprite.width.toInt, 0)
+    val bottom = StaticSprite(game, group, s"overworld.world.${i + 4}", s"overworld.world_0${i + 5}")
+    bottom.setPositionInt(i * top.sprite.width.toInt, top.sprite.height.toInt)
   }
 
   private[this] val freeRideFerry = StaticSprite(game, group, "overworld.ferry", "overworld.free_ride_ferry")

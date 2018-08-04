@@ -75,7 +75,7 @@ final case class GamepadInput(game: Game) {
         if (pad.getButton(map.select).justPressed(delta)) { Some(InputCommand.Select) } else { None },
         if (pad.getButton(map.confirm).justPressed(delta)) { Some(InputCommand.Confirm) } else { None },
 
-        if (pad.getButton(map.options).justPressed(delta)) { Some(InputCommand.Options) } else { None },
+        if (pad.getButton(map.options).justPressed(delta)) { Some(InputCommand.Pause) } else { None },
         if (pad.getButton(map.debug).justPressed(delta)) { Some(InputCommand.Debug) } else { None }
       ).flatten
       InputUpdate(idx, x, y, commands)

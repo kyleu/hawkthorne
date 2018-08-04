@@ -1,4 +1,4 @@
-package services.map
+package services.overworld
 
 import com.definitelyscala.phaserce.Point
 

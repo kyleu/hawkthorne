@@ -1,4 +1,4 @@
-package services.map
+package services.overworld
 
 import com.definitelyscala.phaserce.{Game, Group, Point, Sprite}
 import models.font.Font
