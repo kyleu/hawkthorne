@@ -8,6 +8,7 @@ import org.scalajs.dom
 import services.game.GameplayState
 import services.input.InputService
 import services.intro.{IntroState, PortalState}
+import services.map.OverworldMapState
 import services.options.OptionsState
 import services.test.{SandboxState, TestState}
 
@@ -24,6 +25,7 @@ object NavigationService {
       case "test" => TestState.load(phaser = game)
       case "sandbox" => SandboxState.load(phaser = game)
 
+      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, debug = debug)
       case x if x.startsWith("map/") => GameplayState.load(
         phaser = game, input = input, options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/"))), player = Player.default
       )
