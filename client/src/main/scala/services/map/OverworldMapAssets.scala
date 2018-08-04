@@ -1,6 +1,7 @@
 package services.map
 
 import models.asset.Asset
+import models.font.Font
 
 object OverworldMapAssets {
   val music = "overworld"
@@ -12,9 +13,13 @@ object OverworldMapAssets {
     "titleboard", "flag", "free_ride_ferry", "cloud_puff"
   )
 
-  val assets = keys.map(k => Asset.Image(s"overworld.$k", s"images/overworld/$k.png")) ++ Seq(
+  private[this] val baseAssets = Font.assets ++ keys.map(k => Asset.Image(s"overworld.$k", s"images/overworld/$k.png")) ++ Seq(
     Asset.music("overworld"),
     Asset.Spritesheet("overworld.sparkle", "images/overworld/gay_sparkle.png", 24, 24),
     Asset.Spritesheet("overworld.water", "images/overworld/world_water.png", 36, 36)
   )
+
+  def assets(key: String) = baseAssets :+ {
+    Asset.Spritesheet(s"overworld.player.$key", s"images/characters/$key/overworld.png", 36, 36)
+  }
 }

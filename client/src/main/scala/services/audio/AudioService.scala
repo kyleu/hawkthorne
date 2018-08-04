@@ -19,18 +19,18 @@ class AudioService(prefix: String) {
   def asset(key: String) = Asset.Audio(s"$prefix.$key", s"audio/$prefix/$key.ogg")
 
   def load(key: String) = cache.getOrElseUpdate(key, {
-    util.Logging.info(s"Loading [$prefix.$key].")
+    util.Logging.debug(s"Loading [$prefix.$key].")
     game.getOrElse(throw new IllegalStateException("Audio not initialized.")).add.audio(s"$prefix.$key")
   })
 
   def play(key: String, vol: Double = 1.0, loop: Boolean = false) = {
     val newVol = vol / 10.0 * volume
     load(key).play(volume = newVol, loop = loop)
-    util.Logging.info(s"Playing [$prefix.$key] at volume [$newVol], loop = $loop")
+    util.Logging.debug(s"Playing [$prefix.$key] at volume [$newVol], loop = $loop")
   }
 
   def stop(key: String) = {
-    util.Logging.info(s"Stopping [$prefix.$key].")
+    util.Logging.debug(s"Stopping [$prefix.$key].")
     load(s"$prefix.$key").stop()
   }
 }

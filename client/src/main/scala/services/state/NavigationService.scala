@@ -25,7 +25,7 @@ object NavigationService {
       case "test" => TestState.load(phaser = game)
       case "sandbox" => SandboxState.load(phaser = game)
 
-      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, debug = debug)
+      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, player = Player(), debug = debug)
       case x if x.startsWith("map/") => GameplayState.load(
         phaser = game, input = input, options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/"))), player = Player.default
       )

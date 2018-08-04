@@ -44,13 +44,14 @@ object ClientSettings {
     s
   }
 
-  def loadAndApply() = {
-    val s = load()
-    util.Logging.info(s"Applying settings [$s].")
+  def applySettings(s: ClientSettings) = {
+    util.Logging.debug(s"Applying settings [$s].")
     MusicService.setVolume(s.music)
     SoundEffectService.setVolume(s.sfx)
     s
   }
+
+  def loadAndApply() = applySettings(load())
 
   def save(s: ClientSettings) = {
     val json = s.asJson
