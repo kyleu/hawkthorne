@@ -9,18 +9,8 @@ import models.player.Player
 class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String) {
   private[this] var currentZone: OverworldZones.Zone = OverworldZones.byKey(initialZone)
   private[this] var targetZone: Option[OverworldZones.Zone] = None
-  private[this] val maxSpeed = 4.0
 
-  private[this] val initialFrame = 0
-  private[this] var (playerX, playerY) = (currentZone.x.toDouble, currentZone.y.toDouble)
-  private[this] val (playerXOffset, playerYOffset) = (-17, 4)
-
-  private[this] val playerSprite = {
-    val anim = Animation(id = "overworld.walk", frames = IndexedSeq(1, 0, 2, 0), delay = 0.2, loop = true).newCopy
-    AnimatedSprite.single(game, group, s"overworld.player", s"overworld.player.${player.templateKey}", animation = anim)
-  }
-  playerSprite.setAnimation(None)
-  playerSprite.setPosition(playerX + playerXOffset, playerY + playerYOffset)
+  private[this] val overworldPlayer = new OverworldPlayer(game, group, player, currentZone)
 
   private[this] val titleboard = new OverworldTitleboard(game)
   titleboard.setText(currentZone.name)
@@ -29,12 +19,11 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
     case None =>
       util.Logging.debug(s"Completed movement to [${currentZone.key}].")
       targetZone = None
-      playerSprite.setAnimation(None)
-      playerSprite.sprite.frame = initialFrame
+      overworldPlayer.stop()
     case Some(zone) =>
       util.Logging.debug(s"Moving from [${currentZone.key}] to [${zone.key}].")
       targetZone = Some(zone)
-      playerSprite.setAnimation(Some("overworld.walk"))
+      overworldPlayer.start()
   }
 
   def onInput(a: MenuAction) = if (targetZone.isEmpty) {
@@ -51,48 +40,24 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
   }
 
   def update(dt: Double, zoom: Double) = {
-    targetZone.foreach { z =>
-      val xDelta = Math.max(-maxSpeed, Math.min(maxSpeed, z.x - playerX))
-      val yDelta = Math.max(-maxSpeed, Math.min(maxSpeed, z.y - playerY))
-
-      val dir = if (xDelta < 0) { "left" } else if (xDelta > 0) { "right" } else if (yDelta < 0) { "up" } else if (yDelta > 0) { "down" } else { "none" }
-
-      playerX = if (xDelta > 0) {
-        if (playerX + xDelta > z.x) { z.x.toDouble } else { playerX + xDelta }
-      } else if (xDelta < 0) {
-        if (playerX + xDelta < z.x) { z.x.toDouble } else { playerX + xDelta }
-      } else {
-        playerX
+    targetZone.foreach(z => overworldPlayer.updateLocation(z) match {
+      case Right(_) => // Noop
+      case Left(x) => x match {
+        case Some(bypassTarget) =>
+          val tgt = z.tgtForDir(bypassTarget).getOrElse(throw new IllegalStateException(s"Zone [${z.key}] has no target."))
+          setTargetZone(Some(OverworldZones.byKey(tgt)))
+          currentZone = z
+        case None =>
+          setTargetZone(None)
+          currentZone = z
+          overworldPlayer.stop()
+          titleboard.setText(z.name)
       }
+    })
 
-      playerY = if (yDelta > 0) {
-        if (playerY + yDelta > z.y) { z.y.toDouble } else { playerY + yDelta }
-      } else if (yDelta < 0) {
-        if (playerY + yDelta < z.y) { z.y.toDouble } else { playerY + yDelta }
-      } else {
-        playerY
-      }
+    overworldPlayer.update(dt, zoom)
 
-      playerSprite.setPosition(playerX + playerXOffset, playerY + playerYOffset)
-
-      if (playerX == z.x && playerY == z.y) {
-        z.bypass.find(_._1 == dir) match {
-          case Some(bypassTarget) =>
-            val tgt = z.tgtForDir(bypassTarget._2).getOrElse(throw new IllegalStateException(s"Zone [${z.key}] has no target in direction [$dir]."))
-            setTargetZone(Some(OverworldZones.byKey(tgt)))
-            currentZone = z
-          case None =>
-            setTargetZone(None)
-            currentZone = z
-            playerSprite.setAnimation(None)
-            titleboard.setText(z.name)
-        }
-      }
-    }
-
-    playerSprite.update(dt)
-
-    val target = new Point((playerX * zoom) - (game.width / 2), (playerY * zoom) - (game.height / 2))
+    val target = new Point((overworldPlayer.sprite.x * zoom) - (game.width / 2), (overworldPlayer.sprite.y * zoom) - (game.height / 2))
     val newPos = new Point(-target.x.toInt.toDouble, -target.y.toInt.toDouble) // TODO clamp
     group.position = newPos
   }
