@@ -24,7 +24,7 @@ class PlayerInputHandler(player: PlayerSprite) {
   private[this] def findAnimation(input: GameUpdate.PlayerInput) = {
     lastInput.x match {
       case x if x <= 0.0 && input.x > 0.0 => Some("idle.right")
-      case x if x <= 0.0 && input.y < 0.0 => Some("idle.left")
+      case x if x >= 0.0 && input.x < 0.0 => Some("idle.left")
       case _ => None
     }
   }

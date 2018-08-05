@@ -18,8 +18,8 @@ object MapService {
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   val group = game.add.group(name = s"map.${map.value}")
 
-  val tilemap = new Tilemap(game, "map." + map.value)
-  map.images.foreach(i => tilemap.addTilesetImage(i._1))
+  val tilemap = new Tilemap(game, s"map.${map.value}")
+  map.images.foreach(i => tilemap.addTilesetImage(tileset = i._1, key = i._2))
 
   val backdrop = PhaserUtils.makeBackdrop(game = game, width = tilemap.widthInPixels, height = tilemap.heightInPixels, color = map.color)
   group.add(backdrop)
@@ -38,6 +38,4 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
     tilemap.setCollisionByExclusion(indexes = js.Array(Nil), collides = true, layer = c)
     c.visible = false
   }
-
-  game.world.setBounds(0, 0, tilemap.widthInPixels, tilemap.heightInPixels)
 }

@@ -4,6 +4,7 @@ import com.definitelyscala.phaserce.{Game, Group, Point}
 
 class GroupCameraService(game: Game, group: Group, todoNotJustSize: Double) {
   private[this] var zoom = 1.0
+  private[this] var maxZoom = 1.0
   private[this] val size = todoNotJustSize -> todoNotJustSize
   private[this] var (currentX, currentY) = (0.0, 0.0)
   private[this] var (lastX, lastY) = 0.0 -> 0.0
@@ -11,7 +12,8 @@ class GroupCameraService(game: Game, group: Group, todoNotJustSize: Double) {
   def currentZoom = zoom
 
   def resize(width: Int, height: Int) = {
-    val newZ = Math.min(width / size._1, height / size._2)
+    val desiredZ = Math.min(width / size._1, height / size._2)
+    val newZ = Math.min(desiredZ, maxZoom)
     if (newZ != zoom) {
       zoom = newZ
       group.scale = new Point(zoom, zoom)
