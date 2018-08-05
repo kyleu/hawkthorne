@@ -78,15 +78,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   }
 
   def onPointer(act: PointerAction) = if (menuShown) {
-    val mp = menu.group.position
-    val (x, y) = ((act.worldX - menu.group.worldPosition.x) / zoom, (act.worldY - menu.group.worldPosition.y) / zoom)
-    if (x >= 0 && x <= mw && y >= 0 && y <= mh) {
-      val idx = ((y + menu.margin) / (menu.lineHeight * menu.group.scale.y)).toInt - 1
-      if (idx >= 0 && idx < acts.size) {
-        menu.setActiveOption(idx)
-        menu.onSelect()
-      }
-    }
+    menu.onPointer(act = act, zoom = zoom, scaleMultiplier = 2)
   } else {
     showMenu()
   }

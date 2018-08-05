@@ -30,6 +30,16 @@ object NavigationService {
         phaser = game, input = input, options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/"))), player = Player.default
       )
 
+      case "multiplayer" =>
+        util.Logging.info("TODO: Multiplayer")
+        TestState.load(phaser = game)
+      case "credits" =>
+        util.Logging.info("TODO: Credits")
+        TestState.load(phaser = game)
+      case "help" =>
+        util.Logging.info("TODO: Help")
+        TestState.load(phaser = game)
+
       case _ => throw new IllegalStateException(s"Unknown path [$path]")
     }
   }

@@ -6,7 +6,7 @@ class PositionHelper(game: Game) {
   private[this] var (lastX, lastY) = 0 -> 0
 
   def newCameraOffset(dt: Double, zoom: Double, currentX: Double, currentY: Double) = {
-    val target = new Point((currentX * zoom) - (game.width / 2), (currentY * zoom) - (game.height / 2)).floor()
+    val target = new Point((currentX * zoom) - (game.width / 2), (currentY * zoom) - (game.height / 2))
 
     val maxX = 1000000.0 // TODO Arrgh
     val maxY = 1000000.0 // TODO Arrgh

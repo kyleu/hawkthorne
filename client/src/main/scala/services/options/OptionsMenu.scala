@@ -15,7 +15,6 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
     width = 272, height = 176, margin = 12.0, lineHeight = 26.0, fontColor = "#000000", fontOffset = 4.0
   )
   game.stage.add(menu.group)
-  private[this] val (mw, mh) = (menu.width * menu.group.scale.x, menu.height * menu.group.scale.y)
 
   private[this] val comps = new OptionsComponents(game, menu, ClientSettings.getSettings)
 
@@ -75,17 +74,7 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
 
   def menuActions(acts: Seq[MenuAction]) = acts.foreach(menu.onMenuAction)
 
-  def onPointer(act: PointerAction) = {
-    val mp = menu.group.position
-    val (x, y) = ((act.worldX - menu.group.worldPosition.x) / zoom, (act.worldY - menu.group.worldPosition.y) / zoom)
-    if (x >= 0 && x <= mw && y >= 0 && y <= mh) {
-      val idx = ((y + menu.margin) / menu.lineHeight).toInt - 1
-      if (idx >= 0 && idx < menu.optionCount) {
-        menu.setActiveOption(idx)
-        menu.onSelect()
-      }
-    }
-  }
+  def onPointer(act: PointerAction) = menu.onPointer(act, zoom)
 
   def resize(width: Int, height: Int) = {
     zoom = Math.min(width / size, height / size)

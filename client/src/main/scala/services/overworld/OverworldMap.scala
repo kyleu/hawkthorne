@@ -1,9 +1,9 @@
 package services.overworld
 
-import com.definitelyscala.phaserce.{Game, Group, Point, TileSprite}
+import com.definitelyscala.phaserce.{Game, Group, TileSprite}
 import models.input.MenuAction
 import models.player.Player
-import services.camera.ResizeHelper
+import services.camera.GroupCameraService
 
 case class OverworldMap(game: Game, player: Player, initialZone: String) {
   private[this] val padding = 200.0
@@ -11,13 +11,14 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
   private[this] var elapsed = 0.0
 
   val group = new Group(game, name = "overworld")
-  private[this] val resizeHelper = new ResizeHelper(group, 600.0)
+
+  private[this] val camera = new GroupCameraService(game, group)
 
   val background = new TileSprite(game = game, x = 0, y = 0, width = dimensions._1, height = dimensions._2, key = "overworld.water")
   group.add(background)
 
   val staticComponents = new OverworldStaticComponents(game, group)
-  val movement = new OverworldMovement(game, group, player, initialZone, dimensions._1, dimensions._2)
+  val movement = new OverworldMovement(game, group, player, initialZone, camera)
   staticComponents.addOverlays()
 
   val clouds = (0 until 15).map(idx => OverworldCloud(idx, group, dimensions))
@@ -32,11 +33,11 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
     background.frame = if (mod > 500) { 0 } else { 1 }
     clouds.foreach(_.update(dt))
     staticComponents.update(dt)
-    movement.update(dt, resizeHelper.currentZoom)
+    movement.update(dt, camera.currentZoom)
   }
 
   def resize(width: Int, height: Int) = {
-    resizeHelper.resize(width, height)
-    movement.titleboard.resize(resizeHelper.currentZoom)
+    camera.resize(width, height)
+    movement.titleboard.resize(camera.currentZoom)
   }
 }

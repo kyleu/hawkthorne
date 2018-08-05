@@ -3,7 +3,7 @@ package models.component
 import com.definitelyscala.phaserce.Easing.Easing
 import com.definitelyscala.phaserce.{Game, Group, Image}
 import models.font.Font
-import models.input.MenuAction
+import models.input.{MenuAction, PointerAction}
 import services.audio.SoundEffectService
 
 import scala.scalajs.js
@@ -43,7 +43,7 @@ final case class Menu(
       font.renderToImage(name = s"menu.$name.${opt._1._1}", s = opt._1._1, game = game, x = newX, y = newY, color = Some(fontColor))
     }
     optionImages.foreach(i => group.add(i))
-    setActiveOption(0)
+    setActiveOption(idx = 0, playSound = false)
   }
 
   private[this] def previousItem() = activeOption match {
@@ -75,4 +75,16 @@ final case class Menu(
     case _ => // noop
   }
 
+  def onPointer(act: PointerAction, zoom: Double, scaleMultiplier: Int = 1) = {
+    val mp = group.position
+    val (x, y) = ((act.worldX - group.worldPosition.x) / zoom, (act.worldY - group.worldPosition.y) / zoom)
+    if (x >= 0 && x <= width && y >= 0 && y <= height) {
+      println(group.scale.y)
+      val idx = ((y + margin) / (lineHeight * scaleMultiplier)).toInt - 1
+      if (idx >= 0 && idx < optionCount) {
+        setActiveOption(idx = idx, playSound = false)
+        onSelect()
+      }
+    }
+  }
 }

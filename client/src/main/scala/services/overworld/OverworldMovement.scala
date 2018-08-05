@@ -1,16 +1,15 @@
 package services.overworld
 
-import com.definitelyscala.phaserce.{Game, Group, Point}
+import com.definitelyscala.phaserce.{Game, Group}
 import models.input.MenuAction
 import models.player.Player
-import services.camera.PositionHelper
+import services.camera.GroupCameraService
 
-class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String, width: Double, height: Double) {
+class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String, camera: GroupCameraService) {
   private[this] var currentZone: OverworldZones.Zone = OverworldZones.byKey(initialZone)
   private[this] var targetZone: Option[OverworldZones.Zone] = None
 
   private[this] val overworldPlayer = new OverworldPlayer(game, group, player, currentZone)
-  private[this] val positionHelper = new PositionHelper(game)
 
   val titleboard = new OverworldTitleboard(game)
   titleboard.setText(currentZone.name)
@@ -57,6 +56,6 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
 
     overworldPlayer.update(dt, zoom)
 
-    positionHelper.newCameraOffset(dt, zoom, overworldPlayer.sprite.x + 18, overworldPlayer.sprite.y + 18).foreach(p => group.position = p)
+    camera.update(dt, zoom, overworldPlayer.sprite.x + 18, overworldPlayer.sprite.y + 18)
   }
 }
