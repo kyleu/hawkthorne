@@ -45,7 +45,6 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   menu.visible = false
   menu.group.scale = new Point(2, 2)
   group.add(menu.group)
-  private[this] val (mw, mh) = (menu.width * menu.group.scale.x, menu.height * menu.group.scale.x)
 
   private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
   private[this] def actions(acts: (String, String)*) = acts.map(x => (x._1, () => {

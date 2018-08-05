@@ -57,6 +57,5 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
     overworldPlayer.sprite.update(dt)
 
     camera.focusOn(overworldPlayer.sprite.x + 18, overworldPlayer.sprite.y + 18)
-    camera.update(dt)
   }
 }

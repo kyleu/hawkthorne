@@ -31,6 +31,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
     case (c, idx) => new PlayerSprite(
       game = game,
       group = group,
+      idx = 0,
       player = Player(templateKey = c._1.key, costumeKey = c._2.key),
       initialX = 32 + ((idx % 28) * 48),
       initialY = 32 + ((idx / 28) * 48)

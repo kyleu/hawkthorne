@@ -76,10 +76,8 @@ final case class Menu(
   }
 
   def onPointer(act: PointerAction, zoom: Double, scaleMultiplier: Int = 1) = {
-    val mp = group.position
     val (x, y) = ((act.worldX - group.worldPosition.x) / zoom, (act.worldY - group.worldPosition.y) / zoom)
     if (x >= 0 && x <= width && y >= 0 && y <= height) {
-      println(group.scale.y)
       val idx = ((y + margin) / (lineHeight * scaleMultiplier)).toInt - 1
       if (idx >= 0 && idx < optionCount) {
         setActiveOption(idx = idx, playSound = false)

@@ -8,7 +8,7 @@ import models.font.Font
 import models.game.GameOptions
 import models.input.PointerAction
 import models.player.Player
-import services.camera.CameraService
+import services.camera.GroupCameraService
 import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -38,7 +38,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
   private[this] val playerSprite = new PlayerSprite(
-    game = game, group = mapService.group, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y
+    game = game, group = mapService.group, idx = 0, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y
   )
   addComponent(playerSprite)
 
@@ -53,8 +53,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val consoleLog = ConsoleLog(game = game)
   addComponent(consoleLog)
 
-  private[this] val camera = new CameraService(game.camera)
-  // private[this] val camera = new GroupCameraService(game, mapService.group)
+  private[this] val camera = new GroupCameraService(game, mapService.group, 400)
 
   private[this] val (progress, splashComplete) = SplashScreen.show(game)
 
@@ -76,11 +75,11 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
 
     inputService.update(delta = dt)
     components.foreach(_.update(dt))
-    camera.focusOn(playerSprite.x.toInt, playerSprite.y.toInt)
+    camera.focusOn(playerSprite.x + 24, playerSprite.y + 24)
   }
 
   def resize(width: Int, height: Int) = {
-    camera.resize(width, height, mapService.mapPxWidth, mapService.mapPxHeight)
+    camera.resize(width, height)
     components.foreach {
       case r: BaseComponent.Resizable => r.resize(width, height)
       case _ => // noop
