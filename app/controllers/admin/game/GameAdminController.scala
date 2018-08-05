@@ -3,6 +3,7 @@ package controllers.admin.game
 import controllers.BaseController
 import models.Application
 import models.data.map.TiledMap
+import models.map.MapGraphData
 import services.map.ServerMapCache
 
 import scala.concurrent.Future
@@ -20,12 +21,14 @@ class GameAdminController @javax.inject.Inject() (override val app: Application)
   }
 
   def maps = withSession("maps", admin = true) { implicit request => implicit td =>
-    val serverMaps = TiledMap.values.map(tm => ServerMapCache(tm.value))
-    Future.successful(Ok(views.html.admin.game.maps(request.identity, serverMaps)))
+    Future.successful(Ok(views.html.admin.game.maps(request.identity, ServerMapCache.all)))
+  }
+
+  def mapGraph() = withSession("mapGraph") { implicit request => implicit td =>
+    Future.successful(Ok(views.html.admin.game.mapGraph(request.identity, MapGraphData.chartData)))
   }
 
   def unparsed = withSession("unparsed", admin = true) { implicit request => implicit td =>
-    TiledMap.values.map(tm => ServerMapCache(tm.value))
     Future.successful(Ok(views.html.admin.game.unparsed(request.identity)))
   }
 

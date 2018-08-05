@@ -12,7 +12,7 @@ object GameInstanceFactory {
     val id = UUID.randomUUID
 
     val spawn = initialNodes.collectFirst { case n: DoorNode if n.name == "main" => n }.map { d =>
-      Point(d.x.toInt + (d.width / 2), d.y.toInt + (d.height / 2))
+      Point(d.x.toInt + (d.width / 2), d.y.toInt + d.height - 24)
     }.getOrElse(throw new IllegalStateException("No spawn point detected."))
 
     val initialObjects = initialNodes.map(_.asNewGameObject)

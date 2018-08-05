@@ -5,7 +5,7 @@
     <li class="collection-header">
       <h5>Unparsed Fields</h5>
     </li>
-    @services.map.ServerMapCache.unusedFields.toSeq.sortBy(_._1).map { f =>
+    @services.map.ServerMapCache.unused._2.toSeq.sortBy(_._1).map { f =>
       @if(f._2.nonEmpty) {
         <li class="collection-item">
           <div class="right">@f._2.size</div>
@@ -21,7 +21,7 @@
     <li class="collection-header">
       <h5>Unparsed Properties</h5>
     </li>
-    @services.map.ServerMapCache.unusedProperties.toSeq.sortBy(_._1).map { p =>
+    @services.map.ServerMapCache.unused._3.toSeq.sortBy(_._1).map { p =>
       @if(p._2.nonEmpty) {
         <li class="collection-item">
           <div class="right">@p._2.size</div>

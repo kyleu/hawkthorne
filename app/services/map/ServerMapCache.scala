@@ -1,6 +1,7 @@
 package services.map
 
 import io.circe.{Json, JsonObject}
+import models.data.map.TiledMap
 import models.map.ServerMap
 import models.node.Node
 import util.Logging
@@ -10,16 +11,20 @@ object ServerMapCache extends Logging {
   private[this] val cache = collection.mutable.HashMap.empty[String, ServerMap]
 
   private[this] val debug = true
-  val unusedFields = collection.mutable.HashMap.empty[String, Set[String]]
-  val unusedProperties = collection.mutable.HashMap.empty[String, Set[String]]
+  private[this] val unusedFields = collection.mutable.HashMap.empty[String, Set[String]]
+  private[this] val unusedProperties = collection.mutable.HashMap.empty[String, Set[String]]
 
-  def apply(key: String) = cache.getOrElseUpdate(key, synchronized {
+  lazy val unused = (all, unusedFields.toMap, unusedProperties.toMap)
+
+  def all = TiledMap.values.map(apply)
+
+  def apply(map: TiledMap) = cache.getOrElseUpdate(map.value, synchronized {
     val startNanos = System.nanoTime
-    val path = s"public/game/maps/$key.json"
+    val path = s"public/game/maps/${map.value}.json"
     val is = Option(getClass.getClassLoader.getResourceAsStream(path)).getOrElse(throw new IllegalStateException(s"Cannot load [$path]."))
     val json = parseJson(scala.io.Source.fromInputStream(is).mkString).right.get
-    val ret = fromJson(key, json)
-    log.info(s"Loaded map [$key] in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms],")
+    val ret = fromJson(map.value, json)
+    log.info(s"Loaded map [${map.value}] in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms],")
     ret
   })
 

@@ -1,0 +1,172 @@
+.label {
+  font-family: "Roboto";
+  color: #333
+}
+
+.node rect, .node circle, .node ellipse, .node polygon {
+  fill: #fff;
+  stroke: #333;
+  stroke-width: 1px
+}
+
+.node.clickable {
+  cursor: pointer
+}
+
+.arrowheadPath {
+  fill: #333333
+}
+
+.edgePath .path {
+  stroke: #333;
+  stroke-width: 1.5px
+}
+
+.edgeLabel {
+  background-color: #e8e8e8
+}
+
+.cluster rect {
+  fill: #ddd !important;
+  stroke: #aaa !important;
+  stroke-width: 1px !important
+}
+
+.cluster text {
+  fill: #333
+}
+
+div.mermaidTooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  padding: 2px;
+  font-family: "Roboto";
+  font-size: 12px;
+  background: #ddd;
+  border: 1px solid #aaa;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100
+}
+
+g.classGroup text {
+  fill: #333;
+  stroke: none;
+  font-family: "Roboto";
+  font-size: 10px
+}
+
+g.classGroup rect {
+  fill: #fff;
+  stroke: #333
+}
+
+g.classGroup line {
+  stroke: #333;
+  stroke-width: 1
+}
+
+.classLabel .box {
+  stroke: none;
+  stroke-width: 0;
+  fill: #fff;
+  opacity: .5
+}
+
+.classLabel .label {
+  fill: #333;
+  font-size: 10px
+}
+
+.relation {
+  stroke: #333;
+  stroke-width: 1;
+  fill: none
+}
+
+.composition {
+  fill: #333;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#compositionStart {
+  fill: #333;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#compositionEnd {
+  fill: #333;
+  stroke: #333;
+  stroke-width: 1
+}
+
+.aggregation {
+  fill: #fff;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#aggregationStart {
+  fill: #fff;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#aggregationEnd {
+  fill: #fff;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#dependencyStart {
+  fill: #333;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#dependencyEnd {
+  fill: #333;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#extensionStart {
+  fill: #333;
+  stroke: #333;
+  stroke-width: 1
+}
+
+#extensionEnd {
+  fill: #333;
+  stroke: #333;
+  stroke-width: 1
+}
+
+.mermaid-container {
+  height: 100%;
+  overflow: hidden
+}
+
+.mermaid {
+  height: 100%
+}
+
+.mermaid svg {
+  height: 100%
+}
+
+.mermaid h6 {
+  font-size: 125%;
+  margin: 0 0 6px 0
+}
+
+.mermaid table {
+  margin: 0
+}
+
+.mermaid table td, .mermaid table th {
+  padding: 4px
+}

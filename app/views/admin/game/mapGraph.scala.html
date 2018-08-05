@@ -1,0 +1,62 @@
+@(user: models.user.SystemUser, chartData: String)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.layout.materialize(
+  user = Some(user),
+  title = util.Config.projectName + " Map Graph",
+  scripts = Seq("/assets/vendor/mermaid/mermaid.min.js", "/assets/vendor/mermaid/svg-pan-zoom.min.js"),
+  stylesheets = Seq("/assets/vendor/mermaid/mermaid.min.css")
+) {
+  <nav id="topnav">
+    <a href="/" class="brand-logo center">@util.Config.projectName Map Graph</a>
+  </nav>
+  <div class="mermaid-container">
+    <div class="mermaid">@Html(chartData)</div>
+  </div>
+  <style type="text/css">
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+      }
+      #topnav {
+        position: absolute;
+        background-color: #3854b3;
+      }
+      section.active h6 {
+        color: #3854b3;
+      }
+  </style>
+  <script>
+      $(document).ready(function() {
+        mermaid.flowchartConfig = {
+          width: "100%"
+        };
+        mermaid.initialize({
+          theme: null,
+          themeCSS: "",
+          flowchart: {
+            useMaxWidth: false
+            //curve: 'basis'
+          }
+        });
+        setTimeout(function() {
+          svgPanZoom(".mermaid svg");
+          enhance();
+        }, 2000)
+      });
+
+      function enhance() {
+        var els = $(".mermaid section");
+        els.each(function(idx, el) {
+          var as = $("a", el);
+          as.each(function(x, y) {
+            $(y).attr("href", y.innerText);
+            $(y).attr("target", "_blank");
+          });
+          var projectId = $("span", el)[0].innerText;
+        });
+      }
+  </script>
+}
