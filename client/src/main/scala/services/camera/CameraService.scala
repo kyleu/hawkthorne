@@ -1,8 +1,9 @@
-package services.game
+package services.camera
 
-import com.definitelyscala.phaserce.{Game, Group}
+import com.definitelyscala.phaserce.Camera
 
-class GroupCameraService(game: Game, group: Group) {
+class CameraService(camera: Camera) {
+
   val shittyDefaultScale = 1.0
 
   private[this] def getScale(width: Int, height: Int) = shittyDefaultScale
@@ -15,8 +16,8 @@ class GroupCameraService(game: Game, group: Group) {
   def resize(stageWidth: Int, stageHeight: Int, worldWidth: Int, worldHeight: Int) = {
     val newScale = getScale(stageWidth, stageHeight)
     if (newScale != currentScale) {
-      group.scale.x = newScale
-      group.scale.y = newScale
+      camera.scale.setTo(newScale, newScale)
+      camera.bounds.setTo(0, 0, worldWidth * newScale, worldHeight * newScale)
       currentScale = newScale
     }
 
@@ -33,9 +34,9 @@ class GroupCameraService(game: Game, group: Group) {
     val newX = Math.min(Math.max(candidateX, 0), Math.max(currentWorldWidth - (currentStageWidth / currentScale), 0.0))
     val newY = Math.min(Math.max(candidateY, 0), Math.max(currentWorldHeight - (currentStageWidth / currentScale), 0.0))
 
-    if (newX != currentX || newY != currentY) {
-      group.x = -newX
-      group.y = -newY
+    if (newX != camera.x || newY != camera.y) {
+      camera.x = newX
+      camera.y = newY
     }
 
     currentX = x

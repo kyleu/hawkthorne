@@ -3,15 +3,15 @@ package services.overworld
 import com.definitelyscala.phaserce.{Game, Group, Point, TileSprite}
 import models.input.MenuAction
 import models.player.Player
+import services.camera.ResizeHelper
 
 case class OverworldMap(game: Game, player: Player, initialZone: String) {
   private[this] val padding = 200.0
   private[this] val dimensions = (2328.0 + padding) -> (1344.0 + padding)
-  private[this] val size = 600.0
-  private[this] var zoom = 1.0
   private[this] var elapsed = 0.0
 
   val group = new Group(game, name = "overworld")
+  private[this] val resizeHelper = new ResizeHelper(group, 600.0)
 
   val background = new TileSprite(game = game, x = 0, y = 0, width = dimensions._1, height = dimensions._2, key = "overworld.water")
   group.add(background)
@@ -32,12 +32,11 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
     background.frame = if (mod > 500) { 0 } else { 1 }
     clouds.foreach(_.update(dt))
     staticComponents.update(dt)
-    movement.update(dt, zoom)
+    movement.update(dt, resizeHelper.currentZoom)
   }
 
   def resize(width: Int, height: Int) = {
-    zoom = Math.min(width / size, height / size)
-    group.scale = new Point(zoom, zoom)
-    movement.resize(zoom)
+    resizeHelper.resize(width, height)
+    movement.titleboard.resize(resizeHelper.currentZoom)
   }
 }

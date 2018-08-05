@@ -1,39 +1,39 @@
 package services.input
 
 import models.component.PlayerSprite
-import models.input.InputCommand
+import models.game.GameUpdate
 
 class PlayerInputHandler(player: PlayerSprite) {
-  private[this] var lastVelocity = 0.0 -> 0.0
+  private[this] var lastInput = GameUpdate.PlayerInput(0, 0, 0, Nil)
 
-  def process(delta: Double, velocity: (Double, Double), events: Seq[InputCommand]) = {
-    events.foreach(e => util.Logging.info("Event: " + e))
+  def process(delta: Double, input: GameUpdate.PlayerInput) = {
+    input.commands.foreach(c => util.Logging.info("Command: " + c))
 
-    val anim = findAnimation(velocity)
+    val anim = findAnimation(input)
     anim.foreach(x => player.as.setAnimation(Some(x)))
 
-    val loc = updateLocation(delta, velocity)
+    val loc = updateLocation(delta, input)
     loc.foreach { l =>
       player.x = l._1
       player.y = l._2
     }
 
-    lastVelocity = velocity
+    lastInput = input
   }
 
-  private[this] def findAnimation(velocity: (Double, Double)) = {
-    lastVelocity._1 match {
-      case x if x <= 0.0 && velocity._1 > 0.0 => Some("idle.right")
-      case x if x <= 0.0 && velocity._1 < 0.0 => Some("idle.left")
+  private[this] def findAnimation(input: GameUpdate.PlayerInput) = {
+    lastInput.x match {
+      case x if x <= 0.0 && input.x > 0.0 => Some("idle.right")
+      case x if x <= 0.0 && input.y < 0.0 => Some("idle.left")
       case _ => None
     }
   }
 
-  private[this] def updateLocation(delta: Double, velocity: (Double, Double)) = {
+  private[this] def updateLocation(delta: Double, input: GameUpdate.PlayerInput) = {
     val speed = 200
 
-    val xVel = Math.min(velocity._1, 1.0)
-    val yVel = Math.min(velocity._2, 1.0)
+    val xVel = Math.min(input.x, 1.0)
+    val yVel = Math.min(input.y, 1.0)
 
     val xDelta = xVel * delta * speed
     val yDelta = yVel * delta * speed

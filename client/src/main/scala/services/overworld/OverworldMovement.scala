@@ -3,14 +3,16 @@ package services.overworld
 import com.definitelyscala.phaserce.{Game, Group, Point}
 import models.input.MenuAction
 import models.player.Player
+import services.camera.PositionHelper
 
 class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String, width: Double, height: Double) {
   private[this] var currentZone: OverworldZones.Zone = OverworldZones.byKey(initialZone)
   private[this] var targetZone: Option[OverworldZones.Zone] = None
 
   private[this] val overworldPlayer = new OverworldPlayer(game, group, player, currentZone)
+  private[this] val positionHelper = new PositionHelper(game)
 
-  private[this] val titleboard = new OverworldTitleboard(game)
+  val titleboard = new OverworldTitleboard(game)
   titleboard.setText(currentZone.name)
 
   private[this] def setTargetZone(x: Option[OverworldZones.Zone]) = x match {
@@ -37,8 +39,6 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
     }
   }
 
-  private[this] var (lastX, lastY) = 0 -> 0
-
   def update(dt: Double, zoom: Double) = {
     targetZone.foreach(z => overworldPlayer.updateLocation(z) match {
       case Right(_) => // Noop
@@ -57,21 +57,6 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
 
     overworldPlayer.update(dt, zoom)
 
-    val target = new Point((overworldPlayer.sprite.x * zoom) - (game.width / 2), (overworldPlayer.sprite.y * zoom) - (game.height / 2))
-    val (newX, newY) = (target.x.toInt.toDouble, target.y.toInt.toDouble)
-
-    val maxX = 1000000.0 // TODO Arrgh
-    val maxY = 1000000.0 // TODO Arrgh
-
-    val clampedX = Math.max(0.0, Math.min(maxX, newX)).toInt
-    val clampedY = Math.max(0.0, Math.min(maxY, newY)).toInt
-    if (clampedX != lastX || clampedY != lastY) {
-      util.Logging.info(s"zoom: [$zoom] clamped: [$clampedX, $clampedY] max: [$maxX, $maxY] game: [${game.width}, ${game.height}]")
-      lastX = clampedX
-      lastY = clampedY
-      group.position = new Point(-clampedX.toDouble, -clampedY.toDouble)
-    }
+    positionHelper.newCameraOffset(dt, zoom, overworldPlayer.sprite.x + 18, overworldPlayer.sprite.y + 18).foreach(p => group.position = p)
   }
-
-  def resize(zoom: Double) = titleboard.resize(zoom)
 }

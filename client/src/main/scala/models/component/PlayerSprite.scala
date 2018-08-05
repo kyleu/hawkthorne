@@ -2,6 +2,7 @@ package models.component
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.data.character.CharacterAnimation
+import models.game.GameUpdate
 import models.input.InputCommand
 import models.player.Player
 import services.input.PlayerInputHandler
@@ -23,9 +24,7 @@ class PlayerSprite(override val game: Game, group: Group, player: Player, initia
 
   private[this] val input = new PlayerInputHandler(this)
 
-  def processInput(delta: Double, velocity: (Double, Double), commands: Seq[InputCommand]) = {
-    input.process(delta = delta, velocity = velocity, events = commands)
-  }
+  def processInput(delta: Double, playerInput: GameUpdate.PlayerInput) = input.process(delta = delta, input = playerInput)
 
   as.sprite.name = s"${player.templateKey}.${player.costume.key}"
   as.sprite.anchor = util.PhaserUtils.centerPoint

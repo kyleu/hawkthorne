@@ -41,7 +41,7 @@ class InputService(game: Game, systemCommandHandler: InputCommand => Unit) {
         menuHandler.update(u.x, u.y, playerCommands)
       } else {
         if (u.idx < players.size) {
-          players(u.idx).processInput(delta, (u.x, u.y), playerCommands)
+          players(u.idx).processInput(delta, u.copy(commands = playerCommands))
         } else {
           throw new IllegalStateException(s"Received input for player [$u], but only have [${players.size}] players.")
         }
