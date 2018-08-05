@@ -1,18 +1,30 @@
 package services.camera
 
-import com.definitelyscala.phaserce.{Game, Group}
+import com.definitelyscala.phaserce.{Game, Group, Point}
 
-class GroupCameraService(game: Game, group: Group) {
+class GroupCameraService(game: Game, group: Group, todoNotJustSize: Double) {
   private[this] val positionHelper = new PositionHelper(game)
-  private[this] val resizeHelper = new ResizeHelper(group, 600.0)
 
-  def currentZoom = resizeHelper.currentZoom
+  private[this] var zoom = 1.0
+  private[this] val size = todoNotJustSize -> todoNotJustSize
+  private[this] var (currentX, currentY) = (0.0, 0.0)
 
-  def update(dt: Double, zoom: Double, x: Double, y: Double) = {
-    positionHelper.newCameraOffset(dt, zoom, x, y).foreach(p => group.position = p)
-  }
+  def currentZoom = zoom
 
   def resize(width: Int, height: Int) = {
-    resizeHelper.resize(width, height)
+    val newZ = Math.min(width / size._1, height / size._2)
+    if (newZ != zoom) {
+      zoom = newZ
+      group.scale = new Point(zoom, zoom)
+    }
+  }
+
+  def focusOn(x: Double, y: Double) = {
+    currentX = x
+    currentY = y
+  }
+
+  def update(dt: Double) = {
+    positionHelper.newCameraOffset(dt, zoom, currentX, currentY).foreach(p => group.position = p)
   }
 }

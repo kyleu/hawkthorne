@@ -61,8 +61,4 @@ class OverworldPlayer(game: Game, group: Group, player: Player, initialZone: Ove
       Right(())
     }
   }
-
-  def update(dt: Double, zoom: Double) = {
-    sprite.update(dt)
-  }
 }

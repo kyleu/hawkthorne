@@ -38,7 +38,7 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
     }
   }
 
-  def update(dt: Double, zoom: Double) = {
+  def update(dt: Double) = {
     targetZone.foreach(z => overworldPlayer.updateLocation(z) match {
       case Right(_) => // Noop
       case Left(x) => x match {
@@ -54,8 +54,9 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
       }
     })
 
-    overworldPlayer.update(dt, zoom)
+    overworldPlayer.sprite.update(dt)
 
-    camera.update(dt, zoom, overworldPlayer.sprite.x + 18, overworldPlayer.sprite.y + 18)
+    camera.focusOn(overworldPlayer.sprite.x + 18, overworldPlayer.sprite.y + 18)
+    camera.update(dt)
   }
 }

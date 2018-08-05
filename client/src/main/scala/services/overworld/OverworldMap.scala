@@ -12,7 +12,7 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
 
   val group = new Group(game, name = "overworld")
 
-  private[this] val camera = new GroupCameraService(game, group)
+  private[this] val camera = new GroupCameraService(game, group, 600)
 
   val background = new TileSprite(game = game, x = 0, y = 0, width = dimensions._1, height = dimensions._2, key = "overworld.water")
   group.add(background)
@@ -33,7 +33,7 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
     background.frame = if (mod > 500) { 0 } else { 1 }
     clouds.foreach(_.update(dt))
     staticComponents.update(dt)
-    movement.update(dt, camera.currentZoom)
+    movement.update(dt)
   }
 
   def resize(width: Int, height: Int) = {
