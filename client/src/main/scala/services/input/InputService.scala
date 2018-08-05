@@ -2,7 +2,8 @@ package services.input
 
 import com.definitelyscala.phaserce.Game
 import models.component.PlayerSprite
-import models.input.{InputCommand, InputUpdate, PointerAction}
+import models.game.GameUpdate
+import models.input.{InputCommand, PointerAction}
 
 class InputService(game: Game, systemCommandHandler: InputCommand => Unit) {
   private[this] val keyboardInput = KeyboardInput(game)
@@ -29,7 +30,7 @@ class InputService(game: Game, systemCommandHandler: InputCommand => Unit) {
     pointerInput.update(delta).foreach(pointerEvent => pointerEventCallback.foreach(_(pointerEvent)))
 
     val updates = (keyboardInput.update(delta) +: gamepadInput.update(delta)).groupBy(_.idx).values.flatMap {
-      case u if u.length > 1 => Seq(InputUpdate(u.map(_.idx).head, u.map(_.x).sum, u.map(_.y).sum, u.flatMap(_.commands)))
+      case u if u.length > 1 => Seq(GameUpdate.PlayerInput(u.map(_.idx).head, u.map(_.x).sum, u.map(_.y).sum, u.flatMap(_.commands)))
       case u => u
     }.toSeq
 
