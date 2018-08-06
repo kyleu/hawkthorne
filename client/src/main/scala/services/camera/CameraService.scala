@@ -2,8 +2,7 @@ package services.camera
 
 import com.definitelyscala.phaserce.Camera
 
-class CameraService(camera: Camera) {
-
+class CameraService(camera: Camera, worldWidth: Int, worldHeight: Int) {
   val shittyDefaultScale = 1.0
 
   private[this] def getScale(width: Int, height: Int) = shittyDefaultScale
@@ -13,7 +12,7 @@ class CameraService(camera: Camera) {
   private[this] var (currentStageWidth, currentStageHeight) = (0, 0)
   private[this] var (currentWorldWidth, currentWorldHeight) = (0, 0)
 
-  def resize(stageWidth: Int, stageHeight: Int, worldWidth: Int, worldHeight: Int) = {
+  def resize(stageWidth: Int, stageHeight: Int) = {
     val newScale = getScale(stageWidth, stageHeight)
     if (newScale != currentScale) {
       camera.scale.setTo(newScale, newScale)
@@ -29,7 +28,7 @@ class CameraService(camera: Camera) {
 
   def focusOn(x: Int, y: Int) = if (currentX != x || currentY != y) {
     val candidateX = x - ((currentStageWidth / currentScale) / 2)
-    val candidateY = y - ((currentStageWidth / currentScale) / 2)
+    val candidateY = y - ((currentStageHeight / currentScale) / 2)
 
     val newX = Math.min(Math.max(candidateX, 0), Math.max(currentWorldWidth - (currentStageWidth / currentScale), 0.0))
     val newY = Math.min(Math.max(candidateY, 0), Math.max(currentWorldHeight - (currentStageWidth / currentScale), 0.0))

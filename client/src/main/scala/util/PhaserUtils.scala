@@ -45,7 +45,7 @@ object PhaserUtils {
     val y = (height - (dimensions._2 * scale)) / 2
     util.Logging.info(s"width: $width, height: $height, wRatio: $wRatio, hRatio: $hRatio, scale: $scale, x: $x, y: $y")
     group.position.set(Math.max(x, 0), Math.max(y, 0))
-    group.scale = new com.definitelyscala.phaserce.Point(scale, scale)
+    group.scale.set(scale, scale)
   }
 
   val centerPoint = new com.definitelyscala.phaserce.Point(0.5, 0.5)

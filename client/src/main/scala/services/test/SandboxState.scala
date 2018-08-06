@@ -48,7 +48,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
     val f = gui.addFolder("Player 0")
     f.add(players.head.as.sprite, "x", 0, 2000.0)
     f.add(players.head.as.sprite, "y", 0, 2000.0)
-    players.foreach(_.as.sprite.scale = new Point(1.0, 1.0))
+    players.foreach(_.as.sprite.scale.set(1.0, 1.0))
   }
 
   override def update(game: Game) = players.foreach {

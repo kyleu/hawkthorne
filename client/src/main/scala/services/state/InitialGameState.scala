@@ -48,7 +48,7 @@ class InitialGameState(nextState: InputService => GameState, phaser: Game, debug
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
     s.anchor = util.PhaserUtils.centerPoint
     val scale = game.width * 0.6 / s.width
-    s.scale = new Point(scale, scale)
+    s.scale.set(scale, scale)
 
     val nState = nextState(inputService)
 

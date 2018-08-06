@@ -11,11 +11,11 @@ object SplashScreen {
     val splash = game.add.sprite(game.width / 2, game.height / 2, "splash")
     splash.anchor = util.PhaserUtils.centerPoint
     val splashScale = game.width * 0.6 / splash.width
-    splash.scale = new Point(splashScale, splashScale)
+    splash.scale.set(splashScale, splashScale)
 
     val progress = game.add.sprite(game.width / 2, (game.height / 2) + (100 * splashScale), "progress", 16)
     progress.anchor = util.PhaserUtils.centerPoint
-    progress.scale = new Point(splashScale, splashScale)
+    progress.scale.set(splashScale, splashScale)
 
     progress -> (() => {
       game.world.removeChild(backdrop)

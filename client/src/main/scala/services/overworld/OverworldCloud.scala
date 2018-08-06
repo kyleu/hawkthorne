@@ -16,7 +16,7 @@ case class OverworldCloud(idx: Int, group: Group, dimensions: (Double, Double)) 
     new Sprite(game = group.game, x = x, y = y, key = "overworld.cloud", frame = size.toDouble)
   }
   sprite.name = s"overworld.cloud.$idx"
-  sprite.scale = PhaserUtils.doublePoint
+  sprite.scale.set(2.0, 2.0)
   sprite.alpha = opacity
   group.add(sprite)
 

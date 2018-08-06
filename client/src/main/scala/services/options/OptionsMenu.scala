@@ -78,7 +78,7 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
 
   def resize(width: Int, height: Int) = {
     zoom = Math.min(width / size, height / size)
-    menu.group.scale = new Point(zoom, zoom)
+    menu.group.scale.set(zoom, zoom)
     menu.x = (width - (menu.background.width * zoom)) / 2
     menu.y = (height - (menu.background.height * zoom)) / 2
   }

@@ -24,11 +24,11 @@ class LoadingState(
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
     s.anchor = util.PhaserUtils.centerPoint
     val scale = game.width * 0.6 / s.width
-    s.scale = new Point(scale, scale)
+    s.scale.set(scale, scale)
 
     val progress = game.add.sprite(game.width / 2, (game.height / 2) + (100 * scale), "progress", 0)
     progress.anchor = new Point(0.5, 0.5)
-    progress.scale = new Point(scale, scale)
+    progress.scale.set(scale, scale)
 
     game.state.add(next.key, next, autoStart = false)
 

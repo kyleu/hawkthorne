@@ -4,7 +4,8 @@ import com.definitelyscala.phaserce.{Game, Group, Point}
 
 class GroupCameraService(game: Game, group: Group, todoNotJustSize: Double) {
   private[this] var zoom = 1.0
-  private[this] var maxZoom = 1.0
+  private[this] var minZoom = 1.0
+  private[this] var maxZoom = 10.0
   private[this] val size = todoNotJustSize -> todoNotJustSize
   private[this] var (currentX, currentY) = (0.0, 0.0)
   private[this] var (lastX, lastY) = 0.0 -> 0.0
@@ -13,10 +14,10 @@ class GroupCameraService(game: Game, group: Group, todoNotJustSize: Double) {
 
   def resize(width: Int, height: Int) = {
     val desiredZ = Math.min(width / size._1, height / size._2)
-    val newZ = Math.min(desiredZ, maxZoom)
+    val newZ = Math.min(Math.max(desiredZ, minZoom), maxZoom)
     if (newZ != zoom) {
       zoom = newZ
-      group.scale = new Point(zoom, zoom)
+      group.scale.set(zoom, zoom)
       update()
     }
   }
@@ -38,7 +39,7 @@ class GroupCameraService(game: Game, group: Group, todoNotJustSize: Double) {
     val clampedX = Math.max(0.0, Math.min(maxX, target.x))
     val clampedY = Math.max(0.0, Math.min(maxY, target.y))
     if (clampedX != lastX || clampedY != lastY) {
-      util.Logging.info(s"zoom: [$zoom] clamped: [$clampedX, $clampedY] max: [$maxX, $maxY] game: [${game.width}, ${game.height}]")
+      //util.Logging.info(s"zoom: [$zoom] clamped: [$clampedX, $clampedY] max: [$maxX, $maxY] game: [${game.width}, ${game.height}]")
       lastX = clampedX
       lastY = clampedY
       Some(new Point(-clampedX.toDouble, -clampedY.toDouble))

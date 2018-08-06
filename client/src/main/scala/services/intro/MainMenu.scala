@@ -22,7 +22,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] val background = StaticSprite(game, group, "intro.cityscape", "intro.cityscape")
 
   private[this] val logoGroup = new Group(game, group, "intro.logoGroup")
-  logoGroup.scale = new Point(0.8, 0.8)
+  logoGroup.scale.set(0.8, 0.8)
   private[this] val logo = StaticSprite(game, logoGroup, "intro.logo", "intro.logo")
   logo.sprite.anchor = util.PhaserUtils.centerPoint
 
@@ -43,7 +43,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   )
   menu.y = background.sprite.height.toInt - 180.0
   menu.visible = false
-  menu.group.scale = new Point(2, 2)
+  menu.group.scale.set(2.0, 2.0)
   group.add(menu.group)
 
   private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
@@ -60,7 +60,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
 
   def resize(width: Int, height: Int) = {
     zoom = Math.min(width / size, height / size)
-    group.scale = new Point(zoom, zoom)
+    group.scale.set(zoom, zoom)
     val newY = (background.sprite.height * zoom) - height
     group.position = new Point(0.0, -newY)
     val (logoX, logoY) = ((width / 2.0) / zoom, background.sprite.height - (height / 1.4 / zoom))

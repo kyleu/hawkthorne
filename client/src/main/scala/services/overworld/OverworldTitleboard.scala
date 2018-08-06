@@ -16,7 +16,7 @@ class OverworldTitleboard(game: Game) {
   group.add(titleText)
 
   def resize(zoom: Double) = {
-    group.scale = new Point(zoom, zoom)
+    group.scale.set(zoom, zoom)
     group.position = new Point((game.width - (bg.width * zoom)) / 2, game.height - ((bg.height * zoom) * 1.5))
   }
 

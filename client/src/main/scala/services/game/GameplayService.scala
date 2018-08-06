@@ -53,7 +53,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val consoleLog = ConsoleLog(game = game)
   addComponent(consoleLog)
 
-  private[this] val camera = new GroupCameraService(game, mapService.group, 400)
+  private[this] val camera = new services.camera.GroupCameraService(game, mapService.group, 400)
 
   private[this] val (progress, splashComplete) = SplashScreen.show(game)
 
