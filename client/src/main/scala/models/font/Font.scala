@@ -12,7 +12,10 @@ object Font {
   private[this] val fontMap = collection.mutable.HashMap.empty[String, Font]
 
   def getFont(key: String, game: Game) = fontMap.getOrElseUpdate(key, load(game, key))
-  def reset() = fontMap.clear()
+  def reset() = {
+    fontMap.values.foreach(_.shutdown())
+    fontMap.clear()
+  }
 
   private case class CharLocation(char: Char, startIndex: Int, width: Int, height: Int) {
     val area = new Rectangle(startIndex.toDouble, 0, width.toDouble, height.toDouble)
@@ -50,16 +53,22 @@ object Font {
 class Font(val key: String, img: Image, chars: IndexedSeq[Font.CharLocation]) {
   val height = img.height
   val padding = if (height < 10) { 1 } else { 2 }
-  def renderToTexture(s: String, game: Game) = {
-    val locations = s.map(c => chars(Font.charMap(c)))
-    val pxWidth = locations.map(_.width).sum.toDouble + (locations.size * padding)
-    val tex = game.make.bitmapData(pxWidth, height)
-    var currX = 0
-    locations.foreach { l =>
-      tex.copyRect(img, l.area, currX.toDouble)
-      currX += (l.width + padding)
-    }
-    tex
+
+  val activeData = collection.mutable.HashMap.empty[String, BitmapData]
+
+  private[this] def renderToTexture(s: String, game: Game) = activeData.get(s) match {
+    case Some(tex) => tex
+    case None =>
+      val locations = s.map(c => chars(Font.charMap(c)))
+      val pxWidth = locations.map(_.width).sum.toDouble + (locations.size * padding)
+      val tex = game.make.bitmapData(pxWidth, height)
+      var currX = 0
+      locations.foreach { l =>
+        tex.copyRect(img, l.area, currX.toDouble)
+        currX += (l.width + padding)
+      }
+      activeData(s) = tex
+      tex
   }
 
   def renderToImage(name: String, s: String, game: Game, x: Double = 0.0, y: Double = 0.0, color: Option[String] = None) = {
@@ -68,5 +77,17 @@ class Font(val key: String, img: Image, chars: IndexedSeq[Font.CharLocation]) {
     image.name = name
     color.foreach(c => image.tint = Color.hexToRGB(c))
     image
+  }
+
+  def complete(s: String) = activeData.get(s) match {
+    case None => throw new IllegalStateException("Attempted removal of missing string.")
+    case Some(tex) =>
+      activeData.remove(s)
+      tex.destroy()
+  }
+
+  def shutdown() = {
+    activeData.keys.foreach(complete)
+    activeData.clear()
   }
 }

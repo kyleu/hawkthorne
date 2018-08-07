@@ -1,7 +1,7 @@
 package services.options
 
 import com.definitelyscala.phaserce.{Game, Point}
-import models.component.Menu
+import models.gui.Menu
 import models.input.{MenuAction, PointerAction}
 import models.settings.ClientSettings
 
