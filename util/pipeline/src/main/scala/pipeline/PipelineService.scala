@@ -31,6 +31,7 @@ object PipelineService {
         MapFiles.process(cfg) ++
         NpcFiles.process(cfg) ++
         ProjectileFiles.process(cfg) ++
+        QuestFiles.process(cfg) ++
         VehicleFiles.process(cfg) ++
         WeaponFiles.process(cfg)
     }
