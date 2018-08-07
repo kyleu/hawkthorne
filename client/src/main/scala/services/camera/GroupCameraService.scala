@@ -18,8 +18,8 @@ class GroupCameraService(game: Game, group: Group, todoNotJustSize: Double) {
     if (newZ != zoom) {
       zoom = newZ
       group.scale.set(zoom, zoom)
-      update()
     }
+    update()
   }
 
   def focusOn(x: Double, y: Double) = if (currentX != x || currentY != y) {

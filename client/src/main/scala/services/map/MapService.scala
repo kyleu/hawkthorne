@@ -26,11 +26,15 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
 
   MusicService.play(map.soundtrack, loop = true)
 
-  val layers = tilemap.layers.map(_.asInstanceOf[js.Dynamic].name.toString).map(l => l -> tilemap.createLayer(l))
-  layers.foreach(l => group.add(l._2))
-
   val mapPxWidth = map.width * 24
   val mapPxHeight = map.height * 24
+
+  val layers = tilemap.layers.map(_.asInstanceOf[js.Dynamic].name.toString).map { k =>
+    val l = tilemap.createLayer(k)
+    l.resize(mapPxWidth.toDouble, mapPxHeight.toDouble)
+    k -> l
+  }
+  layers.foreach(l => group.add(l._2))
 
   def layer(key: String) = layers.find(_._1 == key).map(_._2)
   val collisionLayer = layer("collision")

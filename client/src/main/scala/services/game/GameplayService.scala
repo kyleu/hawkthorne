@@ -55,6 +55,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   addComponent(consoleLog)
 
   private[this] val camera = new services.camera.GroupCameraService(game, mapService.group, 400)
+  // private[this] val camera = new services.camera.CameraService(game.camera, mapService.mapPxWidth, mapService.mapPxHeight)
 
   private[this] val (progress, splashComplete) = SplashScreen.show(game)
 
@@ -77,9 +78,11 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     inputService.update(delta = dt)
     components.foreach(_.update(dt))
     camera.focusOn(playerSprite.x + 24, playerSprite.y + 24)
+    // camera.focusOn(playerSprite.x.toInt + 24, playerSprite.y.toInt + 24)
   }
 
   def resize(width: Int, height: Int) = {
+    util.Logging.info("Gameplay resize!")
     camera.resize(width, height)
     components.foreach {
       case r: BaseComponent.Resizable => r.resize(width, height)
