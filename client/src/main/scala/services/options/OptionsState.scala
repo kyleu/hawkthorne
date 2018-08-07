@@ -2,8 +2,8 @@ package services.options
 
 import com.definitelyscala.phaserce.Game
 import models.asset.Asset
-import models.component.VerticalParticles
 import models.font.Font
+import models.gui.VerticalParticles
 import models.input.{MenuAction, PointerAction}
 import services.audio.{MusicService, SoundEffectService}
 import services.input.InputService

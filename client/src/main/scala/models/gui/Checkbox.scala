@@ -1,6 +1,7 @@
-package models.component
+package models.gui
 
 import com.definitelyscala.phaserce.{Game, Group, Image}
+import models.component.SimpleComponent
 
 class Checkbox(override val game: Game, group: Group, override val name: String, initialX: Int, initialY: Int) extends SimpleComponent {
   val image = new Image(game = game, x = initialX.toDouble, y = initialY.toDouble, key = s"options.checkbox.$checked")

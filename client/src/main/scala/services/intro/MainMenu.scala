@@ -3,8 +3,9 @@ package services.intro
 import com.definitelyscala.phaserce.{Game, Group, Point}
 import io.circe.Json
 import models.analytics.AnalyticsActionType
-import models.component.{Menu, StaticSprite}
+import models.component.StaticSprite
 import models.font.Font
+import models.gui.Menu
 import models.input.{MenuAction, PointerAction}
 import models.node.SparkleNode
 import services.input.InputService

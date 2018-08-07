@@ -1,7 +1,8 @@
-package models.component
+package models.gui
 
 import com.definitelyscala.phaserce._
 import models.asset.Asset
+import models.component.SimpleComponent
 import models.font.Font
 import models.player.Player
 

@@ -3,6 +3,7 @@ GET         /episodes                       controllers.admin.game.GameAdminCont
 GET         /maps                           controllers.admin.game.GameAdminController.maps
 GET         /maps/graph                     controllers.admin.game.GameAdminController.mapGraph
 GET         /unparsed                       controllers.admin.game.GameAdminController.unparsed
+GET         /quests                         controllers.admin.game.GameAdminController.quests
 GET         /dump/characters                controllers.admin.game.GameAdminController.dumpCharacters
 GET         /dump/enemies                   controllers.admin.game.GameAdminController.dumpEnemies
 GET         /dump/npcs                      controllers.admin.game.GameAdminController.dumpNpcs

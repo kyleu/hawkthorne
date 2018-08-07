@@ -1,6 +1,7 @@
-package models.component
+package models.gui
 
 import com.definitelyscala.phaserce.{Game, Group, Image}
+import models.component.SimpleComponent
 
 class RangeMeter(
     override val game: Game, parent: Group, override val name: String, initialX: Int, initialY: Int, min: Int = 0, max: Int = 10

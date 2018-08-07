@@ -1,7 +1,8 @@
-package models.component
+package models.gui
 
 import com.definitelyscala.phaserce.Easing.Easing
 import com.definitelyscala.phaserce.{Game, Group, Image}
+import models.component.SimpleComponent
 import models.font.Font
 import models.input.{MenuAction, PointerAction}
 import services.audio.SoundEffectService

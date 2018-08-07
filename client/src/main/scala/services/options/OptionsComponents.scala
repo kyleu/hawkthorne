@@ -1,7 +1,7 @@
 package services.options
 
 import com.definitelyscala.phaserce.Game
-import models.component.{Checkbox, Menu, RangeMeter}
+import models.gui.{Checkbox, Menu, RangeMeter}
 import models.settings.ClientSettings
 
 class OptionsComponents(game: Game, menu: Menu, settings: ClientSettings) {

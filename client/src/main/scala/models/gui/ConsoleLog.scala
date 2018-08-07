@@ -1,6 +1,7 @@
-package models.component
+package models.gui
 
-import com.definitelyscala.phaserce._
+import com.definitelyscala.phaserce.{Game, Group}
+import models.component.{BaseComponent, SimpleComponent}
 import models.font.Font
 
 final case class ConsoleLog(override val game: Game) extends SimpleComponent with BaseComponent.Resizable {
@@ -21,4 +22,3 @@ final case class ConsoleLog(override val game: Game) extends SimpleComponent wit
 
   override def resize(width: Int, height: Int) = {}
 }
-

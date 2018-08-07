@@ -6,6 +6,7 @@ import models.analytics.AnalyticsActionType
 import models.component._
 import models.font.Font
 import models.game.GameOptions
+import models.gui.{ConsoleLog, HudOverlay}
 import models.input.PointerAction
 import models.player.Player
 import services.camera.GroupCameraService

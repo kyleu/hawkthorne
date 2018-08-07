@@ -1,4 +1,4 @@
-package models.component
+package models.gui
 
 import com.definitelyscala.phaserce.{BitmapData, Game, Group, Image}
 import util.NullUtils
