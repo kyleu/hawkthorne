@@ -1,6 +1,7 @@
 package models.component
 
 import com.definitelyscala.phaserce.{Game, Group, Image}
+import models.game.SystemOptions
 
 final case class Liquid(
     override val game: Game,
@@ -25,7 +26,7 @@ final case class Liquid(
       // val nf = if (yIdx == 0) { Random.nextInt(frameCount) } else { Random.nextInt(frameCount) + frameCount }
       val nf = if (yIdx == 0) { xIdx % frameCount } else { ((xIdx + yIdx) % frameCount) + frameCount }
 
-      val image = new Image(game = game, x = xIdx * 24.0, y = yIdx * 24.0, key = key, frame = nf)
+      val image = new Image(game = game, x = xIdx.toDouble * SystemOptions.tileSize, y = yIdx.toDouble * SystemOptions.tileSize, key = key, frame = nf)
       image.name = s"liquid.$name.$xIdx.$yIdx"
       image.alpha = opacity
       liquidGroup.add(image)

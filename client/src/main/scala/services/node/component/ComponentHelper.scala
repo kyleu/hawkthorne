@@ -4,6 +4,7 @@ import com.definitelyscala.phaserce.{Game, Graphics, Group, Rectangle}
 import com.definitelyscala.phasercepixi.Texture
 import models.animation.Animation
 import models.component._
+import models.game.SystemOptions
 import models.node.{LiquidNode, Node}
 
 object ComponentHelper {
@@ -13,7 +14,7 @@ object ComponentHelper {
     Seq(s)
   }
 
-  private[this] val cropRect = new Rectangle(0, 0, 24, 24)
+  private[this] val cropRect = new Rectangle(0, 0, SystemOptions.tileSize.toDouble, SystemOptions.tileSize.toDouble)
   def cropped(game: Game, group: Group, node: Node, key: Option[String] = None) = {
     val seq = sprite(game, group, node, key)
     seq.foreach { s =>
@@ -45,8 +46,8 @@ object ComponentHelper {
       key = node.sheetKey,
       opacity = node.opacityDouble,
       speed = node.properties.speed.map(_.toDouble).getOrElse(0.2),
-      width = node.actualWidth / 24,
-      height = node.actualHeight / 24
+      width = node.actualWidth / SystemOptions.tileSize,
+      height = node.actualHeight / SystemOptions.tileSize
     )
     l.setPositionInt(node.actualX, node.actualY)
     Seq(l)

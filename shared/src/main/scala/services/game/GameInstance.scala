@@ -2,17 +2,13 @@ package services.game
 
 import java.util.UUID
 
-import models.game.{GameObject, GameOptions, GameUpdate}
+import models.game.{GameOptions, GameStage, GameUpdate}
 import util.Point
 
-final case class GameInstance(id: UUID, options: GameOptions, var objects: IndexedSeq[GameObject], spawn: Point) extends GameInstanceDebug {
-  private[this] var _lastId = objects.map(_.id).max + 1
-  protected def nextId() = {
-    _lastId += 1
-    _lastId
-  }
+final case class GameInstance(id: UUID, options: GameOptions, stage: GameStage, spawn: Point) extends GameInstanceDebug {
+  protected[this] val startMs = System.currentTimeMillis
 
-  private[this] var players = objects.filter(o => o.t == "player")
+  private[this] var players = stage.objects.filter(o => o.t == "player")
 
   val bounds = (options.map.width * 24) -> (options.map.height * 24)
 
@@ -24,7 +20,6 @@ final case class GameInstance(id: UUID, options: GameOptions, var objects: Index
   }
 
   def onMessage(gu: GameUpdate) = gu match {
-    case GameUpdate.AddPlayer(_, p) => players = players :+ p.asNewGameObject(nextId(), players.size, spawn)
     case x => throw new IllegalStateException(s"Unhandled update [$x].")
   }
 }

@@ -1,7 +1,6 @@
 package services.game
 
 trait GameInstanceDebug {
-  protected[this] val startMs = System.currentTimeMillis
   private[this] val isDebug = true
 
   private[this] var logger: Option[String => Unit] = None

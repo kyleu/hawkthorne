@@ -3,6 +3,7 @@ package services.map
 import com.definitelyscala.phaserce._
 import models.asset.Asset
 import models.data.map.TiledMap
+import models.game.SystemOptions
 import services.audio.MusicService
 import util.PhaserUtils
 
@@ -26,8 +27,8 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
 
   MusicService.play(map.soundtrack, loop = true)
 
-  val mapPxWidth = map.width * 24
-  val mapPxHeight = map.height * 24
+  val mapPxWidth = map.width * SystemOptions.tileSize
+  val mapPxHeight = map.height * SystemOptions.tileSize
 
   val layers = tilemap.layers.map(_.asInstanceOf[js.Dynamic].name.toString).map { k =>
     val l = tilemap.createLayer(k)

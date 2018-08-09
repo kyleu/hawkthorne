@@ -2,6 +2,7 @@ package services.overworld
 
 import models.asset.Asset
 import models.font.Font
+import models.game.SystemOptions
 
 object OverworldMapAssets {
   val music = "overworld"
@@ -14,7 +15,7 @@ object OverworldMapAssets {
 
   private[this] val baseAssets = Font.assets ++ keys.map(k => Asset.Image(s"overworld.$k", s"images/overworld/$k.png")) ++ Seq(
     Asset.music("overworld"),
-    Asset.Spritesheet("overworld.sparkle", "images/overworld/gay_sparkle.png", 24, 24),
+    Asset.Spritesheet("overworld.sparkle", "images/overworld/gay_sparkle.png", SystemOptions.tileSize, SystemOptions.tileSize),
     Asset.Spritesheet("overworld.water", "images/overworld/world_water.png", 36, 36),
     Asset.Spritesheet("overworld.cloud", "images/overworld/cloud_puff.png", 100, 67)
   )

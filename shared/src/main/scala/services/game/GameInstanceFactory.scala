@@ -2,7 +2,7 @@ package services.game
 
 import java.util.UUID
 
-import models.game.GameOptions
+import models.game.{GameOptions, GameStage}
 import models.node.{DoorNode, Node}
 import models.player.Player
 import util.Point
@@ -27,7 +27,9 @@ object GameInstanceFactory {
 
     val finalObjects = (initialObjects ++ playerObjects).toIndexedSeq
 
-    val i = GameInstance(id, options, finalObjects, spawn)
+    val gameStage = GameStage(options.map, finalObjects)
+
+    val i = GameInstance(id, options, gameStage, spawn)
     i.setCallbacks(log, notify)
     i
   }

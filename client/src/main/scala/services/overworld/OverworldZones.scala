@@ -3,7 +3,6 @@ package services.overworld
 import com.definitelyscala.phaserce.Point
 
 object OverworldZones {
-
   case class Zone(
       key: String, xCoord: Int, yCoord: Int, name: String = "", level: Option[String] = None, bypass: Seq[(String, String)] = Nil, visited: Boolean = false,
       up: Option[String] = None, right: Option[String] = None, down: Option[String] = None, left: Option[String] = None

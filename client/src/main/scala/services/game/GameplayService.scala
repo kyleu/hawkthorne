@@ -21,6 +21,8 @@ import util.JsonSerializers._
 class GameplayService(game: Game, inputService: InputService, options: GameOptions, player: Player) {
   private[this] var started = false
   private[this] var elapsed = 0.0
+  private[this] val playerHeight = 48
+  private[this] val playerHalfHeight = playerHeight / 2
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
   private[this] def addComponent(c: BaseComponent) = components += c
 
@@ -54,8 +56,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val consoleLog = ConsoleLog(game = game)
   addComponent(consoleLog)
 
-  private[this] val camera = new services.camera.GroupCameraService(game, mapService.group, 400)
-  // private[this] val camera = new services.camera.CameraService(game.camera, mapService.mapPxWidth, mapService.mapPxHeight)
+  private[this] val camera = new GroupCameraService(game, mapService.group, 400)
 
   private[this] val (progress, splashComplete) = SplashScreen.show(game)
 
@@ -77,8 +78,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
 
     inputService.update(delta = dt)
     components.foreach(_.update(dt))
-    camera.focusOn(playerSprite.x + 24, playerSprite.y + 24)
-    // camera.focusOn(playerSprite.x.toInt + 24, playerSprite.y.toInt + 24)
+    camera.focusOn(playerSprite.x + playerHalfHeight, playerSprite.y + playerHalfHeight)
   }
 
   def resize(width: Int, height: Int) = {
