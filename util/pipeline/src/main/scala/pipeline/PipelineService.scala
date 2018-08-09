@@ -28,6 +28,7 @@ object PipelineService {
         CharacterFiles.process(cfg) ++
         EnemyFiles.process(cfg) ++
         EpisodeFiles.process(cfg) ++
+        InventoryItemFiles.process(cfg) ++
         MapFiles.process(cfg) ++
         NpcFiles.process(cfg) ++
         ProjectileFiles.process(cfg) ++
