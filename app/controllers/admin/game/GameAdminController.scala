@@ -20,6 +20,10 @@ class GameAdminController @javax.inject.Inject() (override val app: Application)
     Future.successful(Ok(views.html.admin.game.episodes(request.identity)))
   }
 
+  def inventory = withSession("inventory", admin = true) { implicit request => implicit td =>
+    Future.successful(Ok(views.html.admin.game.inventoryItems(request.identity)))
+  }
+
   def maps = withSession("maps", admin = true) { implicit request => implicit td =>
     Future.successful(Ok(views.html.admin.game.maps(request.identity, ServerMapCache.all)))
   }
