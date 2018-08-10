@@ -43,7 +43,7 @@ object PhaserUtils {
     val scale = Math.min(wRatio, hRatio)
     val x = (width - (dimensions._1 * scale)) / 2
     val y = (height - (dimensions._2 * scale)) / 2
-    util.Logging.info(s"width: $width, height: $height, wRatio: $wRatio, hRatio: $hRatio, scale: $scale, x: $x, y: $y")
+    // util.Logging.info(s"width: $width, height: $height, wRatio: $wRatio, hRatio: $hRatio, scale: $scale, x: $x, y: $y")
     group.position.set(Math.max(x, 0), Math.max(y, 0))
     group.scale.set(scale, scale)
   }

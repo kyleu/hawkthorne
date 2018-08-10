@@ -1,6 +1,5 @@
 package models.template.character
 
-import models.data.series.Episode
 import models.player.Costume
 import util.BoundingBox
 import util.JsonSerializers._

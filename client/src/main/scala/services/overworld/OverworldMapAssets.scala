@@ -2,7 +2,7 @@ package services.overworld
 
 import models.asset.Asset
 import models.font.Font
-import models.game.SystemOptions
+import models.options.SystemOptions
 
 object OverworldMapAssets {
   val music = "overworld"

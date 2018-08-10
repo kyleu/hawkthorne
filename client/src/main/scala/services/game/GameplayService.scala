@@ -5,11 +5,11 @@ import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component._
 import models.font.Font
-import models.game.GameOptions
 import models.gui.{ConsoleLog, HudOverlay}
 import models.input.PointerAction
+import models.options.GameOptions
 import models.player.Player
-import services.camera.GroupCameraService
+import services.camera.CameraService
 import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -41,7 +41,8 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
 
   private[this] val playerSprite = new PlayerSprite(
-    game = game, group = mapService.group, idx = 0, player = player, initialX = instance.spawn.x, initialY = instance.spawn.y
+    game = game, group = mapService.group, idx = 0, player = player,
+    initialLoc = instance.spawn.x -> instance.spawn.y, initialBounds = mapService.mapPxWidth -> mapService.mapPxHeight
   )
   addComponent(playerSprite)
 
@@ -56,7 +57,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val consoleLog = ConsoleLog(game = game)
   addComponent(consoleLog)
 
-  private[this] val camera = new GroupCameraService(game, mapService.group, 400)
+  private[this] val camera = new CameraService(game, mapService.group, 400, mapService.mapPxWidth -> mapService.mapPxHeight)
 
   private[this] val (progress, splashComplete) = SplashScreen.show(game)
 
@@ -65,7 +66,6 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     DebugService.inst.foreach(_.setMap(game, mapService, nodes, components, Seq(playerSprite)))
     playerSprite.as.sprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
-    util.Logging.info("Hawkthorne game service started.")
     instance.initialMessages() // TODO
 
     splashComplete()
@@ -82,7 +82,6 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   }
 
   def resize(width: Int, height: Int) = {
-    util.Logging.info("Gameplay resize!")
     camera.resize(width, height)
     components.foreach {
       case r: BaseComponent.Resizable => r.resize(width, height)
@@ -90,8 +89,11 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     }
   }
 
-  private[this] def pointerAct(p: PointerAction) = nodes.foreach {
-    case n if n.x < p.worldX && n.y < p.worldY && (n.x + n.width) >= p.worldX && (n.y + n.height) >= p.worldY => Logging.info(s"Collision: $n")
-    case _ => // noop
+  private[this] def pointerAct(pa: PointerAction) = {
+    val (worldX, worldY) = camera.worldToMap(pa.worldX, pa.worldY)
+    nodes.foreach {
+      case n if n.x < worldX && n.y < worldY && (n.x + n.width) >= worldX && (n.y + n.height) >= worldY => Logging.info(s"Collision: $n")
+      case _ => // noop
+    }
   }
 }

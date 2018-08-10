@@ -34,8 +34,8 @@
   </style>
   <script type="application/javascript">
     function rotate() {
-      var x = Math.floor(Math.random() * Math.floor(12)) * -48;
-      var y = Math.floor(Math.random() * Math.floor(16)) * -48;
+      var x = Math.floor(Math.random() * 12) * -48;
+      var y = Math.floor(Math.random() * 16) * -48;
       $(".character").css('background-position', x + 'px ' + y + 'px');
       setTimeout(rotate, 2000);
     }

@@ -23,10 +23,10 @@ class GameplayController @javax.inject.Inject() (
 
   private[this] val formatter = new MessageFrameFormatter()
 
-  def root(debug: Boolean) = gameplay(path = "", debug = debug)
+  def root(debug: Option[Boolean]) = gameplay(path = "", debug = debug)
 
-  def gameplay(path: String, debug: Boolean) = withSession("gameplay") { implicit request => implicit td =>
-    Future.successful(Ok(views.html.gameplay(user = request.identity, path = path, devmode = app.config.debug, debug = debug)))
+  def gameplay(path: String, debug: Option[Boolean]) = withSession("gameplay") { implicit request => implicit td =>
+    Future.successful(Ok(views.html.gameplay(user = request.identity, path = path, devmode = app.config.debug, debug = debug.getOrElse(app.config.debug))))
   }
 
   private[this] def callbacksFor(credentials: Credentials, status: String = "OK") = PlayerSocketService.Callbacks(

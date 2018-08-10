@@ -3,8 +3,8 @@ package services.game
 import com.definitelyscala.phaserce.Game
 import models.asset._
 import models.font.Font
-import models.game.GameOptions
 import models.gui.HudOverlay
+import models.options.GameOptions
 import models.player.Player
 import services.audio.SoundEffectService
 import services.input.InputService

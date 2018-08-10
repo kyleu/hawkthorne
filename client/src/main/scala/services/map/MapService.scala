@@ -3,7 +3,7 @@ package services.map
 import com.definitelyscala.phaserce._
 import models.asset.Asset
 import models.data.map.TiledMap
-import models.game.SystemOptions
+import models.options.SystemOptions
 import services.audio.MusicService
 import util.PhaserUtils
 

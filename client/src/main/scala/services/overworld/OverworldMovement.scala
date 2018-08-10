@@ -3,9 +3,9 @@ package services.overworld
 import com.definitelyscala.phaserce.{Game, Group}
 import models.input.MenuAction
 import models.player.Player
-import services.camera.GroupCameraService
+import services.camera.CameraService
 
-class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String, camera: GroupCameraService) {
+class OverworldMovement(game: Game, group: Group, player: Player, initialZone: String, camera: CameraService) {
   private[this] var currentZone: OverworldZones.Zone = OverworldZones.byKey(initialZone)
   private[this] var targetZone: Option[OverworldZones.Zone] = None
 

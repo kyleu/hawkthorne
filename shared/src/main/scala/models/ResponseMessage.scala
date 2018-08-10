@@ -2,7 +2,8 @@ package models
 
 import java.util.UUID
 
-import models.game.{GameOptions, GameUpdate}
+import models.game.GameUpdate
+import models.options.GameOptions
 import util.JsonSerializers._
 
 sealed trait ResponseMessage

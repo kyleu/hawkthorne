@@ -1,4 +1,4 @@
-package models.game
+package models.options
 
 import models.data.map.TiledMap
 import util.JsonSerializers._

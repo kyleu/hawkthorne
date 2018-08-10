@@ -1,45 +1,58 @@
 package services.camera
 
-import com.definitelyscala.phaserce.Camera
+import com.definitelyscala.phaserce.{Game, Group, Point}
 
-class CameraService(camera: Camera, worldWidth: Int, worldHeight: Int) {
-  val shittyDefaultScale = 1.0
+class CameraService(game: Game, group: Group, todoNotJustSize: Double, pxSize: (Int, Int)) {
+  private[this] var zoom = 1.0
+  private[this] var minZoom = 1.0
+  private[this] var maxZoom = 10.0
+  private[this] val size = todoNotJustSize -> todoNotJustSize
+  private[this] var (currentX, currentY) = (0.0, 0.0)
+  private[this] var (lastX, lastY) = 0.0 -> 0.0
 
-  private[this] def getScale(width: Int, height: Int) = shittyDefaultScale
+  def currentZoom = zoom
 
-  private[this] var currentScale = 1.0
-  private[this] var (currentX, currentY) = (0, 0)
-  private[this] var (currentStageWidth, currentStageHeight) = (0, 0)
-  private[this] var (currentWorldWidth, currentWorldHeight) = (0, 0)
-
-  def resize(stageWidth: Int, stageHeight: Int) = {
-    val newScale = getScale(stageWidth, stageHeight)
-    if (newScale != currentScale) {
-      camera.scale.setTo(newScale, newScale)
-      camera.bounds.setTo(0, 0, worldWidth * newScale, worldHeight * newScale)
-      currentScale = newScale
+  def resize(width: Int, height: Int) = {
+    val desiredZ = Math.min(width / size._1, height / size._2)
+    val newZ = Math.min(Math.max(desiredZ, minZoom), maxZoom)
+    if (newZ != zoom) {
+      zoom = newZ
+      group.scale.set(zoom, zoom)
     }
-
-    currentStageWidth = stageWidth
-    currentStageHeight = stageHeight
-    currentWorldWidth = worldWidth
-    currentWorldHeight = worldHeight
+    update()
   }
 
-  def focusOn(x: Int, y: Int) = if (currentX != x || currentY != y) {
-    val candidateX = x - ((currentStageWidth / currentScale) / 2)
-    val candidateY = y - ((currentStageHeight / currentScale) / 2)
-
-    val newX = Math.min(Math.max(candidateX, 0), Math.max(currentWorldWidth - (currentStageWidth / currentScale), 0.0))
-    val newY = Math.min(Math.max(candidateY, 0), Math.max(currentWorldHeight - (currentStageWidth / currentScale), 0.0))
-
-    if (newX != camera.x || newY != camera.y) {
-      camera.x = newX
-      camera.y = newY
-    }
-
+  def focusOn(x: Double, y: Double) = if (currentX != x || currentY != y) {
     currentX = x
     currentY = y
-    //util.Logging.info(s"Focused camera on [$x/$y] resulting in camera location [${camera.x}/${camera.y}].")
+    update()
+  }
+
+  def worldToMap(x: Int, y: Int) = {
+    val (nx, ny) = (x / currentZoom) -> (y / currentZoom)
+    val (ox, oy) = (lastX / currentZoom) -> (lastY / currentZoom)
+    // util.Logging.info(s"World [$x / $y] to map [$nx / $ny] (offset: [$ox / $oy])")
+    (nx + ox).floor.toInt -> (ny + oy).floor.toInt
+  }
+
+  private[this] def update() = newCameraOffset().foreach(p => group.position = p)
+
+  private[this] def newCameraOffset() = {
+    val target = new Point((currentX * zoom) - (game.width / 2), (currentY * zoom) - (game.height / 2))
+
+    val maxX = (pxSize._1 * zoom) - game.width // TODO Arrgh
+    val maxY = (pxSize._2 * zoom) - game.height // TODO Arrgh
+
+    val clampedX = Math.max(0.0, Math.min(maxX, target.x))
+    val clampedY = Math.max(0.0, Math.min(maxY, target.y))
+    if (clampedX != lastX || clampedY != lastY) {
+      util.Logging.info(s"zoom: [$zoom] clamped: [$clampedX, $clampedY] max: [$maxX, $maxY]")
+      util.Logging.info(s"game: [${game.width}, ${game.height}] group: [${group.width}, ${group.height}]")
+      lastX = clampedX
+      lastY = clampedY
+      Some(new Point(-clampedX.toDouble, -clampedY.toDouble))
+    } else {
+      None
+    }
   }
 }

@@ -1,7 +1,7 @@
 package models.settings
 
 import models.analytics.AnalyticsActionType
-import models.game.GameOptions
+import models.options.GameOptions
 import org.scalajs.dom
 import services.audio.{MusicService, SoundEffectService}
 import services.socket.AnalyticsService

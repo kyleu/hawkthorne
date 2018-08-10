@@ -33,8 +33,8 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
       group = group,
       idx = 0,
       player = Player(templateKey = c._1.key, costumeKey = c._2.key),
-      initialX = 32 + ((idx % 28) * 48),
-      initialY = 32 + ((idx / 28) * 48)
+      initialLoc = (32 + ((idx % 28) * 48), 32 + ((idx / 28) * 48)),
+      initialBounds = (0, 0)
     )
   }
 

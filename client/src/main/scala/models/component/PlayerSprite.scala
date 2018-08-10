@@ -3,14 +3,14 @@ package models.component
 import com.definitelyscala.phaserce.{Game, Group}
 import models.data.character.CharacterAnimation
 import models.game.GameUpdate
+import models.input.PlayerInputHandler
 import models.player.Player
-import services.input.PlayerInputHandler
 
 object PlayerSprite {
   val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim)).map(a => a.id -> a).toMap
 }
 
-class PlayerSprite(override val game: Game, group: Group, idx: Int, player: Player, initialX: Int, initialY: Int) extends SimpleComponent {
+class PlayerSprite(override val game: Game, group: Group, idx: Int, player: Player, initialLoc: (Int, Int), initialBounds: (Int, Int)) extends SimpleComponent {
   override val name = s"player.$idx"
 
   val as = AnimatedSprite(
@@ -18,12 +18,19 @@ class PlayerSprite(override val game: Game, group: Group, idx: Int, player: Play
     key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations.mapValues(_.newCopy), defAnim = Some("idle.right")
   )
   override def comp = as.sprite
-  as.x = initialX.toDouble
-  as.y = initialY.toDouble
+  as.x = initialLoc._1.toDouble
+  as.y = initialLoc._2.toDouble
 
-  private[this] val input = new PlayerInputHandler(this)
+  private[this] val input = new PlayerInputHandler(maxX = initialBounds._1, maxY = initialBounds._2)
 
-  def processInput(delta: Double, playerInput: GameUpdate.PlayerInput) = input.process(delta = delta, input = playerInput)
+  def processInput(delta: Double, playerInput: GameUpdate.PlayerInput) = {
+    val (anim, loc) = input.process(delta = delta, currentX = x, currentY = y, input = playerInput)
+    anim.foreach(x => as.setAnimation(Some(x)))
+    loc.foreach { l =>
+      x = l._1
+      y = l._2
+    }
+  }
 
   as.sprite.name = s"$idx.${player.templateKey}.${player.costume.key}"
   as.sprite.anchor = util.PhaserUtils.centerPoint

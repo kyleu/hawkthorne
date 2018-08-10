@@ -2,7 +2,8 @@ package services.game
 
 import java.util.UUID
 
-import models.game.{GameOptions, GameStage, GameUpdate}
+import models.game.{GameStage, GameUpdate}
+import models.options.GameOptions
 import util.Point
 
 final case class GameInstance(id: UUID, options: GameOptions, stage: GameStage, spawn: Point) extends GameInstanceDebug {

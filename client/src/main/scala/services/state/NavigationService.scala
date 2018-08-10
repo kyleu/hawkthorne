@@ -1,8 +1,10 @@
 package services.state
 
+import java.util.UUID
+
 import com.definitelyscala.phaserce.Game
 import models.data.map.TiledMap
-import models.game.GameOptions
+import models.options.GameOptions
 import models.player.Player
 import org.scalajs.dom
 import services.game.GameplayState
@@ -25,9 +27,12 @@ object NavigationService {
       case "test" => TestState.load(phaser = game)
       case "sandbox" => SandboxState.load(phaser = game)
 
-      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, player = Player(), debug = debug)
+      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, player = Player.randomFor(UUID.randomUUID /* TODO */ ), debug = debug)
       case x if x.startsWith("map/") => GameplayState.load(
-        phaser = game, input = input, options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/"))), player = Player.default
+        phaser = game,
+        input = input,
+        options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/"))),
+        player = Player.randomFor(UUID.randomUUID /* TODO */ )
       )
 
       case "multiplayer" =>

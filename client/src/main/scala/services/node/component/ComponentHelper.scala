@@ -1,11 +1,14 @@
 package services.node.component
 
-import com.definitelyscala.phaserce.{Game, Graphics, Group, Rectangle}
+import com.definitelyscala.phaserce._
 import com.definitelyscala.phasercepixi.Texture
 import models.animation.Animation
+import models.component
 import models.component._
-import models.game.SystemOptions
 import models.node.{LiquidNode, Node}
+import models.options.SystemOptions
+
+import scala.scalajs.js
 
 object ComponentHelper {
   def sprite(game: Game, group: Group, node: Node, key: Option[String] = None, flip: Boolean = false) = {
@@ -54,13 +57,16 @@ object ComponentHelper {
   }
 
   def outline(game: Game, group: Group, node: Node, color: Int, visible: Boolean) = {
+    val i = outlineGraphics(game, group, node, color, visible)
+    i.setPositionInt(node.pos._1, node.pos._2, if (visible) { None } else { Some(false) })
+    Seq(i)
+  }
+
+  private[this] def outlineGraphics(game: Game, group: Group, node: Node, color: Int, visible: Boolean) = {
     val g = new Graphics(game = game)
     g.beginFill(color.toDouble)
     g.drawRect(0, 0, node.size._1.toDouble, node.size._2.toDouble)
     val t = g.generateTexture().asInstanceOf[Texture]
-    val i = StaticImage(game = game, group = group, name = node.t + "." + node.actualName, tex = t)
-    val vis = if (visible) { None } else { Some(false) }
-    i.setPositionInt(node.pos._1, node.pos._2, vis)
-    Seq(i)
+    StaticImage(game = game, group = group, name = node.t + "." + node.actualName, tex = t)
   }
 }

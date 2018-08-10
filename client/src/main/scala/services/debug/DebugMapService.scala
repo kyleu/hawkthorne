@@ -3,15 +3,15 @@ package services.debug
 import com.definitelyscala.datgui.GUI
 import com.definitelyscala.phaserce.{Game, TilemapLayer}
 import models.component.{BaseComponent, PlayerSprite}
-import models.game.CheatOption
 import models.node.Node
+import models.options.CheatOptions
 import services.map.MapService
 import util.{DatGuiUtils, Logging}
 
 object DebugMapService {
   def setMap(game: Game, gui: GUI, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
     val cheatFolder = gui.addFolder("Cheats")
-    CheatOption.values.foreach { c =>
+    CheatOptions.values.foreach { c =>
       DatGuiUtils.addFunction(cheatFolder, c.toString, () => util.Logging.info(s"Cheat [$c] (${c.code}) selected: ${c.description}"))
     }
 

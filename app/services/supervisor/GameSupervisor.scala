@@ -5,8 +5,8 @@ import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, OneForOneStrategy, SupervisorStrategy}
 import models.InternalMessage.{GetSystemStatus, SocketStarted, SocketStopped, SystemStatus}
+import models.options.GameOptions
 import models.{InternalMessage, ResponseMessage}
-import models.game.GameOptions
 import models.player.PlayerDetails
 import models.supervisor.SocketDescription
 // import services.game.GameService

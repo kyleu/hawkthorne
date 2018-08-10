@@ -1,7 +1,7 @@
 package models.component
 
 import com.definitelyscala.phaserce.{Game, Group, Image}
-import models.game.SystemOptions
+import models.options.SystemOptions
 
 final case class Liquid(
     override val game: Game,

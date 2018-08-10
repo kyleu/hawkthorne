@@ -2,8 +2,9 @@ package services.game
 
 import java.util.UUID
 
-import models.game.{GameOptions, GameStage}
+import models.game.GameStage
 import models.node.{DoorNode, Node}
+import models.options.GameOptions
 import models.player.Player
 import util.Point
 

@@ -14,7 +14,7 @@ final case class PointerInput(game: Game) {
       if (!leftMouseWasDown) {
         leftMouseWasDown = true
         // util.Logging.info(s"Button pressed [World: ${ptr.worldX}/${ptr.worldY}] [Screen: ${ptr.screenX}/${ptr.screenY}]")
-        Some(PointerAction(ptr.screenX.toInt, ptr.screenY.toInt, ptr.worldX.toInt, ptr.worldY.toInt))
+        Some(PointerAction(ptr.screenX.floor.toInt, ptr.screenY.floor.toInt, ptr.worldX.floor.toInt, ptr.worldY.floor.toInt))
       } else {
         None
       }

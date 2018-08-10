@@ -7,11 +7,18 @@ import models.template.character.CharacterListing
 import util.JsonSerializers._
 import util.Point
 
+import scala.util.Random
+
 object Player {
   implicit val jsonEncoder: Encoder[Player] = deriveEncoder
   implicit val jsonDecoder: Decoder[Player] = deriveDecoder
 
   val default = Player()
+
+  def randomFor(userId: UUID) = {
+    val template = CharacterListing.greendaleSeven(Random.nextInt(CharacterListing.greendaleSeven.size))
+    Player(user = userId, templateKey = template.key, costumeKey = template.randomCostume.key)
+  }
 }
 
 final case class Player(
