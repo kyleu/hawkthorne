@@ -45,7 +45,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   new NodeLoader(game, mapService.group, progress).load(nodes = nodes, onComplete = newComponents => {
     newComponents.foreach(addComponent)
     DebugService.inst.foreach(_.setMap(game, mapService, nodes, components, Seq(display.playerSprite)))
-    display.playerSprite.as.sprite.bringToTop()
+    display.playerSprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
     splashComplete()
     instance.start()

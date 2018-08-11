@@ -2,11 +2,11 @@ package services.camera
 
 import com.definitelyscala.phaserce.{Game, Group, Point}
 
-class CameraService(game: Game, group: Group, todoNotJustSize: Double, pxSize: (Int, Int)) {
+class CameraService(game: Game, group: Group, desiredSize: (Int, Int), pxSize: (Int, Int)) {
   private[this] var zoom = 1.0
   private[this] val minZoom = 1.0
   private[this] val maxZoom = 10.0
-  private[this] val size = todoNotJustSize -> todoNotJustSize
+  private[this] val size = Math.min(desiredSize._1, pxSize._1).toDouble -> Math.min(desiredSize._2, pxSize._2).toDouble
   private[this] var (currentX, currentY) = (0.0, 0.0)
   private[this] var (lastX, lastY) = 0.0 -> 0.0
 

@@ -12,7 +12,7 @@ class GameplayDisplay(game: Game, mapService: MapService, player: Player, instan
   private[this] val playerHeight = 48
   private[this] val playerHalfHeight = playerHeight / 2
 
-  val camera = new CameraService(game, mapService.group, 400, mapService.mapPxWidth -> mapService.mapPxHeight)
+  val camera = new CameraService(game = game, group = mapService.group, desiredSize = 400 -> 400, pxSize = mapService.mapPxWidth -> mapService.mapPxHeight)
 
   val playerSprite = new PlayerSprite(
     game = game, group = mapService.group, idx = 0, player = player,
@@ -29,7 +29,7 @@ class GameplayDisplay(game: Game, mapService: MapService, player: Player, instan
   resize(game.width.toInt, game.height.toInt)
 
   def update(delta: Double) = {
-    camera.focusOn(playerSprite.x + playerHalfHeight, playerSprite.y + playerHalfHeight)
+    camera.focusOn(playerSprite.x, playerSprite.y)
     console.update(delta)
   }
 
