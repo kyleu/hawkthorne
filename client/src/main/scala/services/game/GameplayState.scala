@@ -22,7 +22,7 @@ object GameplayState {
 
 class GameplayState(phaser: Game, inputService: InputService, options: GameOptions, player: Player) extends GameState(s"game", phaser) {
   private[this] var svc: Option[GameplayService] = None
-  private[this] def service = svc.getOrElse(throw new IllegalStateException("Not initialized"))
+  private[this] def service = svc.getOrElse(throw new IllegalStateException("Gameplay service not initialized."))
 
   override def create(game: Game) = svc = {
     Some(new GameplayService(game = game, inputService = inputService, options = options, player = player))

@@ -45,7 +45,9 @@ object NavigationService {
         util.Logging.info("TODO: Help")
         TestState.load(phaser = game)
 
-      case _ => throw new IllegalStateException(s"Unknown path [$path]")
+      case _ =>
+        dom.window.location.href = "/"
+        throw new IllegalStateException(s"Unknown path [$path]")
     }
   }
 

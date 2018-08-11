@@ -3,7 +3,7 @@ package models.gui
 import com.definitelyscala.phaserce.Easing.Easing
 import com.definitelyscala.phaserce.{Game, Group, Image}
 import models.component.SimpleComponent
-import models.font.Font
+import models.font.{Font, FontText}
 import models.input.{MenuAction, PointerAction}
 import services.audio.SoundEffectService
 
@@ -11,14 +11,14 @@ import scala.scalajs.js
 
 final case class Menu(
     override val game: Game, override val name: String, fontKey: String, arrowKey: String, backgroundKey: String,
-    width: Int, height: Int, margin: Double = 10.0, lineHeight: Double = 12.0, fontColor: String = "#ffffff", fontOffset: Double = 0.0
+    width: Int, height: Int, margin: Double = 10.0, lineHeight: Double = 12.0, fontColor: Int = 0xffffff, fontOffset: Double = 0.0
 ) extends SimpleComponent {
   val group = new Group(game, name = name)
   override def comp = group
 
   private[this] var activeOption = -1
   private[this] var options = IndexedSeq.empty[(String, () => Unit)]
-  private[this] var optionImages = Seq.empty[Image]
+  private[this] var optionImages = Seq.empty[FontText]
 
   private[this] val font = Font.getFont(fontKey, game)
 
@@ -34,16 +34,16 @@ final case class Menu(
 
   def setOptions(opts: IndexedSeq[(String, () => Unit)]) = {
     optionImages.foreach { i =>
-      group.remove(i)
-      i.destroy()
+      group.remove(i.group)
+      i.group.destroy()
     }
     options = opts
     optionImages = opts.zipWithIndex.map { opt =>
       val newX = (margin * 2) + arrow.width
       val newY = margin + (opt._2 * lineHeight) + fontOffset
-      font.renderToImage(name = s"menu.$name.${opt._1._1}", s = opt._1._1, game = game, x = newX, y = newY, color = Some(fontColor))
+      font.render(name = s"menu.$name.${opt._1._1}", text = opt._1._1, game = game, x = newX, y = newY, color = Some(fontColor))
     }
-    optionImages.foreach(i => group.add(i))
+    optionImages.foreach(i => group.add(i.group))
     setActiveOption(idx = 0, playSound = false)
   }
 

@@ -16,13 +16,14 @@ class TestState(phaser: Game) extends GameState("test", phaser) {
   private[this] var kb: Option[VirtualKeyboard] = None
 
   override def create(game: Game) = {
+    val message = "Hello, {{green}}world{{white}}! The quick {{red_dark}}brown {{orange}}fox{{white}} jumped over the lazy {{blue}}dog{{white}}."
     Font.fonts.map(Font.getFont(_, game)).zipWithIndex.foreach {
       case (f, idx) =>
-        val i1 = f.renderToImage(s"test.$idx.all", Font.chars.tail, game, 10, 10 + (idx * 100.0))
-        val i2 = f.renderToImage(s"test.$idx.phrase", "Hello, world! The quick brown fox jumped over the lazy dog.", game, 10, 60 + (idx * 100.0))
+        val i1 = f.render(s"test.$idx.all", Font.chars.tail, game, 10, 10 + (idx * 100.0))
+        val i2 = f.render(s"test.$idx.phrase", message, game, 10, 60 + (idx * 100.0))
 
-        game.add.existing(i1)
-        game.add.existing(i2)
+        game.add.existing(i1.group)
+        game.add.existing(i2.group)
     }
 
     // modal = Some(new BaseModal(phaser, "test"))

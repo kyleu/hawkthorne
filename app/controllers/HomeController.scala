@@ -15,6 +15,10 @@ class HomeController @javax.inject.Inject() (
     Future.successful(Ok(views.html.index(request.identity, app.config.debug)))
   }
 
+  def settings() = withoutSession("settings") { implicit request => implicit td =>
+    Future.successful(Ok(views.html.settings(request.identity, app.config.debug)))
+  }
+
   def externalLink(url: String) = withoutSession("external.link") { implicit request => implicit td =>
     Future.successful(Redirect(if (url.startsWith("http")) { url } else { "http://" + url }))
   }

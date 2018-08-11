@@ -5,10 +5,12 @@ import com.definitelyscala.phaserce.{Cache, Game, PluginObj}
 import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.{BaseComponent, PlayerSprite}
+import models.gui.{ConsoleLog, HudOverlay}
 import models.node.Node
 import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element
+import services.game.GameInstance
 import services.map.MapService
 import services.socket.AnalyticsService
 import util.JsonSerializers._
@@ -56,6 +58,10 @@ class DebugService private (phaser: Game) {
   if (debugPlugin.toString != "undefined") {
     phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
   }
+
+  def setUI(consoleLog: ConsoleLog, hud: HudOverlay) = DebugUI.setUI(gui, consoleLog, hud)
+
+  def setGameInstance(instance: GameInstance) = DebugGame.setGameInstance(gui, instance)
 
   def setMap(game: Game, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
     DebugMapService.setMap(game, gui, mapService, nodes, components, players)

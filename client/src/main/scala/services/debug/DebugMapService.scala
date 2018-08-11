@@ -18,7 +18,7 @@ object DebugMapService {
     DebugPhaser.addWorld(gui, game.world)
     DebugPhaser.addCamera(gui, game.camera)
 
-    DebugMapService.addMap(gui, mapService, nodes)
+    addMap(gui, mapService, nodes)
     DebugPlayers.addPlayers(gui, players)
 
     val componentFolder = gui.addFolder("Components")

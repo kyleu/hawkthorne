@@ -8,16 +8,14 @@ object Font {
   val assets = fonts.map(f => Asset.Image(s"font.$f", s"images/fonts/$f.png"))
 
   val chars = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/\\:;%&`'*#=\"$()<>{}áíóúñ¿¡éü^"
-  private val charMap = chars.zipWithIndex.toMap
+  val charMap = chars.zipWithIndex.toMap
+
   private[this] val fontMap = collection.mutable.HashMap.empty[String, Font]
 
   def getFont(key: String, game: Game) = fontMap.getOrElseUpdate(key, load(game, key))
-  def reset() = {
-    fontMap.values.foreach(_.shutdown())
-    fontMap.clear()
-  }
+  def reset() = fontMap.clear()
 
-  private case class CharLocation(char: Char, startIndex: Int, width: Int, height: Int) {
+  case class CharLocation(char: Char, startIndex: Int, width: Int, height: Int) {
     val area = new Rectangle(startIndex.toDouble, 0, width.toDouble, height.toDouble)
   }
 
@@ -50,44 +48,29 @@ object Font {
   }
 }
 
-class Font(val key: String, img: Image, chars: IndexedSeq[Font.CharLocation]) {
+class Font(val key: String, val img: Image, val chars: IndexedSeq[Font.CharLocation]) {
+  val textureKey = s"font.$key"
   val height = img.height
   val padding = if (height < 10) { 1 } else { 2 }
 
-  val activeData = collection.mutable.HashMap.empty[String, BitmapData]
-
-  private[this] def renderToTexture(s: String, game: Game) = activeData.get(s) match {
-    case Some(tex) => tex
-    case None =>
-      val locations = s.map(c => chars(Font.charMap(c)))
-      val pxWidth = locations.map(_.width).sum.toDouble + (locations.size * padding)
-      val tex = game.make.bitmapData(pxWidth, height)
-      var currX = 0
-      locations.foreach { l =>
-        tex.copyRect(img, l.area, currX.toDouble)
-        currX += (l.width + padding)
-      }
-      activeData(s) = tex
-      tex
+  def render(name: String, text: String, game: Game, x: Double = 0.0, y: Double = 0.0, color: Option[Int] = None) = {
+    new FontText(game = game, name = name, font = this, text = text, x = x, y = y, color = color)
   }
 
-  def renderToImage(name: String, s: String, game: Game, x: Double = 0.0, y: Double = 0.0, color: Option[String] = None) = {
-    val tex = renderToTexture(s, game)
-    val image = new Image(game, x, y, tex)
-    image.name = name
-    color.foreach(c => image.tint = Color.hexToRGB(c))
-    image
+  private[this] val sprites = Font.chars.map { c =>
+    val location = chars(Font.charMap(c))
+    val i = new Sprite(game = img.game, x = 0, y = 0, key = textureKey)
+    i.cropRect = location.area
+    i.updateCrop()
+    i
   }
 
-  def complete(s: String) = activeData.get(s) match {
-    case None => throw new IllegalStateException("Attempted removal of missing string.")
-    case Some(tex) =>
-      activeData.remove(s)
-      tex.destroy()
-  }
-
-  def shutdown() = {
-    activeData.keys.foreach(complete)
-    activeData.clear()
+  def spriteCopyFor(char: Char, x: Double = 0, y: Double = 0, color: Int = 0xffffff) = {
+    val proto = sprites(Font.charMap(char))
+    val i = new Sprite(game = img.game, x = x, y = y, key = textureKey)
+    i.cropRect = proto.cropRect
+    i.updateCrop()
+    i.tint = color.toDouble
+    i
   }
 }

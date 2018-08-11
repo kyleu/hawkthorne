@@ -12,7 +12,7 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
 
   private[this] val menu = Menu(
     game = game, name = "options.menu", fontKey = "big", arrowKey = "options.menu.arrow", backgroundKey = "options.menu.bg",
-    width = 272, height = 176, margin = 12.0, lineHeight = 26.0, fontColor = "#000000", fontOffset = 4.0
+    width = 272, height = 176, margin = 12.0, lineHeight = 26.0, fontColor = 0x000000, fontOffset = 4.0
   )
   game.stage.add(menu.group)
 

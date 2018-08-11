@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 pushd ../
-sbt-nodebug dist
+sbt-nodebug stage

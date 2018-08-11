@@ -25,7 +25,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] val logoGroup = new Group(game, group, "intro.logoGroup")
   logoGroup.scale.set(0.8, 0.8)
   private[this] val logo = StaticSprite(game, logoGroup, "intro.logo", "intro.logo")
-  logo.sprite.anchor = util.PhaserUtils.centerPoint
+  logo.sprite.anchor.set(0.5, 0.5)
 
   val sparkleCoords = Seq(55 -> 34, 42 -> 112, 132 -> 139, 271 -> 115, 274 -> 50).map { c =>
     (c._1 - (logo.sprite.width / 2).toInt - 12, c._2 - (logo.sprite.height / 2).toInt - 12)
@@ -34,10 +34,8 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   val sparkleComponents = ComponentLoadService.fromNodes(sparkles, game, logoGroup)
 
   private[this] val font = Font.getFont("big", game)
-  private[this] val attract = font.renderToImage(name = "attract", s = "Press Start", game = game)
-  attract.anchor = util.PhaserUtils.centerPoint
-  attract.position = new Point(0, background.sprite.height - 40.0)
-  group.add(attract)
+  private[this] val attract = font.render(name = "attract", text = "Press Start", game = game, y = background.sprite.height - 40.0)
+  group.add(attract.group)
 
   private[this] val menu = Menu(
     game = game, name = "intro.menu", fontKey = "small", arrowKey = "intro.menu.arrow", backgroundKey = "intro.menu.bg", width = 101, height = 75
@@ -65,15 +63,15 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
     val newY = (background.sprite.height * zoom) - height
     group.position = new Point(0.0, -newY)
     val (logoX, logoY) = ((width / 2.0) / zoom, background.sprite.height - (height / 1.4 / zoom))
-    logoGroup.position = new Point(logoX, logoY)
-    attract.position = new Point((width / zoom) / 2, attract.position.y)
-    menu.group.position = new Point(((width / zoom) / 2) - menu.background.width, menu.group.position.y)
+    logoGroup.position.set(logoX, logoY)
+    attract.group.position.set(((width / zoom) - attract.group.width) / 2, attract.group.position.y)
+    menu.group.position.set(((width / zoom) / 2) - menu.background.width, menu.group.position.y)
   }
 
   def update(dt: Double) = {
     sparkleComponents.foreach(_.update(dt))
     if (!menuShown) {
-      attract.visible = (System.currentTimeMillis % 1000) > 400
+      attract.group.visible = (System.currentTimeMillis % 1000) > 400
     }
   }
 
@@ -92,7 +90,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] def showMenu() = {
     if (menuShown) { throw new IllegalStateException("Double menu init") }
     menuShown = true
-    attract.visible = false
+    attract.group.visible = false
     menu.group.visible = true
   }
 }

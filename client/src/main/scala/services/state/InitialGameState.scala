@@ -46,7 +46,7 @@ class InitialGameState(nextState: InputService => GameState, phaser: Game, debug
     game.scale.scaleMode = ScaleManager.RESIZE
 
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
-    s.anchor = util.PhaserUtils.centerPoint
+    s.anchor.set(0.5, 0.5)
     val scale = game.width * 0.6 / s.width
     s.scale.set(scale, scale)
 

@@ -13,7 +13,7 @@ class OverworldTitleboard(game: Game) {
 
   private[this] def font = Font.getFont("big", game)
   private[this] var titleText = textFor("TEST")
-  group.add(titleText)
+  group.add(titleText.group)
 
   def resize(zoom: Double) = {
     group.scale.set(zoom, zoom)
@@ -21,15 +21,15 @@ class OverworldTitleboard(game: Game) {
   }
 
   def setText(s: String) = {
-    group.remove(titleText)
-    titleText.destroy()
+    group.remove(titleText.group)
+    titleText.group.destroy()
     titleText = textFor(s)
-    group.add(titleText)
+    group.add(titleText.group)
   }
 
   private[this] def textFor(s: String) = {
-    val i = font.renderToImage(name = "overworld.titleboard.text", s = s, game = game)
-    i.position = new Point((bg.width - i.width) / 2, (bg.height - i.height) / 2)
+    val i = font.render(name = "overworld.titleboard.text", text = s, game = game)
+    i.group.position = new Point((bg.width - i.group.width) / 2, (bg.height - i.group.height) / 2)
     i
   }
 }

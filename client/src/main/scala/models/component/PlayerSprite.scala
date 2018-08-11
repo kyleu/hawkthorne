@@ -33,7 +33,7 @@ class PlayerSprite(override val game: Game, group: Group, idx: Int, player: Play
   }
 
   as.sprite.name = s"$idx.${player.templateKey}.${player.costume.key}"
-  as.sprite.anchor = util.PhaserUtils.centerPoint
+  as.sprite.anchor.set(0.5, 0.5)
 
   override def update(deltaMs: Double) = as.update(deltaMs)
 }

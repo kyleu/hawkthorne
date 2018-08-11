@@ -2,7 +2,7 @@ package models.gui
 
 import com.definitelyscala.phaserce._
 import models.asset.Asset
-import models.component.SimpleComponent
+import models.data.character.{Annie, Britta, Shirley, Troy}
 import models.font.Font
 import models.player.Player
 
@@ -14,18 +14,22 @@ object HudOverlay {
   )
 }
 
-final case class HudOverlay(override val game: Game, player: Player) extends SimpleComponent {
-  override val name = "ui.hud"
-
+final case class HudOverlay(game: Game, player: Player) {
   val group = new Group(game, name = "hud.overlay")
-  override def comp = group
 
   val chevron = new Sprite(game, 0, 0, "hud.chevron")
   chevron.name = "hud.chevron"
   group.add(chevron)
 
   val headData = game.make.bitmapData(32, 32)
-  headData.copyRect(player.spritesheet._1, new Rectangle(8, 2, 32, 32), 0, 0)
+  val headshotY = player.template match {
+    case Annie => 12.0
+    case Britta => 8.0
+    case Shirley => 10.0
+    case Troy => 8.0
+    case _ => 2.0
+  }
+  headData.copyRect(player.spritesheet._1, new Rectangle(8, headshotY + 48, 32, 32), 0, 0)
 
   val headshot = new Sprite(game, 14, 16, headData)
   headshot.name = "hud.headshot"
@@ -37,12 +41,17 @@ final case class HudOverlay(override val game: Game, player: Player) extends Sim
 
   val font = Font.getFont("small", game)
 
-  val nameText = font.renderToImage("hud.name", player.template.name, game, 58, 15, Some("#000"))
-  group.add(nameText)
+  val nameText = font.render(name = "hud.name", text = player.template.name, game = game, x = 58, y = 15, color = Some(0x000000))
+  group.add(nameText.group)
 
-  val pointsText = font.renderToImage("hud.currency", "0", game, 67, 41, Some("#000"))
-  group.add(pointsText)
+  val pointsText = font.render("hud.currency", "0", game, 67, 41, Some(0x000000))
+  group.add(pointsText.group)
 
   game.stage.add(group)
+
+  def resize(width: Int, height: Int, zoom: Double) = {
+    val newZoom = Math.max(1.0, Math.min(6.0, zoom.floor))
+    group.scale.set(newZoom, newZoom)
+  }
 }
 

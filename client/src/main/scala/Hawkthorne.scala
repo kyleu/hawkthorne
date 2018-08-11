@@ -24,7 +24,7 @@ class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
 
   private[this] def initPhaser() = {
     js.Dynamic.global.window.PhaserGlobal = js.Dynamic.literal(hideBanner = true)
-    val webGL = dom.window.navigator.userAgent.indexOf("AppleWebKit") > -1
+    val webGL = true // dom.window.navigator.userAgent.indexOf("AppleWebKit") > -1
 
     val game = new Game(PhaserUtils.getConfig(webGL))
     js.Dynamic.global.phaser = game

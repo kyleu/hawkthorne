@@ -4,8 +4,8 @@ import com.definitelyscala.phaserce.{Game, Group, Point}
 
 class CameraService(game: Game, group: Group, todoNotJustSize: Double, pxSize: (Int, Int)) {
   private[this] var zoom = 1.0
-  private[this] var minZoom = 1.0
-  private[this] var maxZoom = 10.0
+  private[this] val minZoom = 1.0
+  private[this] val maxZoom = 10.0
   private[this] val size = todoNotJustSize -> todoNotJustSize
   private[this] var (currentX, currentY) = (0.0, 0.0)
   private[this] var (lastX, lastY) = 0.0 -> 0.0
@@ -46,8 +46,8 @@ class CameraService(game: Game, group: Group, todoNotJustSize: Double, pxSize: (
     val clampedX = Math.max(0.0, Math.min(maxX, target.x))
     val clampedY = Math.max(0.0, Math.min(maxY, target.y))
     if (clampedX != lastX || clampedY != lastY) {
-      util.Logging.info(s"zoom: [$zoom] clamped: [$clampedX, $clampedY] max: [$maxX, $maxY]")
-      util.Logging.info(s"game: [${game.width}, ${game.height}] group: [${group.width}, ${group.height}]")
+      // util.Logging.info(s"zoom: [$zoom] clamped: [$clampedX, $clampedY] max: [$maxX, $maxY]")
+      // util.Logging.info(s"game: [${game.width}, ${game.height}] group: [${group.width}, ${group.height}]")
       lastX = clampedX
       lastY = clampedY
       Some(new Point(-clampedX.toDouble, -clampedY.toDouble))

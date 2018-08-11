@@ -22,7 +22,7 @@ class LoadingState(
 ) extends GameState("initial", phaser) {
   override def create(game: Game) = {
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
-    s.anchor = util.PhaserUtils.centerPoint
+    s.anchor.set(0.5, 0.5)
     val scale = game.width * 0.6 / s.width
     s.scale.set(scale, scale)
 

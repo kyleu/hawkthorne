@@ -1,11 +1,13 @@
 @(user: Option[models.user.SystemUser], devmode: Boolean)(
     implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
 )
-@option(path: String, title: String) = {
+@link(call: Call, title: String) = {
   <div class="col s12 m6 l4">
-    <a class="theme-text item" href="@controllers.routes.GameplayController.gameplay(path)">@title</a>
+    <a class="theme-text item" href="@call.url">@title</a>
   </div>
 }
+
+@option(path: String, title: String) = { @link(controllers.routes.GameplayController.gameplay(path), title) }
 
 @traceData.logViewClass(getClass)@layout.simple(user, util.Config.projectName) {
   <style type="text/css">
@@ -31,12 +33,25 @@
           <a style="font-size: 200%; padding: 18px;" class="theme-text item" href="@controllers.routes.GameplayController.root()">Play Now</a>
         </li>
         <li class="collection-item">
+          <h5>Game States</h5>
+          <div class="row">
+            @Seq("Intro", "Portal", "Menu", "Options", "Overworld").map { x => @option(x.toLowerCase, x) }
+            @link(controllers.routes.GameplayController.gameplay("map/studyroom"), "Gameplay")
+          </div>
+        </li>
+        <li class="collection-item">
+          <h5>Multiplayer</h5>
+          <div class="row">
+            @link(controllers.routes.GameplayController.gameplay("multiplayer/host"), "Host")
+            @link(controllers.routes.GameplayController.gameplay("multiplayer/list"), "Game List")
+            @link(controllers.routes.GameplayController.gameplay("multiplayer/join/random"), "Join Random")
+          </div>
+        </li>
+        <li class="collection-item">
           <h5>Tests</h5>
           <div class="row">
-            @Seq(
-              "intro" -> "Intro", "portal" -> "Portal", "menu" -> "Menu", "options" -> "Options",
-              "overworld" -> "Overworld", "test" -> "Tests", "sandbox" -> "Sandbox"
-            ).map { x => @option(x._1, x._2) }
+            @Seq("Test", "Sandbox").map { x => @option(x.toLowerCase, x) }
+            @link(controllers.routes.HomeController.settings(), "Settings")
           </div>
         </li>
         <li class="collection-item">

@@ -13,7 +13,7 @@ import util.JsonSerializers._
 object AuditHelper extends Logging {
   private[this] val server = InetAddress.getLocalHost.getHostName
   private[this] var inst: Option[AuditService] = None
-  private[this] def getInst = inst.getOrElse(throw new IllegalStateException("Not initialized."))
+  private[this] def getInst = inst.getOrElse(throw new IllegalStateException("Audit service not initialized."))
 
   def init(service: AuditService) = {
     inst.foreach(_ => throw new IllegalStateException("Double audit service init."))

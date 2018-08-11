@@ -56,13 +56,15 @@ class VirtualKeyboard(override val game: Game, override val name: String, initia
         }
         bitmapData.copy(graphics, tx = offsetX, ty = line._2 * paddedSize)
 
-        val img = font.renderToImage(name = displayStr, s = displayStr, game = game)
         val fontOffsetX = displayStr.length match {
           case 5 => 6
           case _ => 12
         }
-        bitmapData.copy(img, tx = offsetX + fontOffsetX, ty = 10 + (line._2 * paddedSize))
-        font.complete(displayStr)
+        displayStr.zipWithIndex.foreach { c =>
+          val s = font.spriteCopyFor(c._1, x = offsetX + fontOffsetX + (c._2 * 14), y = 10 + (line._2 * paddedSize))
+          bitmapData.copy(s)
+          s.destroy()
+        }
       }
       offsetX += (charSize * paddedSize)
     }

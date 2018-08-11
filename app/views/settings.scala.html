@@ -1,0 +1,26 @@
+@(user: Option[models.user.SystemUser], devmode: Boolean)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+) @traceData.logViewClass(getClass)@layout.simple(user, util.Config.projectName) {
+  <div class="row">
+    <div class="col s12">
+      <label for="settings-textarea">Local Settings</label>
+      <textarea id="settings-textarea" class="materialize-textarea"></textarea>
+    </div>
+    <div class="col s12">
+      <button id="save-button" class="btn theme">Save Settings</button>
+    </div>
+  </div>
+  <script type="application/javascript">
+    $(function() {
+      var json = localStorage.getItem("hawkthorne.settings");
+      var jq = $("#settings-textarea");
+      jq.val(json);
+      jq.trigger('autoresize');
+      $("#save-button").on("click", function() {
+        var content = jq.val();
+        localStorage.setItem("hawkthorne.settings", content);
+        location.href = "/"
+      })
+    });
+  </script>
+}
