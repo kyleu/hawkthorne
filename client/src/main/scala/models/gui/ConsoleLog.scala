@@ -4,12 +4,14 @@ import com.definitelyscala.phaserce.{Game, Group}
 import models.font.{Font, FontText}
 
 object ConsoleLog {
-  val lineHeight = 24.0
+  val lineHeight = 14.0
   val lifetime = 4
-  val maxLines = 10
+  val maxLines = 5
+  val bottomMargin = 6
 }
 
 final case class ConsoleLog(game: Game) {
+
   import ConsoleLog._
 
   val group = new Group(game, name = "console.log")
@@ -28,6 +30,7 @@ final case class ConsoleLog(game: Game) {
     textGroups = (elapsed, s, textGroup) +: textGroups
     textGroups.drop(maxLines).foreach(remove)
     group.visible = true
+    rebalance()
     nextIdx += 1
   }
 
@@ -56,7 +59,7 @@ final case class ConsoleLog(game: Game) {
     val newZoom = Math.max(1.0, Math.min(6.0, zoom.floor))
     group.scale.set(newZoom, newZoom)
 
-    val yOffset = (lineHeight * textGroups.size) * newZoom
+    val yOffset = (lineHeight * maxLines) * newZoom
     group.y = height - yOffset
   }
 
@@ -68,8 +71,10 @@ final case class ConsoleLog(game: Game) {
     group.remove(removal._3.group)
     removal._3.group.destroy()
     textGroups = textGroups.filterNot(_ == removal)
-    textGroups.zipWithIndex.foreach { kept =>
-      kept._1._3.group.x = kept._2 * lineHeight
-    }
+    rebalance()
+  }
+
+  private[this] def rebalance() = textGroups.zipWithIndex.foreach { kept =>
+    kept._1._3.group.y = ((maxLines - kept._2 - 1) * lineHeight) - bottomMargin
   }
 }
