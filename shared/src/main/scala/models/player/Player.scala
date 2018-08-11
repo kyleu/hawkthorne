@@ -30,8 +30,4 @@ final case class Player(
   val template = CharacterListing.withKey(templateKey)
   val costume = template.costume(costumeKey)
   val spritesheet = (templateKey + "." + costumeKey, s"images/characters/$templateKey/$costumeKey.png", 48, 48)
-
-  def asNewGameObject(id: Int, idx: Int, spawn: Point) = {
-    GameObject(t = "player", id = id, n = s"Player $idx (${template.name})", x = spawn.x.toDouble, y = spawn.y.toDouble, w = 48, h = 48)
-  }
 }

@@ -47,9 +47,8 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     DebugService.inst.foreach(_.setMap(game, mapService, nodes, components, Seq(display.playerSprite)))
     display.playerSprite.as.sprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
-    instance.initialMessages() // TODO
-
     splashComplete()
+    instance.start()
     started = true
   })
 

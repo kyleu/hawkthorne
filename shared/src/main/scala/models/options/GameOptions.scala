@@ -12,5 +12,6 @@ final case class GameOptions(
     map: TiledMap = TiledMap.StudyRoom,
     maxPlayers: Int = 1,
     hardcore: Boolean = false,
-    offline: Boolean = true
+    offline: Boolean = true,
+    debug: Boolean = true
 )

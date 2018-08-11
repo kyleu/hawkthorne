@@ -21,7 +21,7 @@ class PlayerSprite(override val game: Game, group: Group, idx: Int, player: Play
   as.x = initialLoc._1.toDouble
   as.y = initialLoc._2.toDouble
 
-  private[this] val input = new PlayerInputHandler(maxX = initialBounds._1, maxY = initialBounds._2)
+  private[this] val input = new PlayerInputHandler(maxX = initialBounds._1, maxY = initialBounds._2, s => util.Logging.info(s))
 
   def processInput(delta: Double, playerInput: GameUpdate.PlayerInput) = {
     val (anim, loc) = input.process(delta = delta, currentX = x, currentY = y, input = playerInput)

@@ -16,22 +16,11 @@ object GameInstanceFactory {
       Point(d.x.toInt + (d.width / 2), d.y.toInt + d.height - 24)
     }.getOrElse(throw new IllegalStateException("No spawn point detected."))
 
-    val initialObjects = initialNodes.map(_.asNewGameObject)
+    val objs = initialNodes.map(_.asNewGameObject).toIndexedSeq
 
-    var lastNodeId = initialNodes.map(_.id).max + 1
-    def nextNodeId() = {
-      lastNodeId += 1
-      lastNodeId
-    }
-
-    val playerObjects = initialPlayers.zipWithIndex.map(p => p._1.asNewGameObject(nextNodeId(), p._2, spawn))
-
-    val finalObjects = (initialObjects ++ playerObjects).toIndexedSeq
-
-    val gameStage = GameStage(options.map, finalObjects)
-
-    val i = GameInstance(id, options, gameStage, spawn)
-    i.setCallbacks(log, notify)
+    val i = GameInstance(id, options, GameStage(options.map, objs), spawn)
+    GameInstanceDebug.setCallbacks(options.debug, log, notify)
+    initialPlayers.foreach(i.addPlayer)
     i
   }
 }

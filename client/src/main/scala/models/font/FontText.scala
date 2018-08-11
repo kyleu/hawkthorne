@@ -34,7 +34,7 @@ class FontText(game: Game, val name: String, font: Font, val text: String, x: Do
       acc += c
       None
     case c => throw new IllegalStateException(s"Unhandled character [$c] at depth [$bracketDepth] in string [$text].")
-  }
+  } ++ (if (acc.isEmpty) { Nil } else { Seq(Right(acc)) })
 
   var activeColor = color.getOrElse(0xffffff)
 
@@ -42,7 +42,7 @@ class FontText(game: Game, val name: String, font: Font, val text: String, x: Do
     case Left(tint) => activeColor = tint.toInt
     case Right(msg) => msg.foreach { c =>
       val i = font.spriteCopyFor(char = c, x = runningTotal.toDouble, color = activeColor)
-      runningTotal += i.width.toInt
+      runningTotal += i.width.toInt + font.padding
       group.add(i)
     }
   }

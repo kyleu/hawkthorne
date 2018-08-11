@@ -31,7 +31,7 @@ object NavigationService {
       case x if x.startsWith("map/") => GameplayState.load(
         phaser = game,
         input = input,
-        options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/"))),
+        options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug),
         player = Player.randomFor(UUID.randomUUID /* TODO */ )
       )
 
