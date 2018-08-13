@@ -12,7 +12,7 @@ object MapGraphData {
     def addLine(l: String) = ret.append("  " + l + "\n")
     TiledMap.values.foreach { m =>
       val url = s"""<a>/play/map/${m.value}</a>"""
-      val cols = s"""<cite>${m.title}</cite><dt>${m.soundtrack} / [${m.width}, ${m.height}]</dt>$url"""
+      val cols = s"""<cite>${m.details.title}</cite><dt>${m.details.soundtrack} / [${m.width}, ${m.height}]</dt>$url"""
       addLine(s"""${clean(m.value)}["<section><h6>fa:fa-gear <span>${m.value}<span></h6>$cols</section>"]""")
     }
     val exits = ServerMapCache.all.map { m =>

@@ -56,7 +56,7 @@
         </li>
         <li class="collection-item">
           <h5>Maps</h5>
-          <div class="row">@models.data.map.TiledMap.values.sortBy(_.title).map { m => @option(s"map/${m.value}", m.title) }</div>
+          <div class="row">@models.data.map.TiledMap.values.sortBy(_.details.title).map { m => @option(s"map/${m.value}", m.details.title) }</div>
         </li>
       </ul>
     </div>
