@@ -6,8 +6,6 @@ import models.game.GameStage
 import models.options.GameOptions
 
 object GameInstanceDebug {
-  private[this] var initialized = false
-
   private[this] var isDebug = true
 
   private[this] var logger: Option[String => Unit] = None

@@ -1,4 +1,4 @@
-package servivces.collisison
+package services.collisison
 
 import services.game.GameInstance
 import util.Point
