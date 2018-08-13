@@ -6,7 +6,7 @@ import util.JsonSerializers._
 object EpisodeFiles {
   def process(cfg: PipelineConfig) = {
     val src = scala.io.Source.fromInputStream(getClass.getClassLoader.getResourceAsStream("episodes.json")).mkString
-    val json = decodeJson[Json](src).right.get.asArray.get
+    val json = parseJson(src).asArray.get
 
     val pkg = Seq("models", "data", "series")
     val file = ScalaFile(pkg = pkg, key = "Episode", root = Some("shared/src/main/scala"))

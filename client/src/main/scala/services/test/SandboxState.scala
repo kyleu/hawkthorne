@@ -1,7 +1,7 @@
 package services.test
 
 import com.definitelyscala.datgui.{GUI, GUIParams}
-import com.definitelyscala.phaserce.{Game, Point}
+import com.definitelyscala.phaserce.Game
 import models.asset.Asset
 import models.component.PlayerSprite
 import models.player.Player

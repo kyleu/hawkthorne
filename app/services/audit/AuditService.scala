@@ -15,6 +15,7 @@ import services.database.ApplicationDatabase
 import util.FutureUtils.serviceContext
 import util.tracing.{TraceData, TracingService}
 import util.web.TracingWSClient
+import util.JsonSerializers.jsonToObj
 import scala.concurrent.Future
 
 @javax.inject.Singleton
@@ -23,7 +24,7 @@ class AuditService @javax.inject.Inject() (
 ) extends ModelServiceHelper[Audit]("audit") {
   AuditHelper.init(this)
 
-  def callback(a: Audit)(implicit trace: TraceData) = if (a.records.exists(r => r.changes.as[Seq[AuditField]].right.get.nonEmpty)) {
+  def callback(a: Audit)(implicit trace: TraceData) = if (a.records.exists(r => jsonToObj[Seq[AuditField]](r.changes).nonEmpty)) {
     AuditNotifications.postToSlack(ws, config.slackConfig, a)
     AuditNotifications.persist(a)
     log.info(a.changeLog)

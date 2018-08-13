@@ -62,7 +62,7 @@ class GraphQLService @javax.inject.Inject() (tracing: TracingService, registry: 
   def parseVariables(variables: String) = if (variables.trim == "" || variables.trim == "null") {
     Json.obj()
   } else {
-    util.JsonSerializers.parseJson(variables) match {
+    util.JsonSerializers.parseJsonResult(variables) match {
       case Right(x) => x
       case Left(_) => Json.obj()
     }

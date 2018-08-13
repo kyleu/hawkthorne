@@ -6,10 +6,10 @@ import util.JsonSerializers._
 object CharacterFiles {
   def process(cfg: PipelineConfig) = {
     (cfg.src / "characters").children.filter(_.name.endsWith(".json")).toSeq.flatMap { src =>
-      val json = decodeJson[Json](src.contentAsString).right.get.asObject.get
+      val json = parseJson(src.contentAsString).asObject.get
       val key = src.name.stripSuffix(".json")
       val name = nameFor(key)
-      val costumes = json("costumes").get.as[Seq[Json]].right.get
+      val costumes = jsonToObj[Seq[Json]](json("costumes").get)
 
       val pkg = Seq("models", "data", "character")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))

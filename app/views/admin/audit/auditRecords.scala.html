@@ -24,7 +24,7 @@
             <td>@record.t</td>
             <td>@record.pk.mkString(", ")</td>
             <td>
-              @defining(record.changes.as[Seq[models.audit.AuditField]].right.get) { changes =>
+              @defining(util.JsonSerializers.jsonToObj[Seq[models.audit.AuditField]](record.changes)) { changes =>
                 @if(changes.isEmpty) {
                   <em>No changes</em>
                 } else {

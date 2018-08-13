@@ -7,7 +7,7 @@ import util.JsonSerializers._
 object AnimationFiles {
   def process(cfg: PipelineConfig) = {
     val src = cfg.src / "character_map.json"
-    val json = decodeJson[Json](src.contentAsString).right.get.asObject.get
+    val json = parseJson(src.contentAsString).asObject.get
 
     val pkg = Seq("models", "data", "character")
     val file = ScalaFile(pkg = pkg, key = "CharacterAnimation", root = Some("shared/src/main/scala"))

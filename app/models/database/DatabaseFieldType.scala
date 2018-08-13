@@ -66,8 +66,8 @@ object DatabaseFieldType extends Enum[DatabaseFieldType[_]] with CirceEnum[Datab
   case object ObjectType extends DatabaseFieldType[String]("object")
   case object StructType extends DatabaseFieldType[String]("struct")
   case object JsonType extends DatabaseFieldType[io.circe.Json]("json") {
-    override def apply(row: Row, col: String) = util.JsonSerializers.parseJson(row.as[PGobject](col).getValue).right.get
-    override def opt(row: Row, col: String) = row.asOpt[PGobject](col).map(x => util.JsonSerializers.parseJson(x.getValue).right.get)
+    override def apply(row: Row, col: String) = util.JsonSerializers.parseJson(row.as[PGobject](col).getValue)
+    override def opt(row: Row, col: String) = row.asOpt[PGobject](col).map(x => util.JsonSerializers.parseJson(x.getValue))
   }
 
   case object CodeType extends DatabaseFieldType[String]("code")

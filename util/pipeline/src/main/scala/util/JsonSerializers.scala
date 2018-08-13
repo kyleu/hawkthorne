@@ -33,7 +33,20 @@ object JsonSerializers {
   def deriveFor[A](implicit decode: Lazy[ConfiguredDecoder[A]]) = io.circe.generic.extras.semiauto.deriveFor[A]
 
   implicit def encoderOps[A](a: A): io.circe.syntax.EncoderOps[A] = io.circe.syntax.EncoderOps[A](a)
-  def parseJson(s: String) = io.circe.parser.parse(s)
+  def parseJsonResult(s: String) = io.circe.parser.parse(s)
+  def parseJson(s: String, errMsg: => Option[String] = None) = parseJsonResult(s) match {
+    case Right(json) => json
+    case Left(x) => errMsg match {
+      case Some(msg) => throw new IllegalStateException(s"$msg\nOffending JSON: $s", x)
+      case None => throw x
+    }
+  }
+
+  def jsonToObj[A](j: Json)(implicit decoder: Decoder[A]) = j.as[A] match {
+    case Right(o) => o
+    case Left(x) => throw new IllegalStateException(s"Error converting [${j.spaces2}]", x)
+  }
+
   def decodeJson[A](s: String)(implicit decoder: Decoder[A]) = io.circe.parser.decode[A](s)
 
   def extract[T: Decoder](json: Json) = json.as[T] match {

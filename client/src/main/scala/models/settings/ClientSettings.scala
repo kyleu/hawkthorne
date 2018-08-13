@@ -27,13 +27,12 @@ object ClientSettings {
 
   def load() = {
     val s = Option(dom.window.localStorage.getItem(storageKey)) match {
-      case Some(rsp) => parseJson(rsp) match {
-        case Right(json) => json.as[ClientSettings] match {
+      case Some(rsp) =>
+        val json = parseJson(rsp, Some(s"Invalid storage json"))
+        json.as[ClientSettings] match {
           case Right(x) => x
-          case Left(x) => throw new IllegalStateException(s"Invalid storage content [  ${rsp.asJson.spaces2}  ]: ${x.getMessage}", x)
+          case Left(x) => throw new IllegalStateException(s"Invalid storage content [${rsp.asJson.spaces2}]: ${x.getMessage}", x)
         }
-        case Left(x) => throw new IllegalStateException(s"Invalid storage json [  ${rsp.asJson.spaces2}  ]: ${x.getMessage}", x)
-      }
       case None =>
         val s = ClientSettings()
         save(s)

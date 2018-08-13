@@ -17,12 +17,7 @@ object FileRepository {
     f.contentAsString
   }
 
-  def readJson(key: String, path: String) = {
-    util.JsonSerializers.parseJson(readFile(key, path)) match {
-      case Right(json) => json
-      case Left(x) => throw x
-    }
-  }
+  def readJson(key: String, path: String) = util.JsonSerializers.parseJson(readFile(key, path))
 
   def writeFile(key: String, path: String, content: String) = {
     val f = FileService.getDir(key) / path

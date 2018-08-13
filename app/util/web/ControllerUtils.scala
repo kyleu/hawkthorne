@@ -26,7 +26,7 @@ object ControllerUtils {
 
   def jsonFormOrBody(body: AnyContent, key: String) = {
     val content = body.asFormUrlEncoded.map(_(key).headOption.getOrElse(throw new IllegalStateException(s"Missing form field [$key].")))
-    content.map(util.JsonSerializers.parseJson).map(_.right.get).getOrElse(jsonBody(body))
+    content.map(c => util.JsonSerializers.parseJson(c)).getOrElse(jsonBody(body))
   }
 
   def jsonObject(json: Json) = json.asObject.getOrElse(throw new IllegalStateException("Json is not an object."))
