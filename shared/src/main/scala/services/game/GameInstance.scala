@@ -12,11 +12,6 @@ final case class GameInstance(id: UUID, options: GameOptions, stage: GameStage, 
   protected[this] val startMs = System.currentTimeMillis
   protected[this] var elapsedSeconds = 0.0
 
-  private[this] val whoops = stage.objects.filter(o => o.t == "player")
-  if (whoops.nonEmpty) {
-    throw new IllegalStateException(s"Illegal game object for initial state: [${whoops.mkString(", ")}]")
-  }
-
   private[this] var players = IndexedSeq.empty[Player]
   def addPlayer(p: Player) = {
     players = players :+ p

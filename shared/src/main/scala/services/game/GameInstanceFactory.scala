@@ -23,7 +23,7 @@ object GameInstanceFactory {
       Point(d.x.toInt + (d.width / 2), d.y.toInt + d.height - 24)
     }.getOrElse(throw new IllegalStateException("No spawn point detected."))
 
-    val objs = initialNodes.map(_.asNewGameObject).toIndexedSeq
+    val objs = initialNodes.flatMap(_.asNewGameObject).toIndexedSeq
 
     val i = GameInstance(id = id, options = options, stage = GameStage(sourceMap = options.map, objects = objs, collision = collision), spawn = spawn)
     GameInstanceDebug.setCallbacks(options.debug, log, notify)

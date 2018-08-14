@@ -8,11 +8,13 @@ object GameObject {
 }
 
 final case class GameObject(
-    t: String,
+    t: GameObjectType,
     id: Int,
     n: String,
     var x: Double,
     var y: Double,
     var w: Int,
-    var h: Int
+    var h: Int,
+    var vis: Boolean,
+    src: String
 )

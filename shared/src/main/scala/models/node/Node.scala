@@ -1,7 +1,7 @@
 package models.node
 
 import models.asset.Asset
-import models.game.GameObject
+import models.game.{GameObject, GameObjectType}
 import util.JsonSerializers._
 
 object Node {
@@ -32,5 +32,17 @@ abstract class Node(val t: String) {
   def actualHeight = height
   def size = actualWidth -> actualHeight
 
-  def asNewGameObject = GameObject(t = getClass.getSimpleName, id = id, n = name, x = actualX.toDouble, y = actualY.toDouble, w = actualWidth, h = actualHeight)
+  def gameObjectType: GameObjectType = GameObjectType.WorkInProgress
+
+  def asNewGameObject = Seq(GameObject(
+    t = gameObjectType,
+    id = id,
+    n = name,
+    x = actualX.toDouble,
+    y = actualY.toDouble,
+    w = actualWidth,
+    h = actualHeight,
+    vis = visible,
+    src = getClass.getSimpleName
+  ))
 }

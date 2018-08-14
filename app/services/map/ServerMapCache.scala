@@ -25,7 +25,7 @@ object ServerMapCache extends Logging {
     val is = Option(getClass.getClassLoader.getResourceAsStream(path)).getOrElse(throw new IllegalStateException(s"Cannot load [$path]."))
     val json = parseJson(scala.io.Source.fromInputStream(is).mkString)
     val ret = fromJson(map.value, json)
-    log.info(s"Loaded map [${map.value}] in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms],")
+    log.debug(s"Loaded map [${map.value}] in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms],")
     ret
   })
 
