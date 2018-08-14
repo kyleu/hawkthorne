@@ -1,6 +1,7 @@
 package services.map
 
 import io.circe.{Json, JsonObject}
+import models.collision.CollisionGrid
 import models.data.map.TiledMap
 import models.map.ServerMap
 import models.node.Node
@@ -45,6 +46,8 @@ object ServerMapCache extends Logging {
       case Left(x) => throw new IllegalStateException(s"Error parsing node json: ${x.getMessage}\n${json.spaces2}", x)
     })
 
+    val collisionOption = tileLayers.find(_.apply("name").contains("collision".asJson)).map(c => CollisionGrid.forJson(c.asJson))
+
     if (debug) {
       nodes.zip(nodeArray).foreach { x =>
         val src = x._2.asObject.get
@@ -67,6 +70,6 @@ object ServerMapCache extends Logging {
       }
     }
 
-    ServerMap(key = key, layers = layers, nodes = nodes)
+    ServerMap(key = key, layers = layers, nodes = nodes, collisionGrid = collisionOption)
   }
 }

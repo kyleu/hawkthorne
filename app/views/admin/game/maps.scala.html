@@ -32,7 +32,7 @@
         <div class="right">...</div>
         <h5>@map.key</h5>
         <div class="row">
-          <div class="col s6">
+          <div class="col s4">
             <strong>Layers</strong>
             <ul>
               @map.layers.sortBy(_.toLowerCase).map { l =>
@@ -40,13 +40,17 @@
               }
             </ul>
           </div>
-          <div class="col s6">
+          <div class="col s4">
             <strong>Nodes</strong>
             <ul>
             @models.map.MapDebug.nodes(map.nodes).map { n =>
               <li>@n._1: @n._2.size</li>
             }
             </ul>
+          </div>
+          <div class="col s4">
+            <strong>Collision</strong>
+            <ul>@map.collisionSummary</ul>
           </div>
         </div>
       </li>

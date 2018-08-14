@@ -23,12 +23,13 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
 
   AnalyticsService.send(AnalyticsActionType.GameStart, Json.obj("options" -> options.asJson, "players" -> Seq(player).asJson))
 
-  val nodes = MapNodeParser.parse(game.cache.getTilemapData("map." + options.map.value))
+  val (nodes, collision) = MapNodeParser.parse(options.map.value, game.cache.getTilemapData("map." + options.map.value))
 
   val instance = GameInstanceFactory.create(
     options = options,
     initialNodes = nodes,
     initialPlayers = Seq(player),
+    collision = collision,
     log = s => util.Logging.info(s),
     notify = s => util.Logging.warn(s)
   )
