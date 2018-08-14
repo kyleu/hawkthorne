@@ -11,21 +11,21 @@ import scala.scalajs.js
 
 object MapService {
   def assetsFor(map: TiledMap) = Seq(
-    MusicService.asset(map.details.soundtrack),
+    MusicService.asset(map.soundtrack),
     Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
-  ) ++ map.details.tilesetImages.map(i => Asset.Image(i._1, s"images/tilesets/${i._2}.png"))
+  ) ++ map.images.map(i => Asset.Image(i._1, s"images/tilesets/${i._2}.png"))
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   val group = game.add.group(name = s"map.${map.value}")
 
   val tilemap = new Tilemap(game, s"map.${map.value}")
-  map.details.tilesetImages.foreach(i => tilemap.addTilesetImage(tileset = i._1))
+  map.images.foreach(i => tilemap.addTilesetImage(tileset = i._1))
 
-  val backdrop = PhaserUtils.makeBackdrop(game = game, width = tilemap.widthInPixels, height = tilemap.heightInPixels, color = map.details.color)
+  val backdrop = PhaserUtils.makeBackdrop(game = game, width = tilemap.widthInPixels, height = tilemap.heightInPixels, color = map.color)
   group.add(backdrop)
 
-  MusicService.play(map.details.soundtrack, loop = true)
+  MusicService.play(map.soundtrack, loop = true)
 
   val mapPxWidth = map.width * SystemOptions.tileSize
   val mapPxHeight = map.height * SystemOptions.tileSize

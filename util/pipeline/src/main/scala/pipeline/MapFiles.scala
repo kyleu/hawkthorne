@@ -2,23 +2,52 @@ package pipeline
 
 import io.circe.Json
 import pipeline.file.ScalaFile
+import util.JsonSerializers
 
 object MapFiles {
-  def process(cfg: PipelineConfig) = MapListingFile.getJson(cfg.src).flatMap {
-    case (key, name, json) =>
-      val pkg = Seq("models", "data", "map")
-      val file = ScalaFile(pkg = pkg, key = s"${name}Details", root = Some("shared/src/main/scala"))
+  def process(cfg: PipelineConfig) = {
+    val pkg = Seq("models", "data", "map")
+    val file = ScalaFile(pkg = pkg, key = "TiledMap", root = Some("shared/src/main/scala"))
+
+    file.addImport("enumeratum.values", "StringCirceEnum")
+    file.addImport("enumeratum.values", "StringEnum")
+    file.addImport("enumeratum.values", "StringEnumEntry")
+
+    file.add("sealed abstract class TiledMap(", 2)
+    val extras = "val soundtrack: String, val color: String, val images: Map[String, String]"
+    file.add(s"override val value: String, val title: String, val width: Int, val height: Int, $extras")
+    file.add(") extends StringEnumEntry", -2)
+    file.add()
+
+    file.add(s"object TiledMap extends StringEnum[TiledMap] with StringCirceEnum[TiledMap] {", 1)
+
+    (cfg.src / "maps").children.filter(_.name.endsWith(".tmx")).toSeq.sortBy(_.name).foreach { src =>
+      val key = src.name.stripSuffix(".tmx")
+      val jsonFile = src.parent / "json" / (key + ".json")
+
+      if (!jsonFile.exists) {
+        import scala.sys.process._
+        val app = "/Applications/Tiled.app/Contents/MacOS/Tiled"
+        val cmd = s"$app --export-map ${cfg.src.path}/maps/$key.tmx ${cfg.src.path}/maps/json/$key.json"
+        println(cmd)
+        val result = cmd.!!
+        println(result)
+      }
+
+      val name = nameFor(key)
+      val json = JsonSerializers.parseJson(jsonFile.contentAsString).asObject.get
 
       val imageNames = json("tilesets").get.asArray.get.map(_.asObject.get).map { o =>
         val in = o.apply("name").get.asString.get
         val is = o.apply("image").get.asString.get
         in -> is.substring(is.lastIndexOf('/') + 1).stripSuffix(".png")
       }
-
-      val imageString = imageNames.filterNot(_._1 == "collisions").map(n => "\"" + n._1 + "\" -> \"" + n._2 + "\"").mkString(", ")
+      val imageString = imageNames.map(n => "\"" + n._1 + "\" -> \"" + n._2 + "\"").mkString(", ")
 
       val orientation = json("orientation").get.asString.get
       if (orientation != "orthogonal") { throw new IllegalStateException(s"Unhandled orientation [$orientation].") }
+      val width = json("width").get.asNumber.get.toInt.get
+      val height = json("height").get.asNumber.get.toInt.get
 
       val properties = json("properties").map(_.asObject.get).getOrElse(Json.obj().asObject.get)
 
@@ -28,15 +57,28 @@ object MapFiles {
       val (r, g, b) = (extract("red"), extract("green"), extract("blue"))
       val color = "#%02x%02x%02x".format(r, g, b)
 
-      file.add(s"object ${name}Details extends TiledMapDetails(", 1)
-      file.add(s"""key = "$key",""")
-      file.add(s"""title = "$title",""")
-      file.add(s"""soundtrack = "${soundtrack.getOrElse("level")}",""")
-      file.add(s"""color = "$color",""")
-      file.add(s"""images = Map($imageString)""")
-      file.add(")", -1)
+      val props = s"""title = "$title", width = $width, height = $height, soundtrack = "${soundtrack.getOrElse("level")}", color = "$color""""
 
-      cfg.writeScalaResult("maps", file.path -> file.rendered)
-  } ++ MapListingFile.process(cfg)
+      file.add(s"""case object $name extends TiledMap(value = "$key", $props, images = Map($imageString))""")
+    }
 
+    file.add()
+    file.add("override val values = findValues")
+    file.add("}", -1)
+
+    cfg.writeScalaResult(s"maps", file.path -> file.rendered).toSeq ++ cfg.copyAsset("maps/json", "maps").toSeq
+  }
+
+  private[this] def nameFor(key: String) = key match {
+    case "acschool" => "ACSchool"
+    case "frozencave" => "FrozenCave"
+    case "frozencave-2" => "FrozenCave2"
+    case "greendale-englishmemorial" => "GreendaleEnglishMemorial"
+    case "potteryclass" => "PotteryClass"
+    case "secretwritersgarden" => "SecretWritersGarden"
+    case "studyroom" => "StudyRoom"
+    case "winterwonderland" => "WinterWonderland"
+    case "winterwonderland2" => "WinterWonderland2"
+    case _ => ExportHelper.toClassName(key)
+  }
 }
