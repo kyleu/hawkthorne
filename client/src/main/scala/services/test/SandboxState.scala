@@ -1,6 +1,5 @@
 package services.test
 
-import com.definitelyscala.datgui.{GUI, GUIParams}
 import com.definitelyscala.phaserce.Game
 import models.asset.Asset
 import models.component.PlayerSprite
@@ -8,7 +7,6 @@ import models.player.Player
 import models.template.character.CharacterListing
 import services.audio.MusicService
 import services.state.{GameState, LoadingState}
-import util.JavaScriptUtils
 
 import scala.util.Random
 
@@ -39,15 +37,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
   }
 
   override def create(game: Game) = {
-    players.toString
-
     MusicService.play("daybreak", loop = true)
-
-    val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
-    val gui = new GUI(params)
-    val f = gui.addFolder("Player 0")
-    f.add(players, "x", 0, 2000.0)
-    f.add(players, "y", 0, 2000.0)
     players.foreach(_.setScale(1.0))
   }
 

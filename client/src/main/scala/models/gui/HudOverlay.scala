@@ -39,6 +39,27 @@ final case class HudOverlay(game: Game, player: Player) {
   lens.name = "hud.lens"
   group.add(lens)
 
+  private[this] val energyMeter = new Sprite(game, 0, 0, "hud.energy")
+  energyMeter.name = "hud.energy"
+  group.add(energyMeter)
+
+  private[this] var (energy, maxEnergy) = (-1, 0)
+  def setEnergy(amt: Int, max: Int) = if (energy != amt || maxEnergy != max) {
+    energy = amt
+    maxEnergy = max
+    val ratio = energy / maxEnergy.toDouble
+    if (ratio > 1.0 || ratio < 0.0) {
+      throw new IllegalStateException(s"Illegal ratio [$ratio] for [$energy / $maxEnergy]")
+    }
+    val color = if (ratio > 0.5) {
+      Color.getColor32(alpha = 0.8, red = 255, green = (ratio * 255).floor, blue = 0)
+    } else {
+      Color.getColor32(alpha = 0.8, red = 0, green = (ratio * 255).floor, blue = 0)
+    }
+    println(ratio)
+    energyMeter.tint = color
+  }
+
   private[this] val font = Font.getFont("small", game)
 
   private[this] val nameText = font.render(name = "hud.name", text = player.template.name, game = game, x = 58, y = 15, color = Some(0x000000))
