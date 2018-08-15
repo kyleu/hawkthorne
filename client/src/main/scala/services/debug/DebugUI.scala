@@ -4,6 +4,8 @@ import com.definitelyscala.datgui.GUI
 import models.gui.{ConsoleLog, HudOverlay}
 import util.DatGuiUtils
 
+import scala.util.Random
+
 object DebugUI {
   def setUI(gui: GUI, consoleLog: ConsoleLog, hudOverlay: HudOverlay) = {
     val folder = gui.addFolder("GUI")
@@ -16,7 +18,7 @@ object DebugUI {
     console.add(consoleLog.group, "visible").listen()
 
     val hud = folder.addFolder("HUD Overlay")
-    DatGuiUtils.addFunction(hud, "Random Energy", () => hudOverlay.setEnergy(50, 100))
+    DatGuiUtils.addFunction(hud, "Random Energy", () => hudOverlay.setEnergy(Random.nextInt(101), 100))
     DatGuiUtils.addFunction(hud, "Debug", () => util.Logging.info(hudOverlay.debugString()))
     hud.add(hudOverlay.group, "visible").listen()
   }

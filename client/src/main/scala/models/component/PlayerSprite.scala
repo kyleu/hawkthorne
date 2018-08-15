@@ -2,7 +2,7 @@ package models.component
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.data.character.CharacterAnimation
-import models.game.GameUpdate
+import models.game.GameCommand
 import models.input.PlayerInputHandler
 import models.player.Player
 
@@ -29,7 +29,7 @@ class PlayerSprite(override val game: Game, group: Group, idx: Int, player: Play
 
   private[this] val input = new PlayerInputHandler(maxX = initialBounds._1, maxY = initialBounds._2, s => util.Logging.info(s))
 
-  def processInput(delta: Double, playerInput: GameUpdate.PlayerInput) = {
+  def processInput(delta: Double, playerInput: GameCommand.PlayerInput) = {
     val (anim, loc) = input.process(delta = delta, currentX = x, currentY = y, input = playerInput)
     anim.foreach(x => setAnimation(Some(x)))
     loc.foreach { l =>

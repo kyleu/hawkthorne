@@ -3,7 +3,7 @@ package services.game
 import java.util.UUID
 
 import models.collision.{CollisionGrid, CollisionPoly}
-import models.game.GameStage
+import models.game.{GameStage, GameCommand}
 import models.node.{DoorNode, Node}
 import models.options.GameOptions
 import models.player.Player
@@ -17,7 +17,7 @@ object GameInstanceFactory {
     collision: Either[CollisionPoly, CollisionGrid],
     log: String => Unit, notify: String => Unit
   ) = {
-    val id = UUID.randomUUID
+    val newGameId = UUID.randomUUID
 
     val spawn = initialNodes.collectFirst { case n: DoorNode if n.name == "main" => n }.map { d =>
       Point(d.x.toInt + (d.width / 2), d.y.toInt + d.height - 24)
@@ -25,9 +25,11 @@ object GameInstanceFactory {
 
     val objs = initialNodes.flatMap(_.asNewGameObject).toIndexedSeq
 
-    val i = GameInstance(id = id, options = options, stage = GameStage(sourceMap = options.map, objects = objs, collision = collision), spawn = spawn)
+    val i = GameInstance(gameId = newGameId, options = options, stage = GameStage(sourceMap = options.map, objects = objs, collision = collision), spawn = spawn)
     GameInstanceDebug.setCallbacks(options.debug, log, notify)
-    initialPlayers.foreach(i.addPlayer)
+
+    initialPlayers.foreach(p => i.update(0, GameCommand.AddPlayer(p)))
+
     i
   }
 }

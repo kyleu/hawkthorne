@@ -13,14 +13,14 @@ object Player {
 
   val default = Player()
 
-  def randomFor(userId: UUID) = {
+  def random(id: UUID) = {
     val template = CharacterListing.greendaleSeven(Random.nextInt(CharacterListing.greendaleSeven.size))
-    Player(user = userId, attributes = PlayerAttributes(), templateKey = template.key, costumeKey = template.randomCostume.key)
+    Player(id = id, attributes = PlayerAttributes(), templateKey = template.key, costumeKey = template.randomCostume.key)
   }
 }
 
 final case class Player(
-    user: UUID = UUID.fromString("00000000-0000-0000-0000-000000000000"),
+    id: UUID = UUID.fromString("00000000-0000-0000-0000-000000000000"),
     attributes: PlayerAttributes = PlayerAttributes(),
     templateKey: String = "jeff",
     costumeKey: String = "base"

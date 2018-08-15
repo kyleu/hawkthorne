@@ -1,7 +1,7 @@
 package services.input
 
 import com.definitelyscala.phaserce.{Game, Key, KeyCode}
-import models.game.GameUpdate
+import models.game.GameCommand
 import models.input.InputCommand
 
 object KeyboardInput {
@@ -48,7 +48,7 @@ final case class KeyboardInput(game: Game) {
       if (keymap.pause.justDown) { Some(InputCommand.Pause) } else { None },
       if (keymap.debug.justDown) { Some(InputCommand.Debug) } else { None }
     ).flatten
-    GameUpdate.PlayerInput(0, x, y, commands)
+    GameCommand.PlayerInput(0, x, y, commands)
   }
 
   def close() = {}

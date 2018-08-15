@@ -3,7 +3,7 @@ package models
 import java.util.UUID
 
 import models.analytics.AnalyticsActionType
-import models.game.GameUpdate
+import models.game.GameCommand
 import util.JsonSerializers._
 
 sealed trait RequestMessage
@@ -21,7 +21,7 @@ object RequestMessage {
   // Game
   final case class JoinGame(id: UUID) extends RequestMessage
   final case class ObserveGame(id: UUID) extends RequestMessage
-  final case class PlayerUpdate(msgs: Seq[GameUpdate], ts: Long = System.currentTimeMillis) extends RequestMessage
+  final case class PlayerUpdate(msgs: Seq[GameCommand], ts: Long = System.currentTimeMillis) extends RequestMessage
 
   // Analytics
   final case class AnalyticsMessage(t: AnalyticsActionType, arg: Json) extends RequestMessage

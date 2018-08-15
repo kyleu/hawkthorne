@@ -27,12 +27,12 @@ object NavigationService {
       case "test" => TestState.load(phaser = game)
       case "sandbox" => SandboxState.load(phaser = game)
 
-      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, player = Player.randomFor(UUID.randomUUID /* TODO */ ), debug = debug)
+      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, player = Player.random(UUID.randomUUID /* TODO */ ), debug = debug)
       case x if x.startsWith("map/") => GameplayState.load(
         phaser = game,
         input = input,
         options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug),
-        player = Player.randomFor(UUID.randomUUID /* TODO */ )
+        player = Player.random(UUID.randomUUID /* TODO */ )
       )
 
       case "multiplayer" =>

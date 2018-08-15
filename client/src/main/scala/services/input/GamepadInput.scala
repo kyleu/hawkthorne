@@ -1,7 +1,7 @@
 package services.input
 
 import com.definitelyscala.phaserce.{Game, Gamepad, SinglePad}
-import models.game.GameUpdate
+import models.game.GameCommand
 import models.input.InputCommand
 
 object GamepadInput {
@@ -79,6 +79,6 @@ final case class GamepadInput(game: Game) {
         if (pad.getButton(map.options).justPressed(delta)) { Some(InputCommand.Pause) } else { None },
         if (pad.getButton(map.debug).justPressed(delta)) { Some(InputCommand.Debug) } else { None }
       ).flatten
-      GameUpdate.PlayerInput(idx, x, y, commands)
+      GameCommand.PlayerInput(idx, x, y, commands)
   }
 }
