@@ -25,10 +25,11 @@ object GameInstanceFactory {
 
     val objs = initialNodes.flatMap(_.asNewGameObject).toIndexedSeq
 
-    val i = GameInstance(gameId = newGameId, options = options, stage = GameStage(sourceMap = options.map, objects = objs, collision = collision), spawn = spawn)
+    val i = GameInstance(gameId = newGameId, options = options, stage = GameStage(sourceMap = options.map, objects = objs), spawn = spawn)
+    i.stage.setCollision(coll = collision)
     GameInstanceDebug.setCallbacks(options.debug, log, notify)
 
-    initialPlayers.foreach(p => i.update(0, GameCommand.AddPlayer(p)))
+    initialPlayers.foreach(p => i.update(delta = 0, applyMessages = true, GameCommand.AddPlayer(p)))
 
     i
   }

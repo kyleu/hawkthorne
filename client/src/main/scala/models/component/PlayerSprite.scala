@@ -2,8 +2,6 @@ package models.component
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.data.character.CharacterAnimation
-import models.game.GameCommand
-import models.input.PlayerInputHandler
 import models.player.Player
 
 object PlayerSprite {
@@ -27,19 +25,10 @@ class PlayerSprite(override val game: Game, group: Group, idx: Int, player: Play
   def setAnimation(x: Option[String]) = as.setAnimation(x)
   def bringToTop() = as.sprite.bringToTop()
 
-  private[this] val input = new PlayerInputHandler(maxX = initialBounds._1, maxY = initialBounds._2, s => util.Logging.info(s))
-
-  def processInput(delta: Double, playerInput: GameCommand.PlayerInput) = {
-    val (anim, loc) = input.process(delta = delta, currentX = x, currentY = y, input = playerInput)
-    anim.foreach(x => setAnimation(Some(x)))
-    loc.foreach { l =>
-      x = l._1
-      y = l._2
-    }
-  }
-
   as.sprite.name = s"$idx.${player.templateKey}.${player.costume.key}"
   as.sprite.anchor.set(0.5, 0.5)
 
   override def update(deltaMs: Double) = as.update(deltaMs)
+
+  override def toString = s"PlayerSprite[$idx@$x/$y]: $player"
 }

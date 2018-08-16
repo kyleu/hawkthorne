@@ -22,6 +22,18 @@ object LuaUtils {
     throw new IllegalStateException(s"No line starting with [$prefix] available in [$src].")
   }
 
+  def blockFor(src: String, lines: immutable.IndexedSeq[String], prefix: String) = {
+    val lineNumber = lineNum(lines, prefix).getOrElse(throw new IllegalStateException(s"Cannot find line starting with [$prefix]"))
+
+    var bracketDepth = 0
+    lines.drop(lineNumber).takeWhile { line =>
+      val opens = line.count(c => c == '{')
+      val closes = line.count(c => c == '}')
+      bracketDepth = bracketDepth + opens - closes
+      bracketDepth > 0
+    }
+  }
+
   def findAnimations(ctx: String, lines: IndexedSeq[String]) = {
     lineNum(lines, "animations = ") match {
       case None => Nil

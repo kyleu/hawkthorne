@@ -11,8 +11,11 @@ object DebugPlayers {
     case (playerSprite, idx) =>
       val f = gui.addFolder(s"Player $idx")
       val anims = PlayerSprite.animations.keys.toSeq.sorted
+      DatGuiUtils.addFunction(f, "Debug", () => util.Logging.info(playerSprite.toString))
+      f.add(playerSprite, "visible").listen()
       f.add(playerSprite, "x", 0.0, 10000).listen()
       f.add(playerSprite, "y", 0.0, 10000).listen()
+      DatGuiUtils.addFunction(f, "Bring To Top", () => playerSprite.bringToTop())
       DatGuiUtils.addChoices(f, "Animation", "No Animation", "No Animation" +: anims, v => playerSprite.setAnimation(Some(v)))
       DatGuiUtils.addFunction(f, "Random Anim", () => {
         val anim = anims(Random.nextInt(anims.size))

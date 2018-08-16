@@ -9,16 +9,13 @@ import services.map.MapService
 import util.{DatGuiUtils, Logging}
 
 object DebugMapService {
-  def setMap(game: Game, gui: GUI, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
+  def setMap(game: Game, gui: GUI, mapService: MapService, components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
     val cheatFolder = gui.addFolder("Cheats")
     CheatOptions.values.foreach { c =>
       DatGuiUtils.addFunction(cheatFolder, c.toString, () => util.Logging.info(s"Cheat [$c] (${c.code}) selected: ${c.description}"))
     }
 
-    DebugPhaser.addWorld(gui, game.world)
-    DebugPhaser.addCamera(gui, game.camera)
-
-    addMap(gui, mapService, nodes)
+    addMap(gui, mapService)
     DebugPlayers.addPlayers(gui, players)
 
     val componentFolder = gui.addFolder("Components")
@@ -26,12 +23,9 @@ object DebugMapService {
     components.foreach(c => DebugComponents.add(componentFolder, c))
   }
 
-  def addMap(gui: GUI, mapService: MapService, nodes: Seq[Node]) = {
+  def addMap(gui: GUI, mapService: MapService) = {
     val f = gui.addFolder(s"Map (${mapService.map.value})")
-    val layersFolder = f.addFolder("Layers")
-    mapService.layers.foreach(l => addLayer(mapService, layersFolder, l._1, l._2))
-    val nodesFolder = f.addFolder("Nodes")
-    nodes.foreach(n => addNode(mapService, nodesFolder, n))
+    mapService.layers.foreach(l => addLayer(mapService, f, l._1, l._2))
   }
 
   private[this] def addLayer(mapService: MapService, root: GUI, id: String, layer: TilemapLayer) = {

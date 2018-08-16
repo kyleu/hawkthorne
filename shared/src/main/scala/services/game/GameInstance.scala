@@ -3,52 +3,20 @@ package services.game
 import java.util.UUID
 
 import models.game.{GameCommand, GameMessage, GameStage}
-import models.input.{InputCommand, PlayerInputHandler}
 import models.options.GameOptions
-import models.player.Player
 import services.game.GameInstanceDebug._
 import util.Point
 
 object GameInstance {
-  case class PlayerRecord(idx: Int, player: Player, var x: Double, var y: Double, input: PlayerInputHandler)
+  import util.JsonSerializers._
+
+  implicit val jsonEncoder: Encoder[GameInstance] = deriveEncoder
+  implicit val jsonDecoder: Decoder[GameInstance] = deriveDecoder
 }
 
-final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameStage, spawn: Point) {
+final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameStage, spawn: Point) extends GameInstancePlayers {
   private[this] var elapsedSeconds = 0.0
   val bounds = (options.map.width * 24) -> (options.map.height * 24)
-
-  private[this] var players = IndexedSeq.empty[GameInstance.PlayerRecord]
-
-  private[this] def indexOfPlayerId(id: UUID) = players.indexWhere(_.player.id == id)
-
-  private[this] def addPlayer(player: Player) = {
-    val playerIndex = indexOfPlayerId(player.id) match {
-      case -1 =>
-        val idx = players.size - 1
-        players = players :+ GameInstance.PlayerRecord(idx, player, 0, 0, new PlayerInputHandler(bounds._1, bounds._2, log))
-        idx
-      case x =>
-        players = players.zipWithIndex.map { record =>
-          if (record._1.idx == x) {
-            // TODO Notify replaced player?
-            record._1.copy(player = player)
-          } else {
-            record._1
-          }
-        }
-        x
-    }
-
-    debug(s"Added player [$player] to game, making [${players.size}] total players ([${players.count(_.player.attributes.connected)}] active).")
-    GameMessage.PlayerAdded(playerIndex, player)
-  }
-  private[this] def removePlayer(id: UUID) = {
-    players.collectFirst {
-      case x if x.player.id == id => x.player.attributes.connected = false
-    }
-    debug(s"Removed player [$id] from game, making [${players.size}] total players ([${players.count(_.player.attributes.connected)}] active).")
-    GameMessage.PlayerRemoved(players.size - 1, id)
-  }
 
   def start() = {
     log(toString)
@@ -57,19 +25,27 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
   private[this] def onInput(delta: Double, pi: GameCommand.PlayerInput) = {
     val record = players(pi.idx)
     val (anim, loc) = record.input.process(delta, record.x, record.y, pi)
-    loc.map {
-      case (newX, newY) => GameMessage.PlayerLocationUpdated(pi.idx, newX, newY)
-    }.toSeq
+    val aMsg = anim.map(a => GameMessage.PlayerAnimationUpdated(pi.idx, a)).toSeq
+    val lMsg = loc.map { case (newX, newY) => GameMessage.PlayerLocationUpdated(pi.idx, newX, newY) }.toSeq
+    aMsg ++ lMsg
   }
 
-  def update(delta: Double, gu: GameCommand*): Seq[GameMessage] = {
+  def apply(ret: Seq[GameMessage]) = ret.foreach {
+    case pm: GameMessage.PlayerMessage if pm.idx == -1 => // noop
+    case pm: GameMessage.PlayerMessage => players(pm.idx)(pm)
+    case x => log(s"Unhandled game message [$x].")
+  }
+
+  def update(delta: Double, applyMessages: Boolean, gu: GameCommand*): Seq[GameMessage] = {
     elapsedSeconds += delta
-    gu.flatMap {
+    val ret = gu.flatMap {
       case GameCommand.AddPlayer(player) => Seq(addPlayer(player))
       case GameCommand.RemovePlayer(id) => Seq(removePlayer(id))
       case pi: GameCommand.PlayerInput => onInput(delta, pi)
       case x => throw new IllegalStateException(s"Unhandled update [$x].")
     }
+    if (applyMessages) { apply(ret) }
+    ret
   }
 
   override def toString = GameInstanceDebug.debugString(gameId, options, players, stage, elapsedSeconds)

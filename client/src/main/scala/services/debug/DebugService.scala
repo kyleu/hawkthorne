@@ -63,8 +63,8 @@ class DebugService private (phaser: Game) {
 
   def setGameInstance(instance: GameInstance) = DebugGame.setGameInstance(gui, instance)
 
-  def setMap(game: Game, mapService: MapService, nodes: Seq[Node], components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
-    DebugMapService.setMap(game, gui, mapService, nodes, components, players)
+  def setMap(game: Game, mapService: MapService, components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
+    DebugMapService.setMap(game, gui, mapService, components, players)
   }
 
   def toggle() = {

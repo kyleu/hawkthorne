@@ -29,9 +29,7 @@ object MapNodeParser {
 
     val collision = layers.find(_.apply("name").toString == "collision") match {
       case Some(layer) => Right(CollisionGrid.forJson(io.circe.scalajs.convertJsToJson(layer).right.get))
-      case None => Left(CollisionPoly(objs.collectFirst {
-        case s: SimpleNode if s.primary => s.polygon.getOrElse(throw new IllegalStateException(s"No polygon for primary [$key] node"))
-      }.getOrElse(throw new IllegalStateException(s"No primary node or collision layer for [$key]")).toIndexedSeq))
+      case None => Left(CollisionPoly.fromNodes(key, objs))
     }
 
     Logging.debug(s"Loaded [${objs.size}] nodes in [${((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)}ms].")

@@ -4,6 +4,7 @@ import com.definitelyscala.phaserce.Game
 import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component._
+import models.game.GameMessage
 import models.input.PointerAction
 import models.options.GameOptions
 import models.player.Player
@@ -40,12 +41,11 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   addComponent(display.playerSprite)
 
   inputService.setPointerEventCallback(Some(pointerAct))
-  inputService.addPlayer(display.playerSprite)
 
   private[this] val (progress, splashComplete) = SplashScreen.show(game)
   new NodeLoader(game, mapService.group, progress).load(nodes = nodes, onComplete = newComponents => {
     newComponents.foreach(addComponent)
-    DebugService.inst.foreach(_.setMap(game, mapService, nodes, components, Seq(display.playerSprite)))
+    DebugService.inst.foreach(_.setMap(game, mapService, components, Seq(display.playerSprite)))
     display.playerSprite.bringToTop()
     resize(game.width.toInt, game.height.toInt)
     splashComplete()
@@ -57,7 +57,17 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     val dt = game.time.physicsElapsed
     elapsed += dt
 
-    inputService.update(delta = dt)
+    val gameUpdates = inputService.update(delta = dt)
+    val messages = instance.update(delta = dt, applyMessages = true, gameUpdates: _*)
+    messages.foreach {
+      case pm: GameMessage.PlayerMessage if pm.idx == 0 => pm match {
+        case GameMessage.PlayerAnimationUpdated(_, anim) => display.playerSprite.setAnimation(Some(anim))
+        case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprite.setPosition(newX = x, newY = y)
+        case x => util.Logging.info(s"Unhandled game service message [$x].")
+      }
+      case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only support single player for now.")
+      case x => util.Logging.info(s"Unhandled game service message [$x].")
+    }
     components.foreach(_.update(dt))
     display.update(dt)
   }

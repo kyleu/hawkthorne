@@ -2,5 +2,16 @@ package models.game
 
 import models.collision.{CollisionGrid, CollisionPoly}
 import models.data.map.TiledMap
+import util.JsonSerializers._
 
-final case class GameStage(sourceMap: TiledMap, var objects: IndexedSeq[GameObject], collision: Either[CollisionPoly, CollisionGrid])
+object GameStage {
+  implicit val jsonEncoder: Encoder[GameStage] = deriveEncoder
+  implicit val jsonDecoder: Decoder[GameStage] = deriveDecoder
+}
+
+final case class GameStage(sourceMap: TiledMap, var objects: IndexedSeq[GameObject]) {
+  private[this] var collision: Option[Either[CollisionPoly, CollisionGrid]] = None
+
+  def setCollision(coll: Either[CollisionPoly, CollisionGrid]) = collision = Some(coll)
+  def getCollision = collision.getOrElse(throw new IllegalStateException("No collision configured."))
+}

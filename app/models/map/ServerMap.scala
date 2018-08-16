@@ -16,13 +16,11 @@ final case class ServerMap(key: String, layers: Seq[String], nodes: Seq[Node], c
 
   lazy val collision = collisionGrid match {
     case Some(grid) => Right(grid)
-    case None => Left(CollisionPoly(nodes.collectFirst {
-      case s: SimpleNode if s.primary => s.polygon.getOrElse(throw new IllegalStateException("No polygon for primary [$key] node")).toIndexedSeq
-    }.getOrElse(throw new IllegalStateException(s"No primary node or collision layer for [$key]"))))
+    case None => Left(CollisionPoly.fromNodes(key, nodes))
   }
 
   lazy val collisionSummary = collision match {
     case Right(grid) => s"Grid containing [${grid.tiles.size} of ${tiled.width * tiled.height}] tiles"
-    case Left(poly) => s"Poly containing [${poly.points.size}] points"
+    case Left(poly) => s"Poly containing [${poly.points.size}] points and [${poly.blockers.size}] blockers"
   }
 }

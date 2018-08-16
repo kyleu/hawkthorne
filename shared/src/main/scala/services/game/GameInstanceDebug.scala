@@ -4,7 +4,7 @@ import java.util.UUID
 
 import models.game.GameStage
 import models.options.GameOptions
-import models.player.Player
+import models.player.{Player, PlayerRecord}
 
 object GameInstanceDebug {
   private[this] var isDebug = true
@@ -22,13 +22,12 @@ object GameInstanceDebug {
     notification = Some(notify)
   }
 
-  def debugString(gameId: UUID, options: GameOptions, records: Seq[GameInstance.PlayerRecord], stage: GameStage, elapsed: Double) = {
+  def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], stage: GameStage, elapsed: Double) = {
     import util.JsonSerializers._
 
     val playersString = records.map { record =>
       val p = record.player
-      val detail = s"Playing as [${p.templateKey}/${p.costumeKey}] (${if (p.attributes.connected) { "Connected" } else { "Disconnected" }})"
-      s"""${p.id}: { x: ${record.x}, y: ${record.y}, detail: "$detail" }"""
+      s"""${p.id}: { x: ${record.x}, y: ${record.y}, t: "${p.templateKey}/${p.costumeKey}, c: ${p.attributes.connected}" }"""
     }.mkString("\n    ")
 
     s"""$gameId: {

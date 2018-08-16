@@ -8,6 +8,7 @@ object PlayerAttributes {
 }
 
 case class PlayerAttributes(
+    var animation: String = "idle.right",
     var health: Int = 100,
     var maxHealth: Int = 100,
     var connected: Boolean = false

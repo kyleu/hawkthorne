@@ -1,6 +1,7 @@
 package models.template.npc
 
 import models.animation.Animation
+import models.npc.TalkItem
 import util.JsonSerializers._
 
 object NpcTemplate {
@@ -18,7 +19,8 @@ case class NpcTemplate(
     greeting: Option[String],
     noInventory: Option[String],
     noCommands: Option[String],
-    animations: Seq[Animation]
+    animations: Seq[Animation],
+    talkItems: Seq[TalkItem]
 ) {
   val defaultAnimation = animations.find(_.id == "default").getOrElse {
     throw new IllegalStateException(s"Missing default animation for [$key] among [${animations.map(_.id).mkString(", ")}]")

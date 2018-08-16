@@ -20,11 +20,15 @@ object NpcFiles {
       val noInventory = LuaUtils.lineOpt(lines, "noinventory = ").map(LuaUtils.clean)
       val noCommands = LuaUtils.lineOpt(lines, "nocommands = ").map(LuaUtils.clean)
 
+      val talkItemsBlock = LuaUtils.blockFor("?", lines, "talk_items = ")
+      val talkItems = NpcHelper.talkItems(talkItemsBlock).mkString("\n    ")
+
       val pkg = Seq("models", "data", "npc")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
 
       file.addImport("models.animation", "Animation")
       file.addImport("models.template.npc", "NpcTemplate")
+      file.addImport("models.npc", "TalkItem")
 
       file.add(s"object $name extends NpcTemplate(", 1)
       file.add(s"""key = "$key",""")
@@ -32,16 +36,17 @@ object NpcFiles {
       file.add(s"""width = $width,""")
       file.add(s"""height = $height,""")
       file.add(s"""greeting = ${greeting.map("Some(\"" + _ + "\")").getOrElse("None")},""")
-      file.add(s"""noInventory = ${noInventory.map("Some(\"" + _ + "\")").getOrElse("None")},""")
-      file.add(s"""noCommands = ${noCommands.map("Some(\"" + _ + "\")").getOrElse("None")},""")
       val anims = LuaUtils.findAnimations("Npc: " + name, lines)
       if (anims.isEmpty) {
-        file.add(s"animations = Seq.empty")
+        file.add(s"animations = Seq.empty,")
       } else {
         file.add(s"animations = Seq(", 1)
         anims.foreach(a => file.add(a))
-        file.add(s")", -1)
+        file.add(s"),", -1)
       }
+      file.add(s"""noInventory = ${noInventory.map("Some(\"" + _ + "\")").getOrElse("None")},""")
+      file.add(s"""noCommands = ${noCommands.map("Some(\"" + _ + "\")").getOrElse("None")},""")
+      file.add(s"""talkItems = Seq[TalkItem](/* $talkItems */)""")
       file.add(")", -1)
 
       name -> cfg.writeScalaResult(s"npcs/${src.name}", file.path -> file.rendered)

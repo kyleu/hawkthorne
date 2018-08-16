@@ -48,7 +48,7 @@ object Dependencies {
   }
 
   object GraphQL {
-    val sangria = "org.sangria-graphql" %% "sangria" % "1.4.1"
+    val sangria = "org.sangria-graphql" %% "sangria" % "1.4.2"
     val playJson = "org.sangria-graphql" %% "sangria-play-json" % "1.0.4"
     val circe = "org.sangria-graphql" %% "sangria-circe" % "1.2.1"
   }
@@ -71,7 +71,7 @@ object Dependencies {
   }
 
   object Tracing {
-    val version = "0.30.3"
+    val version = "0.30.4"
     val jaeger = "io.jaegertracing" % "jaeger-thrift" % version
     val jaegerMetrics = "io.jaegertracing" % "jaeger-micrometer" % version
   }
