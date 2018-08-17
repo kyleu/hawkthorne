@@ -7,15 +7,6 @@ import services.audio.{MusicService, SoundEffectService}
 import services.socket.AnalyticsService
 import util.JsonSerializers._
 
-case class ClientSettings(
-    music: Int = 10,
-    sfx: Int = 10,
-    defaultOptions: GameOptions = GameOptions(),
-    showTutorials: Boolean = true,
-    showFps: Boolean = false,
-    fullscreen: Boolean = false
-)
-
 object ClientSettings {
   private[this] var current: Option[ClientSettings] = None
   private[this] val storageKey = "hawkthorne.settings"
@@ -52,11 +43,22 @@ object ClientSettings {
 
   def loadAndApply() = applySettings(load())
 
-  def save(s: ClientSettings) = {
+  def save(s: ClientSettings) = if (!current.contains(s)) {
     val json = s.asJson
     dom.window.localStorage.setItem(storageKey, json.spaces2)
     AnalyticsService.send(AnalyticsActionType.OptionsSet, json)
     current = Some(s)
     s
   }
+}
+
+case class ClientSettings(
+    music: Int = 10,
+    sfx: Int = 10,
+    defaultOptions: GameOptions = GameOptions(),
+    showTutorials: Boolean = true,
+    showFps: Boolean = false,
+    fullscreen: Boolean = false
+) {
+  override def toString = this.asJson.spaces2
 }

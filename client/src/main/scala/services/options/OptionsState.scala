@@ -18,10 +18,11 @@ object OptionsState {
 class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) extends GameState("test", phaser) {
   private[this] var particles: Option[VerticalParticles] = None
   private[this] var options: Option[OptionsMenu] = None
+  private[this] lazy val bgMusic = MusicService.load("daybreak")
 
   override def create(game: Game) = {
     Font.reset()
-    MusicService.play("daybreak", loop = true)
+    bgMusic.play(loop = true)
     particles = Some(new VerticalParticles(game))
     options = Some(new OptionsMenu(game, () => NavigationService.navigateTo(game, inputService, "menu", debug)))
 
@@ -37,7 +38,7 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
   }
 
   override def shutdown(game: Game) = {
-    MusicService.stop("daybreak")
+    bgMusic.stop()
     inputService.menuHandler.setCallback(None)
     inputService.setPointerEventCallback(None)
     super.shutdown(game)

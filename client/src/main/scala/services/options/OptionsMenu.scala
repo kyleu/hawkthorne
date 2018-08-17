@@ -1,6 +1,6 @@
 package services.options
 
-import com.definitelyscala.phaserce.{Game, Point}
+import com.definitelyscala.phaserce.Game
 import models.gui.Menu
 import models.input.{MenuAction, PointerAction}
 import models.settings.ClientSettings
@@ -23,10 +23,10 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
     case "game" => switchToGame()
     case "audio" => switchToAudio()
     case "video" => switchToVideo()
-    case "x" => util.Logging.info("TODO")
+    case "credits" => util.Logging.info("TODO")
 
     case "hardcore" => comps.hardcoreCheckbox.toggle()
-    case "tutorial" => comps.tutorialCheckbox.toggle()
+    case "tutorials" => comps.tutorialCheckbox.toggle()
 
     case "music" => comps.musicMeter.increment()
     case "sfx" => comps.sfxMeter.increment()
@@ -41,9 +41,10 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
   }
 
   private[this] def action(act: (String, String)) = act._1 -> (() => onSelect(act._2))
+  private[this] def actionSingle(act: String) = action(act -> act.toLowerCase)
 
-  val mainActs = IndexedSeq("Costume" -> "costume", "Game" -> "game", "Audio" -> "audio", "Video" -> "video", "X" -> "x", "Back" -> "back").map(action)
-  def switchToMain() = {
+  private[this] val mainActs = IndexedSeq("Costume", "Game", "Audio", "Video", "Credits", "Back").map(actionSingle)
+  private[this] def switchToMain() = {
     inMain = true
     menu.setOptions(mainActs)
     comps.switchToMain()
@@ -51,25 +52,28 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
 
   switchToMain()
 
-  val gameActs = IndexedSeq("Hardcore" -> "hardcore", "Tutorials" -> "tutorial", "Back" -> "back").map(action)
-  def switchToGame() = {
+  private[this] val gameActs = IndexedSeq("Hardcore", "Tutorials", "Back").map(actionSingle)
+  private[this] def switchToGame() = {
     inMain = false
     menu.setOptions(gameActs)
     comps.switchToGame()
+    None
   }
 
-  val audioActs = IndexedSeq("Music" -> "music", "SFX" -> "sfx", "Back" -> "back").map(action)
-  def switchToAudio() = {
+  private[this] val audioActs = IndexedSeq("Music", "SFX", "Back").map(actionSingle)
+  private[this] def switchToAudio() = {
     inMain = false
     menu.setOptions(audioActs)
     comps.switchToAudio()
+    None
   }
 
-  val videoActs = IndexedSeq("Fullscreen" -> "fullscreen", "Show FPS" -> "fps", "Back" -> "back").map(action)
-  def switchToVideo() = {
+  private[this] val videoActs = IndexedSeq("Fullscreen" -> "fullscreen", "Show FPS" -> "fps", "Back" -> "back").map(action)
+  private[this] def switchToVideo() = {
     inMain = false
     menu.setOptions(videoActs)
     comps.switchToVideo()
+    None
   }
 
   def menuActions(acts: Seq[MenuAction]) = acts.foreach(menu.onMenuAction)

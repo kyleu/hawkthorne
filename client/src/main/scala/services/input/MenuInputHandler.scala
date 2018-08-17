@@ -17,9 +17,9 @@ class MenuInputHandler() {
   }
 
   def translate(c: InputCommand) = c match {
-    case InputCommand.Jump | InputCommand.Confirm | InputCommand.Select => MenuAction.Select
-    case InputCommand.Pause => MenuAction.Back
-    case _ => throw new IllegalStateException(s"Unhandled command [$c].")
+    case InputCommand.Jump | InputCommand.Confirm | InputCommand.Select => Some(MenuAction.Select)
+    case InputCommand.Pause => Some(MenuAction.Back)
+    case _ => None
   }
 
   def update(x: Double, y: Double, commands: Seq[InputCommand]) = {
@@ -35,7 +35,7 @@ class MenuInputHandler() {
     }
     lastMenuX = x
     lastMenuY = y
-    val acts = xAct.toSeq ++ yAct.toSeq ++ commands.map(c => translate(c))
+    val acts = xAct.toSeq ++ yAct.toSeq ++ commands.flatMap(c => translate(c))
 
     if (acts.nonEmpty) {
       menuCallback.getOrElse(throw new IllegalStateException("Menu update called with no active callback."))(acts)

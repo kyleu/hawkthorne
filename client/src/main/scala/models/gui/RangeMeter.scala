@@ -4,7 +4,7 @@ import com.definitelyscala.phaserce.{Game, Group, Image}
 import models.component.SimpleComponent
 
 class RangeMeter(
-    override val game: Game, parent: Group, override val name: String, initialX: Int, initialY: Int, min: Int = 0, max: Int = 10
+    override val game: Game, parent: Group, override val name: String, initialX: Int, initialY: Int, min: Int = 0, max: Int = 10, onChange: Int => Unit
 ) extends SimpleComponent {
   val group = new Group(game, parent, name)
   group.name = s"meter.$name"
@@ -31,6 +31,7 @@ class RangeMeter(
     }
     _setting = s
     arrowImage.x = (((bgImage.width - 1) / (max - min)) + min) * s
+    onChange(s)
   }
 
   def increment() = setting match {
