@@ -11,20 +11,23 @@ import models.ResponseMessage._
 import models.analytics.AnalyticsActionType
 import models.auth.Credentials
 import models.game.GameServiceMessage
-import util.metrics.Instrumented
 import util.{Config, Logging, Version}
 import util.JsonSerializers._
 
 object PlayerSocketService {
   case class Callbacks(analytics: (AnalyticsActionType, Json) => Unit)
 
-  def props(id: Option[UUID], playerSupervisor: ActorRef, creds: Credentials, out: ActorRef, sourceAddr: String, callbacks: Callbacks) = {
-    Props(new PlayerSocketService(id.getOrElse(UUID.randomUUID), playerSupervisor, creds, out, sourceAddr, callbacks))
+  def props(
+    id: Option[UUID], playerSupervisor: ActorRef, matchmakingService: ActorRef, creds: Credentials, out: ActorRef,
+    sourceAddr: String, callbacks: Callbacks
+  ) = {
+    Props(new PlayerSocketService(id.getOrElse(UUID.randomUUID), playerSupervisor, matchmakingService, creds, out, sourceAddr, callbacks))
   }
 }
 
 class PlayerSocketService(
-    id: UUID, playerSupervisor: ActorRef, creds: Credentials, out: ActorRef, sourceAddr: String, callbacks: PlayerSocketService.Callbacks
+    id: UUID, playerSupervisor: ActorRef, matchmakingService: ActorRef, creds: Credentials, out: ActorRef,
+    sourceAddr: String, callbacks: PlayerSocketService.Callbacks
 ) extends Actor with Timers with Logging {
   private[this] var activeGameOpt: Option[(ActorRef, GameStarted)] = None
   private[this] def withGame(ctx: String)(f: (ActorRef, GameStarted) => Unit) = activeGameOpt match {
@@ -39,28 +42,26 @@ class PlayerSocketService(
     callbacks.analytics(AnalyticsActionType.Connect, Json.obj("source" -> sourceAddr.asJson, "version" -> Version.version.asJson))
   }
 
-  private[this] def time(msg: Any, f: => Unit) = Instrumented.timeReceive(msg, msg.getClass.getSimpleName.stripSuffix("$"))(f)
-
   override def receive = {
     // System
-    case mr: MalformedRequest => time(mr, log.error(s"MalformedRequest:  [${mr.reason}]: [${mr.content}]."))
-    case p: Ping => time(p, out.tell(Pong(p.ts), self))
-    case gv: GetVersion => time(gv, out.tell(VersionResponse(Config.version), self))
-    case dr: DebugRequest => time(dr, onDebugRequest(dr))
+    case mr: MalformedRequest => log.error(s"MalformedRequest:  [${mr.reason}]: [${mr.content}].")
+    case p: Ping => out.tell(Pong(p.ts), self)
+    case gv: GetVersion => out.tell(VersionResponse(Config.version), self)
+    case dr: DebugRequest => onDebugRequest(dr)
 
     // Game Service
-    case jg: JoinGame => time(jg, out.tell(GameNotFound(jg.id), self))
-    case gj: GameServiceMessage.GameJoined => time(gj, onGameStarted(gj.actor, gj.gs))
-    case gc: GameServiceMessage.GameComplete => time(gc, onGameComplete(gc.gf))
+    case jg: JoinGame => out.tell(GameNotFound(jg.id), self)
+    case gj: GameServiceMessage.GameJoined => onGameStarted(gj.actor, gj.gs)
+    case gc: GameServiceMessage.GameComplete => onGameComplete(gc.gf)
 
     // Game Requests
-    case pu: PlayerUpdate => time(pu, withGame("playerUpdate")((a, g) => a.tell(GameServiceMessage.Update(g.playerIdx, pu), self)))
+    case pu: PlayerUpdate => withGame("playerUpdate")((a, g) => a.tell(GameServiceMessage.Update(g.playerIdx, pu), self))
 
     // Analytics
-    case am: AnalyticsMessage => time(am, callbacks.analytics(am.t, am.arg))
+    case am: AnalyticsMessage => callbacks.analytics(am.t, am.arg)
 
     // Responses
-    case rm: ResponseMessage => time(rm, out.tell(rm, self))
+    case rm: ResponseMessage => out.tell(rm, self)
 
     // Unhandled
     case im: InternalMessage => throw new IllegalArgumentException(s"Unhandled internal message [${im.getClass.getSimpleName}].")
@@ -82,7 +83,7 @@ class PlayerSocketService(
     out.tell(gs, self)
   }
 
-  def onGameComplete(gf: GameFinished) = {
+  def onGameComplete(gf: String) = {
     activeGameOpt = None
     out.tell(gf, self)
   }
