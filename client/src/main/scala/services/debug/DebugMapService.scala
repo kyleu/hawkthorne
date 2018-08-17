@@ -20,7 +20,7 @@ object DebugMapService {
 
     val componentFolder = gui.addFolder("Components")
     DatGuiUtils.addFunction(componentFolder, "Toggle Debug", () => DebugComponents.toggleDebug(components))
-    components.foreach(c => DebugComponents.add(componentFolder, c))
+    components.sortBy(_.name).foreach(c => DebugComponents.add(componentFolder, c))
   }
 
   def addMap(gui: GUI, mapService: MapService) = {
@@ -34,8 +34,7 @@ object DebugMapService {
   }
 
   private[this] def addNode(mapService: MapService, root: GUI, node: Node) = {
-    import util.JsonSerializers._
     val f = root.addFolder(s"${node.t}[${node.id}]: " + node.name)
-    DatGuiUtils.addFunction(f, "Debug", () => Logging.info(node.asJson.spaces2))
+    DatGuiUtils.addFunction(f, "Debug", () => Logging.info(util.JsonSerializers.serialize(node).spaces2))
   }
 }

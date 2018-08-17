@@ -13,7 +13,6 @@ import services.input.InputService
 import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 import services.socket.AnalyticsService
-import util.JsonSerializers._
 import util.Logging
 
 class GameplayService(game: Game, inputService: InputService, options: GameOptions, player: Player) {
@@ -22,7 +21,10 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
   private[this] def addComponent(c: BaseComponent) = components += c
 
-  AnalyticsService.send(AnalyticsActionType.GameStart, Json.obj("options" -> options.asJson, "players" -> Seq(player).asJson))
+  AnalyticsService.send(AnalyticsActionType.GameStart, Json.obj(
+    "options" -> util.JsonSerializers.serialize(options),
+    "players" -> util.JsonSerializers.serialize(Seq(player))
+  ))
 
   val (nodes, collision) = MapNodeParser.parse(options.map.value, game.cache.getTilemapData("map." + options.map.value))
 

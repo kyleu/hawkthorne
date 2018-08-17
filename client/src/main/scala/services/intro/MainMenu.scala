@@ -12,7 +12,6 @@ import services.input.InputService
 import services.node.ComponentLoadService
 import services.socket.AnalyticsService
 import services.state.NavigationService
-import util.JsonSerializers._
 
 class MainMenu(game: Game, input: InputService, debug: Boolean) {
   private[this] val group = new Group(game = game, name = s"main.menu")
@@ -47,7 +46,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
 
   private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
   private[this] def actions(acts: (String, String)*) = acts.map(x => (x._1, () => {
-    AnalyticsService.send(AnalyticsActionType.Menu, Json.obj("key" -> x._2.asJson))
+    AnalyticsService.send(AnalyticsActionType.Menu, Json.obj("key" -> util.JsonSerializers.serialize(x._2)))
     nav(path = x._2)
   })).toIndexedSeq
   val acts = actions("Campaign" -> "map/studyroom", "Multiplayer" -> "multiplayer", "Options" -> "options", "Credits" -> "credits", "Help" -> "help")

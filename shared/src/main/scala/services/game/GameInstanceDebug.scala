@@ -4,7 +4,7 @@ import java.util.UUID
 
 import models.game.GameStage
 import models.options.GameOptions
-import models.player.{Player, PlayerRecord}
+import models.player.PlayerRecord
 
 object GameInstanceDebug {
   private[this] var isDebug = true
@@ -23,15 +23,13 @@ object GameInstanceDebug {
   }
 
   def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], stage: GameStage, elapsed: Double) = {
-    import util.JsonSerializers._
-
     val playersString = records.map { record =>
       val p = record.player
       s"""${p.id}: { x: ${record.x}, y: ${record.y}, t: "${p.templateKey}/${p.costumeKey}, c: ${p.attributes.connected}" }"""
     }.mkString("\n    ")
 
     s"""$gameId: {
-      |  options: ${options.asJson.noSpaces},
+      |  options: ${util.JsonSerializers.serialize(options).noSpaces},
       |  players: [
       |    $playersString
       |  ],

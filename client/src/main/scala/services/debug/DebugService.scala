@@ -6,7 +6,6 @@ import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.{BaseComponent, PlayerSprite}
 import models.gui.{ConsoleLog, HudOverlay}
-import models.node.Node
 import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element

@@ -8,8 +8,7 @@ object MapDebug {
   def nodes(nodes: Seq[Node]) = nodes.groupBy(_.getClass).toSeq.map(x => x._1.getSimpleName.stripSuffix("$") -> x._2).sortBy(_._1)
 
   def requiredFields(nodes: Seq[Node]) = {
-    import util.JsonSerializers._
-    val jsons = nodes.map(_.asJson.asObject.get)
+    val jsons = nodes.map(n => util.JsonSerializers.serialize(n).asObject.get)
 
     var fields = jsons.flatMap(_.keys.filterNot(commonFields.apply)).toSet
 

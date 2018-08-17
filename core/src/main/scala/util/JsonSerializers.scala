@@ -49,6 +49,8 @@ object JsonSerializers {
 
   def decodeJson[A](s: String)(implicit decoder: Decoder[A]) = io.circe.parser.decode[A](s)
 
+  def serialize[A](obj: A)(implicit encoder: Encoder[A]) = obj.asJson
+
   def extract[T: Decoder](json: Json) = json.as[T] match {
     case Right(u) => u
     case Left(x) => throw x
