@@ -20,5 +20,5 @@ final case class CowNode(
     override val visible: Boolean
 ) extends Node(CowNode.key) {
   override def actualName = "cow"
-  override val assets = Seq(Asset.Spritesheet(t, s"images/sprites/town/cow.png", 114, 60))
+  override val assets = Seq(Asset.Spritesheet(s"$t.$actualName", s"images/sprites/town/cow.png", 114, 60))
 }

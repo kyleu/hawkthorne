@@ -8,7 +8,7 @@ object MaterialsInventory {
     key = "duck",
     name = "Duck",
     section = "materials",
-    info = "an adult duck, who does not appreciate being carried",
+    info = "An adult duck, who does not appreciate being carried",
     maxItems = 10
   )
 
@@ -16,7 +16,7 @@ object MaterialsInventory {
     key = "mushroom",
     name = "Mushroom",
     section = "materials",
-    info = "a limp mushroom",
+    info = "A limp mushroom",
     maxItems = 10
   )
 
@@ -24,7 +24,7 @@ object MaterialsInventory {
     key = "buddhaJade",
     name = "Jade Buddha Statue",
     section = "materials",
-    info = "a statue of Buddha carved out of jade.  It sort of looks like a bong...",
+    info = "A statue of Buddha carved out of jade.  It sort of looks like a bong...",
     maxItems = 1
   )
 
@@ -32,7 +32,7 @@ object MaterialsInventory {
     key = "flowers",
     name = "Flowers",
     section = "materials",
-    info = "several flowers",
+    info = "Several flowers",
     maxItems = 10
   )
 
@@ -48,7 +48,7 @@ object MaterialsInventory {
     key = "fire",
     name = "Fire",
     section = "materials",
-    info = "an eternal flame",
+    info = "An eternal flame",
     maxItems = 1
   )
 
@@ -56,7 +56,7 @@ object MaterialsInventory {
     key = "arm",
     name = "Arm",
     section = "materials",
-    info = "a human arm",
+    info = "A human arm",
     maxItems = 10
   )
 
@@ -72,7 +72,7 @@ object MaterialsInventory {
     key = "buddhaAmber",
     name = "Amber Buddha Statue",
     section = "materials",
-    info = "a statue of Buddha carved out of amber.  It sort of looks like a bong...",
+    info = "A statue of Buddha carved out of amber.  It sort of looks like a bong...",
     maxItems = 1
   )
 
@@ -80,7 +80,7 @@ object MaterialsInventory {
     key = "lost",
     name = "Lost DVD",
     section = "materials",
-    info = "it's a metaphor",
+    info = "It's a metaphor",
     maxItems = 1
   )
 
@@ -88,7 +88,7 @@ object MaterialsInventory {
     key = "stick",
     name = "Stick",
     section = "materials",
-    info = "a stick",
+    info = "A stick",
     maxItems = 1
   )
 
@@ -96,7 +96,7 @@ object MaterialsInventory {
     key = "rock",
     name = "Rock",
     section = "materials",
-    info = "a rock",
+    info = "A rock",
     maxItems = 1
   )
 
@@ -104,7 +104,7 @@ object MaterialsInventory {
     key = "buddhaGarnet",
     name = "Garnet Buddha Statue",
     section = "materials",
-    info = "a statue of Buddha carved out of garnet.  It sort of looks like a bong...",
+    info = "A statue of Buddha carved out of garnet.  It sort of looks like a bong...",
     maxItems = 1
   )
 
@@ -120,7 +120,7 @@ object MaterialsInventory {
     key = "keyshardtop",
     name = "keyshardtop",
     section = "materials",
-    info = "this appears to be the top half of a key",
+    info = "This appears to be the top half of a key",
     maxItems = 1
   )
 
@@ -128,7 +128,7 @@ object MaterialsInventory {
     key = "fries",
     name = "Fries",
     section = "materials",
-    info = "yum!",
+    info = "Yum!",
     maxItems = 10
   )
 
@@ -136,7 +136,7 @@ object MaterialsInventory {
     key = "buddhaStone",
     name = "Stone Buddha Statue",
     section = "materials",
-    info = "a stone Buddha statue.  It sort of looks like a bong...",
+    info = "A stone Buddha statue.  It sort of looks like a bong...",
     maxItems = 1
   )
 
@@ -144,7 +144,7 @@ object MaterialsInventory {
     key = "stone",
     name = "Stone",
     section = "materials",
-    info = "a slightly bigger rock",
+    info = "A slightly bigger rock",
     maxItems = 1
   )
 
@@ -152,7 +152,7 @@ object MaterialsInventory {
     key = "pancake",
     name = "Pancake",
     section = "materials",
-    info = "a single pancake, hardened from age",
+    info = "A single pancake, hardened from age",
     maxItems = 10
   )
 
@@ -160,7 +160,7 @@ object MaterialsInventory {
     key = "crystal",
     name = "Crystal",
     section = "materials",
-    info = "a small, perfectly see-through ice crystal",
+    info = "A small, perfectly see-through ice crystal",
     maxItems = 1
   )
 
@@ -168,7 +168,7 @@ object MaterialsInventory {
     key = "carkeys",
     name = "Car Keys",
     section = "materials",
-    info = "a set of ownerless car keys",
+    info = "A set of ownerless car keys",
     maxItems = 10
   )
 
@@ -176,7 +176,7 @@ object MaterialsInventory {
     key = "peanut",
     name = "Peanut",
     section = "materials",
-    info = "a peanut shell",
+    info = "A peanut shell",
     maxItems = 10
   )
 
@@ -184,7 +184,7 @@ object MaterialsInventory {
     key = "ember",
     name = "Ember",
     section = "materials",
-    info = "a flamless ember which never goes out",
+    info = "A flamless ember which never goes out",
     maxItems = 1
   )
 
@@ -192,7 +192,7 @@ object MaterialsInventory {
     key = "frog",
     name = "Frog",
     section = "materials",
-    info = "a single, dead frog",
+    info = "A single, dead frog",
     maxItems = 10
   )
 
@@ -200,7 +200,7 @@ object MaterialsInventory {
     key = "boulder",
     name = "Boulder",
     section = "materials",
-    info = "a slightly larger stone",
+    info = "A slightly larger stone",
     maxItems = 1
   )
 
@@ -208,7 +208,7 @@ object MaterialsInventory {
     key = "buddhaTopaz",
     name = "Topaz Buddha Statue",
     section = "materials",
-    info = "a statue of Buddha carved out of topaz.  It sort of looks like a bong...",
+    info = "A statue of Buddha carved out of topaz.  It sort of looks like a bong...",
     maxItems = 1
   )
 
@@ -216,7 +216,7 @@ object MaterialsInventory {
     key = "eye",
     name = "Eye",
     section = "materials",
-    info = "a single human eyeball",
+    info = "A single human eyeball",
     maxItems = 10
   )
 
@@ -224,7 +224,7 @@ object MaterialsInventory {
     key = "banana",
     name = "Banana",
     section = "materials",
-    info = "a banana",
+    info = "A banana",
     maxItems = 10
   )
 
@@ -232,7 +232,7 @@ object MaterialsInventory {
     key = "bone",
     name = "Bone",
     section = "materials",
-    info = "all that remains of some long dead creature",
+    info = "All that remains of some long dead creature",
     maxItems = 1
   )
 
@@ -240,7 +240,7 @@ object MaterialsInventory {
     key = "star",
     name = "Star",
     section = "materials",
-    info = "a star",
+    info = "A star",
     maxItems = 10
   )
 
@@ -248,7 +248,7 @@ object MaterialsInventory {
     key = "bubblegum",
     name = "Bubble Gum",
     section = "materials",
-    info = "a single stick of gum, cotton candy flavor",
+    info = "A single stick of gum, cotton candy flavor",
     maxItems = 10
   )
 
@@ -256,7 +256,7 @@ object MaterialsInventory {
     key = "leaf",
     name = "Leaf",
     section = "materials",
-    info = "a normal leaf",
+    info = "A normal leaf",
     maxItems = 1
   )
 
@@ -264,7 +264,7 @@ object MaterialsInventory {
     key = "keyshardbottom",
     name = "keyshardbottom",
     section = "materials",
-    info = "this appears to be the the bottom half of a key",
+    info = "This appears to be the the bottom half of a key",
     maxItems = 1
   )
 
@@ -280,7 +280,7 @@ object MaterialsInventory {
     key = "blade",
     name = "Blade",
     section = "materials",
-    info = "a single blade, to small to be used as a weapon",
+    info = "A single blade, to small to be used as a weapon",
     maxItems = 1
   )
 
@@ -288,7 +288,7 @@ object MaterialsInventory {
     key = "toast",
     name = "Toast",
     section = "materials",
-    info = "a slice of toast",
+    info = "A slice of toast",
     maxItems = 10
   )
 

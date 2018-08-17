@@ -8,7 +8,7 @@ object ConsumablesInventory {
     key = "brekwich",
     name = "Brekwich",
     section = "consumables",
-    info = "a tasty breakfast sandwitch that will put some pep in your step",
+    info = "A tasty breakfast sandwitch that will put some pep in your step",
     maxItems = 2
   )
 
@@ -16,7 +16,7 @@ object ConsumablesInventory {
     key = "red_potion",
     name = "Health Potion",
     section = "consumables",
-    info = "heals for 25hp",
+    info = "Heals for 25hp",
     maxItems = 2
   )
 
@@ -24,7 +24,7 @@ object ConsumablesInventory {
     key = "green_potion",
     name = "Invulnerability Potion",
     section = "consumables",
-    info = "grants invulnerability",
+    info = "Grants invulnerability",
     maxItems = 2
   )
 
@@ -32,7 +32,7 @@ object ConsumablesInventory {
     key = "orange_potion",
     name = "Speed Boost Potion",
     section = "consumables",
-    info = "a quick speed boost",
+    info = "A quick speed boost",
     maxItems = 2
   )
 
@@ -40,7 +40,7 @@ object ConsumablesInventory {
     key = "pink_potion",
     name = "Max Health Potion",
     section = "consumables",
-    info = "a full heal potion",
+    info = "A full heal potion",
     maxItems = 2
   )
 
@@ -48,7 +48,7 @@ object ConsumablesInventory {
     key = "black_potion",
     name = "Dud Potion",
     section = "consumables",
-    info = "a dud potion may have unpredictable results",
+    info = "A dud potion may have unpredictable results",
     maxItems = 2
   )
 
@@ -56,7 +56,7 @@ object ConsumablesInventory {
     key = "white_potion",
     name = "Greater Health Potion",
     section = "consumables",
-    info = "heals for 50hp",
+    info = "Heals for 50hp",
     maxItems = 2
   )
 
@@ -64,7 +64,7 @@ object ConsumablesInventory {
     key = "alcohol",
     name = "Alcohol",
     section = "consumables",
-    info = "please drink responsibly",
+    info = "Please drink responsibly",
     maxItems = 10
   )
 
@@ -72,7 +72,7 @@ object ConsumablesInventory {
     key = "ironcrepe",
     name = "Chewy Iron Crepe",
     section = "consumables",
-    info = "fortifies and maxamizes punches",
+    info = "Fortifies and maxamizes punches",
     maxItems = 2
   )
 
@@ -88,7 +88,7 @@ object ConsumablesInventory {
     key = "watermelon",
     name = "Watermelon",
     section = "consumables",
-    info = "a refreshing snack",
+    info = "A refreshing snack",
     maxItems = 50
   )
 
@@ -96,7 +96,7 @@ object ConsumablesInventory {
     key = "blue_potion",
     name = "Jump Boost Potion",
     section = "consumables",
-    info = "a quick jump boost",
+    info = "A quick jump boost",
     maxItems = 2
   )
 
@@ -104,7 +104,7 @@ object ConsumablesInventory {
     key = "yellow_potion",
     name = "Money Potion",
     section = "consumables",
-    info = "grants Money",
+    info = "Grants Money",
     maxItems = 2
   )
 
@@ -120,7 +120,7 @@ object ConsumablesInventory {
     key = "purple_potion",
     name = "Punch Damage Potion",
     section = "consumables",
-    info = "a short term punch damage increase",
+    info = "A short term punch damage increase",
     maxItems = 2
   )
 
@@ -128,7 +128,7 @@ object ConsumablesInventory {
     key = "baggle",
     name = "Baggle",
     section = "consumables",
-    info = "a tasty baggle with restorative powers",
+    info = "A tasty baggle with restorative powers",
     maxItems = 10
   )
 
@@ -136,7 +136,7 @@ object ConsumablesInventory {
     key = "keynana",
     name = "Gummy Key-nana",
     section = "consumables",
-    info = "grants invulnerability",
+    info = "Grants invulnerability",
     maxItems = 2
   )
 
@@ -144,7 +144,7 @@ object ConsumablesInventory {
     key = "deepfrieddud",
     name = "Deep Fried Dud",
     section = "consumables",
-    info = "a fried dud may have unpredictable results",
+    info = "A fried dud may have unpredictable results",
     maxItems = 2
   )
 

@@ -8,7 +8,7 @@ object WeaponsInventory {
     key = "bow",
     name = "Bow",
     section = "weapons",
-    info = "a bow",
+    info = "A bow",
     maxItems = 1
   )
 
@@ -16,7 +16,7 @@ object WeaponsInventory {
     key = "boneclub",
     name = "Bone Club",
     section = "weapons",
-    info = "a macabre weapon pieced together from the bones of the dead",
+    info = "A macabre weapon pieced together from the bones of the dead",
     maxItems = 1
   )
 
@@ -32,7 +32,7 @@ object WeaponsInventory {
     key = "battleaxe",
     name = "Battle Axe",
     section = "weapons",
-    info = "a heavy weapon that packs a punch",
+    info = "A heavy weapon that packs a punch",
     maxItems = 1
   )
 
@@ -40,7 +40,7 @@ object WeaponsInventory {
     key = "cherrypopper",
     name = "Cherrypopper",
     section = "weapons",
-    info = "a mighy weapon forged by the freespirits of Gay Island",
+    info = "A mighy weapon forged by the free spirits of Gay Island",
     maxItems = 1
   )
 
@@ -48,7 +48,7 @@ object WeaponsInventory {
     key = "dagger",
     name = "Dagger",
     section = "weapons",
-    info = "a small sample of the Blacksmith's wares",
+    info = "A small sample of the Blacksmith's wares",
     maxItems = 1
   )
 
@@ -56,7 +56,7 @@ object WeaponsInventory {
     key = "waterSpout",
     name = "Water Spout",
     section = "weapons",
-    info = "a water spout",
+    info = "A water spout",
     maxItems = 15
   )
 
@@ -64,7 +64,7 @@ object WeaponsInventory {
     key = "torch",
     name = "Torch",
     section = "weapons",
-    info = "a standard torch",
+    info = "A standard torch",
     maxItems = 1
   )
 
@@ -72,7 +72,7 @@ object WeaponsInventory {
     key = "longsword",
     name = "Longsword",
     section = "weapons",
-    info = "a longer, heavier standard sword",
+    info = "A longer, heavier standard sword",
     maxItems = 1
   )
 
@@ -80,7 +80,7 @@ object WeaponsInventory {
     key = "throwingtorch",
     name = "Throwing Torch",
     section = "weapons",
-    info = "a torch etched with \"property of the blacksmith",
+    info = "A torch etched with \"property of the blacksmith",
     maxItems = 3
   )
 
@@ -88,7 +88,7 @@ object WeaponsInventory {
     key = "arrow",
     name = "Arrow",
     section = "weapons",
-    info = "a set of 5 arrows",
+    info = "A set of 5 arrows",
     maxItems = 99
   )
 
@@ -96,7 +96,7 @@ object WeaponsInventory {
     key = "crimson_sword",
     name = "Crimson Sword",
     section = "weapons",
-    info = "a fiery sword that, some say, has magical properties",
+    info = "A fiery sword that, some say, has magical properties",
     maxItems = 1
   )
 
@@ -104,7 +104,7 @@ object WeaponsInventory {
     key = "scythe",
     name = "Scythe",
     section = "weapons",
-    info = "a scythe",
+    info = "A scythe",
     maxItems = 1
   )
 
@@ -120,7 +120,7 @@ object WeaponsInventory {
     key = "nunchucks",
     name = "Nunchucks",
     section = "weapons",
-    info = "a deadly pair of nunchucks",
+    info = "A deadly pair of nunchucks",
     maxItems = 1
   )
 
@@ -128,7 +128,7 @@ object WeaponsInventory {
     key = "truestwrench",
     name = "Truest Wrench",
     section = "weapons",
-    info = "a wrench fit for the truest of AC repairmen",
+    info = "A wrench fit for the truest of AC repairmen",
     maxItems = 1
   )
 
@@ -136,7 +136,7 @@ object WeaponsInventory {
     key = "sword",
     name = "Sword",
     section = "weapons",
-    info = "a standard steel sword typically used by adventurers",
+    info = "A standard steel sword typically used by adventurers",
     maxItems = 1
   )
 
@@ -144,7 +144,7 @@ object WeaponsInventory {
     key = "battleaxe_small",
     name = "Small Battleaxe",
     section = "weapons",
-    info = "a small sample of the Blacksmith's wares",
+    info = "A small sample of the Blacksmith's wares",
     maxItems = 1
   )
 
@@ -152,7 +152,7 @@ object WeaponsInventory {
     key = "icicle",
     name = "Icicle",
     section = "weapons",
-    info = "a set of 5 very sharp icicles",
+    info = "A set of 5 very sharp icicles",
     maxItems = 99
   )
 
@@ -160,7 +160,7 @@ object WeaponsInventory {
     key = "mace_small",
     name = "Small Mace",
     section = "weapons",
-    info = "a small sample of the Blacksmith's wares",
+    info = "A small sample of the Blacksmith's wares",
     maxItems = 1
   )
 
@@ -168,7 +168,7 @@ object WeaponsInventory {
     key = "throwingaxe",
     name = "Throwing Axe",
     section = "weapons",
-    info = "a set of 4 throwing axes",
+    info = "A set of 4 throwing axes",
     maxItems = 99
   )
 
@@ -176,7 +176,7 @@ object WeaponsInventory {
     key = "switch",
     name = "Switch",
     section = "weapons",
-    info = "a wooden disciplinarian tool used to administer punishment upon your enemies",
+    info = "A wooden disciplinarian tool used to administer punishment upon your enemies",
     maxItems = 1
   )
 
@@ -184,7 +184,7 @@ object WeaponsInventory {
     key = "mace",
     name = "Mace",
     section = "weapons",
-    info = "a heavy weapon useful for bashing and smashing",
+    info = "A heavy weapon useful for bashing and smashing",
     maxItems = 1
   )
 
@@ -192,7 +192,7 @@ object WeaponsInventory {
     key = "benzalkFire",
     name = "Benzalk Fire",
     section = "weapons",
-    info = "fire",
+    info = "Fire",
     maxItems = 10
   )
 
@@ -200,7 +200,7 @@ object WeaponsInventory {
     key = "axe",
     name = "Axe",
     section = "weapons",
-    info = "a standard axe, probally used for chopping wood",
+    info = "A standard axe, probably used for chopping wood",
     maxItems = 1
   )
 
@@ -216,7 +216,7 @@ object WeaponsInventory {
     key = "blueskyspecial",
     name = "Blue Sky Special",
     section = "weapons",
-    info = "a rare homemade weapon...",
+    info = "A rare homemade weapon...",
     maxItems = 1
   )
 
@@ -224,7 +224,7 @@ object WeaponsInventory {
     key = "wrench",
     name = "Wrench",
     section = "weapons",
-    info = "a wrench for your everyday maintenance needs",
+    info = "A wrench for your everyday maintenance needs",
     maxItems = 1
   )
 
@@ -232,7 +232,7 @@ object WeaponsInventory {
     key = "throwingknife",
     name = "Throwing Knife",
     section = "weapons",
-    info = "a set of 5 throwing knives",
+    info = "A set of 5 throwing knives",
     maxItems = 99
   )
 
@@ -240,7 +240,7 @@ object WeaponsInventory {
     key = "mallet",
     name = "Mallet",
     section = "weapons",
-    info = "a small, light weapon perfect for quick attacks",
+    info = "A small, light weapon perfect for quick attacks",
     maxItems = 1
   )
 

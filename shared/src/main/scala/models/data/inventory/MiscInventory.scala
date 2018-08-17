@@ -8,7 +8,7 @@ object MiscInventory {
     key = "lightning",
     name = "Lightning",
     section = "scrolls",
-    info = "an ancient spell used to strike down enemies",
+    info = "An ancient spell used to strike down enemies",
     maxItems = 5
   )
 

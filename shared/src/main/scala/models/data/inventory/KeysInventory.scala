@@ -32,7 +32,7 @@ object KeysInventory {
     key = "mines",
     name = "Mines Entrance",
     section = "keys",
-    info = "the key to the abandoned mines in the mountains",
+    info = "The key to the abandoned mines in the mountains",
     maxItems = 5
   )
 
@@ -40,7 +40,7 @@ object KeysInventory {
     key = "bluetower",
     name = "Blue Tower",
     section = "keys",
-    info = "the key to castle hawkthorne's blue tower",
+    info = "The key to castle hawkthorne's blue tower",
     maxItems = 5
   )
 
@@ -104,7 +104,7 @@ object KeysInventory {
     key = "tower",
     name = "Tower",
     section = "keys",
-    info = "the key to the first tower of castle hawkthorne",
+    info = "The key to the first tower of castle hawkthorne",
     maxItems = 5
   )
 
@@ -112,7 +112,7 @@ object KeysInventory {
     key = "lost_dvd",
     name = "Lost DVD",
     section = "keys",
-    info = "the meaning of Christmas",
+    info = "The meaning of Christmas",
     maxItems = 1
   )
 
@@ -120,7 +120,7 @@ object KeysInventory {
     key = "black_caverns",
     name = "Black Caverns",
     section = "keys",
-    info = "the key to open the black caverns",
+    info = "The key to open the black caverns",
     maxItems = 1
   )
 
@@ -128,7 +128,7 @@ object KeysInventory {
     key = "greendale",
     name = "Greendale",
     section = "keys",
-    info = "a key that is rumored to open a secret door to a place named 'Greendale'",
+    info = "A key that is rumored to open a secret door to a place named 'Greendale'",
     maxItems = 1
   )
 
@@ -136,7 +136,7 @@ object KeysInventory {
     key = "throneroom",
     name = "Throne Room",
     section = "keys",
-    info = "the key to the throne room of castle hawkthorne",
+    info = "The key to the throne room of castle hawkthorne",
     maxItems = 5
   )
 
@@ -144,7 +144,7 @@ object KeysInventory {
     key = "rusted_brass",
     name = "Rusted Brass",
     section = "keys",
-    info = "an old, rusted brass key",
+    info = "An old, rusted brass key",
     maxItems = 1
   )
 
@@ -152,7 +152,7 @@ object KeysInventory {
     key = "white_crystal",
     name = "White Crystal",
     section = "keys",
-    info = "the key to castle hawkthorne",
+    info = "The key to castle hawkthorne",
     maxItems = 1
   )
 
@@ -160,7 +160,7 @@ object KeysInventory {
     key = "ladiesroom",
     name = "Ladies Room",
     section = "keys",
-    info = "the key to the ladies room",
+    info = "The key to the ladies room",
     maxItems = 1
   )
 
