@@ -23,7 +23,7 @@ object LuaUtils {
   }
 
   def blockFor(src: String, lines: immutable.IndexedSeq[String], prefix: String) = {
-    val lineNumber = lineNum(lines, prefix).getOrElse(throw new IllegalStateException(s"Cannot find line starting with [$prefix]"))
+    val lineNumber = lineNum(lines, prefix).getOrElse(throw new IllegalStateException(s"Cannot find [$src] line starting with [$prefix]"))
 
     var bracketDepth = 0
     lines.drop(lineNumber).takeWhile { line =>

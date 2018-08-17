@@ -7,7 +7,9 @@ import util.LuaUtils
 import scala.io.Source
 
 object InventoryItemFiles {
-  case class Item(key: String, description: String, dir: String, info: String, maxItems: Int)
+  case class Item(key: String, description: String, dir: String, info: String, maxItems: Int) {
+    val infoProper = info.headOption.map(_.toUpper + info.tail).getOrElse("")
+  }
 
   def process(cfg: PipelineConfig) = {
     val sections = Seq("armor", "consumables", "details", "keys", "materials", "misc", "weapons")
@@ -55,7 +57,7 @@ object InventoryItemFiles {
       file.add(s"""key = "${item.key}",""")
       file.add(s"""name = "${item.description}",""")
       file.add(s"""section = "${item.dir}",""")
-      file.add(s"""info = "${item.info}",""")
+      file.add(s"""info = "${item.infoProper}",""")
       file.add(s"""maxItems = ${item.maxItems}""")
       file.add(")", -1)
       file.add()
