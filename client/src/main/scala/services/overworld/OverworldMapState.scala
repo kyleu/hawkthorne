@@ -18,10 +18,11 @@ object OverworldMapState {
 
 class OverworldMapState(phaser: Game, inputService: InputService, player: Player, debug: Boolean) extends GameState("test", phaser) {
   private[this] var map: Option[OverworldMap] = None
+  private[this] lazy val bgMusic = MusicService.load(OverworldMapAssets.music)
 
   override def create(game: Game) = {
     Font.reset()
-    MusicService.play(OverworldMapAssets.music, loop = true)
+    bgMusic.play(loop = true)
     map = Some(OverworldMap(game, player, "greendale"))
     map.foreach(m => game.add.existing(m.group))
     inputService.menuHandler.setCallback(Some(x => onMenuAction(x)))
@@ -36,7 +37,7 @@ class OverworldMapState(phaser: Game, inputService: InputService, player: Player
   }
 
   override def shutdown(game: Game) = {
-    MusicService.stop(OverworldMapAssets.music)
+    bgMusic.stop()
     inputService.menuHandler.setCallback(None)
     inputService.setPointerEventCallback(None)
     super.shutdown(game)

@@ -23,14 +23,10 @@ class AudioService(prefix: String) {
     game.getOrElse(throw new IllegalStateException("Audio not initialized.")).add.audio(s"$prefix.$key")
   })
 
-  def play(key: String, vol: Double = 1.0, loop: Boolean = false) = {
+  def play(key: String, vol: Double = 1.0, loop: Boolean = false): Sound = play(load(key), vol = vol, loop = loop)
+  def play(sound: Sound, vol: Double, loop: Boolean): Sound = {
     val newVol = vol / 10.0 * volume
-    load(key).play(volume = newVol, loop = loop)
-    util.Logging.debug(s"Playing [$prefix.$key] at volume [$newVol], loop = $loop")
-  }
-
-  def stop(key: String) = {
-    util.Logging.debug(s"Stopping [$prefix.$key].")
-    load(s"$prefix.$key").stop()
+    util.Logging.debug(s"Playing [$prefix.${sound.name}] at volume [$newVol], loop = $loop")
+    sound.play(volume = newVol, loop = loop)
   }
 }
