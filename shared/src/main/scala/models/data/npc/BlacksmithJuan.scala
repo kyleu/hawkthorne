@@ -16,7 +16,10 @@ object BlacksmithJuan extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "What are you drinking?", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "What are you drinking?", responses = List("This is my *hiccup* own brew.")),
+    TalkItem(prompt = "Any useful info for me?", responses = List("You will need *hiccup* some weapons and potions if *hiccup* you are going to survive.")),
+    TalkItem(prompt = "Hello!", responses = List("Hello, *hiccup* I am Juans *hiccup* Smithy."))
+  )
 )

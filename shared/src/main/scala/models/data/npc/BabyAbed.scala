@@ -17,7 +17,10 @@ object BabyAbed extends NpcTemplate(
   ),
   noInventory = Some("cool cool cool"),
   noCommands = Some("cool cool cool"),
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "cool cool cool", responses = Nil)
-    TalkItem(prompt = "cool cool cool", responses = Nil)
-    TalkItem(prompt = "cool cool cool", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "Cool cool cool", responses = Nil),
+    TalkItem(prompt = "Cool cool cool", responses = Nil),
+    TalkItem(prompt = "Cool cool cool", responses = Nil),
+    TalkItem(prompt = "Cool cool cool", responses = Nil)
+  )
 )

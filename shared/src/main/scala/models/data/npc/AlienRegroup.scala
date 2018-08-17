@@ -17,7 +17,10 @@ object AlienRegroup extends NpcTemplate(
   ),
   noInventory = Some("Calm down there human, I'll sell you my supplies when I get back to my cave."),
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "You are a dick.", responses = Nil)
-    TalkItem(prompt = "Aliens are everywhere!", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "You are a dick.", responses = List("Yeeeah...I do some questionable things, not even gonna lie.")),
+    TalkItem(prompt = "Aliens are everywhere!", responses = List("They're crawling everywhere, I know! The invasion has pretty much started.")),
+    TalkItem(prompt = "Talk about quests", responses = Nil)
+  )
 )

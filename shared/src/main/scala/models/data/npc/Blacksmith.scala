@@ -20,7 +20,10 @@ object Blacksmith extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Anything happening here?", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Anything happening here?", responses = List("We used to have a cult leader that claimed to specialize in alchemy stay in the house next door.", "What was odd was that he left with nothing and there was no alchemy equipment in the house at all.", "We think that he was just lying in an attempt to obtain followers.")),
+    TalkItem(prompt = "Any useful info for me?", responses = List("You will need some weapons and potions if you are going to survive.")),
+    TalkItem(prompt = "Hello!", responses = List("Hello, I am the blacksmith.", "You may have met my lovely daughter, Hilda."))
+  )
 )

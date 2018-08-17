@@ -17,7 +17,10 @@ object Townsperson extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "What are you carrying?", responses = Nil)
-    TalkItem(prompt = "This town is in ruins!", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "What are you carrying?", responses = List("It's a piece of wood. The town {{green_light}}blacksmith{{white}} needs it to make his weapons.", "You can find him at the last house on the street.")),
+    TalkItem(prompt = "This town is in ruins!", responses = List("Ever since that tyrant {{grey}}Hawkthorne{{white}} started ruling", "Our town started falling apart into pieces. If only he were overthrown!")),
+    TalkItem(prompt = "Talk about the Acorn King", responses = Nil)
+  )
 )

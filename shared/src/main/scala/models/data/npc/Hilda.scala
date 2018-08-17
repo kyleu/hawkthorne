@@ -24,96 +24,99 @@ object Hilda extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "i will wear your skin", responses = Nil)
-      ['text']='madam, i am on a quest', ['option']={ (1)
-        ['text']='more...', ['option']={ (2)
-        TalkItem(prompt = "i am done with you", responses = Nil)
-        TalkItem(prompt = "Talk about the Acorn King", responses = Nil)
-        TalkItem(prompt = "frog extinction", responses = Nil)
-        TalkItem(prompt = "ostrich", responses = Nil)
-        TalkItem(prompt = "other parrot", responses = Nil)
-        TalkItem(prompt = "anglerfish", responses = Nil)
-        TalkItem(prompt = "seal", responses = Nil)
-        TalkItem(prompt = "spider", responses = Nil)
-        TalkItem(prompt = "snake", responses = Nil)
-        TalkItem(prompt = "parrot", responses = Nil)
-        TalkItem(prompt = "swordfish", responses = Nil)
-        TalkItem(prompt = "rhino", responses = Nil)
-        TalkItem(prompt = "magic carpet", responses = Nil)
-        TalkItem(prompt = "rocket ship", responses = Nil)
-        TalkItem(prompt = "albatross", responses = Nil)
-        TalkItem(prompt = "ladder bug", responses = Nil)
-        TalkItem(prompt = "hidden pipe", responses = Nil)
-        TalkItem(prompt = "subcon vase", responses = Nil)
-        TalkItem(prompt = "magic flute", responses = Nil)
-        TalkItem(prompt = "star zone", responses = Nil)
-        TalkItem(prompt = "rashes", responses = Nil)
-        TalkItem(prompt = "zits", responses = Nil)
-        TalkItem(prompt = "pimples", responses = Nil)
-        TalkItem(prompt = "dark queen", responses = Nil)
-        TalkItem(prompt = "mechanical", responses = Nil)
-        TalkItem(prompt = "stoneship", responses = Nil)
-        TalkItem(prompt = "channel wood", responses = Nil)
-        TalkItem(prompt = "space ship", responses = Nil)
-        TalkItem(prompt = "old man trainer", responses = Nil)
-        TalkItem(prompt = "fly on a bird", responses = Nil)
-        TalkItem(prompt = "cinnamon island", responses = Nil)
-        TalkItem(prompt = "seal along the shore", responses = Nil)
-        TalkItem(prompt = "black lightning", responses = Nil)
-        TalkItem(prompt = "hornet", responses = Nil)
-        TalkItem(prompt = "shredder", responses = Nil)
-        TalkItem(prompt = "avenger", responses = Nil)
-        TalkItem(prompt = "wing hat", responses = Nil)
-        TalkItem(prompt = "magic feather", responses = Nil)
-        TalkItem(prompt = "raccoon clothes", responses = Nil)
-        TalkItem(prompt = "running jump", responses = Nil)
-        TalkItem(prompt = "collect all blue coins", responses = Nil)
-        TalkItem(prompt = "island of annoying voices", responses = Nil)
-        TalkItem(prompt = "hot tub end boss", responses = Nil)
-        TalkItem(prompt = "mustached mushroom", responses = Nil)
-        TalkItem(prompt = "bell toss", responses = Nil)
-        TalkItem(prompt = "charged fireball", responses = Nil)
-        TalkItem(prompt = "time bombs", responses = Nil)
-        TalkItem(prompt = "rock punch", responses = Nil)
-        TalkItem(prompt = "blue fire", responses = Nil)
-        TalkItem(prompt = "green fire", responses = Nil)
-        TalkItem(prompt = "purple fire", responses = Nil)
-        TalkItem(prompt = "boring regular old fire", responses = Nil)
-        TalkItem(prompt = "flying war ships", responses = Nil)
-        TalkItem(prompt = "clown face helicopter", responses = Nil)
-        TalkItem(prompt = "teeter totter flying floor", responses = Nil)
-        TalkItem(prompt = "unstable bath", responses = Nil)
-        TalkItem(prompt = "impervious to lava", responses = Nil)
-        TalkItem(prompt = "underwater exploration", responses = Nil)
-        TalkItem(prompt = "hover puppy", responses = Nil)
-        TalkItem(prompt = "giant ant dance club", responses = Nil)
-        TalkItem(prompt = "good karma quests", responses = Nil)
-        TalkItem(prompt = "fun quests", responses = Nil)
-        TalkItem(prompt = "unkillable bears", responses = Nil)
-        TalkItem(prompt = "antiphysics horse", responses = Nil)
-        TalkItem(prompt = "bubble attack", responses = Nil)
-        TalkItem(prompt = "leaf attack", responses = Nil)
-        TalkItem(prompt = "time freeze attack", responses = Nil)
-        TalkItem(prompt = "metal blade attack", responses = Nil)
-        TalkItem(prompt = "egg treatment", responses = Nil)
-        TalkItem(prompt = "blue poultry", responses = Nil)
-        TalkItem(prompt = "the chicken lady", responses = Nil)
-        TalkItem(prompt = "forest fungus", responses = Nil)
-        TalkItem(prompt = "wild children", responses = Nil)
-        TalkItem(prompt = "trippy potions", responses = Nil)
-        TalkItem(prompt = "pharmacist", responses = Nil)
-        TalkItem(prompt = "sawing small trees", responses = Nil)
-        TalkItem(prompt = "carpenter camps", responses = Nil)
-        TalkItem(prompt = "broken swords", responses = Nil)
-        TalkItem(prompt = "giant rock monster", responses = Nil)
-        TalkItem(prompt = "frog prescriptions", responses = Nil)
-        TalkItem(prompt = "vision medication", responses = Nil)
-        TalkItem(prompt = "brick vouchers", responses = Nil)
-        TalkItem(prompt = "extra large swords", responses = Nil)
-        } (1)
-      TalkItem(prompt = "flowers', freeze = true", responses = Nil)
-      TalkItem(prompt = "throne of hawkthorne", responses = Nil)
-      TalkItem(prompt = "for your hand', freeze = true", responses = Nil)
-      } (0) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "I will wear your skin", responses = Nil),
+    TalkItem(prompt = "Madam, i am on a quest", responses = List("I can {{blue_light}}help{{white}} with that", "I have information on many {{blue_light}}topics{{white}}..."), children = Seq(
+      TalkItem(prompt = "More...", responses = Nil, children = Seq(
+        TalkItem(prompt = "I am done with you", responses = Nil),
+        TalkItem(prompt = "Talk about the Acorn King", responses = List("The Acorn King is a giant acorn living in the mountains that terrorizes our village.", "He appeared around the time when Cornelius first took power.", "Some people believe that Cornelius may have had something to do with his appearance.")),
+        TalkItem(prompt = "Frog extinction", responses = Nil),
+        TalkItem(prompt = "Ostrich", responses = Nil),
+        TalkItem(prompt = "Other parrot", responses = Nil),
+        TalkItem(prompt = "Anglerfish", responses = Nil),
+        TalkItem(prompt = "Seal", responses = Nil),
+        TalkItem(prompt = "Spider", responses = Nil),
+        TalkItem(prompt = "Snake", responses = Nil),
+        TalkItem(prompt = "Parrot", responses = Nil),
+        TalkItem(prompt = "Swordfish", responses = Nil),
+        TalkItem(prompt = "Rhino", responses = Nil),
+        TalkItem(prompt = "Magic carpet", responses = Nil),
+        TalkItem(prompt = "Rocket ship", responses = Nil),
+        TalkItem(prompt = "Albatross", responses = Nil),
+        TalkItem(prompt = "Ladder bug", responses = Nil),
+        TalkItem(prompt = "Hidden pipe", responses = Nil),
+        TalkItem(prompt = "Subcon vase", responses = Nil),
+        TalkItem(prompt = "Magic flute", responses = Nil),
+        TalkItem(prompt = "Star zone", responses = Nil),
+        TalkItem(prompt = "Rashes", responses = Nil),
+        TalkItem(prompt = "Zits", responses = Nil),
+        TalkItem(prompt = "Pimples", responses = Nil),
+        TalkItem(prompt = "Dark queen", responses = Nil),
+        TalkItem(prompt = "Mechanical", responses = Nil),
+        TalkItem(prompt = "Stoneship", responses = Nil),
+        TalkItem(prompt = "Channel wood", responses = Nil),
+        TalkItem(prompt = "Space ship", responses = Nil),
+        TalkItem(prompt = "Old man trainer", responses = Nil),
+        TalkItem(prompt = "Fly on a bird", responses = Nil),
+        TalkItem(prompt = "Cinnamon island", responses = Nil),
+        TalkItem(prompt = "Seal along the shore", responses = Nil),
+        TalkItem(prompt = "Black lightning", responses = Nil),
+        TalkItem(prompt = "Hornet", responses = Nil),
+        TalkItem(prompt = "Shredder", responses = Nil),
+        TalkItem(prompt = "Avenger", responses = Nil),
+        TalkItem(prompt = "Wing hat", responses = Nil),
+        TalkItem(prompt = "Magic feather", responses = Nil),
+        TalkItem(prompt = "Raccoon clothes", responses = Nil),
+        TalkItem(prompt = "Running jump", responses = Nil),
+        TalkItem(prompt = "Collect all blue coins", responses = Nil),
+        TalkItem(prompt = "Island of annoying voices", responses = Nil),
+        TalkItem(prompt = "Hot tub end boss", responses = Nil),
+        TalkItem(prompt = "Mustached mushroom", responses = Nil),
+        TalkItem(prompt = "Bell toss", responses = Nil),
+        TalkItem(prompt = "Charged fireball", responses = Nil),
+        TalkItem(prompt = "Time bombs", responses = Nil),
+        TalkItem(prompt = "Rock punch", responses = Nil),
+        TalkItem(prompt = "Blue fire", responses = Nil),
+        TalkItem(prompt = "Green fire", responses = Nil),
+        TalkItem(prompt = "Purple fire", responses = Nil),
+        TalkItem(prompt = "Boring regular old fire", responses = Nil),
+        TalkItem(prompt = "Flying war ships", responses = Nil),
+        TalkItem(prompt = "Clown face helicopter", responses = Nil),
+        TalkItem(prompt = "Teeter totter flying floor", responses = Nil),
+        TalkItem(prompt = "Unstable bath", responses = Nil),
+        TalkItem(prompt = "Impervious to lava", responses = Nil),
+        TalkItem(prompt = "Underwater exploration", responses = Nil),
+        TalkItem(prompt = "Hover puppy", responses = Nil),
+        TalkItem(prompt = "Giant ant dance club", responses = Nil),
+        TalkItem(prompt = "Good karma quests", responses = Nil),
+        TalkItem(prompt = "Fun quests", responses = Nil),
+        TalkItem(prompt = "Unkillable bears", responses = Nil),
+        TalkItem(prompt = "Antiphysics horse", responses = Nil),
+        TalkItem(prompt = "Bubble attack", responses = Nil),
+        TalkItem(prompt = "Leaf attack", responses = Nil),
+        TalkItem(prompt = "Time freeze attack", responses = Nil),
+        TalkItem(prompt = "Metal blade attack", responses = Nil),
+        TalkItem(prompt = "Egg treatment", responses = Nil),
+        TalkItem(prompt = "Blue poultry", responses = Nil),
+        TalkItem(prompt = "The chicken lady", responses = Nil),
+        TalkItem(prompt = "Forest fungus", responses = Nil),
+        TalkItem(prompt = "Wild children", responses = Nil),
+        TalkItem(prompt = "Trippy potions", responses = Nil),
+        TalkItem(prompt = "Pharmacist", responses = Nil),
+        TalkItem(prompt = "Sawing small trees", responses = Nil),
+        TalkItem(prompt = "Carpenter camps", responses = Nil),
+        TalkItem(prompt = "Broken swords", responses = Nil),
+        TalkItem(prompt = "Giant rock monster", responses = Nil),
+        TalkItem(prompt = "Frog prescriptions", responses = Nil),
+        TalkItem(prompt = "Vision medication", responses = Nil),
+        TalkItem(prompt = "Brick vouchers", responses = Nil),
+        TalkItem(prompt = "Extra large swords", responses = Nil)
+      )),
+      TalkItem(prompt = "Flowers", responses = Nil),
+      TalkItem(prompt = "Throne of hawkthorne", responses = Nil),
+      TalkItem(prompt = "For your hand", responses = Nil)
+    )),
+    TalkItem(prompt = "Stand aside", responses = Nil)
+  )
 )

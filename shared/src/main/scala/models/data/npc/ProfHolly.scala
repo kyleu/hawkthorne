@@ -17,12 +17,15 @@ object ProfHolly extends NpcTemplate(
   ),
   noInventory = Some("Sorry, blueberry. All I have is on the shelves!"),
   noCommands = Some("Command is such a strong, ugly word."),
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-      ['text']='No Ghosting, huh?', ['option']={ (1)
-      TalkItem(prompt = "A long lonely tiiiiime", responses = Nil)
-      TalkItem(prompt = "Hungered for your touch", responses = Nil)
-      TalkItem(prompt = "My darling...", responses = Nil)
-      TalkItem(prompt = "Oh, my love...", responses = Nil)
-      } (0)
-    TalkItem(prompt = "How to get an art credit.", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "No Ghosting, huh?", responses = Nil, children = Seq(
+      TalkItem(prompt = "A long lonely tiiiiime", responses = List("(Professor Holly grinds his teeth.)")),
+      TalkItem(prompt = "Hungered for your touch", responses = List("(Professor Holly's right eye twitches slightly.)")),
+      TalkItem(prompt = "My darling...", responses = List("(Professor Holly lets out a pained whimper.)")),
+      TalkItem(prompt = "Oh, my love...", responses = List("(Professor Holly crushes the lump of clay in his hands. Hard.)"))
+    )),
+    TalkItem(prompt = "How to get an art credit.", responses = List("Participation! You've just passed by being here!", "Congratulations, little blueberry!")),
+    TalkItem(prompt = "Hello, professor.", responses = List("Hello, my precious blueberry!", "I hope you've been having a fantastic adventure."))
+  )
 )

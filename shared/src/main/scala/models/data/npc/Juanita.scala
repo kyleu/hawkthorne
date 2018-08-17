@@ -17,12 +17,15 @@ object Juanita extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "You look very busy', freeze = true", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil)
-      ['text']='Donde esta...', ['option']={ (1)
-      TalkItem(prompt = "the sandpits?", responses = Nil)
-      TalkItem(prompt = "the town mayor?", responses = Nil)
-      TalkItem(prompt = "Gay Island?", responses = Nil)
-      TalkItem(prompt = "la biblioteca?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "You look very busy", responses = Nil),
+    TalkItem(prompt = "Any useful info for me?", responses = List("Items like bone are common around these parts, so they sell for cheap.", "If you want to earn more money, you're better off selling them over at the {{olive}}Forest Town{{white}}.")),
+    TalkItem(prompt = "Donde esta...", responses = Nil, children = Seq(
+      TalkItem(prompt = "The sandpits?", responses = Nil),
+      TalkItem(prompt = "The town mayor?", responses = Nil),
+      TalkItem(prompt = "Gay Island?", responses = List("{{olive}}Gay Island{{white}}? Why, it's right across the river from us.", "Of course, no one can even get to them anymore anyways because te exit outta here's blocked off.")),
+      TalkItem(prompt = "La biblioteca?", responses = Nil)
+    ))
+  )
 )

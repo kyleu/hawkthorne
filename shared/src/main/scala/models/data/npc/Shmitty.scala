@@ -16,12 +16,15 @@ object Shmitty extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = Some("We don't take commands from shmitty.  Uh-duh!"),
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Alright, look kids...", responses = Nil)
-    TalkItem(prompt = "You kids are horrible.", responses = Nil)
-      ['text']='Uh-duh!', ['option']={ (1)
-      TalkItem(prompt = "Uh-duh!", responses = Nil)
-      TalkItem(prompt = "Uh-duh!", responses = Nil)
-      TalkItem(prompt = "Uh-duh!", responses = Nil)
-      TalkItem(prompt = "Uh-duh!", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Alright, look kids...", responses = List("Shmitty!!", "Get out of here you loser.")),
+    TalkItem(prompt = "You kids are horrible.", responses = List("Says the loser attending a community college. Shmitty!")),
+    TalkItem(prompt = "Uh-duh!", responses = List("Uh-duhhhh!"), children = Seq(
+      TalkItem(prompt = "Uh-duh!", responses = List("Uh-duhhhh!")),
+      TalkItem(prompt = "Uh-duh!", responses = List("Uh-duhhhh!")),
+      TalkItem(prompt = "Uh-duh!", responses = List("Uh-duhhhh!")),
+      TalkItem(prompt = "Uh-duh!", responses = List("Uh-duhhhh!"))
+    ))
+  )
 )

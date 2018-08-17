@@ -17,8 +17,10 @@ object TutorialWizard extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Where are the tutorials?", responses = Nil)
-    TalkItem(prompt = "Professor Duncan?", responses = Nil)
-    TalkItem(prompt = "Who are you?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Where are the tutorials?", responses = List("I'm a tutorial wizard not a tutorial conjurer.")),
+    TalkItem(prompt = "Professor Duncan?", responses = List("I do not have the slightest idea", "What you're talking about.")),
+    TalkItem(prompt = "Who are you?", responses = List("I am a Tutorial Wizard!", "And definitely not a Christmas Wizard."))
+  )
 )

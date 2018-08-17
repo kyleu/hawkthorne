@@ -17,15 +17,18 @@ object HumanBeing extends NpcTemplate(
   ),
   noInventory = Some("Mum Mont Muve Mummfmen Mo Murm Muu."),
   noCommands = Some("Mum Mont Muurk Murunds Urm Muu."),
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-      ['text']='where is ...', ['option']={ (1)
-      TalkItem(prompt = "i am done with you", responses = Nil)
-      TalkItem(prompt = ""the registrar"", responses = Nil)
-      TalkItem(prompt = ""the ac repair school"", responses = Nil)
-      TalkItem(prompt = ""my valentine"", responses = Nil)
-      TalkItem(prompt = ""my dignity"", responses = Nil)
-      TalkItem(prompt = ""magnitude"", responses = Nil)
-      TalkItem(prompt = ""the dean's office",", responses = Nil)
-      } (0)
-    TalkItem(prompt = "why are you mumbling?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Where is ...", responses = Nil, children = Seq(
+      TalkItem(prompt = "I am done with you", responses = Nil),
+      TalkItem(prompt = "The registrar", responses = Nil),
+      TalkItem(prompt = "The ac repair school", responses = Nil),
+      TalkItem(prompt = "My valentine", responses = Nil),
+      TalkItem(prompt = "My dignity", responses = Nil),
+      TalkItem(prompt = "Magnitude", responses = Nil),
+      TalkItem(prompt = "The dean's office", responses = Nil)
+    )),
+    TalkItem(prompt = "Why are you mumbling?", responses = Nil),
+    TalkItem(prompt = "Who are you?", responses = Nil)
+  )
 )

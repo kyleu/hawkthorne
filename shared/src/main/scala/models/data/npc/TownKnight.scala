@@ -19,7 +19,10 @@ object TownKnight extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil)
-    TalkItem(prompt = "This town is in ruins!", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Any useful info for me?", responses = List("I hear {{grey}}Castle Hawkthorne{{white}} holds untold riches, if anyone could get to them.", "One of them, I hear, is a key that unlocks a fabled world called {{olive}}Greendale{{white}}.", "Now there's what I call an adventure.")),
+    TalkItem(prompt = "This town is in ruins!", responses = List("It's that damned {{grey}}Hawkthorne{{white}}! He's a madman, that's what he is.", "Just sitting in that ivory tower of his, it's his fault we're in shambles like this.")),
+    TalkItem(prompt = "Talk about the Acorn King", responses = Nil)
+  )
 )

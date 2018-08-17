@@ -17,8 +17,10 @@ object XmasWizard extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "How do I get out of here?", responses = Nil)
-    TalkItem(prompt = "Professor Duncan?", responses = Nil)
-    TalkItem(prompt = "Who are you?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "How do I get out of here?", responses = List("You must venture to the {{olive}}Cave of Frozen Memories{{white}}", "And there you shall find the exit.")),
+    TalkItem(prompt = "Professor Duncan?", responses = List("I do not have the slightest idea", "What you're talking about.")),
+    TalkItem(prompt = "Who are you?", responses = List("I am a Christmas Wizard!", "And definitely not a psych professor."))
+  )
 )

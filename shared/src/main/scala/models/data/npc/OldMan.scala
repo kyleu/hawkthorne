@@ -17,7 +17,10 @@ object OldMan extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil)
-    TalkItem(prompt = "This town is in ruins!", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Any useful info for me?", responses = List("Piss off, would ya?")),
+    TalkItem(prompt = "This town is in ruins!", responses = List("Piss off.")),
+    TalkItem(prompt = "Hello!", responses = Nil)
+  )
 )

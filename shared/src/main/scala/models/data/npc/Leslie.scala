@@ -16,7 +16,10 @@ object Leslie extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Can I buy you a drink?", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Can I buy you a drink?", responses = List("Sorry, I have a girlfriend.")),
+    TalkItem(prompt = "Any useful info for me?", responses = List("You will need some weapons and potions if you are going to survive.")),
+    TalkItem(prompt = "Hello!", responses = List("Hello! I'm {{red_light}}Leslie{{white}}, a travelling Sales-bian from the {{olive}}Plaid Plateau{{white}}."))
+  )
 )

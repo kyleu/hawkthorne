@@ -17,7 +17,10 @@ object Tilda extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "You look familiar...", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "You look familiar...", responses = List("My name is Tilda, I used to live in the village.", "When I was forced into marrying a man I did not love, I fled deep into these woods and now I fend for myself in the winderness.", "You may have met my sister, Hilda. She and I resemble each other greatly.")),
+    TalkItem(prompt = "Any useful info for me?", responses = List("Watch out for those acorns, traveler! They are small, but can be quite aggressive when attacked.")),
+    TalkItem(prompt = "Talk about quests", responses = Nil)
+  )
 )

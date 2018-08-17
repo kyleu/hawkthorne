@@ -17,7 +17,10 @@ object Alien extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Who are you?", responses = Nil)
-    TalkItem(prompt = "What do you do here?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Who are you?", responses = List("My name is {{green_light}}Juan{{white}}, an alien from another planet.", "I've fallen in love with the Mexican food on this planet, so I've changed my name and decided to live among you.")),
+    TalkItem(prompt = "What do you do here?", responses = List("Shhh, I'm hiding here from my other alien brethren!", "If they find me, they'll kill me and make sure I never taste another burrito again...oh, the horror!")),
+    TalkItem(prompt = "Talk about quests", responses = Nil)
+  )
 )

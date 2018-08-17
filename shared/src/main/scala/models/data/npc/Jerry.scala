@@ -17,7 +17,10 @@ object Jerry extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Hello!", responses = Nil)
-    TalkItem(prompt = "Listen to me.", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Hello!", responses = List("Damn man! Ain't you ever heard of knocking?!")),
+    TalkItem(prompt = "Listen to me.", responses = List("Toilets and sinks...REAL THINGS!", "Things that people always use and always need to get fixed! You could be a plumber!")),
+    TalkItem(prompt = "Why is the pool closed?", responses = Nil)
+  )
 )

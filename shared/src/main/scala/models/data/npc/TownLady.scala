@@ -17,7 +17,10 @@ object TownLady extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Pardon?", responses = Nil)
-    TalkItem(prompt = "Say again?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Pardon?", responses = List("Speak up! I can't hear a thing you're sayin'!")),
+    TalkItem(prompt = "Say again?", responses = List("Speak up! I can't hear a thing you're sayin'!")),
+    TalkItem(prompt = "Talk about the Acorn King", responses = List("Speak up! I can't hear a thing you're sayin'!"))
+  )
 )

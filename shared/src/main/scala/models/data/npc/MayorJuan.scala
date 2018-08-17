@@ -16,17 +16,20 @@ object MayorJuan extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Sick moustache!", responses = Nil)
-      ['text']='Donde esta...', ['option']={ (1)
-      TalkItem(prompt = "the sandpits?", responses = Nil)
-      TalkItem(prompt = "the town hall?", responses = Nil)
-      TalkItem(prompt = "the chili fields?", responses = Nil)
-      TalkItem(prompt = "la biblioteca?", responses = Nil)
-      } (0)
-      ['text']='So you are the mayor?', ['option']={ (1)
-      TalkItem(prompt = "Why is the exit blocked?", responses = Nil)
-      TalkItem(prompt = "Why is the town so dirty?", responses = Nil)
-      TalkItem(prompt = "Tell me about this place", responses = Nil)
-      TalkItem(prompt = "How do I get out of here?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Sick moustache!", responses = List("Why, thank you so much!", "I am very proud of my moustache, I comb it 20 times a day.")),
+    TalkItem(prompt = "Donde esta...", responses = Nil, children = Seq(
+      TalkItem(prompt = "The sandpits?", responses = Nil),
+      TalkItem(prompt = "The town hall?", responses = Nil),
+      TalkItem(prompt = "The chili fields?", responses = Nil),
+      TalkItem(prompt = "La biblioteca?", responses = Nil)
+    )),
+    TalkItem(prompt = "So you are the mayor?", responses = Nil, children = Seq(
+      TalkItem(prompt = "Why is the exit blocked?", responses = List("That was not my doing, I can assure you that.", "It was that madman {{grey}}Cornelius{{white}}. He and his goons set that up to prevent anybody from exiting the valley.")),
+      TalkItem(prompt = "Why is the town so dirty?", responses = List("Pfft, this is a clean enough town.", "I'm a busy, busy man, I've got better things to do than pick up litter.")),
+      TalkItem(prompt = "Tell me about this place", responses = List("What is there to tell? Our town boasts the finest tacos in the world.", "It used to be a hub of festivals and siestas before that madman {{grey}}Cornelius{{white}} took over.", "If only someone were to kick him off that throne...")),
+      TalkItem(prompt = "How do I get out of here?", responses = List("The only way out of the Valley is back where you came from, to the forests.", "If you're going to continue on to {{olive}}Gay Island{{white}}, you gotta go through the sandpits.", "The sandpits were used way back as a secret entrance, but we abandoned it when it was infested by giant spiders."))
+    ))
+  )
 )

@@ -21,7 +21,10 @@ object BlacksmithWife extends NpcTemplate(
   ),
   noInventory = Some("Talk to my husband to about supplies."),
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil)
-    TalkItem(prompt = "Anything happening here?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Any useful info for me?", responses = List("My husband is the best blacksmith around. He can help you stock up on supplies before venturing into the woods.")),
+    TalkItem(prompt = "Anything happening here?", responses = List("", "I've been trying to convince my husband to build us a new home. I keep telling him it's a terrible idea to have his workshop inside a wooden house!")),
+    TalkItem(prompt = "Hello!", responses = Nil)
+  )
 )

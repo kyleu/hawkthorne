@@ -16,7 +16,10 @@ object Hermit extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Any useful info for me?", responses = Nil)
-    TalkItem(prompt = "Why do you live out here?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Any useful info for me?", responses = List("There's a buncha' chests hidden around these parts for some reason, check them out to see what you get!")),
+    TalkItem(prompt = "Why do you live out here?", responses = List("The nature, the trees, the wee-I mean, the water.", "Though it's getting dangerous these days with all them angry acorns out and about...")),
+    TalkItem(prompt = "Talk about quests", responses = Nil)
+  )
 )

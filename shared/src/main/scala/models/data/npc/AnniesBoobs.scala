@@ -17,7 +17,10 @@ object AnniesBoobs extends NpcTemplate(
   ),
   noInventory = Some("(The monkey points forward eagerly.)"),
   noCommands = Some("(The monkey blows a raspberry at you.)"),
-  talkItems = Seq[TalkItem]( /* TalkItem(prompt = "i am done with you", responses = Nil)
-    TalkItem(prompt = "Who is a good monkey?", responses = Nil)
-    TalkItem(prompt = "Did you see a purple pen?", responses = Nil) */ )
+  talkItems = Seq[TalkItem](
+    TalkItem(prompt = "I am done with you", responses = Nil),
+    TalkItem(prompt = "Who is a good monkey?", responses = List("SCREE!!!")),
+    TalkItem(prompt = "Did you see a purple pen?", responses = List("(The monkey is more interested in the spoon than talking to you.)")),
+    TalkItem(prompt = "Hello!", responses = List("Ook, ook, eek!"))
+  )
 )
