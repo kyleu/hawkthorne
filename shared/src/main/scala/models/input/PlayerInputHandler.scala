@@ -16,7 +16,6 @@ class PlayerInputHandler(instance: GameInstance, boundingBox: BoundingBox, initi
 
   def process(delta: Double, input: GameCommand.PlayerInput) = {
     input.commands.foreach(cmd => processCommand(cmd, delta, currentX, currentY))
-    lastInput = input
     findAnimation(input) -> updateLocation(delta, input)
   }
 
@@ -65,6 +64,8 @@ class PlayerInputHandler(instance: GameInstance, boundingBox: BoundingBox, initi
 
     val newX = Math.max(charPadding, Math.min(maxXPadded, currentX + xDelta))
     val newY = Math.max(charPadding, Math.min(maxYPadded, currentY + yDelta))
+
+    lastInput = input
 
     if (newX == currentX && newY == currentY) {
       None
