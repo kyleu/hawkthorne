@@ -1,7 +1,7 @@
 package models.node
 
 import models.asset.Asset
-import models.game.{GameObject, GameObjectType}
+import models.game.obj.{GameObject, WorkInProgress}
 import util.JsonSerializers._
 
 object Node {
@@ -32,19 +32,15 @@ abstract class Node(val t: String) {
   def actualHeight = height
   def size = actualWidth -> actualHeight
 
-  def gameObjectType: GameObjectType = GameObjectType.WorkInProgress
+  def asLocation = util.Rectangle(x = actualX.toDouble, y = actualY.toDouble, w = actualWidth, h = actualHeight)
 
-  def asNewGameObject = Seq(gameObj(src = s"$t:$actualName"))
-
-  protected def gameObj(src: String) = GameObject(
-    t = gameObjectType,
+  def todo(content: String) = Seq(WorkInProgress(
     id = id,
-    n = name,
-    x = actualX.toDouble,
-    y = actualY.toDouble,
-    w = actualWidth,
-    h = actualHeight,
+    n = actualName,
+    loc = asLocation,
     vis = visible,
-    src = src
-  )
+    todo = content
+  ))
+
+  def asNewGameObject: Seq[GameObject] = todo(t + "...")
 }

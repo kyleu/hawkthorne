@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.game.obj.Door
 import util.JsonSerializers._
 
 object DoorNode {
@@ -58,4 +59,5 @@ final case class DoorNode(
     properties: Option[DoorNode.Props]
 ) extends Node(DoorNode.key) {
   override val assets = properties.flatMap(_.sound).map(Asset.sfx).toSeq ++ properties.flatMap(_.show_sfx).map(Asset.sfx)
+  override def asNewGameObject = Seq(Door(id = id, n = actualName, loc = asLocation, vis = visible))
 }

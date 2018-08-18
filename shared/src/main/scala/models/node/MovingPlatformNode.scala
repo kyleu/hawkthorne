@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.game.obj.MovingPlatform
 import util.JsonSerializers._
 
 object MovingPlatformNode {
@@ -52,4 +53,5 @@ final case class MovingPlatformNode(
   override def actualName = if (name.isEmpty) { properties.sprite.substring(properties.sprite.lastIndexOf('/') + 1).stripSuffix(".png") } else { name }
   val sheetKey = "sprite." + actualName
   override lazy val assets = Seq(Asset.Image(sheetKey, properties.sprite))
+  override def asNewGameObject = Seq(MovingPlatform(id = id, n = actualName, loc = asLocation, vis = visible))
 }

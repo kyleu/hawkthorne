@@ -1,5 +1,6 @@
 package models.node
 
+import models.game.obj.KillingFloor
 import util.JsonSerializers._
 
 object KillingFloorNode {
@@ -17,4 +18,6 @@ final case class KillingFloorNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean
-) extends Node(KillingFloorNode.key)
+) extends Node(KillingFloorNode.key) {
+  override def asNewGameObject = Seq(KillingFloor(id = id, n = actualName, loc = asLocation, vis = visible))
+}

@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.game.obj.Enemy
 import models.template.enemy.EnemyListing
 import util.JsonSerializers._
 
@@ -51,4 +52,6 @@ final case class EnemyNode(
     template.passiveSound.map(Asset.sfx) ++
     template.attackSounds.map(Asset.sfx) ++
     template.dieSound.map(Asset.sfx)
+
+  override def asNewGameObject = Seq(Enemy(id = id, n = actualName, loc = asLocation, vis = visible))
 }

@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.game.obj.Consumable
 import util.JsonSerializers._
 
 object ConsumableNode {
@@ -20,4 +21,5 @@ final case class ConsumableNode(
     override val visible: Boolean
 ) extends Node(ConsumableNode.key) {
   override val assets = Seq(Asset.Image(s"$t.$actualName", s"images/consumables/$actualName.png"))
+  override def asNewGameObject = Seq(Consumable(id = id, n = actualName, loc = asLocation, vis = visible))
 }

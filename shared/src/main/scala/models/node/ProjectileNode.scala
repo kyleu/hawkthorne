@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.game.obj.Projectile
 import models.template.projectile.ProjectileListing
 import util.JsonSerializers._
 
@@ -35,4 +36,5 @@ final case class ProjectileNode(
   if (name.isEmpty) { throw new NotImplementedError() }
   val template = ProjectileListing.withKey(name)
   override val assets = Seq(Asset.Spritesheet(s"$t.$name", s"images/weapons/$name.png", template.width, template.height))
+  override def asNewGameObject = Seq(Projectile(id = id, n = actualName, loc = asLocation, vis = visible))
 }

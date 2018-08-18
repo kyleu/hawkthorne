@@ -5,7 +5,6 @@ import models.input.PlayerInputHandler
 import services.game.GameInstanceDebug.log
 
 case class PlayerRecord(idx: Int, player: Player, input: PlayerInputHandler) {
-
   private[this] def setAnimation(anim: String) = player.attributes.animation = anim
   private[this] def setPosition(newX: Double, newY: Double) = input.setPosition(newX, newY)
 

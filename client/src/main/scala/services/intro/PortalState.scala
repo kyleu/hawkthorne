@@ -23,7 +23,7 @@ class PortalState(phaser: Game, inputService: InputService, debug: Boolean) exte
   override def create(game: Game) = {
     Font.reset()
     portal = Some(new Portal(game, Player(templateKey = "abed", costumeKey = PortalState.tempCostume.key)))
-    inputService.menuHandler.setCallback(Some(s => ()))
+    inputService.menuHandler.setCallback(Some(_ => ()))
   }
 
   override def update(game: Game) = {

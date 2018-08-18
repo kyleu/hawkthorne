@@ -1,5 +1,6 @@
 package models.node
 
+import models.game.obj.Info
 import util.JsonSerializers._
 
 object InfoNode {
@@ -25,4 +26,6 @@ final case class InfoNode(
     override val rotation: Int,
     override val visible: Boolean,
     properties: InfoNode.Props
-) extends Node(InfoNode.key)
+) extends Node(InfoNode.key) {
+  override def asNewGameObject = Seq(Info(id = id, n = actualName, loc = asLocation, vis = visible, content = properties.info))
+}

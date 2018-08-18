@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.game.obj.Key
 import util.JsonSerializers._
 
 object KeyNode {
@@ -27,7 +28,6 @@ final case class KeyNode(
     override val visible: Boolean,
     properties: Option[KeyNode.Props]
 ) extends Node(KeyNode.key) {
-  override val assets = Seq(
-    Asset.Image(s"$t.$actualName", s"images/keys/$actualName.png")
-  )
+  override val assets = Seq(Asset.Image(s"$t.$actualName", s"images/keys/$actualName.png"))
+  override def asNewGameObject = Seq(Key(id = id, n = actualName, loc = asLocation, vis = visible))
 }

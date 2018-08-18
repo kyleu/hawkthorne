@@ -1,6 +1,7 @@
 package models.node
 
 import models.asset.Asset
+import models.game.obj.BreakableBlock
 import util.JsonSerializers._
 import util.Point
 
@@ -47,4 +48,5 @@ final case class BreakableBlockNode(
     Asset.Image(s"$t.$actualName", s"images/blocks/$actualName.png"),
     Asset.Audio(s"sfx.block_explode", s"audio/sfx/block_explode.ogg")
   ) ++ properties.sound.map(Asset.sfx)
+  override def asNewGameObject = Seq(BreakableBlock(id = id, n = actualName, loc = asLocation, vis = visible))
 }
