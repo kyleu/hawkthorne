@@ -11,16 +11,15 @@ object Player {
   implicit val jsonEncoder: Encoder[Player] = deriveEncoder
   implicit val jsonDecoder: Decoder[Player] = deriveDecoder
 
-  val default = Player()
-
-  def random(id: UUID) = {
+  def random(id: UUID, idx: Int) = {
     val template = CharacterListing.greendaleSeven(Random.nextInt(CharacterListing.greendaleSeven.size))
-    Player(id = id, attributes = PlayerAttributes(), templateKey = template.key, costumeKey = template.randomCostume.key)
+    Player(id = id, idx = idx, attributes = PlayerAttributes(), templateKey = template.key, costumeKey = template.randomCostume.key)
   }
 }
 
 final case class Player(
-    id: UUID = UUID.fromString("00000000-0000-0000-0000-000000000000"),
+    id: UUID,
+    idx: Int,
     var x: Double = 0.0,
     var y: Double = 0.0,
     attributes: PlayerAttributes = PlayerAttributes(),

@@ -1,10 +1,10 @@
 package models.input
 
-import models.game.GameCommand
+import models.game.{GameCommand, GameMessage}
 import services.game.GameInstance
 import util.BoundingBox
 
-class PlayerInputHandler(instance: GameInstance, boundingBox: BoundingBox, initialX: Int, initialY: Int, log: String => Unit) {
+class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: BoundingBox, initialX: Int, initialY: Int, log: String => Unit) {
   private[this] val (maxX, maxY) = instance.bounds._1.toDouble -> instance.bounds._2.toDouble
 
   private[this] var (currentX, currentY) = (initialX.toDouble, initialY.toDouble)
@@ -15,10 +15,13 @@ class PlayerInputHandler(instance: GameInstance, boundingBox: BoundingBox, initi
 
   def process(delta: Double, input: GameCommand.PlayerInput) = {
     val loc = updateLocation(delta, input)
-    input.commands.foreach(cmd => processCommand(cmd, delta, currentX, currentY))
+    val cmdMessages = input.commands.flatMap(cmd => processCommand(cmd, delta, currentX, currentY))
     val an = findAnimation(input)
     lastInput = input
-    an -> loc
+
+    val aMsg = an.map(a => GameMessage.PlayerAnimationUpdated(playerIdx, a)).toSeq
+    val lMsg = loc.map { case (newX, newY) => GameMessage.PlayerLocationUpdated(playerIdx, newX, newY) }.toSeq
+    aMsg ++ lMsg ++ cmdMessages
   }
 
   def x = currentX
@@ -35,9 +38,10 @@ class PlayerInputHandler(instance: GameInstance, boundingBox: BoundingBox, initi
     case InputCommand.Confirm =>
       val rect = boundingBox.at(currentX - 24, currentY - 24, isDucking)
       val collisions = instance.stage.collidingObjects(rect)
-      // log(s"Found [${collisions.size}] collisions for [$rect]")
-      collisions.foreach(collided => log("Collided: " + collided))
-    case _ => log(s"Unhandled Player Command: [$c]")
+      collisions.flatMap(_.onSelect(playerIdx))
+    case _ =>
+      log(s"Unhandled Player Command: [$c]")
+      Nil
   }
 
   private[this] def findAnimation(input: GameCommand.PlayerInput) = {

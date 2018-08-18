@@ -1,5 +1,7 @@
 package services.test
 
+import java.util.UUID
+
 import com.definitelyscala.phaserce.Game
 import models.asset.Asset
 import models.component.PlayerSprite
@@ -30,7 +32,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
       game = game,
       group = group,
       idx = 0,
-      player = Player(templateKey = c._1.key, costumeKey = c._2.key),
+      player = Player(id = UUID.randomUUID, idx = 0, templateKey = c._1.key, costumeKey = c._2.key),
       initialLoc = (32 + ((idx % 28) * 48), 32 + ((idx / 28) * 48)),
       initialBounds = (0, 0)
     )

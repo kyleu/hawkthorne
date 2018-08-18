@@ -14,8 +14,10 @@ trait GameInstancePlayers { this: GameInstance =>
   protected[this] def addPlayer(player: Player) = {
     val playerIndex = indexOfPlayerId(player.id) match {
       case -1 =>
-        val idx = players.size - 1
-        val pih = new PlayerInputHandler(instance = this, boundingBox = player.template.boundingBox, initialX = spawn.x, initialY = spawn.y, log = log)
+        val idx = players.size
+        val pih = new PlayerInputHandler(
+          instance = this, playerIdx = idx, boundingBox = player.template.boundingBox, initialX = spawn.x, initialY = spawn.y, log = log
+        )
         players = players :+ PlayerRecord(idx = idx, player = player, input = pih)
         idx
       case x =>

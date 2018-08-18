@@ -1,5 +1,7 @@
 package services.intro
 
+import java.util.UUID
+
 import com.definitelyscala.phaserce.Game
 import models.component.Portal
 import models.data.character.Abed
@@ -22,7 +24,7 @@ class PortalState(phaser: Game, inputService: InputService, debug: Boolean) exte
 
   override def create(game: Game) = {
     Font.reset()
-    portal = Some(new Portal(game, Player(templateKey = "abed", costumeKey = PortalState.tempCostume.key)))
+    portal = Some(new Portal(game, Player(id = UUID.randomUUID, idx = 0, templateKey = "abed", costumeKey = PortalState.tempCostume.key)))
     inputService.menuHandler.setCallback(Some(_ => ()))
   }
 

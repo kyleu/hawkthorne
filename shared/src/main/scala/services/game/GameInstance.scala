@@ -22,12 +22,9 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
     log(toString)
   }
 
-  private[this] def onInput(delta: Double, pi: GameCommand.PlayerInput): Seq[GameMessage] = {
+  private[this] def onPlayerInput(delta: Double, pi: GameCommand.PlayerInput): Seq[GameMessage] = {
     val record = players(pi.idx)
-    val (anim, loc) = record.input.process(delta, pi)
-    val aMsg = anim.map(a => GameMessage.PlayerAnimationUpdated(pi.idx, a)).toSeq
-    val lMsg = loc.map { case (newX, newY) => GameMessage.PlayerLocationUpdated(pi.idx, newX, newY) }.toSeq
-    aMsg ++ lMsg
+    record.input.process(delta, pi)
   }
 
   def apply(ret: Seq[GameMessage]) = ret.foreach {
@@ -36,16 +33,14 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
     case x => log(s"Unhandled game message [$x].")
   }
 
-  def update(delta: Double, applyMessages: Boolean, gu: GameCommand*): Seq[GameMessage] = {
+  def update(delta: Double, gu: GameCommand*): Seq[GameMessage] = {
     elapsedSeconds += delta
-    val ret = gu.flatMap {
+    gu.flatMap {
       case GameCommand.AddPlayer(player) => Seq(addPlayer(player))
       case GameCommand.RemovePlayer(id) => Seq(removePlayer(id))
-      case pi: GameCommand.PlayerInput => onInput(delta, pi)
+      case pi: GameCommand.PlayerInput => onPlayerInput(delta, pi)
       case x => throw new IllegalStateException(s"Unhandled update [$x].")
     }
-    if (applyMessages) { apply(ret) }
-    ret
   }
 
   override def toString = GameInstanceDebug.debugString(gameId, options, players, stage, elapsedSeconds)

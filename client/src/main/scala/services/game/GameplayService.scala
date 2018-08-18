@@ -60,13 +60,15 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     elapsed += dt
 
     val gameUpdates = inputService.update(delta = dt)
-    val messages = instance.update(delta = dt, applyMessages = true, gameUpdates: _*)
+    val messages = instance.update(delta = dt, gameUpdates: _*)
+    instance.apply(messages)
     messages.foreach {
       case pm: GameMessage.PlayerMessage if pm.idx == 0 => pm match {
         case GameMessage.PlayerAnimationUpdated(_, anim) => display.playerSprite.setAnimation(Some(anim))
         case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprite.setPosition(newX = x, newY = y)
         case x => util.Logging.info(s"Unhandled game service message [$x].")
       }
+      case pm: GameMessage.PlayerMessage if pm.idx == -1 => throw new IllegalStateException(s"Received unhandled system player input.")
       case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only support single player for now.")
       case x => util.Logging.info(s"Unhandled game service message [$x].")
     }

@@ -29,8 +29,8 @@ object GameInstanceFactory {
     i.stage.setCollision(coll = collision)
     GameInstanceDebug.setCallbacks(options.debug, log, notify)
 
-    initialPlayers.foreach(p => i.update(delta = 0, applyMessages = true, GameCommand.AddPlayer(p)))
-
+    val initialMessages = initialPlayers.flatMap(p => i.update(delta = 0, GameCommand.AddPlayer(p)))
+    i.apply(initialMessages)
     i
   }
 }
