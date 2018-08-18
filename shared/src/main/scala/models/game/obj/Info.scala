@@ -1,5 +1,6 @@
 package models.game.obj
 
+import models.game.GameMessage
 import util.JsonSerializers._
 
 object Info {
@@ -14,5 +15,7 @@ final case class Info(
     override val n: String,
     override val loc: util.Rectangle,
     override val vis: Boolean,
-    content: String
-) extends GameObject(Info.key)
+    content: Seq[String]
+) extends GameObject(Info.key) {
+  override def onSelect(playerIdx: Int) = Seq(GameMessage.Notify(Some(playerIdx), "console", content))
+}

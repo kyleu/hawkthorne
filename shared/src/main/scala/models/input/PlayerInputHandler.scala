@@ -16,6 +16,7 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
   def process(delta: Double, input: GameCommand.PlayerInput) = {
     val loc = updateLocation(delta, input)
     val cmdMessages = input.commands.flatMap(cmd => processCommand(cmd, delta, currentX, currentY))
+
     val an = findAnimation(input)
     lastInput = input
 

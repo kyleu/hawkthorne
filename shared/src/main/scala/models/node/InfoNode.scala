@@ -27,5 +27,6 @@ final case class InfoNode(
     override val visible: Boolean,
     properties: InfoNode.Props
 ) extends Node(InfoNode.key) {
-  override def asNewGameObject = Seq(Info(id = id, n = actualName, loc = asLocation, vis = visible, content = properties.info))
+  val content = properties.info.split('|').map(_.trim)
+  override def asNewGameObject = Seq(Info(id = id, n = actualName, loc = asLocation, vis = visible, content = content))
 }

@@ -30,7 +30,8 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
   def apply(ret: Seq[GameMessage]) = ret.foreach {
     case pm: GameMessage.PlayerMessage if pm.idx == -1 => // noop
     case pm: GameMessage.PlayerMessage => players(pm.idx)(pm)
-    case x => log(s"Unhandled game message [$x].")
+    case _: GameMessage.Notify => // noop
+    case x => log(s"Unable to apply game message [$x].")
   }
 
   def update(delta: Double, gu: GameCommand*): Seq[GameMessage] = {

@@ -20,7 +20,7 @@ object GameMessage extends Enum[GameMessage] with CirceEnum[GameMessage] {
   final case class PlayerAnimationUpdated(idx: Int, anim: String) extends PlayerMessage
   final case class PlayerLocationUpdated(idx: Int, x: Double, y: Double) extends PlayerMessage
 
-  final case class Notify(player: Option[Int], t: String, msg: String) extends GameMessage
+  final case class Notify(player: Option[Int], t: String, msgs: Seq[String]) extends GameMessage
 
   final case class Debug(t: String, msg: String) extends GameMessage
 
