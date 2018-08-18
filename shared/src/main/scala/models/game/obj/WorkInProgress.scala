@@ -12,7 +12,7 @@ object WorkInProgress {
 final case class WorkInProgress(
     override val id: Int,
     override val n: String,
-    override val loc: GameObject.Location,
+    override val loc: util.Rectangle,
     override val vis: Boolean,
     todo: String
 ) extends GameObject(WorkInProgress.key)

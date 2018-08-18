@@ -7,7 +7,7 @@ import util.BoundingBox
 class PlayerInputHandler(instance: GameInstance, boundingBox: BoundingBox, initialX: Int, initialY: Int, log: String => Unit) {
   private[this] val (maxX, maxY) = instance.bounds._1.toDouble -> instance.bounds._2.toDouble
 
-  private[this] var (currentX, currentY, currentDir) = (initialX.toDouble, initialY.toDouble, Direction.Right)
+  private[this] var (currentX, currentY) = (initialX.toDouble, initialY.toDouble)
   private[this] var (facingRight, isJumping, isDucking) = (true, false, false)
 
   private[this] var lastAnimation = "initial"

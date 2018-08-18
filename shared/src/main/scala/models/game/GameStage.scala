@@ -13,7 +13,7 @@ object GameStage {
 
 final case class GameStage(sourceMap: TiledMap, var objects: IndexedSeq[GameObject]) {
 
-  def collidingObjects(rect: Rectangle) = objects.collect { case o if o.loc.rect.intersects(rect) => o }
+  def collidingObjects(rect: Rectangle) = objects.collect { case o if o.loc.intersects(rect) => o }
   def collidingObjects(x: Double, y: Double) = objects.collect {
     case o if o.loc.x < x && o.loc.y < y && (o.loc.x + o.loc.w) >= x && (o.loc.y + o.loc.h) >= y => o
   }

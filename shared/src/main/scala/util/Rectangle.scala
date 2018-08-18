@@ -1,5 +1,12 @@
 package util
 
+import util.JsonSerializers._
+
+object Rectangle {
+  implicit val jsonEncoder: Encoder[Rectangle] = deriveEncoder
+  implicit val jsonDecoder: Decoder[Rectangle] = deriveDecoder
+}
+
 case class Rectangle(x: Double, y: Double, w: Int, h: Int) {
   def right = x + w
   def bottom = y + h
