@@ -1,28 +1,39 @@
 package models.input
 
 import models.game.GameCommand
+import services.game.GameInstance
+import util.BoundingBox
 
-class PlayerInputHandler(maxX: Int, maxY: Int, orthogonal: Boolean, log: String => Unit) {
+class PlayerInputHandler(instance: GameInstance, boundingBox: BoundingBox, initialX: Int, initialY: Int, log: String => Unit) {
+  private[this] var (currentX, currentY) = initialX.toDouble -> initialY.toDouble
   private[this] var facingRight = true
+  private[this] var isDucking = false
   private[this] var lastAnimation = "initial"
   private[this] var lastInput = GameCommand.PlayerInput(0, 0, 0, Nil)
 
   private[this] val charPadding = 24.0
-  private[this] val (maxXPadded, maxYPadded) = (maxX - charPadding, maxY - charPadding)
+  private[this] val (maxXPadded, maxYPadded) = (instance.bounds._1 - charPadding, instance.bounds._2 - charPadding)
 
-  def processCommand(c: InputCommand) = c match {
-    case InputCommand.Confirm => log("Confirmed!")
+  def process(delta: Double, input: GameCommand.PlayerInput) = {
+    input.commands.foreach(cmd => processCommand(cmd, delta, currentX, currentY))
+    lastInput = input
+    findAnimation(input) -> updateLocation(delta, input)
+  }
+
+  def x = currentX
+  def y = currentY
+  def getPosition = x -> y
+  def setPosition(newX: Double, newY: Double) = {
+    currentX = newX
+    currentY = newY
+  }
+
+  private[this] def anim(key: String) = if (facingRight) { s"$key.right" } else { s"$key.left" }
+
+  private[this] def processCommand(c: InputCommand, delta: Double, currentX: Double, currentY: Double) = c match {
+    case InputCommand.Confirm => instance.stage.collidingObjects(currentX, currentY).foreach(collided => log("Collided: " + collided))
     case _ => log(s"Unhandled Player Command: [$c]")
   }
-  def process(delta: Double, currentX: Double, currentY: Double, input: GameCommand.PlayerInput) = {
-    input.commands.foreach(processCommand)
-    val anim = findAnimation(input)
-    val loc = updateLocation(delta, currentX, currentY, input)
-    lastInput = input
-    anim -> loc
-  }
-
-  def anim(key: String) = if (facingRight) { s"$key.right" } else { s"$key.left" }
 
   private[this] def findAnimation(input: GameCommand.PlayerInput) = {
     lastInput.x match {
@@ -43,7 +54,7 @@ class PlayerInputHandler(maxX: Int, maxY: Int, orthogonal: Boolean, log: String 
     }
   }
 
-  private[this] def updateLocation(delta: Double, currentX: Double, currentY: Double, input: GameCommand.PlayerInput) = {
+  private[this] def updateLocation(delta: Double, input: GameCommand.PlayerInput) = {
     val speed = 200
 
     val xVel = Math.min(input.x, 1.0)
@@ -58,6 +69,8 @@ class PlayerInputHandler(maxX: Int, maxY: Int, orthogonal: Boolean, log: String 
     if (newX == currentX && newY == currentY) {
       None
     } else {
+      currentX = newX
+      currentY = newY
       Some(newX -> newY)
     }
   }

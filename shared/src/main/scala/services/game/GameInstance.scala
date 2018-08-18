@@ -22,9 +22,9 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
     log(toString)
   }
 
-  private[this] def onInput(delta: Double, pi: GameCommand.PlayerInput) = {
+  private[this] def onInput(delta: Double, pi: GameCommand.PlayerInput): Seq[GameMessage] = {
     val record = players(pi.idx)
-    val (anim, loc) = record.input.process(delta, record.x, record.y, pi)
+    val (anim, loc) = record.input.process(delta, pi)
     val aMsg = anim.map(a => GameMessage.PlayerAnimationUpdated(pi.idx, a)).toSeq
     val lMsg = loc.map { case (newX, newY) => GameMessage.PlayerLocationUpdated(pi.idx, newX, newY) }.toSeq
     aMsg ++ lMsg

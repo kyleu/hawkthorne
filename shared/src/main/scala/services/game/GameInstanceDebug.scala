@@ -25,7 +25,7 @@ object GameInstanceDebug {
   def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], stage: GameStage, elapsed: Double) = {
     val playersString = records.map { record =>
       val p = record.player
-      s"""${p.id}: { x: ${record.x}, y: ${record.y}, t: "${p.templateKey}/${p.costumeKey}, c: ${p.attributes.connected}" }"""
+      s"""${p.id}: { x: ${record.input.x}, y: ${record.input.y}, t: "${p.templateKey}/${p.costumeKey}, c: ${p.attributes.connected}" }"""
     }.mkString("\n    ")
 
     s"""$gameId: {

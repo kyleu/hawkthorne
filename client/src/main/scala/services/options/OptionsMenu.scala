@@ -1,9 +1,11 @@
 package services.options
 
 import com.definitelyscala.phaserce.Game
+import models.analytics.AnalyticsActionType
 import models.gui.Menu
 import models.input.{MenuAction, PointerAction}
 import models.settings.ClientSettings
+import services.socket.AnalyticsService
 
 class OptionsMenu(game: Game, onExit: () => Unit) {
   private[this] val size = 380.0
@@ -34,7 +36,9 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
     case "fullscreen" => comps.fullscreenCheckbox.toggle()
     case "fps" => comps.fpsCheckbox.toggle()
 
-    case "back" if inMain => onExit()
+    case "back" if inMain =>
+      AnalyticsService.send(AnalyticsActionType.OptionsSet, util.JsonSerializers.serialize(ClientSettings.getSettings))
+      onExit()
     case "back" => switchToMain()
 
     case _ => throw new IllegalStateException(s"Unhandled option menu key [$key].")

@@ -1,4 +1,4 @@
-package services.collisison
+package services.collision
 
 import models.options.SystemOptions
 import services.game.GameInstance

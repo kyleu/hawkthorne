@@ -34,7 +34,9 @@ abstract class Node(val t: String) {
 
   def gameObjectType: GameObjectType = GameObjectType.WorkInProgress
 
-  def asNewGameObject = Seq(GameObject(
+  def asNewGameObject = Seq(gameObj(src = s"$t:$actualName"))
+
+  protected def gameObj(src: String) = GameObject(
     t = gameObjectType,
     id = id,
     n = name,
@@ -43,6 +45,6 @@ abstract class Node(val t: String) {
     w = actualWidth,
     h = actualHeight,
     vis = visible,
-    src = getClass.getSimpleName
-  ))
+    src = src
+  )
 }

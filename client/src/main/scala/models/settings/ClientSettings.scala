@@ -1,10 +1,8 @@
 package models.settings
 
-import models.analytics.AnalyticsActionType
 import models.options.GameOptions
 import org.scalajs.dom
 import services.audio.{MusicService, SoundEffectService}
-import services.socket.AnalyticsService
 import util.JsonSerializers._
 
 object ClientSettings {
@@ -44,10 +42,9 @@ object ClientSettings {
   def loadAndApply() = applySettings(load())
 
   def save(s: ClientSettings) = if (!current.contains(s)) {
-    val json = s.asJson
-    dom.window.localStorage.setItem(storageKey, json.spaces2)
-    AnalyticsService.send(AnalyticsActionType.OptionsSet, json)
+    dom.window.localStorage.setItem(storageKey, s.asJson.spaces2)
     current = Some(s)
+    applySettings(s)
     s
   }
 }

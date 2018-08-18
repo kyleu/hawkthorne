@@ -7,6 +7,7 @@ import models.data.map.TiledMap
 import models.options.GameOptions
 import models.player.Player
 import org.scalajs.dom
+import services.character.CharacterSelectionState
 import services.game.GameplayState
 import services.input.InputService
 import services.intro.{IntroState, PortalState}
@@ -23,6 +24,7 @@ object NavigationService {
       case "intro" => IntroState.load(phaser = game, input = input, debug = debug)
       case "menu" => IntroState.load(phaser = game, input = input, skipToMenu = true, debug = debug)
       case "options" => OptionsState.load(phaser = game, inputService = input, debug = debug)
+      case "character" => CharacterSelectionState.load(phaser = game, input = input, debug = debug)
       case "portal" => PortalState.load(phaser = game, inputService = input, debug = debug)
       case "test" => TestState.load(phaser = game)
       case "sandbox" => SandboxState.load(phaser = game)

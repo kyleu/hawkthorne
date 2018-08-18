@@ -9,10 +9,13 @@ import services.debug.DebugService
 import services.map.MapService
 
 class GameplayDisplay(game: Game, mapService: MapService, player: Player, instance: GameInstance) {
-  private[this] val playerHeight = 48
-  private[this] val playerHalfHeight = playerHeight / 2
-
-  val camera = new CameraService(game = game, group = mapService.group, desiredSize = 400 -> 400, pxSize = mapService.mapPxWidth -> mapService.mapPxHeight)
+  val camera = new CameraService(
+    game = game,
+    group = mapService.group,
+    parallaxLayers = mapService.parallaxLayers,
+    desiredSize = 400 -> 400,
+    pxSize = mapService.mapPxWidth -> mapService.mapPxHeight
+  )
 
   val playerSprite = new PlayerSprite(
     game = game, group = mapService.group, idx = 0, player = player,

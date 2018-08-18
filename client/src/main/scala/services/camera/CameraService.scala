@@ -1,8 +1,10 @@
 package services.camera
 
-import com.definitelyscala.phaserce.{Game, Group, Point}
+import com.definitelyscala.phaserce.{Game, Group, Point, TilemapLayer}
 
-class CameraService(game: Game, group: Group, desiredSize: (Int, Int), pxSize: (Int, Int)) {
+import scala.scalajs.js
+
+class CameraService(game: Game, group: Group, parallaxLayers: Seq[(TilemapLayer, Double)], desiredSize: (Int, Int), pxSize: (Int, Int)) {
   private[this] var zoom = 1.0
   private[this] val minZoom = 1.0
   private[this] val maxZoom = 10.0
@@ -35,7 +37,10 @@ class CameraService(game: Game, group: Group, desiredSize: (Int, Int), pxSize: (
     (nx + ox).floor.toInt -> (ny + oy).floor.toInt
   }
 
-  private[this] def update() = newCameraOffset().foreach(p => group.position = p)
+  private[this] def update() = newCameraOffset().foreach { p =>
+    parallaxLayers.foreach(l => l._1.asInstanceOf[js.Dynamic].tileOffset = new Point(0, 0))
+    group.position = p
+  }
 
   private[this] def newCameraOffset() = {
     val target = new Point((currentX * zoom) - (game.width / 2), (currentY * zoom) - (game.height / 2))

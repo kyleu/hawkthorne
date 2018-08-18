@@ -15,8 +15,8 @@ trait GameInstancePlayers { this: GameInstance =>
     val playerIndex = indexOfPlayerId(player.id) match {
       case -1 =>
         val idx = players.size - 1
-        val pih = new PlayerInputHandler(maxX = bounds._1, maxY = bounds._2, orthogonal = stage.getCollision.isRight, log = log)
-        players = players :+ PlayerRecord(idx = idx, player = player, x = spawn.x.toDouble, y = spawn.y.toDouble, input = pih)
+        val pih = new PlayerInputHandler(instance = this, boundingBox = player.template.boundingBox, initialX = spawn.x, initialY = spawn.y, log = log)
+        players = players :+ PlayerRecord(idx = idx, player = player, input = pih)
         idx
       case x =>
         players = players.zipWithIndex.map { record =>

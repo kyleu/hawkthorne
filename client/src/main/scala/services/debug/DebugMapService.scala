@@ -3,10 +3,9 @@ package services.debug
 import com.definitelyscala.datgui.GUI
 import com.definitelyscala.phaserce.{Game, TilemapLayer}
 import models.component.{BaseComponent, PlayerSprite}
-import models.node.Node
 import models.options.CheatOptions
 import services.map.MapService
-import util.{DatGuiUtils, Logging}
+import util.DatGuiUtils
 
 object DebugMapService {
   def setMap(game: Game, gui: GUI, mapService: MapService, components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
@@ -25,16 +24,11 @@ object DebugMapService {
 
   def addMap(gui: GUI, mapService: MapService) = {
     val f = gui.addFolder(s"Map (${mapService.map.value})")
-    mapService.layers.foreach(l => addLayer(mapService, f, l._1, l._2))
+    mapService.layers.foreach(l => addLayer(mapService, f, l))
   }
 
-  private[this] def addLayer(mapService: MapService, root: GUI, id: String, layer: TilemapLayer) = {
-    val f = root.addFolder(id)
+  private[this] def addLayer(mapService: MapService, root: GUI, layer: TilemapLayer) = {
+    val f = root.addFolder(layer.name)
     f.add(layer, "visible")
-  }
-
-  private[this] def addNode(mapService: MapService, root: GUI, node: Node) = {
-    val f = root.addFolder(s"${node.t}[${node.id}]: " + node.name)
-    DatGuiUtils.addFunction(f, "Debug", () => Logging.info(util.JsonSerializers.serialize(node).spaces2))
   }
 }

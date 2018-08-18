@@ -32,15 +32,24 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
 
   val layers = tilemap.layers.map(_.asInstanceOf[js.Dynamic].name.toString).map { k =>
     val l = tilemap.createLayer(k)
+    l.name = k
     l.resize(mapPxWidth.toDouble, mapPxHeight.toDouble)
-    k -> l
+    l
   }
-  layers.foreach(l => group.add(l._2))
+  layers.foreach(l => group.add(l))
 
-  def layer(key: String) = layers.find(_._1 == key).map(_._2)
+  def layer(key: String) = layers.find(_.name == key)
+
   val collisionLayer = layer("collision")
   collisionLayer.foreach { c =>
     c.visible = false
-    c.resizeWorld()
+  }
+
+  val parallaxLayers = layers.flatMap { l =>
+    val parallax = l.layer.asInstanceOf[js.Dynamic].properties.parallax.toString match {
+      case "undefined" => None
+      case x => Some(x.toDouble)
+    }
+    parallax.map(l -> _)
   }
 }

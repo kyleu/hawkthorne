@@ -19,6 +19,10 @@
       border-radius: 4px;
       display: block;
     }
+    .play-now {
+      font-size: 200%;
+      padding: 18px;
+    }
   </style>
   <div class="row">
     <div class="col s12">
@@ -30,21 +34,23 @@
           }
         </li>
         <li class="collection-item">
-          <a style="font-size: 200%; padding: 18px;" class="theme-text item" href="@controllers.routes.GameplayController.root()">Play Now</a>
+          <a class="theme-text item play-now" href="@controllers.routes.GameplayController.root()">Play Now</a>
         </li>
         <li class="collection-item">
           <h5>Game States</h5>
           <div class="row">
-            @Seq("Intro", "Portal", "Menu", "Options", "Overworld").map { x => @option(x.toLowerCase, x) }
-            @link(controllers.routes.GameplayController.gameplay("map/studyroom"), "Gameplay")
+            @Seq("Intro", "Portal", "Menu", "Options").map { x => @option(x.toLowerCase, x) }
+            @option("character", "Character Selection")
+            @option("overworld", "Overworld Map")
+            @option("map/studyroom", "Gameplay")
           </div>
         </li>
         <li class="collection-item">
           <h5>Multiplayer</h5>
           <div class="row">
-            @link(controllers.routes.GameplayController.gameplay("multiplayer/host"), "Host")
-            @link(controllers.routes.GameplayController.gameplay("multiplayer/list"), "Game List")
-            @link(controllers.routes.GameplayController.gameplay("multiplayer/join/random"), "Join Random")
+            @option("multiplayer/host", "Host")
+            @option("multiplayer/list", "Game List")
+            @option("multiplayer/join/random", "Join Random")
           </div>
         </li>
         <li class="collection-item">

@@ -42,7 +42,7 @@ spec:
       paths:
       - backend:
           serviceName: hawkthorne
-          servicePort: 9000
+          servicePort: 13000
 ---
 apiVersion: v1
 kind: ConfigMap

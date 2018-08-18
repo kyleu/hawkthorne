@@ -1,19 +1,16 @@
-package services.collisison
+package services.collision
 
 import services.game.GameInstance
 import util.Point
 
 object CollisionMove {
-
   def moveX(game: GameInstance, player: Point, x: Double, y: Double, width: Int, height: Int, dx: Double, dy: Double) = {
     dx
   }
 
   def moveY(game: GameInstance, player: Point, x: Double, y: Double, width: Int, height: Int, dx: Double, dy: Double) = dy match {
     case 0.0 => 0.0
-    case _ =>
-
-      dy
+    case _ => dy
   }
 
   def move(game: GameInstance, player: Point, x: Double, y: Double, width: Int, height: Int, dx: Double, dy: Double) = {

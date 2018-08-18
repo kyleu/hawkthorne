@@ -10,6 +10,11 @@ object GameStage {
 }
 
 final case class GameStage(sourceMap: TiledMap, var objects: IndexedSeq[GameObject]) {
+
+  def collidingObjects(x: Double, y: Double) = objects.collect {
+    case o if o.x < x && o.y < y && (o.x + o.w) >= x && (o.y + o.h) >= y => o
+  }
+
   private[this] var collision: Option[Either[CollisionPoly, CollisionGrid]] = None
 
   def setCollision(coll: Either[CollisionPoly, CollisionGrid]) = collision = Some(coll)

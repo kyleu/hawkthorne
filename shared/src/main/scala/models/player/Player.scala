@@ -21,6 +21,8 @@ object Player {
 
 final case class Player(
     id: UUID = UUID.fromString("00000000-0000-0000-0000-000000000000"),
+    var x: Double = 0.0,
+    var y: Double = 0.0,
     attributes: PlayerAttributes = PlayerAttributes(),
     templateKey: String = "jeff",
     costumeKey: String = "base"

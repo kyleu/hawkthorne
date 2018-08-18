@@ -12,7 +12,13 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
 
   val group = new Group(game, name = "overworld")
 
-  private[this] val camera = new CameraService(game = game, group = group, desiredSize = 600 -> 600, pxSize = dimensions._1.toInt -> dimensions._2.toInt)
+  private[this] val camera = new CameraService(
+    game = game,
+    group = group,
+    parallaxLayers = Nil,
+    desiredSize = 600 -> 600,
+    pxSize = dimensions._1.toInt -> dimensions._2.toInt
+  )
 
   val background = new TileSprite(game = game, x = 0, y = 0, width = dimensions._1, height = dimensions._2, key = "overworld.water")
   group.add(background)
