@@ -3,7 +3,7 @@ package services.collision
 import models.collision.CollisionGrid
 import util.Rectangle
 
-class SimpleMovement(max: (Double, Double), grid: CollisionGrid) extends MovementHelper {
+class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementHelper {
   override def moveX(current: (Double, Double), bounds: Rectangle, deltaX: Double) = {
     val newX = Math.max(0, Math.min(max._1, current._1 + deltaX))
     val newTile = tileAt(newX, current._2)

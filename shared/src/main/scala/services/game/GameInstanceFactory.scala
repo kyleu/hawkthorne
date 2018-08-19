@@ -7,7 +7,6 @@ import models.game.{GameStage, GameCommand}
 import models.node.{DoorNode, Node}
 import models.options.GameOptions
 import models.player.Player
-import util.Point
 
 object GameInstanceFactory {
   def create(
@@ -20,7 +19,7 @@ object GameInstanceFactory {
     val newGameId = UUID.randomUUID
 
     val spawn = nodes.collectFirst { case n: DoorNode if n.name == "main" => n }.map { d =>
-      Point(d.x.toInt + (d.width / 2), d.y.toInt + d.height)
+      util.IntPoint(d.x.toInt + (d.width / 2), d.y.toInt + d.height)
     }.getOrElse(throw new IllegalStateException("No spawn point detected."))
 
     val objs = nodes.flatMap(_.asNewGameObject).toIndexedSeq

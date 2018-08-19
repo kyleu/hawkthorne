@@ -19,4 +19,4 @@ object CollisionPoly {
   }
 }
 
-case class CollisionPoly(points: IndexedSeq[util.Point], blockers: IndexedSeq[IndexedSeq[util.Point]])
+case class CollisionPoly(points: IndexedSeq[util.IntPoint], blockers: IndexedSeq[IndexedSeq[util.IntPoint]])

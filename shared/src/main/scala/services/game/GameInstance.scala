@@ -5,7 +5,6 @@ import java.util.UUID
 import models.game.{GameCommand, GameMessage, GameStage}
 import models.options.{GameOptions, SystemOptions}
 import services.game.GameInstanceDebug._
-import util.Point
 
 object GameInstance {
   import util.JsonSerializers._
@@ -14,7 +13,7 @@ object GameInstance {
   implicit val jsonDecoder: Decoder[GameInstance] = deriveDecoder
 }
 
-final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameStage, spawn: Point) extends GameInstancePlayers {
+final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameStage, spawn: util.IntPoint) extends GameInstancePlayers {
   private[this] var running = false
 
   private[this] var elapsedSeconds = 0.0

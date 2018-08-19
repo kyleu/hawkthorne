@@ -1,7 +1,7 @@
 package models.node
 
 import util.JsonSerializers._
-import util.Point
+import util.Polygon
 
 object SimpleNode {
   object Props {
@@ -25,8 +25,8 @@ final case class SimpleNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean,
-    polygon: Option[Seq[Point]],
-    polyline: Option[Seq[Point]],
+    polygon: Option[Seq[util.IntPoint]],
+    polyline: Option[Seq[util.IntPoint]],
     properties: Option[SimpleNode.Props]
 ) extends Node(SimpleNode.key) {
   val primary = properties.exists(_.primary.contains("true"))
@@ -34,11 +34,13 @@ final case class SimpleNode(
   override def actualName = if (primary) { "primary" } else { super.actualName }
 
   override def actualX = polygon match {
-    case Some(poly) => super.actualX + poly.map(_.x).min
+    case Some(poly) => super.actualX + poly.map(_.x).min.toInt
     case None => super.actualX
   }
   override def actualY = polygon match {
-    case Some(poly) => super.actualY + poly.map(_.y).min
+    case Some(poly) => super.actualY + poly.map(_.y).min.toInt
     case None => super.actualY
   }
+
+  val polygonObj = polygon.map(p => Polygon(p.map(_.toDoublePoint)))
 }

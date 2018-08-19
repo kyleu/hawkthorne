@@ -3,7 +3,7 @@ package models.node
 import models.asset.Asset
 import models.game.obj.BreakableBlock
 import util.JsonSerializers._
-import util.Point
+import util.Polygon
 
 object BreakableBlockNode {
   object Props {
@@ -40,13 +40,17 @@ final case class BreakableBlockNode(
     override val height: Int,
     override val rotation: Int,
     override val visible: Boolean,
-    polygon: Option[Seq[Point]],
+    polygon: Option[Seq[util.IntPoint]],
     properties: BreakableBlockNode.Props
 ) extends Node(BreakableBlockNode.key) {
   override val actualName = if (name.isEmpty) { properties.sprite.getOrElse(throw new IllegalStateException(s"Unknown block [$id].")) } else { name }
+
   override val assets = Seq(
     Asset.Image(s"$t.$actualName", s"images/blocks/$actualName.png"),
     Asset.Audio(s"sfx.block_explode", s"audio/sfx/block_explode.ogg")
   ) ++ properties.sound.map(Asset.sfx)
+
   override def asNewGameObject = Seq(BreakableBlock(id = id, n = actualName, loc = asLocation, vis = visible))
+
+  val polygonObj = polygon.map(p => Polygon(p.map(_.toDoublePoint)))
 }
