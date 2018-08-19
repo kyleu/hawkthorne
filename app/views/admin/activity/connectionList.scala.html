@@ -1,0 +1,37 @@
+@(user: models.user.SystemUser, connections: Seq[models.supervisor.ConnectionDescription])(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "activity", "Active Connections") {
+  <ul class="collection with-header">
+    <li class="collection-header">
+      <h5><i class="fa @models.template.Icons.connection"></i> @util.NumberUtils.withCommas(connections.size) Active Connections</h5>
+    </li>
+    <li class="collection-item">
+      @if(connections.isEmpty) {
+        <em>
+          No active connections. Why not <a href="@controllers.routes.GameplayController.root()" target="_blank" class="theme-text">start one</a>?
+        </em>
+      } else {
+        <table class="bordered">
+          <tbody>
+            <tr>
+              <th>ID</th>
+              <th>User ID</th>
+              <th>Username</th>
+              <th>Channel</th>
+              <th>Started</th>
+            </tr>
+            @connections.map { connection =>
+              <tr>
+                <td>@connection.id</td>
+                <td><a href="@controllers.admin.user.routes.SystemUserController.view(connection.userId)" class="theme-text">@connection.userId</a></td>
+                <td>@connection.name</td>
+                <td>@connection.channel</td>
+                <td>@connection.started</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </li>
+  </ul>
+}

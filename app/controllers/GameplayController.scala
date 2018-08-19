@@ -9,7 +9,7 @@ import models.auth.Credentials
 import models.{Application, RequestMessage, ResponseMessage}
 import play.api.mvc.{AnyContent, AnyContentAsEmpty, Request, WebSocket}
 import services.analytics.AnalyticsService
-import services.player.PlayerSocketService
+import services.player.PlayerConnectionService
 import util.web.{MessageFrameFormatter, WebsocketUtils}
 
 import scala.concurrent.Future
@@ -29,7 +29,7 @@ class GameplayController @javax.inject.Inject() (
     Future.successful(Ok(views.html.gameplay(user = request.identity, path = path, devmode = app.config.debug, debug = debug.getOrElse(app.config.debug))))
   }
 
-  private[this] def callbacksFor(credentials: Credentials, status: String = "OK") = PlayerSocketService.Callbacks(
+  private[this] def callbacksFor(credentials: Credentials, status: String = "OK") = PlayerConnectionService.Callbacks(
     analytics = (t, arg) => {
       analyticsSvc.onMessage(t = t, arg = arg, credentials, status = status)
     })
@@ -39,9 +39,9 @@ class GameplayController @javax.inject.Inject() (
     val connId = UUID.randomUUID()
     app.silhouette.SecuredRequestHandler { secured => Future.successful(HandlerResult(Ok, Some(secured.identity))) }.map {
       case HandlerResult(_, Some(user)) => Right(WebsocketUtils.actorRef(connId) { out =>
-        PlayerSocketService.props(
+        PlayerConnectionService.props(
           id = Some(connId),
-          playerSupervisor = app.playerSupervisor,
+          playerSupervisor = app.connectionSupervisor,
           matchmakingService = app.matchmakingService,
           creds = Credentials(user, request.remoteAddress),
           out = out,

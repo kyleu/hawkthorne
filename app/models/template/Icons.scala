@@ -48,6 +48,9 @@ object Icons {
   val syncProgress = "fa-refresh"
   val systemUser = "fa-user"
 
+  val connection = "fa-globe"
+  val game = "fa-flag-checkered"
+
   // Start model icons
   val analyticsAction = "fa-magic"
   val oAuth2Info = "fa-lemon-o"

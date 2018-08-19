@@ -9,19 +9,19 @@ import sangria.macros.derive.deriveObjectType
 import sangria.schema._
 import util.FutureUtils.graphQlContext
 
-object SocketDecriptionSchema extends GraphQLSchemaHelper("socket") {
+object ConnectionDecriptionSchema extends GraphQLSchemaHelper("connection") {
   val channelArg = Argument("channel", OptionInputType(StringType))
-  val socketIdArg = Argument("socketId", OptionInputType(uuidType))
+  val connectionIdArg = Argument("connectionId", OptionInputType(uuidType))
 
-  implicit lazy val socketDecriptionType: ObjectType[GraphQLContext, SocketDescription] = deriveObjectType()
+  val connectionDecriptionType: ObjectType[GraphQLContext, ConnectionDescription] = deriveObjectType()
 
-  val queryFields = fields(unitField(name = "sockets", desc = None, t = ListType(socketDecriptionType), f = (c, _) => {
+  val queryFields = fields(unitField(name = "connections", desc = None, t = ListType(connectionDecriptionType), f = (c, _) => {
     import akka.pattern.ask
     import scala.concurrent.duration._
     implicit val timeout: Timeout = Timeout(1.second)
 
     ask(c.ctx.app.gameSupervisor, GetSystemStatus).mapTo[SystemStatus].map { x =>
-      x.sockets.filter(s => c.arg(channelArg).forall(_ == s.channel) && c.arg(socketIdArg).forall(_ == s.socketId))
+      x.connections.filter(s => c.arg(channelArg).forall(_ == s.channel) && c.arg(connectionIdArg).forall(_ == s.id))
     }
-  }, channelArg, socketIdArg))
+  }, channelArg, connectionIdArg))
 }

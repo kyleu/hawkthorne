@@ -4,7 +4,7 @@ import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, Props, Timers}
 import io.circe.Json
-import models.InternalMessage.{SocketStarted, SocketStopped}
+import models.InternalMessage.{ConnectionStarted, ConnectionStopped}
 import models.RequestMessage._
 import models.{InternalMessage, RequestMessage, ResponseMessage}
 import models.ResponseMessage._
@@ -14,20 +14,20 @@ import models.game.GameServiceMessage
 import util.{Config, Logging, Version}
 import util.JsonSerializers._
 
-object PlayerSocketService {
+object PlayerConnectionService {
   case class Callbacks(analytics: (AnalyticsActionType, Json) => Unit)
 
   def props(
     id: Option[UUID], playerSupervisor: ActorRef, matchmakingService: ActorRef, creds: Credentials, out: ActorRef,
     sourceAddr: String, callbacks: Callbacks
   ) = {
-    Props(new PlayerSocketService(id.getOrElse(UUID.randomUUID), playerSupervisor, matchmakingService, creds, out, sourceAddr, callbacks))
+    Props(new PlayerConnectionService(id.getOrElse(UUID.randomUUID), playerSupervisor, matchmakingService, creds, out, sourceAddr, callbacks))
   }
 }
 
-class PlayerSocketService(
+class PlayerConnectionService(
     id: UUID, playerSupervisor: ActorRef, matchmakingService: ActorRef, creds: Credentials, out: ActorRef,
-    sourceAddr: String, callbacks: PlayerSocketService.Callbacks
+    sourceAddr: String, callbacks: PlayerConnectionService.Callbacks
 ) extends Actor with Timers with Logging {
   private[this] var activeGameOpt: Option[(ActorRef, GameStarted)] = None
   private[this] def withGame(ctx: String)(f: (ActorRef, GameStarted) => Unit) = activeGameOpt match {
@@ -37,7 +37,7 @@ class PlayerSocketService(
 
   override def preStart() = {
     log.info(s"Starting player connection for user [${creds.user.id}: ${creds.user.username}].")
-    playerSupervisor.tell(SocketStarted(creds, "player", id, self), self)
+    playerSupervisor.tell(ConnectionStarted(creds, "player", id, self), self)
     out.tell(UserSettings(creds.user.id, creds.user.username, creds.user.profile.providerID), self)
     callbacks.analytics(AnalyticsActionType.Connect, Json.obj("source" -> sourceAddr.asJson, "version" -> Version.version.asJson))
   }
@@ -89,7 +89,7 @@ class PlayerSocketService(
   }
 
   override def postStop() = {
-    activeGameOpt.foreach(g => g._1.tell(GameServiceMessage.Disconnect(g._2.playerIdx, "Socket disconnect."), self))
-    playerSupervisor.tell(SocketStopped(id), self)
+    activeGameOpt.foreach(g => g._1.tell(GameServiceMessage.Disconnect(g._2.playerIdx, "Server shutdown"), self))
+    playerSupervisor.tell(ConnectionStopped(id), self)
   }
 }

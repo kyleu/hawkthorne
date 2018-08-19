@@ -9,7 +9,7 @@ import play.api.Environment
 import play.api.inject.ApplicationLifecycle
 import services.database._
 import services.file.FileService
-import services.supervisor.{GameSupervisor, MatchmakingService, PlayerSupervisor}
+import services.supervisor.{GameSupervisor, MatchmakingService, ConnectionSupervisor}
 import services.user.SystemUserService
 import services.cache.CacheService
 import services.audit.AuditService
@@ -54,7 +54,7 @@ class Application @javax.inject.Inject() (
     Await.result(start(), 20.seconds)
   }
 
-  val playerSupervisor = actorSystem.actorOf(Props(classOf[PlayerSupervisor]), "players")
+  val connectionSupervisor = actorSystem.actorOf(Props(classOf[ConnectionSupervisor]), "connections")
   val gameSupervisor = actorSystem.actorOf(Props(classOf[GameSupervisor]), "games")
   val matchmakingService = actorSystem.actorOf(MatchmakingService.props(gameSupervisor), "matchmaking")
 
