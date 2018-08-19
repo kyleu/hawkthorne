@@ -71,8 +71,6 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
     val xDelta = xVel * delta * speed
     val yDelta = yVel * delta * speed
 
-    // val newX = Math.max(0, Math.min(maxX, currentX + xDelta))
-    // val newY = Math.max(0, Math.min(maxY, currentY + yDelta))
     val (newX, newY) = collision.move(current, bounds, xDelta -> yDelta)
 
     if (newX == current._1 && newY == current._2) {
