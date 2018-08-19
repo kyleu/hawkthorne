@@ -78,7 +78,7 @@ object MaterialsInventory {
 
   val lost = InventoryTemplate(
     key = "lost",
-    name = "Lost DVD",
+    name = "Lost Movie",
     section = "materials",
     info = "It's a metaphor",
     maxItems = 1

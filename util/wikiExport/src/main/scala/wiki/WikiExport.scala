@@ -1,5 +1,7 @@
 package wiki
 
+import models.template.npc.{NpcListing, NpcTemplate}
+import models.template.weapon.{WeaponListing, WeaponTemplate}
 import util.JsonSerializers._
 
 object WikiExport {
@@ -20,10 +22,7 @@ object WikiExport {
     val startNanos = System.nanoTime
 
     val cfg = WikiExportConfig(tgtRootLoc = "./wiki", wipe = false)
-    val files = Seq(
-      testFile(cfg)
-    ).flatten
-
+    val files = Seq(GameObjectFiles.all(cfg), testFile(cfg).toSeq).flatten
     val result = WikiExportResult(config = cfg, started = started, durationNanos = System.nanoTime - startNanos, files = files)
     println(result.asJson.spaces2)
   }

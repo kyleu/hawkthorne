@@ -70,7 +70,7 @@ object KeysInventory {
 
   val alien_object2 = InventoryTemplate(
     key = "alien_object2",
-    name = "Alien Object",
+    name = "Alien Object 2",
     section = "keys",
     info = "An alien-looking object",
     maxItems = 1
@@ -78,7 +78,7 @@ object KeysInventory {
 
   val alien_object3 = InventoryTemplate(
     key = "alien_object3",
-    name = "Alien Object",
+    name = "Alien Object 3",
     section = "keys",
     info = "An alien-looking object",
     maxItems = 1
