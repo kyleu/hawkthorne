@@ -1,5 +1,9 @@
+import Dependencies.Utils
+import sbt.Keys._
 import sbt._
 
 object WikiExport {
-  lazy val wikiExport = Project(id = "wikiExport", base = file("./util/wikiExport")).settings(Shared.commonSettings: _*).dependsOn(Shared.sharedJvm)
+  lazy val wikiExport = Project(id = "wikiExport", base = file("./util/wikiExport")).settings(Shared.commonSettings: _*).settings(
+    libraryDependencies ++= Seq(Utils.betterFiles, Utils.scopts)
+  ).dependsOn(Shared.sharedJvm)
 }

@@ -3,10 +3,8 @@ package controllers.admin.system
 import akka.util.Timeout
 import controllers.BaseController
 import models.Application
-import models.InternalMessage.{GetSystemStatus, SystemStatus}
 
 import scala.concurrent.Future
-import akka.pattern.ask
 import scala.concurrent.duration._
 
 @javax.inject.Singleton
