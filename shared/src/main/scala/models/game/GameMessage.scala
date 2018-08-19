@@ -10,15 +10,17 @@ import models.player.Player
 sealed trait GameMessage extends EnumEntry
 
 object GameMessage extends Enum[GameMessage] with CirceEnum[GameMessage] {
+  final case class PlayerAdded(idx: Int, player: Player) extends GameMessage
+  final case class PlayerRemoved(idx: Int, id: UUID) extends GameMessage
+
   sealed trait PlayerMessage extends GameMessage {
     def idx: Int
   }
 
-  final case class PlayerAdded(idx: Int, player: Player) extends PlayerMessage
-  final case class PlayerRemoved(idx: Int, id: UUID) extends PlayerMessage
+  final case class PlayerAnimationUpdated(override val idx: Int, anim: String) extends PlayerMessage
+  final case class PlayerLocationUpdated(override val idx: Int, x: Double, y: Double) extends PlayerMessage
 
-  final case class PlayerAnimationUpdated(idx: Int, anim: String) extends PlayerMessage
-  final case class PlayerLocationUpdated(idx: Int, x: Double, y: Double) extends PlayerMessage
+  final case class LeaveMap(idx: Int, src: String, dest: String) extends PlayerMessage
 
   final case class Notify(player: Option[Int], t: String, msgs: Seq[String]) extends GameMessage
 

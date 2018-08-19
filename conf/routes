@@ -11,7 +11,8 @@ GET         /connect                                 controllers.GameplayControl
 ->          /admin/system                            system.Routes
 ->          /admin/graphql                           graphql.Routes
 ->          /admin/rest                              rest.Routes
-->          /admin/game                              gameadmin.Routes
+->          /admin/game                              gamedata.Routes
+->          /admin/activity                          activity.Routes
 
 # Start model route files
 ->          /admin/analytics                         analytics.Routes

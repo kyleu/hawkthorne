@@ -11,6 +11,7 @@ case class PlayerRecord(idx: Int, player: Player, input: PlayerInputHandler) {
   def apply(pm: GameMessage.PlayerMessage) = pm match {
     case GameMessage.PlayerAnimationUpdated(_, anim) => setAnimation(anim)
     case GameMessage.PlayerLocationUpdated(_, newX, newY) => setPosition(newX, newY)
+    case l: GameMessage.LeaveMap => // noop
     case unhandled => log(s"Unhandled player message [$unhandled]")
   }
 }

@@ -1,0 +1,11 @@
+GET         /                               controllers.admin.gamedata.GameDataController.dataIndex
+GET         /episodes                       controllers.admin.gamedata.GameDataController.episodes
+GET         /inventory                      controllers.admin.gamedata.GameDataController.inventory
+GET         /maps                           controllers.admin.gamedata.GameDataController.maps
+GET         /maps/graph                     controllers.admin.gamedata.GameDataController.mapGraph
+GET         /unparsed                       controllers.admin.gamedata.GameDataController.unparsed
+GET         /quests                         controllers.admin.gamedata.GameDataController.quests
+GET         /dump/characters                controllers.admin.gamedata.GameDataController.dumpCharacters
+GET         /dump/enemies                   controllers.admin.gamedata.GameDataController.dumpEnemies
+GET         /dump/npcs                      controllers.admin.gamedata.GameDataController.dumpNpcs
+GET         /dump/projectiles               controllers.admin.gamedata.GameDataController.dumpProjectiles

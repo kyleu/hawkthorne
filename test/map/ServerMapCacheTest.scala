@@ -1,4 +1,4 @@
-package models.map
+package map
 
 import models.data.map.TiledMap
 import org.scalatest._

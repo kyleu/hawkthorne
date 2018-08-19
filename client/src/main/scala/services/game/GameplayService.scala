@@ -8,7 +8,6 @@ import models.game.GameMessage
 import models.input.PointerAction
 import models.options.GameOptions
 import models.player.Player
-import services.audio.MusicService
 import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -31,7 +30,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
 
   val instance = GameInstanceFactory.create(
     options = options,
-    initialNodes = nodes,
+    nodes = nodes,
     initialPlayers = Seq(player),
     collision = collision,
     log = s => util.Logging.info(s),
@@ -53,7 +52,6 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     resize(game.width.toInt, game.height.toInt)
     splashComplete()
     instance.start()
-    MusicService.play(options.map.soundtrack)
     started = true
   })
 
@@ -64,17 +62,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     val gameUpdates = inputService.update(delta = dt)
     val messages = instance.update(delta = dt, gameUpdates: _*)
     instance.apply(messages)
-    messages.foreach {
-      case pm: GameMessage.PlayerMessage if pm.idx == 0 => pm match {
-        case GameMessage.PlayerAnimationUpdated(_, anim) => display.playerSprite.setAnimation(Some(anim))
-        case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprite.setPosition(newX = x, newY = y)
-        case x => util.Logging.info(s"Unhandled game player message [$x].")
-      }
-      case pm: GameMessage.PlayerMessage if pm.idx == -1 => throw new IllegalStateException(s"Received unhandled system player input.")
-      case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only support single player for now.")
-      case n: GameMessage.Notify => n.msgs.foreach(display.console.log)
-      case x => util.Logging.info(s"Unhandled game service message [$x].")
-    }
+    messages.foreach(applyMessage)
     components.foreach(_.update(dt))
     display.update(dt)
   }
@@ -93,5 +81,18 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
       case n if n.x < worldX && n.y < worldY && (n.x + n.width) >= worldX && (n.y + n.height) >= worldY => Logging.info(s"Collision: $n")
       case _ => // noop
     }
+  }
+
+  private[this] def applyMessage(msg: GameMessage) = msg match {
+    case pm: GameMessage.PlayerMessage if pm.idx == 0 => pm match {
+      case GameMessage.PlayerAnimationUpdated(_, anim) => display.playerSprite.setAnimation(Some(anim))
+      case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprite.setPosition(newX = x, newY = y)
+      case GameMessage.LeaveMap(idx, src, dest) =>
+      case x => util.Logging.info(s"Unhandled game player message [$x].")
+    }
+    case pm: GameMessage.PlayerMessage if pm.idx == -1 => throw new IllegalStateException(s"Received unhandled system player input.")
+    case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only support single player for now.")
+    case n: GameMessage.Notify => n.msgs.foreach(display.console.log)
+    case x => util.Logging.info(s"Unhandled game service message [$x].")
   }
 }

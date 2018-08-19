@@ -11,6 +11,7 @@ import services.character.CharacterSelectionState
 import services.game.GameplayState
 import services.input.InputService
 import services.intro.{IntroState, PortalState}
+import services.matchmaking.MatchmakingState
 import services.options.OptionsState
 import services.overworld.OverworldMapState
 import services.test.{SandboxState, TestState}
@@ -42,9 +43,8 @@ object NavigationService {
         player = Player.random(id = UUID.randomUUID /* TODO */ , idx = 0)
       )
 
-      case "multiplayer" =>
-        util.Logging.info("TODO: Multiplayer")
-        TestState.load(phaser = game)
+      case "multiplayer/list" => MatchmakingState.load(phaser = game, inputService = input, debug = debug)
+      case "multiplayer/host" => MatchmakingState.load(phaser = game, inputService = input, debug = debug, skipToHost = true)
       case "credits" =>
         util.Logging.info("TODO: Credits")
         TestState.load(phaser = game)

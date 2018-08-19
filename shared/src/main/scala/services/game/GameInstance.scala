@@ -15,11 +15,21 @@ object GameInstance {
 }
 
 final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameStage, spawn: Point) extends GameInstancePlayers {
+  private[this] var running = false
+
   private[this] var elapsedSeconds = 0.0
   val bounds = (options.map.width * 24) -> (options.map.height * 24)
 
   def start() = {
     log(toString)
+    if (running) { throw new IllegalStateException(s"Game [$gameId] already started.") }
+    running = true
+    this
+  }
+
+  def stop() = {
+    if (!running) { throw new IllegalStateException(s"Game [$gameId] already stopped.") }
+    running = false
   }
 
   private[this] def onPlayerInput(delta: Double, pi: GameCommand.PlayerInput): Seq[GameMessage] = {
@@ -31,6 +41,7 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
     case pm: GameMessage.PlayerMessage if pm.idx == -1 => // noop
     case pm: GameMessage.PlayerMessage => players(pm.idx)(pm)
     case _: GameMessage.Notify => // noop
+    case _: GameMessage.PlayerAdded => // noop
     case x => log(s"Unable to apply game message [$x].")
   }
 

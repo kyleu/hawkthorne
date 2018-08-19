@@ -25,7 +25,7 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   val backdrop = PhaserUtils.makeBackdrop(game = game, width = tilemap.widthInPixels, height = tilemap.heightInPixels, color = map.color)
   group.add(backdrop)
 
-  MusicService.play(map.soundtrack, loop = true)
+  val bgMusic = MusicService.play(map.soundtrack, loop = true)
 
   val mapPxWidth = map.width * SystemOptions.tileSize
   val mapPxHeight = map.height * SystemOptions.tileSize
@@ -51,5 +51,9 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
       case x => Some(x.toDouble)
     }
     parallax.map(l -> _)
+  }
+
+  def stop() = {
+    bgMusic.stop()
   }
 }

@@ -58,6 +58,8 @@ final case class DoorNode(
     override val visible: Boolean,
     properties: Option[DoorNode.Props]
 ) extends Node(DoorNode.key) {
+  val destination = properties.flatMap(p => p.level.map(l => s"$l:${p.to.getOrElse("main")}"))
+
   override val assets = properties.flatMap(_.sound).map(Asset.sfx).toSeq ++ properties.flatMap(_.show_sfx).map(Asset.sfx)
-  override def asNewGameObject = Seq(Door(id = id, n = actualName, loc = asLocation, vis = visible))
+  override def asNewGameObject = Seq(Door(id = id, n = actualName, loc = asLocation, vis = visible, destination = destination))
 }

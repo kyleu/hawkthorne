@@ -12,24 +12,24 @@ import util.Point
 object GameInstanceFactory {
   def create(
     options: GameOptions,
-    initialNodes: Seq[Node],
+    nodes: Seq[Node],
     initialPlayers: Seq[Player],
     collision: Either[CollisionPoly, CollisionGrid],
     log: String => Unit, notify: String => Unit
   ) = {
     val newGameId = UUID.randomUUID
 
-    val spawn = initialNodes.collectFirst { case n: DoorNode if n.name == "main" => n }.map { d =>
+    val spawn = nodes.collectFirst { case n: DoorNode if n.name == "main" => n }.map { d =>
       Point(d.x.toInt + (d.width / 2), d.y.toInt + d.height - 24)
     }.getOrElse(throw new IllegalStateException("No spawn point detected."))
 
-    val objs = initialNodes.flatMap(_.asNewGameObject).toIndexedSeq
+    val objs = nodes.flatMap(_.asNewGameObject).toIndexedSeq
 
     val i = GameInstance(gameId = newGameId, options = options, stage = GameStage(sourceMap = options.map, objects = objs), spawn = spawn)
     i.stage.setCollision(coll = collision)
     GameInstanceDebug.setCallbacks(options.debug, log, notify)
 
-    val initialMessages = initialPlayers.flatMap(p => i.update(delta = 0, GameCommand.AddPlayer(p)))
+    val initialMessages = i.update(delta = 0, initialPlayers.map(GameCommand.AddPlayer.apply): _*)
     i.apply(initialMessages)
     i
   }

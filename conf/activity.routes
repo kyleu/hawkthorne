@@ -1,0 +1,3 @@
+GET        /                   controllers.admin.activity.ActivityController.activityIndex
+GET        /player/list        controllers.admin.activity.ActivityController.playerList
+GET        /game/list          controllers.admin.activity.ActivityController.gameList

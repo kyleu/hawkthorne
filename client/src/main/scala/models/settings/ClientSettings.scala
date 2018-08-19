@@ -33,7 +33,7 @@ object ClientSettings {
   }
 
   def applySettings(s: ClientSettings) = {
-    util.Logging.info(s"Applying settings [$s].")
+    util.Logging.debug(s"Applying settings [$s].")
     MusicService.setVolume(s.music)
     SoundEffectService.setVolume(s.sfx)
     s
