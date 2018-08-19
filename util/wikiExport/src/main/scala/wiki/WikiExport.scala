@@ -8,6 +8,10 @@ object WikiExport {
     val md = new MarkdownFile(dir = ".", title = title)
     md.addHeader(title)
     md.add("This wiki is machine-generated work-in-progress. Be advised.")
+    md.add()
+    md.addScala("println(1)")
+    md.add()
+    md.add("Good luck!")
     cfg.writeMarkdownResult(title, md.path -> md.rendered)
   }
 

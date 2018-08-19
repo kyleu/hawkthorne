@@ -32,6 +32,12 @@ class MarkdownFile(val dir: String, val title: String) {
     add()
   }
 
+  def addScala(lines: String*) = {
+    add("```scala")
+    lines.foreach(s => add(s))
+    add("```")
+  }
+
   val path = dir + "/" + filename
 
   def prefix: String = ""
