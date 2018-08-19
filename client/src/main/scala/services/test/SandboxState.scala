@@ -30,7 +30,7 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
   lazy val players = CharacterListing.allCostumes.zipWithIndex.map {
     case (c, idx) => new PlayerSprite(
       game = game,
-      group = group,
+      mapGroup = group,
       idx = 0,
       player = Player(id = UUID.randomUUID, idx = 0, templateKey = c._1.key, costumeKey = c._2.key),
       initialLoc = (32 + ((idx % 28) * 48), 32 + ((idx / 28) * 48)),

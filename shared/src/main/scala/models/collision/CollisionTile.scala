@@ -7,4 +7,8 @@ object CollisionTile {
   implicit val jsonDecoder: Decoder[CollisionTile] = deriveDecoder
 }
 
-case class CollisionTile(x: Int, y: Int, tile: Int, h: Boolean, v: Boolean, d: Boolean)
+case class CollisionTile(x: Int, y: Int, tile: Int, h: Boolean, v: Boolean, d: Boolean) {
+  lazy val collisionBlockType = CollisionBlockType.fromInt(tile)
+  lazy val slopeEdges = CollisionBlockType.slopeEdges(tile)
+  lazy val special = CollisionBlockType.special(tile)
+}

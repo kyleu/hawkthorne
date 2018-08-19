@@ -3,7 +3,7 @@ package services.game
 import java.util.UUID
 
 import models.game.{GameCommand, GameMessage, GameStage}
-import models.options.GameOptions
+import models.options.{GameOptions, SystemOptions}
 import services.game.GameInstanceDebug._
 import util.Point
 
@@ -18,7 +18,7 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
   private[this] var running = false
 
   private[this] var elapsedSeconds = 0.0
-  val bounds = (options.map.width * 24) -> (options.map.height * 24)
+  val bounds = (options.map.width * SystemOptions.tileSize) -> (options.map.height * SystemOptions.tileSize)
 
   def start() = {
     log(toString)

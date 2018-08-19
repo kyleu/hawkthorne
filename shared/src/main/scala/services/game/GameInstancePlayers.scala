@@ -15,9 +15,8 @@ trait GameInstancePlayers { this: GameInstance =>
     val playerIndex = indexOfPlayerId(player.id) match {
       case -1 =>
         val idx = players.size
-        val pih = new PlayerInputHandler(
-          instance = this, playerIdx = idx, boundingBox = player.template.boundingBox, initialX = spawn.x, initialY = spawn.y, log = log
-        )
+        val box = player.template.boundingBox
+        val pih = new PlayerInputHandler(instance = this, playerIdx = idx, boundingBox = box, initialX = spawn.x, initialY = spawn.y, log = log)
         players = players :+ PlayerRecord(idx = idx, player = player, input = pih)
         idx
       case x =>
@@ -35,6 +34,8 @@ trait GameInstancePlayers { this: GameInstance =>
     debug(s"Added player [$player] to game, making [${players.size}] total players ([${players.count(_.player.attributes.connected)}] active).")
     GameMessage.PlayerAdded(playerIndex, player)
   }
+
+  def boundsForPlayer(idx: Int) = players(idx).input.bounds
 
   protected[this] def removePlayer(id: UUID) = {
     players.collectFirst {

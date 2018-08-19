@@ -6,7 +6,7 @@ import services.game.GameInstance
 import util.BoundingBox
 
 class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: BoundingBox, initialX: Int, initialY: Int, log: String => Unit) {
-  private[this] val collision = CollisionService(instance.bounds._1.toDouble -> instance.bounds._2.toDouble, instance.stage.getCollision)
+  private[this] val collision = CollisionService(instance.options.map, instance.stage.getCollision)
 
   private[this] var current = (initialX.toDouble, initialY.toDouble)
   private[this] var (facingRight, isJumping, isDucking) = (true, false, false)
@@ -30,13 +30,13 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
   def y = current._2
   def getPosition = x -> y
   def setPosition(newX: Double, newY: Double) = current = newX -> newY
+  def bounds = boundingBox.at(current._1, current._2, isDucking)
 
   private[this] def anim(key: String) = if (facingRight) { s"$key.right" } else { s"$key.left" }
 
   private[this] def processCommand(c: InputCommand, delta: Double) = c match {
     case InputCommand.Confirm =>
-      val rect = boundingBox.at(current._1 - 24, current._2 - 24, isDucking)
-      val collisions = instance.stage.collidingObjects(rect)
+      val collisions = instance.stage.collidingObjects(bounds)
       collisions.flatMap(_.onSelect(playerIdx))
     case _ =>
       log(s"Unhandled Player Command: [$c]")
@@ -73,7 +73,7 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
 
     // val newX = Math.max(0, Math.min(maxX, currentX + xDelta))
     // val newY = Math.max(0, Math.min(maxY, currentY + yDelta))
-    val (newX, newY) = collision.move(current, xDelta -> yDelta)
+    val (newX, newY) = collision.move(current, bounds, xDelta -> yDelta)
 
     if (newX == current._1 && newY == current._2) {
       None

@@ -52,4 +52,6 @@ object CollisionGrid {
 
 case class CollisionGrid(tiles: Seq[CollisionTile]) {
   private[this] val map = tiles.map(t => (t.x, t.y) -> t).toMap
+
+  def forCoords(coords: (Int, Int)) = map.get(coords)
 }

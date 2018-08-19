@@ -18,7 +18,7 @@ class GameplayDisplay(game: Game, mapService: MapService, player: Player, instan
   )
 
   val playerSprite = new PlayerSprite(
-    game = game, group = mapService.group, idx = 0, player = player,
+    game = game, mapGroup = mapService.group, idx = 0, player = player,
     initialLoc = instance.spawn.x -> instance.spawn.y, initialBounds = mapService.mapPxWidth -> mapService.mapPxHeight
   )
 

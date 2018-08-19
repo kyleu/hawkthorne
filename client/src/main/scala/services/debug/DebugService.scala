@@ -6,6 +6,7 @@ import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.{BaseComponent, PlayerSprite}
 import models.gui.{ConsoleLog, HudOverlay}
+import models.input.PlayerInputHandler
 import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element
@@ -62,8 +63,8 @@ class DebugService private (phaser: Game) {
 
   def setGameInstance(instance: GameInstance) = DebugGame.setGameInstance(gui, instance)
 
-  def setMap(game: Game, mapService: MapService, components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
-    DebugMapService.setMap(game, gui, mapService, components, players)
+  def setMap(game: Game, mapService: MapService, instance: GameInstance, components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
+    DebugMapService.setMap(game, gui, mapService, instance, components, players)
   }
 
   def toggle() = {
