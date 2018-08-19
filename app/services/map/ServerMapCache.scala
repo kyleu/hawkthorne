@@ -15,7 +15,7 @@ object ServerMapCache extends Logging {
   private[this] val unusedFields = collection.mutable.HashMap.empty[String, Set[String]]
   private[this] val unusedProperties = collection.mutable.HashMap.empty[String, Set[String]]
 
-  lazy val unused = (all, unusedFields.toMap, unusedProperties.toMap)
+  def unused = (all, unusedFields.toMap, unusedProperties.toMap)
 
   def all = TiledMap.values.map(apply)
 

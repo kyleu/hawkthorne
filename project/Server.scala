@@ -1,4 +1,4 @@
-import com.sksamuel.scapegoat.sbt.ScapegoatSbtPlugin.autoImport.{scapegoatIgnoredFiles, scapegoatDisabledInspections}
+import com.sksamuel.scapegoat.sbt.ScapegoatSbtPlugin.autoImport.{scapegoatDisabledInspections, scapegoatIgnoredFiles}
 import com.typesafe.sbt.GitPlugin.autoImport.git
 import com.typesafe.sbt.digest.Import._
 import com.typesafe.sbt.gzip.Import._
@@ -15,6 +15,8 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.windows.WindowsPlugin
 import com.typesafe.sbt.web.Import._
 import com.typesafe.sbt.web.SbtWeb
+import io.gatling.sbt.GatlingPlugin
+import io.gatling.sbt.GatlingPlugin.autoImport._
 import play.routes.compiler.InjectedRoutesGenerator
 import play.sbt.PlayImport.PlayKeys
 import play.sbt.routes.RoutesKeys
@@ -35,7 +37,7 @@ object Server {
       Authentication.silhouette, Authentication.hasher, Authentication.persistence, Authentication.crypto,
       WebJars.jquery, WebJars.fontAwesome, WebJars.materialize, WebJars.swaggerUi,
       Utils.csv, Utils.scalaGuice, Utils.commonsIo, Utils.betterFiles, Utils.scopts, Utils.reftree,
-      Akka.testkit, Play.test, Testing.scalaTest
+      Akka.testkit, Play.test, Testing.scalaTest, Testing.gatlingCore, Testing.gatlingCharts
     )
   }
 
@@ -81,11 +83,14 @@ object Server {
     fullClasspath in assembly += Attributed.blank(PlayKeys.playPackageAssets.value),
 
     scapegoatIgnoredFiles := Seq(".*/Routes.scala", ".*/RoutesPrefix.scala", ".*/*ReverseRoutes.scala", ".*/*.template.scala"),
-    scapegoatDisabledInspections := Seq("UnusedMethodParameter")
+    scapegoatDisabledInspections := Seq("UnusedMethodParameter"),
+
+    // Benchmarking
+    scalaSource in Gatling := baseDirectory.value / "test"
   )
 
   lazy val server = Project(id = Shared.projectId, base = file(".")).enablePlugins(
-    SbtWeb, play.sbt.PlayScala, JavaAppPackaging, diagram.ClassDiagramPlugin,
+    SbtWeb, play.sbt.PlayScala, JavaAppPackaging, diagram.ClassDiagramPlugin, GatlingPlugin,
     UniversalPlugin, LinuxPlugin, DebianPlugin, RpmPlugin, DockerPlugin, WindowsPlugin, JDKPackagerPlugin
   ).settings(serverSettings: _*).settings(Packaging.settings: _*).dependsOn(Shared.sharedJvm, Pipeline.pipeline)
 }
