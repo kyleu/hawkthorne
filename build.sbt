@@ -14,3 +14,4 @@ lazy val client = Client.client
 lazy val adminClient = AdminClient.adminClient
 
 lazy val pipeline = Pipeline.pipeline
+lazy val wikiExport = WikiExport.wikiExport
