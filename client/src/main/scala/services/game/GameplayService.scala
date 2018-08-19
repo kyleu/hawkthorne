@@ -8,6 +8,7 @@ import models.game.GameMessage
 import models.input.PointerAction
 import models.options.GameOptions
 import models.player.Player
+import services.audio.MusicService
 import services.debug.DebugService
 import services.input.InputService
 import services.map.{MapNodeParser, MapService}
@@ -52,6 +53,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     resize(game.width.toInt, game.height.toInt)
     splashComplete()
     instance.start()
+    MusicService.play(options.map.soundtrack)
     started = true
   })
 

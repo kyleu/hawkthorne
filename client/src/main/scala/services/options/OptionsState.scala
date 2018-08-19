@@ -1,11 +1,10 @@
 package services.options
 
-import com.definitelyscala.phaserce.Game
-import models.asset.Asset
+import com.definitelyscala.phaserce.{Game, Sound}
 import models.font.Font
 import models.gui.VerticalParticles
 import models.input.{MenuAction, PointerAction}
-import services.audio.{MusicService, SoundEffectService}
+import services.audio.MusicService
 import services.input.InputService
 import services.state.{GameState, LoadingState, NavigationService}
 
@@ -18,11 +17,11 @@ object OptionsState {
 class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) extends GameState("test", phaser) {
   private[this] var particles: Option[VerticalParticles] = None
   private[this] var options: Option[OptionsMenu] = None
-  private[this] lazy val bgMusic = MusicService.load("daybreak")
+  private[this] var bgMusic: Option[Sound] = None
 
   override def create(game: Game) = {
     Font.reset()
-    bgMusic.play(loop = true)
+    bgMusic = Some(MusicService.play("daybreak", loop = true))
     particles = Some(new VerticalParticles(game))
     options = Some(new OptionsMenu(game, () => NavigationService.navigateTo(game, inputService, "menu", debug)))
 
@@ -38,7 +37,7 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
   }
 
   override def shutdown(game: Game) = {
-    bgMusic.stop()
+    bgMusic.foreach(_.stop())
     inputService.menuHandler.setCallback(None)
     inputService.setPointerEventCallback(None)
     super.shutdown(game)

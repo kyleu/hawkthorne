@@ -1,6 +1,6 @@
 package services.intro
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, Sound}
 import models.analytics.AnalyticsActionType
 import models.input.{MenuAction, PointerAction}
 import services.audio.MusicService
@@ -20,7 +20,7 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
   private[this] var introScan: Option[IntroScan] = None
   private[this] var flyIn: Option[FlyIn] = None
   private[this] var mainMenu: Option[MainMenu] = None
-  private[this] lazy val bgMusic = MusicService.load("opening")
+  private[this] var bgMusic: Option[Sound] = None
 
   override def create(game: Game) = {
     inputService.setPointerEventCallback(Some(pointerAct))
@@ -32,7 +32,7 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
       introScan = Some(new IntroScan(game = phaser, onComplete = () => switchToFlyIn(skipped = false)))
     }
 
-    bgMusic.play()
+    bgMusic = Some(MusicService.play("opening"))
 
     onResize(width = game.width.toInt, height = game.height.toInt)
     AnalyticsService.send(AnalyticsActionType.IntroStart, io.circe.Json.obj())
@@ -56,7 +56,7 @@ class IntroState(phaser: Game, inputService: InputService, skipToMenu: Boolean, 
   }
 
   override def shutdown(game: Game) = {
-    bgMusic.stop()
+    bgMusic.foreach(_.stop())
     inputService.menuHandler.setCallback(None)
     inputService.setPointerEventCallback(None)
     super.shutdown(game)

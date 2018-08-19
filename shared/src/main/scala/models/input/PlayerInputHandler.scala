@@ -1,21 +1,22 @@
 package models.input
 
 import models.game.{GameCommand, GameMessage}
+import services.collision.CollisionService
 import services.game.GameInstance
 import util.BoundingBox
 
 class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: BoundingBox, initialX: Int, initialY: Int, log: String => Unit) {
-  private[this] val (maxX, maxY) = instance.bounds._1.toDouble -> instance.bounds._2.toDouble
+  private[this] val collision = CollisionService(instance.bounds._1.toDouble -> instance.bounds._2.toDouble, instance.stage.getCollision)
 
-  private[this] var (currentX, currentY) = (initialX.toDouble, initialY.toDouble)
+  private[this] var current = (initialX.toDouble, initialY.toDouble)
   private[this] var (facingRight, isJumping, isDucking) = (true, false, false)
 
   private[this] var lastAnimation = "initial"
   private[this] var lastInput = GameCommand.PlayerInput(0, 0, 0, Nil)
 
   def process(delta: Double, input: GameCommand.PlayerInput) = {
+    val cmdMessages = input.commands.flatMap(cmd => processCommand(cmd, delta))
     val loc = updateLocation(delta, input)
-    val cmdMessages = input.commands.flatMap(cmd => processCommand(cmd, delta, currentX, currentY))
 
     val an = findAnimation(input)
     lastInput = input
@@ -25,19 +26,16 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
     aMsg ++ lMsg ++ cmdMessages
   }
 
-  def x = currentX
-  def y = currentY
+  def x = current._1
+  def y = current._2
   def getPosition = x -> y
-  def setPosition(newX: Double, newY: Double) = {
-    currentX = newX
-    currentY = newY
-  }
+  def setPosition(newX: Double, newY: Double) = current = newX -> newY
 
   private[this] def anim(key: String) = if (facingRight) { s"$key.right" } else { s"$key.left" }
 
-  private[this] def processCommand(c: InputCommand, delta: Double, currentX: Double, currentY: Double) = c match {
+  private[this] def processCommand(c: InputCommand, delta: Double) = c match {
     case InputCommand.Confirm =>
-      val rect = boundingBox.at(currentX - 24, currentY - 24, isDucking)
+      val rect = boundingBox.at(current._1 - 24, current._2 - 24, isDucking)
       val collisions = instance.stage.collidingObjects(rect)
       collisions.flatMap(_.onSelect(playerIdx))
     case _ =>
@@ -73,18 +71,15 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
     val xDelta = xVel * delta * speed
     val yDelta = yVel * delta * speed
 
-    val newX = Math.max(0, Math.min(maxX, currentX + xDelta))
-    val newY = Math.max(0, Math.min(maxY, currentY + yDelta))
+    // val newX = Math.max(0, Math.min(maxX, currentX + xDelta))
+    // val newY = Math.max(0, Math.min(maxY, currentY + yDelta))
+    val (newX, newY) = collision.move(current, xDelta -> yDelta)
 
-    if (newX == currentX && newY == currentY) {
+    if (newX == current._1 && newY == current._2) {
       None
     } else {
-      val finalX = newX
-      val finalY = newY
-
-      currentX = finalX
-      currentY = finalY
-      Some(finalX -> finalY)
+      current = newX -> newY
+      Some(current)
     }
   }
 }

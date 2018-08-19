@@ -33,7 +33,7 @@ object ClientSettings {
   }
 
   def applySettings(s: ClientSettings) = {
-    util.Logging.debug(s"Applying settings [$s].")
+    util.Logging.info(s"Applying settings [$s].")
     MusicService.setVolume(s.music)
     SoundEffectService.setVolume(s.sfx)
     s
@@ -41,11 +41,10 @@ object ClientSettings {
 
   def loadAndApply() = applySettings(load())
 
-  def save(s: ClientSettings) = if (!current.contains(s)) {
+  def save(s: ClientSettings): Unit = if (!current.contains(s)) {
     dom.window.localStorage.setItem(storageKey, s.asJson.spaces2)
     current = Some(s)
-    applySettings(s)
-    s
+    loadAndApply()
   }
 }
 

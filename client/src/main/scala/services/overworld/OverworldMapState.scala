@@ -1,6 +1,6 @@
 package services.overworld
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce.{Game, Sound}
 import models.font.Font
 import models.input.{MenuAction, PointerAction}
 import models.player.Player
@@ -18,11 +18,11 @@ object OverworldMapState {
 
 class OverworldMapState(phaser: Game, inputService: InputService, player: Player, debug: Boolean) extends GameState("test", phaser) {
   private[this] var map: Option[OverworldMap] = None
-  private[this] lazy val bgMusic = MusicService.load(OverworldMapAssets.music)
+  private[this] var bgMusic: Option[Sound] = None
 
   override def create(game: Game) = {
     Font.reset()
-    bgMusic.play(loop = true)
+    bgMusic = Some(MusicService.play(OverworldMapAssets.music, loop = true))
     map = Some(OverworldMap(game, player, "greendale"))
     map.foreach(m => game.add.existing(m.group))
     inputService.menuHandler.setCallback(Some(x => onMenuAction(x)))
@@ -37,7 +37,7 @@ class OverworldMapState(phaser: Game, inputService: InputService, player: Player
   }
 
   override def shutdown(game: Game) = {
-    bgMusic.stop()
+    bgMusic.foreach(_.stop())
     inputService.menuHandler.setCallback(None)
     inputService.setPointerEventCallback(None)
     super.shutdown(game)
