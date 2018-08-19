@@ -2,6 +2,7 @@ package models.gui
 
 import com.definitelyscala.phaserce.{Game, Group}
 import models.font.{Font, FontText}
+import services.socket.NotificationService
 
 object ConsoleLog {
   val lineHeight = 14.0
@@ -11,7 +12,6 @@ object ConsoleLog {
 }
 
 final case class ConsoleLog(game: Game) {
-
   import ConsoleLog._
 
   val group = new Group(game, name = "console.log")
@@ -24,6 +24,8 @@ final case class ConsoleLog(game: Game) {
   private[this] var nextIdx = 0
   private[this] var textGroups = Seq.empty[(Double, String, FontText)]
 
+  NotificationService.register(log = log, err = error)
+
   def log(s: String) = {
     val textGroup = font.render(name = s"console.log.text.$nextIdx", text = s, game = game, x = 4)
     group.add(textGroup.group)
@@ -33,6 +35,8 @@ final case class ConsoleLog(game: Game) {
     rebalance()
     nextIdx += 1
   }
+
+  def error(s: String) = log("{{red}}" + s)
 
   def update(delta: Double) = if (textGroups.nonEmpty) {
     elapsed += delta

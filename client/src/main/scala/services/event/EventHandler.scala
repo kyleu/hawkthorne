@@ -1,8 +1,8 @@
 package services.event
 
 import models.{RequestMessage, ResponseMessage}
-import models.ResponseMessage.{Pong, ServerError, UserSettings}
-import services.socket.{NetworkMessage, UserManager}
+import models.ResponseMessage.{Pong, ServerError, SystemBroadcast, UserSettings}
+import services.socket.{NetworkMessage, NotificationService, UserManager}
 import util.{DateUtils, Logging}
 
 import scala.scalajs.js.timers.setTimeout
@@ -26,7 +26,8 @@ trait EventHandler {
   def onResponseMessage(msg: ResponseMessage): Unit = msg match {
     case p: Pong => onLatency((System.currentTimeMillis - p.ts).toInt)
     case us: UserSettings => UserManager.onUserSettings(us)
-    case se: ServerError => // TODO NotificationService.error(se.reason, se.content)
+    case se: ServerError => NotificationService.err(se.reason + ": " + se.content)
+    case sb: SystemBroadcast => NotificationService.log(sb.channel + ": " + sb.msg)
     case _ => Logging.warn(s"Received unknown message of type [${msg.getClass.getSimpleName}].")
   }
 

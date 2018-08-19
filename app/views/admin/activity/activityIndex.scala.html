@@ -11,9 +11,20 @@
       </a>
     </li>
     <li class="collection-item">
+      <a href="@controllers.admin.activity.routes.ActivityController.matchmakingStatus()" class="theme-text">
+        <i class="fa @models.template.Icons.matchmaking"></i> Matchmaking Status
+      </a>
+    </li>
+    <li class="collection-item">
       <a href="@controllers.admin.activity.routes.ActivityController.gameList()" class="theme-text">
         <i class="fa @models.template.Icons.game"></i> Current Games
       </a>
+    </li>
+    <li class="collection-item">
+      <form action="@controllers.admin.activity.routes.ActivityController.broadcast()" method="get">
+        <input placeholder="Message" id="broadcast-input" name="msg" type="text" class="validate" />
+        <button type="submit" class="btn theme" style="margin: 8px 0;">Broadcast</button>
+      </form>
     </li>
   </ul>
 }

@@ -49,6 +49,7 @@ object Icons {
   val systemUser = "fa-user"
 
   val connection = "fa-globe"
+  val matchmaking = "fa-group"
   val game = "fa-flag-checkered"
 
   // Start model icons
