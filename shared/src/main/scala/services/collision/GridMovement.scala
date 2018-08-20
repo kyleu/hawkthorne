@@ -12,7 +12,7 @@ class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementH
       newX
     } else {
       grid.forCoords(newTile) match {
-        case Some(collided) => current._1
+        case Some(_) => current._1
         case None => newX
       }
     }
@@ -26,7 +26,7 @@ class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementH
       newY
     } else {
       grid.forCoords(newTile) match {
-        case Some(collided) => current._2
+        case Some(_) => current._2
         case None => newY
       }
     }

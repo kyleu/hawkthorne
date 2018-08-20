@@ -2,7 +2,7 @@ package models.map
 
 import models.collision.{CollisionGrid, CollisionPoly}
 import models.data.map.TiledMap
-import models.node.{Node, SimpleNode}
+import models.node.Node
 import util.JsonSerializers._
 import util.Logging
 
@@ -21,6 +21,6 @@ final case class ServerMap(key: String, layers: Seq[String], nodes: Seq[Node], c
 
   lazy val collisionSummary = collision match {
     case Right(grid) => s"Grid containing [${grid.tiles.size} of ${tiled.width * tiled.height}] tiles"
-    case Left(poly) => s"Poly containing [${poly.points.size}] points and [${poly.blockers.size}] blockers"
+    case Left(poly) => s"Poly containing [${poly.polygon.points.size}] points and [${poly.blockers.size}] blockers"
   }
 }

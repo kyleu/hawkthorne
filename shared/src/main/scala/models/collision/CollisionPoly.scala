@@ -2,21 +2,23 @@ package models.collision
 
 import models.node.{Node, SimpleNode}
 import util.JsonSerializers._
+import util.Polygon
 
 object CollisionPoly {
   implicit val jsonEncoder: Encoder[CollisionPoly] = deriveEncoder
   implicit val jsonDecoder: Decoder[CollisionPoly] = deriveDecoder
 
   def fromNodes(key: String, nodes: Seq[Node]) = {
-    val points = nodes.collectFirst {
-      case s: SimpleNode if s.primary => s.polygon.getOrElse(throw new IllegalStateException(s"No polygon for primary [$key] node")).toIndexedSeq
+    val primary = nodes.collectFirst {
+      case s: SimpleNode if s.primary => s.polygonObj.getOrElse(throw new IllegalStateException(s"No polygon for primary [$key] node"))
     }.getOrElse(throw new IllegalStateException(s"No primary node or collision layer for [$key]"))
+
     val blockers = nodes.collect {
-      case s: SimpleNode if s.polygon.isDefined && !s.primary =>
-        s.polygon.getOrElse(throw new IllegalStateException(s"No polygon for [$key] node")).toIndexedSeq
+      case s: SimpleNode if s.polygon.isDefined && !s.primary => s.polygonObj.getOrElse(throw new IllegalStateException(s"No polygon for [$key] node"))
     }.toIndexedSeq
-    CollisionPoly(points = points, blockers = blockers)
+
+    CollisionPoly(polygon = primary, blockers = blockers)
   }
 }
 
-case class CollisionPoly(points: IndexedSeq[util.IntPoint], blockers: IndexedSeq[IndexedSeq[util.IntPoint]])
+case class CollisionPoly(polygon: Polygon, blockers: IndexedSeq[Polygon])

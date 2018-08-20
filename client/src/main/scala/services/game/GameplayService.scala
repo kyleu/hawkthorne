@@ -78,7 +78,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   private[this] def pointerAct(pa: PointerAction) = {
     val (worldX, worldY) = display.camera.worldToMap(pa.worldX, pa.worldY)
     nodes.foreach {
-      case n if n.x < worldX && n.y < worldY && (n.x + n.width) >= worldX && (n.y + n.height) >= worldY => Logging.info(s"Collision: $n")
+      case n if n.x < worldX && n.y < worldY && (n.x + n.width) >= worldX && (n.y + n.height) >= worldY => Logging.info(s"Pointer Collision: $n")
       case _ => // noop
     }
   }
@@ -87,7 +87,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     case pm: GameMessage.PlayerMessage if pm.idx == 0 => pm match {
       case GameMessage.PlayerAnimationUpdated(_, anim) => display.playerSprite.setAnimation(Some(anim))
       case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprite.setPosition(newX = x, newY = y)
-      case GameMessage.LeaveMap(idx, src, dest) =>
+      case GameMessage.LeaveMap(idx, src, dest) => util.Logging.info(s"!!!!!!!!!!!!!!!!!!!!! $idx, $src, $dest")
       case x => util.Logging.info(s"Unhandled game player message [$x].")
     }
     case pm: GameMessage.PlayerMessage if pm.idx == -1 => throw new IllegalStateException(s"Received unhandled system player input.")

@@ -3,7 +3,7 @@ package models.node
 import models.asset.Asset
 import models.game.obj.BreakableBlock
 import util.JsonSerializers._
-import util.Polygon
+import util.{DoublePoint, Polygon}
 
 object BreakableBlockNode {
   object Props {
@@ -52,5 +52,5 @@ final case class BreakableBlockNode(
 
   override def asNewGameObject = Seq(BreakableBlock(id = id, n = actualName, loc = asLocation, vis = visible))
 
-  val polygonObj = polygon.map(p => Polygon(p.map(_.toDoublePoint)))
+  val polygonObj = polygon.map(points => Polygon(points.map(point => DoublePoint(point.x + x.toDouble, point.y + y.toDouble))))
 }

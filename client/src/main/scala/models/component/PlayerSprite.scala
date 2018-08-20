@@ -4,7 +4,6 @@ import com.definitelyscala.phaserce.{Game, Graphics, Group}
 import com.definitelyscala.phasercepixi.Texture
 import models.data.character.CharacterAnimation
 import models.player.Player
-import services.node.component.ComponentHelper
 
 object PlayerSprite {
   val animations = CharacterAnimation.values.flatMap(a => Seq(a.leftAnim, a.rightAnim)).map(a => a.id -> a).toMap
@@ -28,7 +27,7 @@ class PlayerSprite(
   def setScale(s: Double) = playerGroup.scale.set(s, s)
   def setFrame(i: Int) = as.sprite.frame = i
   def setAnimation(x: Option[String]) = as.setAnimation(x)
-  def bringToTop() = as.sprite.bringToTop()
+  def bringToTop() = mapGroup.bringToTop(playerGroup)
 
   as.sprite.name = s"$idx.${player.templateKey}.${player.costume.key}"
   as.sprite.anchor.set(0.5, 1.0)

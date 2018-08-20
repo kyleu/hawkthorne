@@ -18,7 +18,7 @@ case class CollisionService(map: TiledMap, collision: Either[CollisionPoly, Coll
       case "grid" => new GridMovement(max, grid)
       case _ => throw new IllegalStateException(s"Unhandled collision engine [$gridMovementClass]")
     }
-    case Left(poly) => gridMovementClass match {
+    case Left(poly) => polyMovementClass match {
       case "noop" => new NoCollisionMovement(max)
       case "poly" => new PolygonMovement(max, poly)
       case _ => throw new IllegalStateException(s"Unhandled collision engine [$gridMovementClass]")

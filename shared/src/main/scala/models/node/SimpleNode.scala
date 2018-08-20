@@ -1,7 +1,7 @@
 package models.node
 
 import util.JsonSerializers._
-import util.Polygon
+import util.{DoublePoint, Polygon}
 
 object SimpleNode {
   object Props {
@@ -34,13 +34,13 @@ final case class SimpleNode(
   override def actualName = if (primary) { "primary" } else { super.actualName }
 
   override def actualX = polygon match {
-    case Some(poly) => super.actualX + poly.map(_.x).min.toInt
+    case Some(poly) => super.actualX + poly.map(_.x).min
     case None => super.actualX
   }
   override def actualY = polygon match {
-    case Some(poly) => super.actualY + poly.map(_.y).min.toInt
+    case Some(poly) => super.actualY + poly.map(_.y).min
     case None => super.actualY
   }
 
-  val polygonObj = polygon.map(p => Polygon(p.map(_.toDoublePoint)))
+  val polygonObj = polygon.map(points => Polygon(points.map(point => DoublePoint(point.x + x.toDouble, point.y + y.toDouble))))
 }
