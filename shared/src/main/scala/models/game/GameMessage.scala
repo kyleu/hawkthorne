@@ -10,7 +10,7 @@ import models.player.Player
 sealed trait GameMessage extends EnumEntry
 
 object GameMessage extends Enum[GameMessage] with CirceEnum[GameMessage] {
-  final case class PlayerAdded(idx: Int, player: Player) extends GameMessage
+  final case class PlayerAdded(player: Player) extends GameMessage
   final case class PlayerRemoved(idx: Int, id: UUID) extends GameMessage
 
   sealed trait PlayerMessage extends GameMessage {

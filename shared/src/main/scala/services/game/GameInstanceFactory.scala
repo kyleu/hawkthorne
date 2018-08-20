@@ -13,14 +13,17 @@ object GameInstanceFactory {
     options: GameOptions,
     nodes: Seq[Node],
     initialPlayers: Seq[Player],
+    spawnPoint: String = "main",
     collision: Either[CollisionPoly, CollisionGrid],
-    log: String => Unit, notify: String => Unit
+    log: String => Unit,
+    notify: String => Unit
   ) = {
     val newGameId = UUID.randomUUID
 
-    val spawn = nodes.collectFirst { case n: DoorNode if n.name == "main" => n }.map { d =>
-      util.IntPoint(d.x.toInt + (d.width / 2), d.y.toInt + d.height)
-    }.getOrElse(throw new IllegalStateException("No spawn point detected."))
+    val spawns = nodes.collect { case n: DoorNode => n }.map { d =>
+      d.actualName -> util.IntPoint(d.x.toInt + (d.width / 2), d.y.toInt + d.height)
+    }.toMap
+    val spawn = spawns.getOrElse("main", throw new IllegalStateException("No spawn point detected."))
 
     val objs = nodes.flatMap(_.asNewGameObject).toIndexedSeq
 

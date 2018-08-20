@@ -8,7 +8,7 @@ import services.camera.CameraService
 import services.debug.DebugService
 import services.map.MapService
 
-class GameplayDisplay(game: Game, mapService: MapService, player: Player, instance: GameInstance) {
+class GameplayDisplay(game: Game, mapService: MapService, players: IndexedSeq[Player], instance: GameInstance) {
   val camera = new CameraService(
     game = game,
     group = mapService.group,
@@ -17,12 +17,12 @@ class GameplayDisplay(game: Game, mapService: MapService, player: Player, instan
     pxSize = mapService.mapPxWidth -> mapService.mapPxHeight
   )
 
-  val playerSprite = new PlayerSprite(
-    game = game, mapGroup = mapService.group, idx = 0, player = player,
-    initialLoc = instance.spawn.x -> instance.spawn.y, initialBounds = mapService.mapPxWidth -> mapService.mapPxHeight
-  )
+  val playerSprites = players.map(player => new PlayerSprite(
+    game = game, mapGroup = mapService.group, player = player,
+    initialLoc = instance.spawn, initialBounds = mapService.mapPxWidth -> mapService.mapPxHeight
+  ))
 
-  val hudOverlay = HudOverlay(game = game, player = player)
+  val hudOverlay = HudOverlay(game = game, players = players)
 
   val console = ConsoleLog(game = game)
   console.log("This is a test of the emergency broadcast system. This is only a test!")
@@ -32,7 +32,7 @@ class GameplayDisplay(game: Game, mapService: MapService, player: Player, instan
   resize(game.width.toInt, game.height.toInt)
 
   def update(delta: Double) = {
-    camera.focusOn(playerSprite.x, playerSprite.y)
+    camera.focusOn(playerSprites.map(_.x).sum / playerSprites.size, playerSprites.map(_.y).sum / playerSprites.size)
     console.update(delta)
   }
 

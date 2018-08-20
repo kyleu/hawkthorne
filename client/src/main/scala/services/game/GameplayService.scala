@@ -4,8 +4,6 @@ import com.definitelyscala.phaserce.Game
 import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component._
-import models.game.GameMessage
-import models.input.PointerAction
 import models.options.GameOptions
 import models.player.Player
 import services.debug.DebugService
@@ -13,17 +11,17 @@ import services.input.InputService
 import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 import services.socket.AnalyticsService
-import util.Logging
 
-class GameplayService(game: Game, inputService: InputService, options: GameOptions, player: Player) {
+class GameplayService(game: Game, inputService: InputService, options: GameOptions, initialPlayers: IndexedSeq[Player]) extends GameplayMessageHandler {
   private[this] var started = false
   private[this] var elapsed = 0.0
-  private[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
-  private[this] def addComponent(c: BaseComponent) = components += c
+  protected[this] var players = initialPlayers
+  protected[this] val components = collection.mutable.ArrayBuffer.empty[BaseComponent]
+  protected[this] def addComponent(c: BaseComponent) = components += c
 
   AnalyticsService.send(AnalyticsActionType.GameStart, Json.obj(
     "options" -> util.JsonSerializers.serialize(options),
-    "players" -> util.JsonSerializers.serialize(Seq(player))
+    "players" -> util.JsonSerializers.serialize(players)
   ))
 
   val (nodes, collision) = MapNodeParser.parse(options.map.value, game.cache.getTilemapData("map." + options.map.value))
@@ -31,7 +29,7 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   val instance = GameInstanceFactory.create(
     options = options,
     nodes = nodes,
-    initialPlayers = Seq(player),
+    initialPlayers = players,
     collision = collision,
     log = s => util.Logging.info(s),
     notify = s => util.Logging.warn(s)
@@ -39,16 +37,16 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
   DebugService.inst.foreach(_.setGameInstance(instance))
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
-  private[this] val display = new GameplayDisplay(game, mapService, player, instance)
-  addComponent(display.playerSprite)
+  protected[this] val display = new GameplayDisplay(game, mapService, players, instance)
+  display.playerSprites.foreach(addComponent)
 
   inputService.setPointerEventCallback(Some(pointerAct))
 
   private[this] val (progress, splashComplete) = SplashScreen.show(game)
   new NodeLoader(game, mapService.group, progress).load(nodes = nodes, onComplete = newComponents => {
     newComponents.foreach(addComponent)
-    DebugService.inst.foreach(_.setMap(game, mapService, instance, components, Seq(display.playerSprite)))
-    display.playerSprite.bringToTop()
+    DebugService.inst.foreach(_.setMap(game, mapService, instance, components, display.playerSprites))
+    display.playerSprites.foreach(_.bringToTop())
     resize(game.width.toInt, game.height.toInt)
     splashComplete()
     instance.start()
@@ -73,24 +71,5 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
       case r: BaseComponent.Resizable => r.resize(width, height)
       case _ => // noop
     }
-  }
-
-  private[this] def pointerAct(pa: PointerAction) = {
-    val (worldX, worldY) = display.camera.worldToMap(pa.worldX, pa.worldY)
-    val collisions = nodes.collect { case n if n.x < worldX && n.y < worldY && (n.x + n.width) >= worldX && (n.y + n.height) >= worldY => n }
-    collisions.foreach(n => Logging.info(s"Pointer Collision [$worldX / $worldY]: $n"))
-  }
-
-  private[this] def applyMessage(msg: GameMessage) = msg match {
-    case pm: GameMessage.PlayerMessage if pm.idx == 0 => pm match {
-      case GameMessage.PlayerAnimationUpdated(_, anim) => display.playerSprite.setAnimation(Some(anim))
-      case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprite.setPosition(newX = x, newY = y)
-      case GameMessage.LeaveMap(idx, src, dest) => util.Logging.info(s"!!!!!!!!!!!!!!!!!!!!! $idx, $src, $dest")
-      case x => util.Logging.info(s"Unhandled game player message [$x].")
-    }
-    case pm: GameMessage.PlayerMessage if pm.idx == -1 => throw new IllegalStateException(s"Received unhandled system player input.")
-    case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only support single player for now.")
-    case n: GameMessage.Notify => n.msgs.foreach(display.console.log)
-    case x => util.Logging.info(s"Unhandled game service message [$x].")
   }
 }

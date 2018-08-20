@@ -31,9 +31,8 @@ class SandboxState(phaser: Game) extends GameState("sandbox", phaser) {
     case (c, idx) => new PlayerSprite(
       game = game,
       mapGroup = group,
-      idx = 0,
       player = Player(id = UUID.randomUUID, idx = 0, templateKey = c._1.key, costumeKey = c._2.key),
-      initialLoc = (32 + ((idx % 28) * 48), 32 + ((idx / 28) * 48)),
+      initialLoc = util.IntPoint(32 + ((idx % 28) * 48), 32 + ((idx / 28) * 48)),
       initialBounds = (0, 0)
     )
   }

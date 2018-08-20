@@ -17,22 +17,23 @@ trait GameInstancePlayers { this: GameInstance =>
         val idx = players.size
         val box = player.template.boundingBox
         val pih = new PlayerInputHandler(instance = this, playerIdx = idx, boundingBox = box, initialX = spawn.x, initialY = spawn.y, log = log)
-        players = players :+ PlayerRecord(idx = idx, player = player, input = pih)
+        players = players :+ PlayerRecord(player = player, input = pih)
         idx
       case x =>
-        players = players.zipWithIndex.map { record =>
-          if (record._1.idx == x) {
+        players = players.map { record =>
+          if (record.player.idx == x) {
             // TODO Notify replaced player?
-            record._1.copy(player = player)
+            record.copy(player = player)
           } else {
-            record._1
+            record
           }
         }
         x
     }
 
+    if (player.idx != playerIndex) { throw new IllegalStateException(s"Got request to add player with index [${player.idx}] to index [$playerIndex].") }
     debug(s"Added player [$player] to game, making [${players.size}] total players ([${players.count(_.player.attributes.connected)}] active).")
-    GameMessage.PlayerAdded(playerIndex, player)
+    GameMessage.PlayerAdded(player)
   }
 
   def boundsForPlayer(idx: Int) = players(idx).input.bounds

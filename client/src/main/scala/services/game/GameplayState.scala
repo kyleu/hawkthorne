@@ -25,7 +25,7 @@ class GameplayState(phaser: Game, inputService: InputService, options: GameOptio
   private[this] def service = svc.getOrElse(throw new IllegalStateException("Gameplay service not initialized."))
 
   override def create(game: Game) = svc = {
-    Some(new GameplayService(game = game, inputService = inputService, options = options, player = player))
+    Some(new GameplayService(game = game, inputService = inputService, options = options, initialPlayers = IndexedSeq(player)))
   }
 
   override def update(game: Game) = service.update()
