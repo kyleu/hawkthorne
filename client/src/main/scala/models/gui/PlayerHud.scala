@@ -7,7 +7,7 @@ import models.player.Player
 
 case class PlayerHud(game: Game, player: Player, group: Group) {
   val idx = player.idx
-  val offsetY = 64.0 * idx
+  val offsetY = 56.0 * idx
 
   private[this] val chevron = new Sprite(game, 0, offsetY, s"hud.chevron")
   chevron.name = s"hud.$idx.chevron"

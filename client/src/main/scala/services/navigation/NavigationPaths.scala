@@ -41,7 +41,9 @@ object NavigationPaths {
         phaser = game,
         input = input,
         options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug),
-        player = Player.random(id = UUID.randomUUID /* TODO */ , idx = 0)
+        players = IndexedSeq(
+          Player.random(id = UUID.randomUUID, idx = 0)
+        )
       )
 
       case "multiplayer/list" => MatchmakingState.load(phaser = game, inputService = input, debug = debug)
