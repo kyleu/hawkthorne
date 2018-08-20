@@ -26,7 +26,7 @@ class AudioService(prefix: String) {
   def play(key: String, vol: Double = 1.0, loop: Boolean = false): Sound = play(load(key), vol = vol, loop = loop)
   private[this] def play(sound: Sound, vol: Double, loop: Boolean): Sound = {
     val newVol = vol / 10.0 * volume
-    util.Logging.info(s"Playing [$prefix.${sound.name}] at volume [$newVol], loop = $loop")
+    util.Logging.debug(s"Playing [${sound.name}] at volume [$newVol], loop = $loop")
     sound.play(volume = newVol, loop = loop)
   }
 }

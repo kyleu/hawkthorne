@@ -2,7 +2,6 @@ package services.debug
 
 import com.definitelyscala.datgui.GUI
 import models.component.PlayerSprite
-import models.input.PlayerInputHandler
 import services.game.GameInstance
 import util.{DatGuiUtils, Logging}
 

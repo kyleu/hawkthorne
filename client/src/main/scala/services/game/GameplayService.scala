@@ -77,10 +77,8 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
 
   private[this] def pointerAct(pa: PointerAction) = {
     val (worldX, worldY) = display.camera.worldToMap(pa.worldX, pa.worldY)
-    nodes.foreach {
-      case n if n.x < worldX && n.y < worldY && (n.x + n.width) >= worldX && (n.y + n.height) >= worldY => Logging.info(s"Pointer Collision: $n")
-      case _ => // noop
-    }
+    val collisions = nodes.collect { case n if n.x < worldX && n.y < worldY && (n.x + n.width) >= worldX && (n.y + n.height) >= worldY => n }
+    collisions.foreach(n => Logging.info(s"Pointer Collision [$worldX / $worldY]: $n"))
   }
 
   private[this] def applyMessage(msg: GameMessage) = msg match {

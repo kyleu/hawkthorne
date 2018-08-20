@@ -8,7 +8,9 @@ object BoundingBox {
 }
 
 final case class BoundingBox(width: Int, height: Int, duckHeight: Int, x: Int, y: Int) {
-  def at(xx: Double, yy: Double, isDucking: Boolean) = (if (isDucking) { rectangle } else { duckRectangle }).at(xx, yy)
+  def at(xx: Double, yy: Double, isDucking: Boolean) = {
+    (if (isDucking) { rectangle } else { duckRectangle }).at(xx - 24, yy - height)
+  }
 
   val rectangle = Rectangle(x.toDouble, y.toDouble, width, height)
   val duckRectangle = Rectangle(x.toDouble, y.toDouble, width, duckHeight)

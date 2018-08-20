@@ -14,20 +14,18 @@ class PlayerSprite(
 ) extends SimpleComponent {
   override val name = s"player.$idx"
 
-  private[this] val playerGroup = new Group(game, mapGroup, name)
-
   private[this] val as = AnimatedSprite(
-    game = game, group = playerGroup, name = name + ".sprite",
+    game = game, group = mapGroup, name = name + ".sprite",
     key = s"${player.templateKey}.${player.costume.key}", animations = PlayerSprite.animations.mapValues(_.newCopy), defAnim = Some("idle.right")
   )
-  override def comp = playerGroup
-  playerGroup.x = initialLoc._1.toDouble
-  playerGroup.y = initialLoc._2.toDouble
+  override def comp = as.sprite
+  as.x = initialLoc._1.toDouble
+  as.y = initialLoc._2.toDouble
 
-  def setScale(s: Double) = playerGroup.scale.set(s, s)
+  def setScale(s: Double) = as.sprite.scale.set(s, s)
   def setFrame(i: Int) = as.sprite.frame = i
   def setAnimation(x: Option[String]) = as.setAnimation(x)
-  def bringToTop() = mapGroup.bringToTop(playerGroup)
+  def bringToTop() = as.sprite.bringToTop()
 
   as.sprite.name = s"$idx.${player.templateKey}.${player.costume.key}"
   as.sprite.anchor.set(0.5, 1.0)
@@ -37,12 +35,12 @@ class PlayerSprite(
   def displayBounds(rect: util.Rectangle) = {
     val g = new Graphics(game)
     g.beginFill(0x00ff00)
-    g.drawRect(rect.x, rect.y, rect.w.toDouble, rect.h.toDouble)
+    g.drawRect(0, 0, rect.w.toDouble, rect.h.toDouble)
     g.endFill()
 
     val t = g.generateTexture().asInstanceOf[Texture]
-    val i = StaticImage(game = game, group = playerGroup, name = s"player.$idx.bounds.debug", tex = t)
-    i.setPosition(-rect.w.toDouble / 2, -rect.h.toDouble)
+    val i = StaticImage(game = game, group = mapGroup, name = s"player.$idx.bounds.debug", tex = t)
+    i.setPosition(rect.x, rect.y)
   }
 
   override def toString = s"PlayerSprite[$idx@$x/$y]: $player"

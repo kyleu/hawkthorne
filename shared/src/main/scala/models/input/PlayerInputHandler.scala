@@ -35,9 +35,7 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
   private[this] def anim(key: String) = if (facingRight) { s"$key.right" } else { s"$key.left" }
 
   private[this] def processCommand(c: InputCommand, delta: Double) = c match {
-    case InputCommand.Confirm =>
-      val collisions = instance.stage.collidingObjects(bounds)
-      collisions.flatMap(_.onSelect(playerIdx))
+    case InputCommand.Confirm => instance.stage.collidingObjects(bounds).flatMap(_.onSelect(playerIdx))
     case _ =>
       log(s"Unhandled Player Command: [$c]")
       Nil
