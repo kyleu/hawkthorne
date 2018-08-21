@@ -86,4 +86,6 @@ final case class Menu(
       }
     }
   }
+
+  override def destroy() = group.destroy(destroyChildren = true)
 }

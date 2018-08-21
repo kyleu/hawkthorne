@@ -12,7 +12,12 @@ import services.map.{MapNodeParser, MapService}
 import services.node.NodeLoader
 import services.socket.AnalyticsService
 
-class GameplayService(game: Game, inputService: InputService, options: GameOptions, initialPlayers: IndexedSeq[Player]) extends GameplayMessageHandler {
+class GameplayService(
+    protected[this] val game: Game,
+    protected[this] val inputService: InputService,
+    protected[this] val options: GameOptions,
+    initialPlayers: IndexedSeq[Player]
+) extends GameplayMessageHandler {
   private[this] var started = false
   private[this] var elapsed = 0.0
   protected[this] var players = initialPlayers
@@ -49,7 +54,6 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
     display.playerSprites.foreach(_.bringToTop())
     resize(game.width.toInt, game.height.toInt)
     splashComplete()
-    instance.start()
     started = true
   })
 
@@ -71,5 +75,13 @@ class GameplayService(game: Game, inputService: InputService, options: GameOptio
       case r: BaseComponent.Resizable => r.resize(width, height)
       case _ => // noop
     }
+  }
+
+  def shutdown() = {
+    DebugService.inst.foreach(_.clearGameStuff())
+    components.foreach(_.destroy())
+    display.destroy()
+    mapService.destroy()
+    instance.stop()
   }
 }

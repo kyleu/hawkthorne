@@ -45,4 +45,6 @@ final case class Liquid(
       }
     }
   }
+
+  override def destroy() = liquidGroup.destroy()
 }

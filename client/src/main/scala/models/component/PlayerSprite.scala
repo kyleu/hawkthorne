@@ -45,4 +45,6 @@ class PlayerSprite(
   }
 
   override def toString = s"PlayerSprite[${player.idx}@$x/$y]: $player"
+
+  override def destroy() = as.destroy()
 }

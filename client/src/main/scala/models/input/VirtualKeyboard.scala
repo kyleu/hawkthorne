@@ -71,4 +71,6 @@ class VirtualKeyboard(override val game: Game, override val name: String, initia
   }
 
   override def comp = group
+
+  override def destroy() = group.destroy()
 }

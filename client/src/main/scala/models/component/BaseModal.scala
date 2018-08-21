@@ -95,4 +95,6 @@ class BaseModal(
   private[this] var _visible = true // TODO replace with group call
   override def visible = _visible
   override def visible_=(v: Boolean) = _visible = v
+
+  override def destroy() = {} // TODO Fix, asshole
 }

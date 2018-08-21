@@ -21,5 +21,7 @@ object DebugUI {
     DatGuiUtils.addFunction(hud, "Random Energy", () => hudOverlay.setEnergy(0, Random.nextInt(101), 100))
     DatGuiUtils.addFunction(hud, "Debug", () => util.Logging.info(hudOverlay.debugString()))
     hud.add(hudOverlay.group, "visible").listen()
+
+    Seq(folder)
   }
 }

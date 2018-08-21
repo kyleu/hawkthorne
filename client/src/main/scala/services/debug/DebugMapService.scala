@@ -15,17 +15,20 @@ object DebugMapService {
       DatGuiUtils.addFunction(cheatFolder, c.toString, () => util.Logging.info(s"Cheat [$c] (${c.code}) selected: ${c.description}"))
     }
 
-    addMap(gui, mapService)
-    DebugPlayers.addPlayers(gui, instance, players)
+    val mapFolder = addMap(gui, mapService)
+    val playerFolders = DebugPlayers.addPlayers(gui, instance, players)
 
     val componentFolder = gui.addFolder("Components")
     DatGuiUtils.addFunction(componentFolder, "Toggle Debug", () => DebugComponents.toggleDebug(components))
-    components.sortBy(_.name).foreach(c => DebugComponents.add(componentFolder, c))
+    components.sortBy(_.name).map(c => DebugComponents.add(componentFolder, c))
+
+    playerFolders ++ Seq(cheatFolder, mapFolder, componentFolder)
   }
 
   def addMap(gui: GUI, mapService: MapService) = {
     val f = gui.addFolder(s"Map (${mapService.map.value})")
     mapService.layers.foreach(l => addLayer(mapService, f, l))
+    f
   }
 
   private[this] def addLayer(mapService: MapService, root: GUI, layer: TilemapLayer) = {

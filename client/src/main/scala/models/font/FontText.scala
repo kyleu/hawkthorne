@@ -46,4 +46,6 @@ class FontText(game: Game, val name: String, font: Font, val text: String, x: Do
       group.add(i)
     }
   }
+
+  def destroy() = group.destroy()
 }

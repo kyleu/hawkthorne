@@ -19,4 +19,6 @@ final case class StaticSprite(
     //sprite.x += sprite.width
   }
   group.add(sprite)
+
+  override def destroy() = sprite.destroy()
 }

@@ -25,5 +25,7 @@ final case class HudOverlay(game: Game, players: IndexedSeq[Player]) {
     val newZoom = Math.max(1.0, Math.min(6.0, zoom.floor))
     group.scale.set(newZoom, newZoom)
   }
+
+  def destroy() = group.destroy()
 }
 

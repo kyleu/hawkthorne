@@ -22,4 +22,6 @@ class Checkbox(
   }
 
   def toggle() = checked = !checked
+
+  override def destroy() = image.destroy()
 }

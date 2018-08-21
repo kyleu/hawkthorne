@@ -6,7 +6,6 @@ import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.{BaseComponent, PlayerSprite}
 import models.gui.{ConsoleLog, HudOverlay}
-import models.input.PlayerInputHandler
 import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element
@@ -33,8 +32,9 @@ object DebugService {
 class DebugService private (phaser: Game) {
   private[this] var visible = true
 
-  val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
-  val gui = new GUI(params)
+  private[this] val params = JavaScriptUtils.as[GUIParams](scalajs.js.Dynamic.literal())
+  private[this] val gui = new GUI(params)
+  private[this] var guiStuff = Seq.empty[GUI]
 
   val settingsFolder = gui.addFolder("Settings")
   DatGuiUtils.addFunction(settingsFolder, "Reload Settings", () => util.Logging.info(s"Loaded Settings: ${ClientSettings.load()}"))
@@ -59,12 +59,17 @@ class DebugService private (phaser: Game) {
     phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
   }
 
-  def setUI(consoleLog: ConsoleLog, hud: HudOverlay) = DebugUI.setUI(gui, consoleLog, hud)
+  def setUI(consoleLog: ConsoleLog, hud: HudOverlay) = guiStuff = guiStuff ++ DebugUI.setUI(gui, consoleLog, hud)
 
-  def setGameInstance(instance: GameInstance) = DebugGame.setGameInstance(gui, instance)
+  def setGameInstance(instance: GameInstance) = guiStuff = guiStuff ++ DebugGame.setGameInstance(gui, instance)
 
   def setMap(game: Game, mapService: MapService, instance: GameInstance, components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
-    DebugMapService.setMap(game, gui, mapService, instance, components, players)
+    guiStuff = guiStuff ++ DebugMapService.setMap(game, gui, mapService, instance, components, players)
+  }
+
+  def clearGameStuff() = {
+    guiStuff.foreach(x => gui.asInstanceOf[js.Dynamic].removeFolder(x))
+    guiStuff = Nil
   }
 
   def toggle() = {

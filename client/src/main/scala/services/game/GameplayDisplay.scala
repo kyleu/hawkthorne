@@ -41,4 +41,9 @@ class GameplayDisplay(game: Game, mapService: MapService, players: IndexedSeq[Pl
     hudOverlay.resize(width, height, camera.currentZoom)
     console.resize(width, height, camera.currentZoom)
   }
+
+  def destroy() = {
+    hudOverlay.destroy()
+    console.destroy()
+  }
 }

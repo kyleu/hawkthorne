@@ -8,7 +8,7 @@ import util.{DatGuiUtils, Logging}
 import scala.util.Random
 
 object DebugPlayers {
-  def addPlayers(gui: GUI, instance: GameInstance, players: Seq[PlayerSprite]) = players.zipWithIndex.foreach {
+  def addPlayers(gui: GUI, instance: GameInstance, players: Seq[PlayerSprite]) = players.zipWithIndex.map {
     case (playerSprite, idx) =>
       val f = gui.addFolder(s"Player $idx")
       val anims = PlayerSprite.animations.keys.toSeq.sorted
@@ -24,5 +24,6 @@ object DebugPlayers {
         Logging.info(s"Random animation: [$anim]")
         playerSprite.setAnimation(Some(anim))
       })
+      f
   }
 }

@@ -40,4 +40,6 @@ final case class AnimatedSprite(
   override def update(deltaMs: Double) = activeAnimation.foreach(_.nextFrame(deltaMs).foreach { f =>
     sprite.frame = f
   })
+
+  override def destroy() = sprite.destroy()
 }

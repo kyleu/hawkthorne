@@ -43,4 +43,6 @@ class RangeMeter(
     case x if x == min => setting = max
     case _ => setting = setting - 1
   }
+
+  override def destroy() = group.destroy(destroyChildren = true)
 }

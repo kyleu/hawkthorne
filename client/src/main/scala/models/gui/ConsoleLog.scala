@@ -81,4 +81,9 @@ final case class ConsoleLog(game: Game) {
   private[this] def rebalance() = textGroups.zipWithIndex.foreach { kept =>
     kept._1._3.group.y = ((maxLines - kept._2 - 1) * lineHeight) - bottomMargin
   }
+
+  def destroy() = {
+    textGroups.foreach(_._3.destroy())
+    group.destroy()
+  }
 }

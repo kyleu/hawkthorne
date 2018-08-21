@@ -53,7 +53,8 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
     parallax.map(l -> _)
   }
 
-  def stop() = {
+  def destroy() = {
     bgMusic.stop()
+    group.destroy()
   }
 }

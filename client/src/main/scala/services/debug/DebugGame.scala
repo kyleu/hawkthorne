@@ -11,5 +11,7 @@ object DebugGame {
     DatGuiUtils.addFunction(folder, "Dump", () => {
       util.Logging.info(util.JsonSerializers.serialize(gameInstance).spaces2)
     })
+
+    Seq(folder)
   }
 }

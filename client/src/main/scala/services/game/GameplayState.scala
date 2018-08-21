@@ -34,6 +34,7 @@ class GameplayState(phaser: Game, inputService: InputService, options: GameOptio
 
   override def shutdown(game: Game) = {
     inputService.menuHandler.setCallback(None)
+    service.shutdown()
     super.shutdown(game)
   }
 }

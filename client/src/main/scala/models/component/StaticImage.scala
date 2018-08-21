@@ -13,4 +13,6 @@ final case class StaticImage(
   override def comp = image
   image.name = name
   group.add(image)
+
+  override def destroy() = image.destroy()
 }

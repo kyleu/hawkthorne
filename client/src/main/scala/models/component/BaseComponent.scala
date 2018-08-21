@@ -37,4 +37,6 @@ trait BaseComponent {
     y = newY
     vis.foreach(visible = _)
   }
+
+  def destroy(): Unit
 }
