@@ -32,6 +32,6 @@ Boilerplay relies on a whole lot of tremendous open source projects. [Here's a f
 
 ## License
 
-The code is licensed under [CC0-1.0](https://raw.githubusercontent.com/KyleU/boilerplay/master/license). 
+The code is licensed under [CC0-1.0](https://raw.githubusercontent.com/KyleU/hawkthorne/master/license). 
 
 You can basically do whatever you want with the code, no attribution required. Make it your own! 
