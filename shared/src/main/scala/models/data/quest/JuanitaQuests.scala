@@ -7,6 +7,7 @@ object JuanitaQuests {
   val alcohol = QuestTemplate(
     key = "alcohol",
     name = "Help Juanita pick up empty bottles",
+    source = "Juanita",
     infinite = true,
     skipPrompt = false,
     successPrompt = Some("Can you help me clean up by picking up some bottles?"),

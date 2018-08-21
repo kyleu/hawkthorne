@@ -7,6 +7,7 @@ object HildaQuests {
   val flowers = QuestTemplate(
     key = "flowers",
     name = "Collect Flowers for Hilda",
+    source = "Hilda",
     infinite = true,
     skipPrompt = false,
     successPrompt = Some("Do you want to collect flowers for {{red_light}}Hilda{{white}}?"),

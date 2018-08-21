@@ -1,7 +1,7 @@
 package services.input
 
 import com.definitelyscala.phaserce.Game
-import models.game.GameCommand
+import models.game.cmd.GameCommand
 import models.input.{InputCommand, PointerAction}
 
 class InputService(game: Game, systemCommandHandler: InputCommand => Unit) {

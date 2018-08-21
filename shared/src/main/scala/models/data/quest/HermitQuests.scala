@@ -7,6 +7,7 @@ object HermitQuests {
   val berry = QuestTemplate(
     key = "berry",
     name = "To Slay An Acorn - Collect the Special Berry",
+    source = "Hermit",
     infinite = true,
     skipPrompt = false,
     successPrompt = Some("Do you want to collect the {{red_dark}}berry{{white}}?"),

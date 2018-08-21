@@ -7,6 +7,7 @@ object AlienQuests {
   val alienObject = QuestTemplate(
     key = "alienObject",
     name = "Aliens! - Bring back alien technology from hostile aliens",
+    source = "Alien",
     infinite = true,
     skipPrompt = false,
     successPrompt = Some("Earthling, would you like to have the honor of serving under me in {{teal}}my fight against the invading aliens?{{white}}"),
@@ -35,6 +36,7 @@ object AlienQuests {
   val alienCamp = QuestTemplate(
     key = "alienCamp",
     name = "Aliens! - Attack alien camp and bring back alien technology",
+    source = "Alien",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("So, you ready for the next task?"),
@@ -54,6 +56,7 @@ object AlienQuests {
   val regroup = QuestTemplate(
     key = "regroup",
     name = "Aliens! - Regroup with the alien at Chili Fields",
+    source = "Alien",
     infinite = false,
     skipPrompt = true,
     successPrompt = Some("Regroup in the {{red_light}}Chili Fields{{white}}!"),
@@ -71,6 +74,7 @@ object AlienQuests {
   val qfo = QuestTemplate(
     key = "qfo",
     name = "Aliens! - Destroy the QFO!",
+    source = "Alien",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Do you want to take on the {{orange}}QFO{{white}}?"),

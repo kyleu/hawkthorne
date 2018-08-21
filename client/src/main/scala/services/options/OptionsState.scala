@@ -9,9 +9,9 @@ import services.input.InputService
 import services.state.{GameState, LoadingState, NavigationService}
 
 object OptionsState {
-  def load(phaser: Game, inputService: InputService, debug: Boolean) = new LoadingState(
-    next = new OptionsState(phaser = phaser, inputService = inputService, debug = debug), phaser = phaser, assets = OptionsAssets.assets
-  )
+  def load(phaser: Game, inputService: InputService, debug: Boolean) = {
+    new LoadingState(next = new OptionsState(phaser = phaser, inputService = inputService, debug = debug), phaser = phaser, assets = OptionsAssets.assets)
+  }
 }
 
 class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) extends GameState("test", phaser) {
@@ -23,7 +23,7 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
     Font.reset()
     bgMusic = Some(MusicService.play("daybreak", loop = true))
     particles = Some(new VerticalParticles(game))
-    options = Some(new OptionsMenu(game, () => NavigationService.navigateTo(game, inputService, "menu", debug)))
+    options = Some(new OptionsMenu(game, () => NavigationService.navigateToPath(game, inputService, "menu", debug)))
 
     inputService.setPointerEventCallback(Some(pointerAct))
     inputService.menuHandler.setCallback(Some(x => onMenuAction(x)))

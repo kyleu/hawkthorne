@@ -1,6 +1,6 @@
 package models.player
 
-import models.game.GameMessage
+import models.game.msg.GameMessage
 import models.input.PlayerInputHandler
 import services.game.GameInstanceDebug.log
 

@@ -24,6 +24,7 @@ object QuestTemplate {
 case class QuestTemplate(
     key: String,
     name: String,
+    source: String,
     infinite: Boolean,
     skipPrompt: Boolean,
     successPrompt: Option[String],

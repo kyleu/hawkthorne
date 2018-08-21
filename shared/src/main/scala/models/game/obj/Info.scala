@@ -1,6 +1,6 @@
 package models.game.obj
 
-import models.game.GameMessage
+import models.game.msg.GameMessage
 import util.JsonSerializers._
 
 object Info {

@@ -3,7 +3,8 @@ package services.game
 import java.util.UUID
 
 import models.collision.{CollisionGrid, CollisionPoly}
-import models.game.{GameStage, GameCommand}
+import models.game.GameStage
+import models.game.cmd.GameCommand
 import models.node.{DoorNode, Node}
 import models.options.GameOptions
 import models.player.Player
@@ -31,8 +32,6 @@ object GameInstanceFactory {
     i.stage.setCollision(coll = collision)
     GameInstanceDebug.setCallbacks(options.debug, log, notify)
 
-    val initialMessages = i.update(delta = 0, initialPlayers.map(GameCommand.AddPlayer.apply): _*)
-    i.apply(initialMessages)
-    i
+    i.start(initialPlayers.map(GameCommand.AddPlayer.apply))
   }
 }

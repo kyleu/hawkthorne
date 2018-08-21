@@ -2,7 +2,7 @@ package models
 
 import java.util.UUID
 
-import models.game.GameCommand
+import models.game.cmd.GameCommand
 import models.options.GameOptions
 import models.player.Player
 import util.JsonSerializers._

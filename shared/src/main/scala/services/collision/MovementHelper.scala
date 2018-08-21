@@ -7,7 +7,6 @@ trait MovementHelper {
   final def move(current: (Double, Double), bounds: Rectangle, delta: (Double, Double)) = {
     val newX = if (delta._1 == 0) { current._1 } else { moveX(current, bounds, delta._1) }
     val newY = if (delta._2 == 0) { current._2 } else { moveY(newX -> current._2, bounds, delta._2) }
-    // TODO...
     newX -> newY
   }
 

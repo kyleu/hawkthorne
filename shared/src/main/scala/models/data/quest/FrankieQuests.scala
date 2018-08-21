@@ -7,6 +7,7 @@ object FrankieQuests {
   val potatoes = QuestTemplate(
     key = "potatoes",
     name = "Save Greendale - Collect potatoes",
+    source = "Frankie",
     infinite = true,
     skipPrompt = false,
     successPrompt = Some("Alright let's see...if you bring me a {{olive}}potato{{white}}, I'll give you 50 coins. How does that sound?"),
@@ -21,6 +22,7 @@ object FrankieQuests {
   val bones = QuestTemplate(
     key = "bones",
     name = "Save Greendale - Remove bones from parking lot",
+    source = "Frankie",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Can you remove the bones from the parking lot?"),
@@ -38,6 +40,7 @@ object FrankieQuests {
   val peanutCostume = QuestTemplate(
     key = "peanutCostume",
     name = "Save Greendale - Find peanut bar costume receipt",
+    source = "Frankie",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Can you go retrieve the receipt for Dean's stupid costume?"),
@@ -56,6 +59,7 @@ object FrankieQuests {
   val officeKey = QuestTemplate(
     key = "officeKey",
     name = "Save Greendale - Look for the lost office key",
+    source = "Frankie",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Can you go look for the lost key? It should still be on campus somewhere."),
@@ -73,6 +77,7 @@ object FrankieQuests {
   val pool = QuestTemplate(
     key = "pool",
     name = "Save Greendale - Find out what the delay with pool repairs is",
+    source = "Frankie",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Could you go find out what the delay is?"),
@@ -87,6 +92,7 @@ object FrankieQuests {
   val poolReturn = QuestTemplate(
     key = "poolReturn",
     name = "Save Greendale - Return back to Frankie",
+    source = "Frankie",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Can you tell Ms. Dart that we will have the pool open soon?"),
@@ -106,6 +112,7 @@ object FrankieQuests {
   val dianeEmail = QuestTemplate(
     key = "dianeEmail",
     name = "Save Greendale - Mail Diane",
+    source = "Frankie",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Could you deposit this document into the mailbox? And no montages!"),
@@ -123,6 +130,7 @@ object FrankieQuests {
   val dianeReturn = QuestTemplate(
     key = "dianeReturn",
     name = "Save Greendale - Return to Frankie",
+    source = "Frankie",
     infinite = false,
     skipPrompt = false,
     successPrompt = None,

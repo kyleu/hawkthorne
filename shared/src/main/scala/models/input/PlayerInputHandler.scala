@@ -1,6 +1,7 @@
 package models.input
 
-import models.game.{GameCommand, GameMessage}
+import models.game.cmd.GameCommand
+import models.game.msg.GameMessage
 import services.collision.CollisionService
 import services.game.GameInstance
 import util.BoundingBox

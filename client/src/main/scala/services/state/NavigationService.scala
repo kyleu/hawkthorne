@@ -17,15 +17,14 @@ object NavigationService {
     game.state.start(is.key, clearWorld = true, clearCache = false)
   }
 
-  def navigateTo(game: Game, input: InputService, path: String, debug: Boolean) = {
+  def navigateToPath(game: Game, input: InputService, path: String, debug: Boolean) = {
     val nextState = NavigationPaths.stateFromPath(game = game, input = input, path = path, debug = debug)
-    game.state.add(nextState.key, nextState)
     setPath(path)
-    game.state.start(nextState.key, clearWorld = true, clearCache = false)
+    navigateTo(game, nextState)
   }
 
-  def newMap(dest: String) = dest.split(':').toList match {
-    case level :: door :: Nil => println(s"Headed to [$level :: $door]...")
-    case _ => throw new IllegalStateException(s"Invalid destination [$dest]")
+  def navigateTo(game: Game, nextState: GameState) = {
+    game.state.add(nextState.key, nextState)
+    game.state.start(nextState.key, clearWorld = true, clearCache = false)
   }
 }

@@ -15,6 +15,7 @@ import services.matchmaking.MatchmakingState
 import services.options.OptionsState
 import services.overworld.OverworldMapState
 import services.state.NavigationService.setPath
+import services.state.{CreditsState, HelpState}
 import services.test.{SandboxState, TestState}
 
 object NavigationPaths {
@@ -34,30 +35,25 @@ object NavigationPaths {
       case "overworld" => OverworldMapState.load(
         phaser = game,
         inputService = input,
-        player = Player.random(id = UUID.randomUUID /* TODO */ , idx = 0),
+        player = Player.random(id = UUID.randomUUID, idx = 0),
         debug = debug
       )
-      case x if x.startsWith("map/") => GameplayState.load(
-        phaser = game,
-        input = input,
-        options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug),
-        players = IndexedSeq(
-          Player.random(id = UUID.randomUUID, idx = 0)
-        )
-      )
-
+      case x if x.startsWith("map/") => newGameState(game, input, GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug))
       case "multiplayer/list" => MatchmakingState.load(phaser = game, inputService = input, debug = debug)
       case "multiplayer/host" => MatchmakingState.load(phaser = game, inputService = input, debug = debug, skipToHost = true)
-      case "credits" =>
-        util.Logging.info("TODO: Credits")
-        TestState.load(phaser = game)
-      case "help" =>
-        util.Logging.info("TODO: Help")
-        TestState.load(phaser = game)
+      case "credits" => CreditsState.load(phaser = game, inputService = input, debug = debug)
+      case "help" => HelpState.load(phaser = game, inputService = input, debug = debug)
 
       case _ =>
         dom.window.location.href = "/"
         throw new IllegalStateException(s"Unknown path [$path]")
     }
   }
+
+  def newGameState(
+    game: Game,
+    input: InputService,
+    options: GameOptions,
+    initialPlayers: IndexedSeq[Player] = IndexedSeq(Player.random(id = UUID.randomUUID, idx = 0))
+  ) = GameplayState.load(phaser = game, input = input, options = options, players = initialPlayers)
 }

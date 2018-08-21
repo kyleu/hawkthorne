@@ -1,8 +1,9 @@
 package services.game
 
-import models.game.GameMessage
+import models.data.map.TiledMap
+import models.game.msg.GameMessage
 import models.input.PointerAction
-import services.state.NavigationService
+import services.navigation.NavigationPaths
 import util.Logging
 
 trait GameplayMessageHandler { this: GameplayService =>
@@ -17,11 +18,21 @@ trait GameplayMessageHandler { this: GameplayService =>
     case pm: GameMessage.PlayerMessage if pm.idx < players.size => pm match {
       case GameMessage.PlayerAnimationUpdated(_, anim) => display.playerSprites(pm.idx).setAnimation(Some(anim))
       case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprites(pm.idx).setPosition(newX = x, newY = y)
-      case GameMessage.LeaveMap(_, _, dest) => NavigationService.newMap(dest)
+      case GameMessage.LeaveMap(_, _, dest) =>
+        val (tiled, door) = newMap(dest)
+        val newOpts = options.copy(map = tiled)
+        shutdown()
+        NavigationPaths.newGameState(game, inputService, newOpts)
       case x => util.Logging.info(s"Unhandled game player message [$x].")
     }
     case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only know [${players.size}] players.")
     case n: GameMessage.Notify => n.msgs.foreach(display.console.log)
     case x => util.Logging.info(s"Unhandled game service message [$x].")
+  }
+
+  private[this] def newMap(dest: String) = dest.split(':').toList match {
+    case level :: _ :: Nil if level == options.map.value => throw new IllegalStateException(s"Doors to same level [$level] aren't currently supported.")
+    case level :: door :: Nil => TiledMap.withValue(level) -> door
+    case _ => throw new IllegalStateException(s"Invalid destination [$dest]")
   }
 }

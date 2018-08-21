@@ -7,6 +7,7 @@ object TildaQuests {
   val slayAcorn = QuestTemplate(
     key = "slayAcorn",
     name = "To Slay An Acorn - Ask Around the Village about the Acorn King",
+    source = "Tilda",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Will you not help me?"),
@@ -30,6 +31,7 @@ object TildaQuests {
   val exploreMines = QuestTemplate(
     key = "exploreMines",
     name = "To Slay An Acorn - Explore the Mines for a Map to the Acorn King",
+    source = "Tilda",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("You say the Acorn King plans on destroying this town?"),
@@ -55,6 +57,7 @@ object TildaQuests {
   val findHermit = QuestTemplate(
     key = "findHermit",
     name = "To Slay an Acorn - Find the Old Hermit at Stonerspeak",
+    source = "Tilda",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("The map is gone?!?"),
@@ -77,6 +80,7 @@ object TildaQuests {
   val collectBerries = QuestTemplate(
     key = "collectBerries",
     name = "To Slay An Acorn - Collect the Special Berry for the Hermit",
+    source = "Tilda",
     infinite = false,
     skipPrompt = false,
     successPrompt = None,

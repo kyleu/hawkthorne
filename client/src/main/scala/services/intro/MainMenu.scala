@@ -44,7 +44,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   menu.group.scale.set(2.0, 2.0)
   group.add(menu.group)
 
-  private[this] def nav(path: String) = NavigationService.navigateTo(game = game, input = input, path = path, debug = debug)
+  private[this] def nav(path: String) = NavigationService.navigateToPath(game = game, input = input, path = path, debug = debug)
   private[this] def actions(acts: (String, String)*) = acts.map(x => (x._1, () => {
     AnalyticsService.send(AnalyticsActionType.Menu, Json.obj("key" -> util.JsonSerializers.serialize(x._2)))
     nav(path = x._2)

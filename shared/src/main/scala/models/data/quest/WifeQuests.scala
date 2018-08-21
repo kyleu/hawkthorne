@@ -7,6 +7,7 @@ object WifeQuests {
   val mushroom = QuestTemplate(
     key = "mushroom",
     name = "Remove invasive mushrooms in the treetops",
+    source = "Wife",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Could you go remove ALL of those {{blue_light}} mushrooms{{white}} on the treetops? I will pay you handsomely!"),

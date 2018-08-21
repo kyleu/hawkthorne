@@ -7,6 +7,7 @@ object TelescopeJuanQuests {
   val alien = QuestTemplate(
     key = "alien",
     name = "Aliens! - Investigate Goat Farm",
+    source = "TelescopeJuan",
     infinite = false,
     skipPrompt = false,
     successPrompt = Some("Can you go {{red_light}}investigate the goat farm and retrieve whatever alien object is there?{{white}}"),

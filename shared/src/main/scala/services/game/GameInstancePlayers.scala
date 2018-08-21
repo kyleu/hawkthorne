@@ -2,7 +2,7 @@ package services.game
 
 import java.util.UUID
 
-import models.game.GameMessage
+import models.game.msg.GameMessage
 import models.input.PlayerInputHandler
 import models.player.{Player, PlayerRecord}
 import services.game.GameInstanceDebug.{debug, log}

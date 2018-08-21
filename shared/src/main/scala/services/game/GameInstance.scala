@@ -2,7 +2,9 @@ package services.game
 
 import java.util.UUID
 
-import models.game.{GameCommand, GameMessage, GameStage}
+import models.game.cmd.GameCommand
+import models.game.GameStage
+import models.game.msg.GameMessage
 import models.options.{GameOptions, SystemOptions}
 import services.game.GameInstanceDebug._
 
@@ -19,10 +21,11 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
   private[this] var elapsedSeconds = 0.0
   val bounds = (options.map.width * SystemOptions.tileSize) -> (options.map.height * SystemOptions.tileSize)
 
-  def start() = {
+  def start(initialCommands: Seq[GameCommand]) = {
     log(toString)
     if (running) { throw new IllegalStateException(s"Game [$gameId] already started.") }
     running = true
+    apply(update(0, initialCommands: _*))
     this
   }
 
@@ -45,6 +48,7 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
   }
 
   def update(delta: Double, gu: GameCommand*): Seq[GameMessage] = {
+    if (!running) { throw new IllegalStateException("Game instance has not been started.") }
     elapsedSeconds += delta
     gu.flatMap {
       case GameCommand.AddPlayer(player) => Seq(addPlayer(player))
