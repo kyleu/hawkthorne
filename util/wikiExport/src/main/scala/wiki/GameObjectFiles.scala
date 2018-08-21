@@ -72,7 +72,7 @@ object GameObjectFiles {
 
   private[this] def weaponFiles(cfg: WikiExportConfig) = gameObjectFiles[WeaponTemplate](
     cfg = cfg, key = "Weapon", plural = "Weapons", all = WeaponListing.all,
-    k = o => o.key, n = o => id(o.name), i = o => Some(s"weapon/${o.key}.png"), f = (o, md) => WeaponContent(md, o)
+    k = o => o.key, n = o => id(o.name), i = o => Some(s"weapons/${o.key}.png"), f = (o, md) => WeaponContent(md, o)
   )
 
   def all(cfg: WikiExportConfig): Seq[WikiExportResult.File] = characterFiles(cfg) ++ costumeFiles(cfg) ++
