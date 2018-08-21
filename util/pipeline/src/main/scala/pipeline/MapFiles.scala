@@ -29,9 +29,7 @@ object MapFiles {
         import scala.sys.process._
         val app = "/Applications/Tiled.app/Contents/MacOS/Tiled"
         val cmd = s"$app --export-map ${cfg.src.path}/maps/$key.tmx ${cfg.src.path}/maps/json/$key.json"
-        println(cmd)
-        val result = cmd.!!
-        println(result)
+        cmd.!!
       }
 
       val name = nameFor(key)

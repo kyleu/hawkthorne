@@ -12,7 +12,7 @@ object QuestFiles {
       val lines = Source.fromString(src.contentAsString).getLines.map(_.trim).toIndexedSeq
 
       val key = src.name.stripSuffix(".lua").stripSuffix("quest")
-      val name = questgiverNameFor(key)
+      val name = QuestHelper.questgiverNameFor(key)
 
       val pkg = Seq("models", "data", "quest")
       val file = ScalaFile(pkg = pkg, key = name + "Quests", root = Some("shared/src/main/scala"))
@@ -25,15 +25,16 @@ object QuestFiles {
         file.add(s"val ${q.key} = QuestTemplate(", 1)
         file.add(s"""key = "${q.key}",""")
         file.add(s"""name = "${q.name}",""")
+        file.add(s"""source = "$name",""")
         file.add(s"""infinite = ${q.infinite},""")
         file.add(s"""skipPrompt = ${q.skipPrompt},""")
-        file.add(s"""successPrompt = ${optionField(q.successPrompt)},""")
-        optionSeqField("promptExtra", q.promptExtra, file)
-        optionSeqField("giveQuestSucceed", q.giveQuestSucceed, file)
-        optionSeqField("completeQuestFail", q.completeQuestFail, file)
-        optionSeqField("completeQuestSucceed", q.completeQuestSucceed, file)
-        file.add(s"""collect = ${collectField(q.collect)},""")
-        file.add(s"""reward = ${rewardField(q.reward)}""")
+        file.add(s"""successPrompt = ${QuestHelper.optionField(q.successPrompt)},""")
+        QuestHelper.optionSeqField("promptExtra", q.promptExtra, file)
+        QuestHelper.optionSeqField("giveQuestSucceed", q.giveQuestSucceed, file)
+        QuestHelper.optionSeqField("completeQuestFail", q.completeQuestFail, file)
+        QuestHelper.optionSeqField("completeQuestSucceed", q.completeQuestSucceed, file)
+        file.add(s"""collect = ${QuestHelper.collectField(q.collect)},""")
+        file.add(s"""reward = ${QuestHelper.rewardField(q.reward)}""")
         file.add(")", -1)
         file.add()
       }
@@ -76,41 +77,5 @@ object QuestFiles {
     }
 
     ret.map(r => QuestHelper.parseQuest(r._1, r._2.toIndexedSeq))
-  }
-
-  private[this] def questgiverNameFor(n: String) = n match {
-    case "telescopejuan" => "TelescopeJuan"
-    case _ => ExportHelper.toClassName(n)
-  }
-
-  private[this] def optionField(o: Option[Any]) = o match {
-    case Some(x) => s"""Some("$x")"""
-    case None => "None"
-  }
-
-  private[this] def optionSeqField(prefix: String, o: Option[Seq[String]], file: ScalaFile) = o match {
-    case None => file.add(s"$prefix = Nil,")
-    case Some(x) if x.size == 1 => file.add(s"""$prefix = Seq("${x.head}"),""")
-    case Some(x) =>
-      file.add(s"$prefix = Seq(", 1)
-      x.foreach { y =>
-        val comma = if (x.lastOption.contains(y)) { "" } else { "," }
-        file.add("\"" + y + "\"" + comma)
-      }
-      file.add("),", -1)
-  }
-
-  def intField(m: Map[String, String], k: String) = m.get(k).map(a => QuestHelper.strip(a.stripSuffix("}")).toInt).map(x => s"Some($x)").getOrElse("None")
-
-  private[this] def rewardField(reward: Map[String, String]) = if (reward.isEmpty) {
-    "None"
-  } else {
-    s"Some(QuestTemplate.Reward(affection = ${intField(reward, "affection")}, money = ${intField(reward, "money")}))"
-  }
-
-  private[this] def collectField(collect: Map[String, String]) = if (collect.isEmpty) {
-    "None"
-  } else {
-    s"""Some(QuestTemplate.Collect(name = "${collect("name")}", t = "${collect("type")}"))"""
   }
 }

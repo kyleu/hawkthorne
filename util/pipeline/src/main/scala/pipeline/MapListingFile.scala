@@ -27,7 +27,8 @@ object MapListingFile {
     file.addImport("enumeratum.values", "StringEnum")
     file.addImport("enumeratum.values", "StringEnumEntry")
 
-    file.add("sealed abstract class TiledMap(override val value: String, val width: Int, val height: Int, val details: TiledMapDetails) extends StringEnumEntry")
+    val params = "override val value: String, val width: Int, val height: Int, val details: TiledMapDetails"
+    file.add(s"sealed abstract class TiledMap($params) extends StringEnumEntry")
     file.add()
 
     file.add(s"object TiledMap extends StringEnum[TiledMap] with StringCirceEnum[TiledMap] {", 1)

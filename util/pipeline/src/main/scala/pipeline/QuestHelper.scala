@@ -1,5 +1,6 @@
 package pipeline
 
+import pipeline.file.ScalaFile
 import util.LuaUtils
 
 object QuestHelper {
@@ -52,7 +53,7 @@ object QuestHelper {
         var acc = Seq.empty[String]
         var depth = 0
         val candidates = lines.drop(startIdx)
-        val ret = candidates.takeWhile { l =>
+        candidates.takeWhile { l =>
           val delta = l.count(_ == '{') - l.count(_ == '}')
           depth += delta
           if (delta == 0) {
@@ -70,11 +71,47 @@ object QuestHelper {
       case Some(line) => line.stripPrefix("{").stripSuffix("}").split(',').toIndexedSeq.map(strip).map { kv =>
         kv.split('=').toList match {
           case k :: v :: Nil => k.trim -> strip(v.trim)
-          case x => throw new IllegalStateException(s"Invalid [$prefix] line [$line] with kv [$kv}]")
+          case _ => throw new IllegalStateException(s"Invalid [$prefix] line [$line] with kv [$kv}]")
         }
       }
     }
     ret.toMap
+  }
+
+  def optionField(o: Option[Any]) = o match {
+    case Some(x) => s"""Some("$x")"""
+    case None => "None"
+  }
+
+  def optionSeqField(prefix: String, o: Option[Seq[String]], file: ScalaFile) = o match {
+    case None => file.add(s"$prefix = Nil,")
+    case Some(x) if x.size == 1 => file.add(s"""$prefix = Seq("${x.head}"),""")
+    case Some(x) =>
+      file.add(s"$prefix = Seq(", 1)
+      x.foreach { y =>
+        val comma = if (x.lastOption.contains(y)) { "" } else { "," }
+        file.add("\"" + y + "\"" + comma)
+      }
+      file.add("),", -1)
+  }
+
+  def intField(m: Map[String, String], k: String) = m.get(k).map(a => QuestHelper.strip(a.stripSuffix("}")).toInt).map(x => s"Some($x)").getOrElse("None")
+
+  def rewardField(reward: Map[String, String]) = if (reward.isEmpty) {
+    "None"
+  } else {
+    s"Some(QuestTemplate.Reward(affection = ${QuestHelper.intField(reward, "affection")}, money = ${QuestHelper.intField(reward, "money")}))"
+  }
+
+  def collectField(collect: Map[String, String]) = if (collect.isEmpty) {
+    "None"
+  } else {
+    s"""Some(QuestTemplate.Collect(name = "${collect("name")}", t = "${collect("type")}"))"""
+  }
+
+  def questgiverNameFor(n: String) = n match {
+    case "telescopejuan" => "TelescopeJuan"
+    case _ => ExportHelper.toClassName(n)
   }
 
   private[this] def questKeyFor(key: String) = key match {
