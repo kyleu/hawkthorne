@@ -26,6 +26,8 @@ import sbt._
 import sbtassembly.AssemblyPlugin.autoImport._
 
 object Server {
+  val codegen = inputKey[Unit]("Runs the code generation pipelines.")
+
   private[this] val dependencies = {
     import Dependencies._
     Seq(
@@ -50,6 +52,12 @@ object Server {
     resolvers += Resolver.bintrayRepo("stanch", "maven"),
     resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
     libraryDependencies ++= dependencies,
+
+    codegen := {
+      (run in (Pipeline.pipeline, Compile)).fullInput("").evaluated
+      (run in (WikiExport.wikiExport, Compile)).fullInput("").evaluated
+      (compile in Compile).value
+    },
 
     // Play
     RoutesKeys.routesGenerator := InjectedRoutesGenerator,
