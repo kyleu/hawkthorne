@@ -48,7 +48,7 @@ final case class GameInstance(gameId: UUID, options: GameOptions, stage: GameSta
   }
 
   def update(delta: Double, gu: GameCommand*): Seq[GameMessage] = {
-    if (!running) { throw new IllegalStateException("Game instance has not been started.") }
+    if (!running) { throw new IllegalStateException(s"Game instance [$gameId] has not been started.") }
     elapsedSeconds += delta
     gu.flatMap {
       case GameCommand.AddPlayer(player) => Seq(addPlayer(player))

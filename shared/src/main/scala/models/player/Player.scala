@@ -20,8 +20,6 @@ object Player {
 final case class Player(
     id: UUID,
     idx: Int,
-    var x: Double = 0.0,
-    var y: Double = 0.0,
     attributes: PlayerAttributes = PlayerAttributes(),
     templateKey: String = "jeff",
     costumeKey: String = "base"

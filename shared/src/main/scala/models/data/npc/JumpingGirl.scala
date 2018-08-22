@@ -17,5 +17,5 @@ object JumpingGirl extends NpcTemplate(
   ),
   noInventory = None,
   noCommands = None,
-  talkItems = Seq[TalkItem]()
+  talkItems = Seq.empty[TalkItem]
 )

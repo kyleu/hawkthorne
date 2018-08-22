@@ -8,10 +8,16 @@ object LoadingState {
   val prefix = "/assets/game/"
 
   def load(asset: Asset, game: Game) = asset match {
-    case a: Asset.Audio => game.load.audio(key = a.key, urls = prefix + a.path)
-    case i: Asset.Image => game.load.image(key = i.key, url = prefix + i.path)
-    case t: Asset.Tilemap => game.load.tilemap(key = t.key, url = prefix + t.path, data = util.NullUtils.inst, format = Tilemap.TILED_JSON)
-    case s: Asset.Spritesheet => game.load.spritesheet(key = s.key, url = prefix + s.path, frameWidth = s.width.toDouble, frameHeight = s.height.toDouble)
+    case a: Asset.Audio if !game.cache.checkSoundKey(a.key) => Some(game.load.audio(key = a.key, urls = prefix + a.path))
+    case a: Asset.Audio => None
+    case i: Asset.Image if !game.cache.checkTextureKey(i.key) => Some(game.load.image(key = i.key, url = prefix + i.path))
+    case i: Asset.Image => None
+    case t: Asset.Tilemap if !game.cache.checkTilemapKey(t.key) =>
+      Some(game.load.tilemap(key = t.key, url = prefix + t.path, data = util.NullUtils.inst, format = Tilemap.TILED_JSON))
+    case t: Asset.Tilemap => None
+    case s: Asset.Spritesheet if !game.cache.checkTextureKey(s.key) =>
+      Some(game.load.spritesheet(key = s.key, url = prefix + s.path, frameWidth = s.width.toDouble, frameHeight = s.height.toDouble))
+    case s: Asset.Spritesheet => None
   }
 }
 
@@ -32,9 +38,7 @@ class LoadingState(
 
     game.state.add(next.key, next, autoStart = false)
 
-    assets.foreach { asset =>
-      LoadingState.load(asset, game)
-    }
+    assets.foreach(LoadingState.load(_, game))
     var filesCompleted = 0
 
     PhaserUtils.addToSignal(game.load.onFileComplete, _ => {

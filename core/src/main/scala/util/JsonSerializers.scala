@@ -44,7 +44,7 @@ object JsonSerializers {
 
   def jsonToObj[A](j: Json)(implicit decoder: Decoder[A]) = j.as[A] match {
     case Right(o) => o
-    case Left(x) => throw new IllegalStateException(s"Error converting [${j.spaces2}]", x)
+    case Left(x) => throw new IllegalStateException(s"Error converting [${j.spaces2}]: ${x.getMessage}", x)
   }
 
   def decodeJson[A](s: String)(implicit decoder: Decoder[A]) = io.circe.parser.decode[A](s)

@@ -1,5 +1,6 @@
 package models.input
 
+import models.data.character.CharacterAnimation
 import models.game.cmd.GameCommand
 import models.game.msg.GameMessage
 import services.collision.CollisionService
@@ -12,7 +13,7 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
   private[this] var current = (initialX.toDouble, initialY.toDouble)
   private[this] var (facingRight, isJumping, isDucking) = (true, false, false)
 
-  private[this] var lastAnimation = "initial"
+  private[this] var lastAnimation = CharacterAnimation.Idle.rightAnim
   private[this] var lastInput = GameCommand.PlayerInput(0, 0, 0, Nil)
 
   def process(delta: Double, input: GameCommand.PlayerInput) = {
@@ -22,7 +23,7 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
     val an = findAnimation(input)
     lastInput = input
 
-    val aMsg = an.map(a => GameMessage.PlayerAnimationUpdated(playerIdx, a)).toSeq
+    val aMsg = an.map(a => GameMessage.PlayerAnimationUpdated(playerIdx, a.id)).toSeq
     val lMsg = loc.map { case (newX, newY) => GameMessage.PlayerLocationUpdated(playerIdx, newX, newY) }.toSeq
     aMsg ++ lMsg ++ cmdMessages
   }
@@ -33,7 +34,7 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
   def setPosition(newX: Double, newY: Double) = current = newX -> newY
   def bounds = boundingBox.at(current._1, current._2, isDucking)
 
-  private[this] def anim(key: String) = if (facingRight) { s"$key.right" } else { s"$key.left" }
+  private[this] def anim(ca: CharacterAnimation) = if (facingRight) { ca.rightAnim } else { ca.leftAnim }
 
   private[this] def processCommand(c: InputCommand, delta: Double) = c match {
     case InputCommand.Confirm => instance.stage.collidingObjects(bounds).flatMap(_.onSelect(playerIdx))
@@ -49,9 +50,9 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
       case _ => facingRight
     }
     val an = if (input.x == 0) {
-      anim("idle")
+      anim(CharacterAnimation.Idle)
     } else {
-      anim("walk")
+      anim(CharacterAnimation.Walk)
     }
     if (an == lastAnimation) {
       None

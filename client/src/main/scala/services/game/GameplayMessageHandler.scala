@@ -4,6 +4,7 @@ import models.data.map.TiledMap
 import models.game.msg.GameMessage
 import models.input.PointerAction
 import services.navigation.NavigationPaths
+import services.state.NavigationService
 import util.Logging
 
 trait GameplayMessageHandler { this: GameplayService =>
@@ -21,8 +22,8 @@ trait GameplayMessageHandler { this: GameplayService =>
       case GameMessage.LeaveMap(_, _, dest) =>
         val (tiled, door) = newMap(dest)
         val newOpts = options.copy(map = tiled)
-        shutdown()
-        NavigationPaths.newGameState(game, inputService, newOpts)
+        val next = NavigationPaths.newGameState(game, inputService, newOpts)
+        NavigationService.navigateTo(game, next, path = Some(s"map/${tiled.value}"))
       case x => util.Logging.info(s"Unhandled game player message [$x].")
     }
     case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only know [${players.size}] players.")

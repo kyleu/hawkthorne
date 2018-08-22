@@ -16,7 +16,7 @@ object CharacterAnimation extends StringEnum[CharacterAnimation] with StringCirc
   case object Attack extends CharacterAnimation(value = "attack", left = Seq((0, 8), (4, 8)), right = Seq((0, 9), (4, 9)), duration = 0.1, loop = false)
   case object AttackJump extends CharacterAnimation(value = "attackjump", left = Seq((3, 8), (7, 8)), right = Seq((3, 9), (7, 9)), duration = 0.1, loop = false)
   case object AttackWalk extends CharacterAnimation(value = "attackwalk", left = Seq((1, 8), (6, 8)), right = Seq((1, 9), (6, 9)), duration = 0.1, loop = false)
-  case object CrawlcrouchWalk extends CharacterAnimation(value = "crawlcrouchwalk", left = Seq((4, 12), (5, 12), (6, 12), (7, 12)), right = Seq((4, 12), (5, 12), (6, 12), (7, 12)), duration = 0.16, loop = true)
+  case object CrawlCrouchWalk extends CharacterAnimation(value = "crawlcrouchwalk", left = Seq((4, 12), (5, 12), (6, 12), (7, 12)), right = Seq((4, 12), (5, 12), (6, 12), (7, 12)), duration = 0.16, loop = true)
   case object CrawlGazeWalk extends CharacterAnimation(value = "crawlgazewalk", left = Seq((4, 13), (5, 13), (6, 13), (7, 13)), right = Seq((4, 13), (5, 13), (6, 13), (7, 13)), duration = 0.16, loop = true)
   case object CrawlIdle extends CharacterAnimation(value = "crawlidle", left = Seq((0, 12)), right = Seq((0, 13)), duration = 1.0, loop = false)
   case object CrawlWalk extends CharacterAnimation(value = "crawlwalk", left = Seq((0, 12), (1, 12), (2, 12), (3, 12)), right = Seq((0, 13), (1, 13), (2, 13), (3, 13)), duration = 0.16, loop = true)

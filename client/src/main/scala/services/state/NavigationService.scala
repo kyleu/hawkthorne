@@ -23,7 +23,8 @@ object NavigationService {
     navigateTo(game, nextState)
   }
 
-  def navigateTo(game: Game, nextState: GameState) = {
+  def navigateTo(game: Game, nextState: GameState, path: Option[String] = None) = {
+    path.foreach(setPath)
     game.state.add(nextState.key, nextState)
     game.state.start(nextState.key, clearWorld = true, clearCache = false)
   }

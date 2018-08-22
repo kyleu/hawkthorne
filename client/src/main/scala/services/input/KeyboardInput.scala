@@ -35,6 +35,8 @@ final case class KeyboardInput(game: Game) {
     debug = game.input.keyboard.addKey(KeyCode.QUESTION_MARK)
   )
 
+  private[this] var zeroSent = false
+
   def update(delta: Double) = {
     val x = if (keymap.left.isDown) { -1.0 } else if (keymap.right.isDown) { 1.0 } else { 0.0 }
     val y = if (keymap.up.isDown) { -1.0 } else if (keymap.down.isDown) { 1.0 } else { 0.0 }
@@ -48,7 +50,17 @@ final case class KeyboardInput(game: Game) {
       if (keymap.pause.justDown) { Some(InputCommand.Pause) } else { None },
       if (keymap.debug.justDown) { Some(InputCommand.Debug) } else { None }
     ).flatten
-    GameCommand.PlayerInput(0, x, y, commands)
+    if (x != 0 || y != 0 || commands.nonEmpty) {
+      zeroSent = false
+      Some(GameCommand.PlayerInput(0, x, y, commands))
+    } else {
+      if (zeroSent) {
+        None
+      } else {
+        zeroSent = true
+        Some(GameCommand.PlayerInput(0, x, y, commands))
+      }
+    }
   }
 
   def close() = {}

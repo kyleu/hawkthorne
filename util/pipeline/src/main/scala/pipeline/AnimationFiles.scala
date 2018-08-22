@@ -47,7 +47,7 @@ object AnimationFiles {
   }
 
   private[this] val words = Set(
-    "walk", "jump", "idle", "arrow", "away", "action", "pistol", "hold", "gaze", "throw"
+    "walk", "jump", "idle", "arrow", "away", "action", "pistol", "hold", "gaze", "throw", "crouch"
   ).map(x => x -> (x.head.toUpper + x.tail))
 
   private[this] def clean(s: String) = words.foldLeft(s)((in, el) => in.replaceAllLiterally(el._1, el._2))

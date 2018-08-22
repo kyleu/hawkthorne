@@ -21,7 +21,7 @@ object NpcFiles {
       val noCommands = LuaUtils.lineOpt(lines, "nocommands = ").map(LuaUtils.clean)
 
       val responses = NpcHelper.getResponses(key, LuaUtils.blockFor(key, lines, "talk_responses = "))
-      val talkItems = NpcHelper.talkItems(key, LuaUtils.blockFor(key, lines, "talk_items = "), responses).mkString("\n    ")
+      val talkItems = NpcHelper.talkItems(key, LuaUtils.blockFor(key, lines, "talk_items = "), responses)
 
       val pkg = Seq("models", "data", "npc")
       val file = ScalaFile(pkg = pkg, key = name, root = Some("shared/src/main/scala"))
@@ -46,9 +46,13 @@ object NpcFiles {
       }
       file.add(s"noInventory = ${noInventory.map("Some(\"" + _ + "\")").getOrElse("None")},")
       file.add(s"noCommands = ${noCommands.map("Some(\"" + _ + "\")").getOrElse("None")},")
-      file.add("talkItems = Seq[TalkItem](", 1)
-      file.add(talkItems)
-      file.add(")", -1)
+      if (talkItems.isEmpty) {
+        file.add("talkItems = Seq.empty[TalkItem]")
+      } else {
+        file.add("talkItems = Seq[TalkItem](", 1)
+        file.add(talkItems.mkString("\n    "))
+        file.add(")", -1)
+      }
       file.add(")", -1)
 
       name -> cfg.writeScalaResult(s"npcs/${src.name}", file.path -> file.rendered)

@@ -6,6 +6,7 @@ import models.font.Font
 import models.input.VirtualKeyboard
 import org.scalajs.dom
 import services.state.{GameState, LoadingState}
+import util.IntPoint
 
 object TestState {
   def load(phaser: Game) = new LoadingState(next = new TestState(phaser), phaser = phaser, assets = Font.assets)
@@ -34,7 +35,10 @@ class TestState(phaser: Game) extends GameState("test", phaser) {
       }, timeout = 10.0)
     }
 
-    kb = Some(new VirtualKeyboard(phaser, "keyboard", 0, 410))
+    kb = Some(new VirtualKeyboard(game = phaser, name = "keyboard", initial = IntPoint(0, 410), onChar = {
+      case '_' => println("SPACE!")
+      case c => println(s"$c!!!")
+    }))
     kb.foreach(k => game.add.existing(k.group))
   }
 

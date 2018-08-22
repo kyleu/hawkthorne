@@ -23,7 +23,7 @@ class InputService(game: Game, systemCommandHandler: InputCommand => Unit) {
   def update(delta: Double): Seq[GameCommand] = {
     pointerInput.update(delta).foreach(pointerEvent => pointerEventCallback.foreach(_(pointerEvent)))
 
-    val updates = (keyboardInput.update(delta) +: gamepadInput.update(delta)).groupBy(_.idx).values.flatMap {
+    val updates = (keyboardInput.update(delta).toSeq ++ gamepadInput.update(delta)).groupBy(_.idx).values.flatMap {
       case u if u.length > 1 => Seq(GameCommand.PlayerInput(u.map(_.idx).head, u.map(_.x).sum, u.map(_.y).sum, u.flatMap(_.commands)))
       case u => u
     }.toSeq

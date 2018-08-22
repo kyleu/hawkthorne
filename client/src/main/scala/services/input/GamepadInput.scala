@@ -80,5 +80,5 @@ final case class GamepadInput(game: Game) {
         if (pad.getButton(map.debug).justPressed(delta)) { Some(InputCommand.Debug) } else { None }
       ).flatten
       GameCommand.PlayerInput(idx, x, y, commands)
-  }
+  }.filter(i => i.x != 0 || i.y != 0 || i.commands.nonEmpty)
 }
