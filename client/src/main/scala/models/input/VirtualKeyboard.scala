@@ -4,12 +4,13 @@ import com.definitelyscala.phaserce._
 import models.component.SimpleComponent
 import models.font.Font
 import models.input.VirtualKeyboardKeys._
+import util.{IntPoint, NullUtils, PhaserUtils}
 
-class VirtualKeyboard(override val game: Game, override val name: String, initialX: Int, initialY: Int) extends SimpleComponent {
+class VirtualKeyboard(override val game: Game, override val name: String, initial: IntPoint, onChar: Char => Unit) extends SimpleComponent {
   private[this] val key = "virtual.keyboard"
   private[this] val font = Font.getFont("courier", game)
 
-  private[this] def keyGraphic(width: Double) = {
+  private[this] def keyTexture(width: Double) = {
     val w = width * keySize + ((width - 1) * padding)
     val g = new Graphics(game)
     g.beginFill(0x3ebe0f)
@@ -18,22 +19,22 @@ class VirtualKeyboard(override val game: Game, override val name: String, initia
     g.beginFill(0x1c530e)
     g.drawRoundedRect(1, 1, w - 2, keySize - 2, 4)
     g.endFill()
-    new Sprite(game, 0, 0, key = g.generateTexture().asInstanceOf[RenderTexture])
+    g.generateTexture().asInstanceOf[RenderTexture]
   }
 
-  private[this] val keyGraphicOne = keyGraphic(1)
-  private[this] val keyGraphicTwo = keyGraphic(2)
-  private[this] val keyGraphicThree = keyGraphic(3)
-  private[this] val keyGraphicSeven = keyGraphic(7)
+  private[this] val keyTextureSizeOne = keyTexture(1)
+  private[this] val keyTextureSizeTwo = keyTexture(2)
+  private[this] val keyTextureSizeThree = keyTexture(3)
+  private[this] val keyTextureSizeSeven = keyTexture(7)
 
-  private[this] val bitmapData = new BitmapData(game = game, width = paddedSize * 14, height = paddedSize * 4, key = s"$key.bitmap")
+  private[this] val tint = Color.toRGBA(224, 224, 224, 192)
 
   val group = new Group(game)
   group.name = key
+  group.x = initial.x.toDouble
+  group.y = initial.y.toDouble
 
-  private[this] val image = new Image(game = game, x = initialX.toDouble, y = initialY.toDouble, key = bitmapData)
-  image.name = s"$key.background"
-  group.add(image)
+  private[this] var sprites: Seq[(Sprite, Seq[Sprite])] = Nil
 
   layout.zipWithIndex.foreach { line =>
     var offsetX = 0.0
@@ -47,24 +48,33 @@ class VirtualKeyboard(override val game: Game, override val name: String, initia
         case _ => Some(char.toUpper.toString) -> 1.0
       }
       display.foreach { displayStr =>
-        val graphics = charSize match {
-          case 1.0 => keyGraphicOne
-          case 2.0 => keyGraphicTwo
-          case 3.0 => keyGraphicThree
-          case 7.0 => keyGraphicSeven
-          case x => throw new IllegalStateException(s"Missing graphic for width [$x].")
+        val texture = charSize match {
+          case 1.0 => keyTextureSizeOne
+          case 2.0 => keyTextureSizeTwo
+          case 3.0 => keyTextureSizeThree
+          case 7.0 => keyTextureSizeSeven
+          case x => throw new IllegalStateException(s"Missing texture for width [$x].")
         }
-        bitmapData.copy(graphics, tx = offsetX, ty = line._2 * paddedSize)
+
+        val bg = new Sprite(game, x = offsetX, y = line._2 * paddedSize, texture)
+        bg.inputEnabled = true
+        PhaserUtils.addToSignal(bg.events.onInputOver, _ => {
+          bg.tint = tint
+        })
+        PhaserUtils.addToSignal(bg.events.onInputOut, _ => {
+          bg.tint = 0xffffffff
+        })
+        group.add(bg)
 
         val fontOffsetX = displayStr.length match {
           case 5 => 6
           case _ => 12
         }
-        displayStr.zipWithIndex.foreach { c =>
-          val s = font.spriteCopyFor(c._1, x = offsetX + fontOffsetX + (c._2 * 14), y = 10 + (line._2 * paddedSize))
-          bitmapData.copy(s)
-          s.destroy()
+        val charSprites = displayStr.zipWithIndex.map { c =>
+          font.spriteCopyFor(c._1, x = offsetX + fontOffsetX + (c._2 * 14), y = 10 + (line._2 * paddedSize))
         }
+        charSprites.foreach(s => group.add(s))
+        sprites = sprites :+ (bg -> charSprites)
       }
       offsetX += (charSize * paddedSize)
     }
