@@ -16,7 +16,6 @@ object CollisionGrid {
   private[this] def getTileData(json: Json) = {
     val o = json.asObject.getOrElse(throw new IllegalStateException("Not an object"))
 
-    val name = jsonToObj[String](o("name").get)
     val height = jsonToObj[Int](o("height").get)
     val width = jsonToObj[Int](o("width").get)
 

@@ -1,8 +1,5 @@
 # Hawkthorne
 
-Hawkthorne is a pure Scala reactive web application built on Play 2.6,
-Scala.js, Silhouette 5, Akka, Sangria, and postgres-async. It extends some of the work found in [Boilerplay](https://)
-
 ## Running the app
 
 First, change the database section of application.conf to use your existing database credentials.
@@ -23,7 +20,11 @@ The first account to sign up is created as an Admin, all subsequent users will h
 
 ## Projects
 
-* `server` Main web application.
-* `sharedJvm` Core Scala logic and rules definitions, for JVM projects.
-* `sharedJs` Shared classes, compiled to Scala.js JavaScript.
-* `client` Barebones Scala.js app.
+* `server` Main web application
+* `core` Minimal shared classes, compiled to JVM, Scala.js, and native
+* `shared` Core Scala logic and rules definitions, for JVM projects, compiled to JVM, Scala.js, and native
+* `client` The main game logic, a Scala.js app
+* `doc` Paradox documentation, published via `ghpages`
+* `adminClient` Scala.js app for the admin site
+* `pipeline` Creates all of the Scala files in `models.data`
+* `wikiExport` Generates the Github wiki from shared definitions

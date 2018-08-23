@@ -11,6 +11,8 @@ class OverworldMovement(game: Game, group: Group, player: Player, initialZone: S
 
   private[this] val overworldPlayer = new OverworldPlayer(game, group, player, currentZone)
 
+  def current = currentZone
+
   val titleboard = new OverworldTitleboard(game)
   titleboard.setText(currentZone.name)
 

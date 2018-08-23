@@ -2,10 +2,10 @@ import com.github.sbt.cpd.CpdKeys.cpdSkipDuplicateFiles
 import sbt.Keys._
 import sbt._
 import sbtassembly.AssemblyPlugin.autoImport._
+
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType, _}
 import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
-import webscalajs.ScalaJSWeb
 
 object Shared {
   val projectId = "hawkthorne"
@@ -77,13 +77,13 @@ object Shared {
     )
   ).jsSettings(libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % "0.2.2").jvmSettings(libraryDependencies += Dependencies.ScalaJS.jvmStubs)
 
-  lazy val coreJs = core.js.enablePlugins(ScalaJSWeb)
+  lazy val coreJs = core.js
   lazy val coreJvm = core.jvm
 
   lazy val shared = (crossProject(JSPlatform, JVMPlatform).withoutSuffixFor(JVMPlatform).crossType(CrossType.Pure) in file("shared")).settings(
     (sourceGenerators in Compile) += ProjectVersion.writeConfig(projectId, projectName, projectPort).taskValue
   ).settings(commonSettings: _*).dependsOn(core)
 
-  lazy val sharedJs = shared.js.enablePlugins(ScalaJSWeb)
+  lazy val sharedJs = shared.js
   lazy val sharedJvm = shared.jvm
 }

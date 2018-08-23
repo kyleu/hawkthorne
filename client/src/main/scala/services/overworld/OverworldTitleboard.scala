@@ -27,6 +27,11 @@ class OverworldTitleboard(game: Game) {
     group.add(titleText.group)
   }
 
+  def destroy() = {
+    game.stage.removeChild(group)
+    group.destroy()
+  }
+
   private[this] def textFor(s: String) = {
     val i = font.render(name = "overworld.titleboard.text", text = s, game = game)
     i.group.position = new Point((bg.width - i.group.width) / 2, (bg.height - i.group.height) / 2)

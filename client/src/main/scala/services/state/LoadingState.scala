@@ -9,23 +9,16 @@ object LoadingState {
 
   def load(asset: Asset, game: Game) = asset match {
     case a: Asset.Audio if !game.cache.checkSoundKey(a.key) => Some(game.load.audio(key = a.key, urls = prefix + a.path))
-    case a: Asset.Audio => None
     case i: Asset.Image if !game.cache.checkTextureKey(i.key) => Some(game.load.image(key = i.key, url = prefix + i.path))
-    case i: Asset.Image => None
     case t: Asset.Tilemap if !game.cache.checkTilemapKey(t.key) =>
       Some(game.load.tilemap(key = t.key, url = prefix + t.path, data = util.NullUtils.inst, format = Tilemap.TILED_JSON))
-    case t: Asset.Tilemap => None
     case s: Asset.Spritesheet if !game.cache.checkTextureKey(s.key) =>
       Some(game.load.spritesheet(key = s.key, url = prefix + s.path, frameWidth = s.width.toDouble, frameHeight = s.height.toDouble))
-    case s: Asset.Spritesheet => None
+    case _ => None
   }
 }
 
-class LoadingState(
-    next: GameState,
-    phaser: Game,
-    assets: Seq[Asset]
-) extends GameState("initial", phaser) {
+class LoadingState(next: GameState, phaser: Game, assets: Seq[Asset]) extends GameState("initial", phaser) {
   override def create(game: Game) = {
     val s = game.add.sprite(game.width / 2, game.height / 2, "splash")
     s.anchor.set(0.5, 0.5)

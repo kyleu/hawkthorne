@@ -14,8 +14,15 @@ class NodeLoader(game: Game, group: Group, progress: Sprite) {
     val assets = nodes.flatMap(_.assets).distinct
     val loaders = assets.flatMap(LoadingState.load(_, game))
 
+    def complete() = {
+      val components = ComponentLoadService.fromNodes(nodes, game, group)
+      def msg = s"Loaded [${components.size}] components from [${assets.size}] assets in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms]."
+      util.Logging.debug(msg)
+      onComplete(components)
+    }
+
     if (loaders.isEmpty) {
-      stuff(nodes, assets, onComplete, startNanos)
+      complete()
     } else {
       var filesCompleted = 0
 
@@ -29,17 +36,10 @@ class NodeLoader(game: Game, group: Group, progress: Sprite) {
         progress.frame = 16
         game.load.onFileComplete.removeAll()
         game.load.onLoadComplete.removeAll()
-        stuff(nodes, assets, onComplete, startNanos)
+        complete()
       })
       game.load.start()
 
     }
-  }
-
-  private[this] def stuff(nodes: Seq[Node], assets: Seq[Asset], onComplete: Seq[BaseComponent] => Unit, startNanos: Long) = {
-    val components = ComponentLoadService.fromNodes(nodes, game, group)
-    def msg = s"Loaded [${components.size}] components from [${assets.size}] assets in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms]."
-    util.Logging.debug(msg)
-    onComplete(components)
   }
 }

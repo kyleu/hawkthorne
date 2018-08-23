@@ -2,10 +2,14 @@ package services.overworld
 
 import com.definitelyscala.phaserce.{Game, Group, TileSprite}
 import models.input.MenuAction
+import models.options.GameOptions
 import models.player.Player
 import services.camera.CameraService
+import services.input.InputService
+import services.navigation.NavigationPaths
+import services.state.NavigationService
 
-case class OverworldMap(game: Game, player: Player, initialZone: String) {
+case class OverworldMap(game: Game, inputService: InputService, player: Player, initialZone: String) {
   private[this] val padding = 200.0
   private[this] val dimensions = (2328.0 + padding) -> (1344.0 + padding)
   private[this] var elapsed = 0.0
@@ -30,6 +34,11 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
   val clouds = (0 until 15).map(idx => OverworldCloud(idx, group, dimensions))
 
   def menuAct(a: MenuAction) = a match {
+    case MenuAction.Select => movement.current.map.foreach { newMap =>
+      val newOpts = GameOptions(map = newMap)
+      val next = NavigationPaths.newGameState(game, inputService, newOpts)
+      NavigationService.navigateTo(game, next, path = Some(s"map/${newMap.value}"))
+    }
     case _ => movement.onInput(a)
   }
 
@@ -45,5 +54,10 @@ case class OverworldMap(game: Game, player: Player, initialZone: String) {
   def resize(width: Int, height: Int) = {
     camera.resize(width, height)
     movement.titleboard.resize(camera.currentZoom)
+  }
+
+  def destroy() = {
+    group.destroy()
+    movement.titleboard.destroy()
   }
 }
