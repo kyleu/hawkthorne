@@ -40,6 +40,8 @@ class OptionsState(phaser: Game, inputService: InputService, debug: Boolean) ext
     bgMusic.foreach(_.stop())
     inputService.menuHandler.setCallback(None)
     inputService.setPointerEventCallback(None)
+    particles.foreach(_.destroy())
+    options.foreach(_.destroy())
     super.shutdown(game)
   }
 

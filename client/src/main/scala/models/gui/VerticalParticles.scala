@@ -33,4 +33,6 @@ class VerticalParticles(game: Game) {
       }
     }
   }
+
+  def destroy() = group.destroy()
 }

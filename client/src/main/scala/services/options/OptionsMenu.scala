@@ -90,4 +90,6 @@ class OptionsMenu(game: Game, onExit: () => Unit) {
     menu.x = (width - (menu.background.width * zoom)) / 2
     menu.y = (height - (menu.background.height * zoom)) / 2
   }
+
+  def destroy() = menu.destroy()
 }
