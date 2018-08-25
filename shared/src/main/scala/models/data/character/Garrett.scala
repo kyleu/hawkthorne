@@ -12,7 +12,7 @@ object Garrett extends CharacterTemplate(
   givenName = "Garrett Lambert",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Garrett Lambert", 1),
+    Costume("base", Episode.S03E20, "Garrett Lambert", 1),
     Costume("jammies", Episode.S03E13, "Camo Jammies", 2),
     Costume("alien", Episode.S01E05, "Creepy Alien", 3)
   ),

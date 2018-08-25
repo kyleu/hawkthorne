@@ -12,7 +12,7 @@ object Dean extends CharacterTemplate(
   givenName = "Dean Craig Pelton",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Dean Craig Pelton", 1),
+    Costume("base", Episode.S03E20, "Dean Craig Pelton", 1),
     Costume("bee", Episode.S02E12, "Bumblebee", 8),
     Costume("construction", Episode.S03E22, "Construction", 7),
     Costume("devil", Episode.S03E05, "Devil Dean", 2),

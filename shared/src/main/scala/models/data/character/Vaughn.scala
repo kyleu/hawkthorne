@@ -12,7 +12,7 @@ object Vaughn extends CharacterTemplate(
   givenName = "Vaughn Miller",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Vaughn Miller", 1)
+    Costume("base", Episode.S03E20, "Vaughn Miller", 1)
   ),
 
   boundingBox = BoundingBox(

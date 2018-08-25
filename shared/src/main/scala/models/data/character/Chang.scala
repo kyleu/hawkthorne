@@ -12,7 +12,7 @@ object Chang extends CharacterTemplate(
   givenName = "Ben Chang",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Ben Chang", 1),
+    Costume("base", Episode.S03E20, "Ben Chang", 1),
     Costume("brutalitops", Episode.S02E14, "Brutalitops", 2),
     Costume("butch", Episode.S02E19, "Butch Coolidge", 7),
     Costume("cheerleader", Episode.S02E23, "Cheerleader", 8),

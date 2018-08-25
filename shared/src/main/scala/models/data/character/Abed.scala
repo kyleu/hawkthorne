@@ -12,7 +12,7 @@ object Abed extends CharacterTemplate(
   givenName = "Abed Nadir",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Abed Nadir", 1),
+    Costume("base", Episode.S03E20, "Abed Nadir", 1),
     Costume("alien", Episode.S02E06, "Alien", 2),
     Costume("batman", Episode.S01E07, "Batman", 3),
     Costume("bert", Episode.S01E17, "Bert", 36),

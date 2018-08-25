@@ -12,7 +12,7 @@ object FatNeil extends CharacterTemplate(
   givenName = "Fat Neil",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Fat Neil", 1),
+    Costume("base", Episode.S03E20, "Fat Neil", 1),
     Costume("coach", Episode.S04E07, "Coach", 2),
     Costume("duquense", Episode.S02E14, "Duquesne", 3)
   ),

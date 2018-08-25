@@ -12,7 +12,7 @@ object Shirley extends CharacterTemplate(
   givenName = "Shirley Bennett",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Shirley Bennett", 1),
+    Costume("base", Episode.S03E20, "Shirley Bennett", 1),
     Costume("clubs", Episode.S02E23, "Ace of Clubs", 2),
     Costume("angel", Episode.S03E05, "Angel", 11),
     Costume("space", Episode.S02E04, "Astronaut", 14),

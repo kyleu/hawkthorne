@@ -12,7 +12,7 @@ object Troy extends CharacterTemplate(
   givenName = "Troy Barnes",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Troy Barnes", 1),
+    Costume("base", Episode.S03E20, "Troy Barnes", 1),
     Costume("ac", Episode.S03E22, "AC Repair", 28),
     Costume("atv", Episode.S03E19, "ATV Gear", 49),
     Costume("bball", Episode.S02E07, "B-Ball", 33),

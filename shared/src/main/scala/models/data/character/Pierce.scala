@@ -12,7 +12,7 @@ object Pierce extends CharacterTemplate(
   givenName = "Pierce Hawthorne",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Pierce Hawthorne", 1),
+    Costume("base", Episode.S03E20, "Pierce Hawthorne", 1),
     Costume("astronaut", Episode.S02E04, "Astronaut", 2),
     Costume("beastmaster", Episode.S01E07, "Beastmaster", 26),
     Costume("naked", Episode.S03E20, "Birthday Suit", 3),

@@ -12,7 +12,7 @@ object Britta extends CharacterTemplate(
   givenName = "Britta Perry",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Britta Perry", 1),
+    Costume("base", Episode.S03E20, "Britta Perry", 1),
     Costume("astronaut", Episode.S02E04, "Astronaut", 2),
     Costume("asylum", Episode.S03E19, "Asylum", 3),
     Costume("bitten", Episode.S03E05, "Bitten", 4),

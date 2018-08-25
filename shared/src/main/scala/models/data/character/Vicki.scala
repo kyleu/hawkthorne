@@ -12,7 +12,7 @@ object Vicki extends CharacterTemplate(
   givenName = "Vicki Cooper",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Vicki Cooper", 1),
+    Costume("base", Episode.S03E20, "Vicki Cooper", 1),
     Costume("knight", Episode.S03E19, "Chess Knight", 2)
   ),
 

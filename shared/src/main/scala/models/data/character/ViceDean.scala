@@ -12,7 +12,7 @@ object ViceDean extends CharacterTemplate(
   givenName = "Vice Dean Laybourne",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Vice Dean Laybourne", 1),
+    Costume("base", Episode.S03E20, "Vice Dean Laybourne", 1),
     Costume("ghost", Episode.S03E22, "Ghost", 2),
     Costume("stuff", Episode.S03E13, "Going Through Some Stuff", 4),
     Costume("pajamas", Episode.S03E13, "Pajamas", 3)

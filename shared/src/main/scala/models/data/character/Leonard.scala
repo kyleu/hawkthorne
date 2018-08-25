@@ -12,7 +12,7 @@ object Leonard extends CharacterTemplate(
   givenName = "Leonard Rodriguez",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Leonard Rodriguez", 1),
+    Costume("base", Episode.S03E20, "Leonard Rodriguez", 1),
     Costume("asylum", Episode.S03E19, "Asylum", 2),
     Costume("paintball", Episode.S02E24, "Paintball", 3)
   ),

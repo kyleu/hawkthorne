@@ -29,7 +29,7 @@ object CharacterFiles {
         val comma = if (costumes.lastOption.contains(c)) { "" } else { "," }
         val cos = c.asObject.get
         val cat = cos("category").get.asString.get match {
-          case "base" => "S01E01"
+          case "base" => "S03E20"
           case "fanmade" => "S00E01"
           case "s4promo" => "S04E01"
           case x => x.stripPrefix("s").split("e").toList match {

@@ -12,7 +12,7 @@ object Duncan extends CharacterTemplate(
   givenName = "Ian Duncan",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Ian Duncan", 1)
+    Costume("base", Episode.S03E20, "Ian Duncan", 1)
   ),
 
   boundingBox = BoundingBox(

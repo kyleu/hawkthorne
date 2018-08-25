@@ -12,7 +12,7 @@ object Rich extends CharacterTemplate(
   givenName = "Dr. Rich Stephenson",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Dr. Rich Stephenson", 1)
+    Costume("base", Episode.S03E20, "Dr. Rich Stephenson", 1)
   ),
 
   boundingBox = BoundingBox(

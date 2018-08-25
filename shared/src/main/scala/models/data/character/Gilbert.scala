@@ -12,7 +12,7 @@ object Gilbert extends CharacterTemplate(
   givenName = "Gilbert Lawson",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Gilbert Lawson", 1)
+    Costume("base", Episode.S03E20, "Gilbert Lawson", 1)
   ),
 
   boundingBox = BoundingBox(

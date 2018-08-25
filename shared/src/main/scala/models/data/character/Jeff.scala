@@ -12,7 +12,7 @@ object Jeff extends CharacterTemplate(
   givenName = "Jeff Winger",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Jeff Winger", 1),
+    Costume("base", Episode.S03E20, "Jeff Winger", 1),
     Costume("astronaut", Episode.S02E04, "Astronaut", 2),
     Costume("asylum", Episode.S03E19, "Asylum", 3),
     Costume("aviators", Episode.S03E12, "Aviators", 4),

@@ -12,7 +12,7 @@ object Annie extends CharacterTemplate(
   givenName = "Annie Edison",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Annie Edison", 1),
+    Costume("base", Episode.S03E20, "Annie Edison", 1),
     Costume("abed", Episode.S03E16, "Abed", 4),
     Costume("hearts", Episode.S02E23, "Ace of Hearts", 8),
     Costume("kim", Episode.S03E02, "Annie Kim", 9),

@@ -12,7 +12,7 @@ object Buddy extends CharacterTemplate(
   givenName = "Buddy",
 
   costumes = Seq(
-    Costume("base", Episode.S01E01, "Buddy", 1),
+    Costume("base", Episode.S03E20, "Buddy", 1),
     Costume("master_exploder", Episode.S00E01, "Master Exploder", 2)
   ),
 
