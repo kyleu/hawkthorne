@@ -32,7 +32,7 @@ object GameInstanceFactory {
     val i = GameInstance(gameId = newGameId, options = options)
     i.addMap(m)
     GameInstanceDebug.setCallbacks(options.debug, log, notify)
-    i.start(initialPlayers.map(p => GameCommand.AddPlayer(p, options.map)))
+    i.start(initialPlayers.map(p => GameCommand.AddPlayer(player = p, map = options.map, spawn = "main")))
     i
   }
 }

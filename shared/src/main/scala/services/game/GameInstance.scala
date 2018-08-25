@@ -58,7 +58,7 @@ final case class GameInstance(
     if (!running) { throw new IllegalStateException(s"Game instance [$gameId] has not been started.") }
     elapsedSeconds += delta
     gu.flatMap {
-      case GameCommand.AddPlayer(player, map) => Seq(addPlayer(player, getMap(map)))
+      case GameCommand.AddPlayer(player, map, spawn) => Seq(addPlayer(player = player, map = getMap(map), spawnPoint = spawn))
       case GameCommand.RemovePlayer(id) => Seq(removePlayer(id))
       case pi: GameCommand.PlayerInput => players(pi.idx).input.process(delta, pi)
       case x => throw new IllegalStateException(s"Unhandled update [$x].")
