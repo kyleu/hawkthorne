@@ -4,6 +4,10 @@ import models.animation.Animation
 import wiki.MarkdownFile
 
 object ContentHelper {
+  private[this] val baseUrl = "https://github.com/KyleU/hawkthorne"
+
+  def img(path: String, alt: String) = s"""[[$baseUrl/blob/master/public/game/images/$path|alt=$alt]]"""
+
   val keyValHeaders = Seq(('l', 40, "Key"), ('l', 40, "Value"))
   private[this] val animationHeaders = Seq(('l', 40, "ID"), ('l', 40, "Frames"), ('r', 8, "Delay"), ('l', 6, "Loop"))
 

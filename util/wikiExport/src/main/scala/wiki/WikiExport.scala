@@ -1,7 +1,5 @@
 package wiki
 
-import models.template.npc.{NpcListing, NpcTemplate}
-import models.template.weapon.{WeaponListing, WeaponTemplate}
 import util.JsonSerializers._
 
 object WikiExport {
@@ -9,7 +7,7 @@ object WikiExport {
     val title = "Wiki Test Page"
     val md = new MarkdownFile(dir = ".", title = title)
     md.addHeader(title)
-    md.add("This wiki is machine-generated work-in-progress. Be advised.")
+    md.add("This wiki is machine-generated work in progress. Be advised.")
     md.add()
     md.addScala("println(1)")
     md.add()
@@ -22,7 +20,7 @@ object WikiExport {
     val startNanos = System.nanoTime
 
     val cfg = WikiExportConfig(tgtRootLoc = "./wiki", wipe = false)
-    val files = Seq(GameObjectFiles.all(cfg), testFile(cfg).toSeq).flatten
+    val files = Seq(GameObjectFiles.all(cfg), GameObjectInventoryFiles.all(cfg), testFile(cfg).toSeq).flatten
     val result = WikiExportResult(config = cfg, started = started, durationNanos = System.nanoTime - startNanos, files = files)
     println(result.asJson.spaces2)
   }
