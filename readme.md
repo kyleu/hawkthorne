@@ -2,7 +2,7 @@
 
 [https://hawkthorne.net](https://hawkthorne.net)
 
-Hawkthorne is a web game based on the Community episode "[Digital Estate Planning](EpisodeS03E20)".
+Hawkthorne is a web game based on the Community episode "[Digital Estate Planning](https://github.com/KyleU/hawkthorne/wiki/EpisodeS03E20)".
 
 The project is written in pure Scala, using assets and logic from [Digital Estate Planning: The Game](https://github.com/hawkthorne/hawkthorne-journey), an open source project.
 
