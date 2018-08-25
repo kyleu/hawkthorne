@@ -17,6 +17,8 @@ object GameInstanceFactory {
     log: String => Unit,
     notify: String => Unit
   ) = {
+    GameInstanceDebug.setCallbacks(options.debug, log, notify)
+
     val newGameId = UUID.randomUUID
 
     val objs = nodes.flatMap(_.asNewGameObject).toIndexedSeq
@@ -31,7 +33,7 @@ object GameInstanceFactory {
 
     val i = GameInstance(gameId = newGameId, options = options)
     i.addMap(m)
-    GameInstanceDebug.setCallbacks(options.debug, log, notify)
+
     i.start(initialPlayers.map(p => GameCommand.AddPlayer(player = p, map = options.map, spawn = "main")))
     i
   }

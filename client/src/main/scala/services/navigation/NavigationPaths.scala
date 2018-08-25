@@ -19,11 +19,25 @@ import services.state.{CreditsState, HelpState}
 import services.test.{SandboxState, TestState}
 
 object NavigationPaths {
+  def titleForPath(path: String) = path match {
+    case "intro" => "Introduction"
+    case "menu" => "Main Menu"
+    case "options" => "Options"
+    case "character" => "Select Your Character"
+    case "portal" => "Portal"
+    case "test" => "Test"
+    case "sandbox" => "Sandbox Test"
+    case "overworld" => "Overworld"
+    case x if x.startsWith("map/") => TiledMap.withValue(x.stripPrefix("map/")).title
+    case "multiplayer/list" => "Multiplayer Games"
+    case "multiplayer/host" => "Host Multiplayer Game"
+    case "credits" => "Credits"
+    case "help" => "Help"
+    case x => x
+  }
+
   def stateFromPath(game: Game, input: InputService, path: String, debug: Boolean) = {
     path.trim match {
-      case "" =>
-        setPath("intro")
-        IntroState.load(phaser = game, input = input, debug = debug)
       case "intro" => IntroState.load(phaser = game, input = input, debug = debug)
       case "menu" => IntroState.load(phaser = game, input = input, skipToMenu = true, debug = debug)
       case "options" => OptionsState.load(phaser = game, inputService = input, debug = debug)
@@ -45,8 +59,8 @@ object NavigationPaths {
       case "help" => HelpState.load(phaser = game, inputService = input, debug = debug)
 
       case _ =>
-        dom.window.location.href = "/"
-        throw new IllegalStateException(s"Unknown path [$path]")
+        setPath("intro")
+        IntroState.load(phaser = game, input = input, debug = debug)
     }
   }
 

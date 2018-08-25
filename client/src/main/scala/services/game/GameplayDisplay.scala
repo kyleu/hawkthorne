@@ -25,10 +25,7 @@ class GameplayDisplay(game: Game, mapService: MapService, players: IndexedSeq[Pl
   }
 
   val hudOverlay = HudOverlay(game = game, players = players)
-
   val console = ConsoleLog(game = game)
-  console.log("This is a test of the emergency broadcast system. This is only a test!")
-
   DebugService.inst.foreach(_.setUI(console, hudOverlay))
 
   resize(game.width.toInt, game.height.toInt)

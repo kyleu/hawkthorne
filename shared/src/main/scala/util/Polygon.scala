@@ -12,6 +12,8 @@ case class Polygon(points: Seq[DoublePoint]) {
   private[this] val horizontal = points.map(_.x).toArray
   private[this] val vertical = points.map(_.y).toArray
 
+  if (points.size < 3) { throw new IllegalStateException("Polygons must have at least three points.") }
+
   @scala.annotation.tailrec
   private[this] final def precalc(
     i: Int, j: Int, constant: List[Double], multiple: List[Double]

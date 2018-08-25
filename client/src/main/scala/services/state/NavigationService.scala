@@ -4,10 +4,14 @@ import com.definitelyscala.phaserce.Game
 import org.scalajs.dom
 import services.input.InputService
 import services.navigation.NavigationPaths
+import util.Version
 
 object NavigationService {
-  def setPath(path: String) = if (!dom.window.location.pathname.endsWith(path)) {
-    dom.window.history.replaceState(statedata = 0, title = path, url = s"/play/$path")
+  def setPath(path: String) = {
+    dom.document.title = s"${NavigationPaths.titleForPath(path)} - ${Version.projectName}"
+    if (!dom.window.location.pathname.endsWith(path)) {
+      dom.window.history.replaceState(statedata = 0, title = path, url = s"/play/$path")
+    }
   }
 
   def init(game: Game, path: String, debug: Boolean) = {

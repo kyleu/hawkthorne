@@ -10,7 +10,7 @@ import services.game.GameInstanceFactory
 import services.map.ServerMapCache
 
 class GameInstanceTest extends FlatSpec with Matchers {
-  def startGame(tiled: TiledMap) = GameInstanceFactory.create(
+  def newGame(tiled: TiledMap) = GameInstanceFactory.create(
     options = GameOptions(map = tiled),
     nodes = ServerMapCache.apply(tiled).nodes,
     initialPlayers = Seq(Player.random(id = UUID.randomUUID, idx = 0)),
@@ -20,7 +20,7 @@ class GameInstanceTest extends FlatSpec with Matchers {
   )
 
   "GameInstance" should "start and stop correctly" in {
-    val game = startGame(TiledMap.ACSchool)
+    val game = newGame(TiledMap.ACSchool)
     game.start(Nil)
     game.stop()
   }
