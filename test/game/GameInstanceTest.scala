@@ -17,10 +17,11 @@ class GameInstanceTest extends FlatSpec with Matchers {
     collision = ServerMapCache.apply(tiled).collision,
     log = println,
     notify = println
-  ).start()
+  )
 
   "GameInstance" should "start and stop correctly" in {
     val game = startGame(TiledMap.ACSchool)
+    game.start(Nil)
     game.stop()
   }
 }

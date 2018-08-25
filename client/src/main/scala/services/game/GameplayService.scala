@@ -43,7 +43,7 @@ class GameplayService(
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
   protected[this] val display = new GameplayDisplay(game, mapService, players, instance)
-  display.playerSprites.foreach(addComponent)
+  display.playerSprites.foreach(ps => addComponent(ps))
 
   inputService.setPointerEventCallback(Some(pointerAct))
 
@@ -63,8 +63,11 @@ class GameplayService(
 
     val gameUpdates = inputService.update(delta = dt)
     val messages = instance.update(delta = dt, gameUpdates: _*)
-    instance.apply(messages)
-    messages.foreach(applyMessage)
+    if (messages.nonEmpty) {
+      instance.apply(messages)
+      util.Logging.info(s"[${messages.size}] messages: [${messages.map(m => m.getClass.getSimpleName).mkString(", ")}]")
+      messages.foreach(applyMessage)
+    }
     components.foreach(_.update(dt))
     display.update(dt)
   }

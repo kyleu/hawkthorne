@@ -10,6 +10,8 @@ object GameOptions {
 
 final case class GameOptions(
     map: TiledMap = TiledMap.StudyRoom,
+    initialSpawn: String = "main",
+    gameType: String = "campaign",
     maxPlayers: Int = 1,
     hardcore: Boolean = false,
     offline: Boolean = true,

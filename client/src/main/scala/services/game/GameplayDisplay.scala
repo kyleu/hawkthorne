@@ -17,10 +17,12 @@ class GameplayDisplay(game: Game, mapService: MapService, players: IndexedSeq[Pl
     pxSize = mapService.mapPxWidth -> mapService.mapPxHeight
   )
 
-  val playerSprites = players.map(player => new PlayerSprite(
-    game = game, mapGroup = mapService.group, player = player,
-    initialLoc = instance.spawn, initialBounds = mapService.mapPxWidth -> mapService.mapPxHeight
-  ))
+  val playerSprites = players.map { player =>
+    val ret = new PlayerSprite(game = game, mapGroup = mapService.group, player = player, initialBounds = mapService.mapPxWidth -> mapService.mapPxHeight)
+    val pos = instance.positionForPlayer(player.idx)
+    ret.setPosition(pos._1, pos._2)
+    ret
+  }
 
   val hudOverlay = HudOverlay(game = game, players = players)
 

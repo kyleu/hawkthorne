@@ -13,7 +13,7 @@ object GameMessage {
     implicit val jsonDecoder: Decoder[PlayerAdded] = deriveDecoder
     val key = "playerAdded"
   }
-  final case class PlayerAdded(player: Player) extends GameMessage(t = PlayerAdded.key)
+  final case class PlayerAdded(player: Player, x: Int, y: Int) extends GameMessage(t = PlayerAdded.key)
 
   object PlayerRemoved {
     implicit val jsonEncoder: Encoder[PlayerRemoved] = deriveEncoder

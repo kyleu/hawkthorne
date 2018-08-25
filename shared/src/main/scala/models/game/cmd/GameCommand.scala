@@ -2,6 +2,7 @@ package models.game.cmd
 
 import java.util.UUID
 
+import models.data.map.TiledMap
 import models.input.InputCommand
 import models.player.Player
 import util.JsonSerializers._
@@ -14,7 +15,7 @@ object GameCommand {
     implicit val jsonDecoder: Decoder[AddPlayer] = deriveDecoder
     val key = "addPlayer"
   }
-  final case class AddPlayer(player: Player) extends GameCommand(AddPlayer.key)
+  final case class AddPlayer(player: Player, map: TiledMap) extends GameCommand(AddPlayer.key)
 
   object RemovePlayer {
     implicit val jsonEncoder: Encoder[RemovePlayer] = deriveEncoder

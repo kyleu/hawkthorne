@@ -4,13 +4,13 @@ import models.data.character.CharacterAnimation
 import models.game.cmd.GameCommand
 import models.game.msg.GameMessage
 import services.collision.CollisionService
-import services.game.GameInstance
+import services.game.{GameInstance, GameMap}
 import util.BoundingBox
 
-class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: BoundingBox, initialX: Int, initialY: Int, log: String => Unit) {
-  private[this] val collision = CollisionService(instance.options.map, instance.stage.getCollision)
+class PlayerInputHandler(instance: GameInstance, map: GameMap, playerIdx: Int, boundingBox: BoundingBox, initial: (Int, Int), log: String => Unit) {
+  private[this] val collision = CollisionService(instance.options.map, map.getCollision)
 
-  private[this] var current = (initialX.toDouble, initialY.toDouble)
+  private[this] var current = (initial._1.toDouble, initial._2.toDouble)
   private[this] var (facingRight, isJumping, isDucking) = (true, false, false)
 
   private[this] var lastAnimation = CharacterAnimation.Idle.rightAnim
@@ -37,7 +37,7 @@ class PlayerInputHandler(instance: GameInstance, playerIdx: Int, boundingBox: Bo
   private[this] def anim(ca: CharacterAnimation) = if (facingRight) { ca.rightAnim } else { ca.leftAnim }
 
   private[this] def processCommand(c: InputCommand, delta: Double) = c match {
-    case InputCommand.Confirm => instance.stage.collidingObjects(bounds).flatMap(_.onSelect(playerIdx))
+    case InputCommand.Confirm => map.collidingObjects(bounds).flatMap(_.onSelect(playerIdx))
     case _ =>
       log(s"Unhandled Player Command: [$c]")
       Nil

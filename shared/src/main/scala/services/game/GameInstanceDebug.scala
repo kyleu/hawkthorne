@@ -2,7 +2,7 @@ package services.game
 
 import java.util.UUID
 
-import models.game.GameStage
+import models.data.map.TiledMap
 import models.options.GameOptions
 import models.player.PlayerRecord
 
@@ -22,10 +22,14 @@ object GameInstanceDebug {
     notification = Some(notify)
   }
 
-  def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], stage: GameStage, elapsed: Double) = {
+  def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], maps: Map[TiledMap, GameMap], elapsed: Double) = {
     val playersString = records.map { record =>
       val p = record.player
       s"""${p.id}: { x: ${record.input.x}, y: ${record.input.y}, t: "${p.templateKey}/${p.costumeKey}, c: ${p.attributes.connected}" }"""
+    }.mkString("\n    ")
+
+    val mapsString = maps.toSeq.sortBy(_._1.value).map { map =>
+      s"""objects: ${map._2.objects.size}"""
     }.mkString("\n    ")
 
     s"""$gameId: {
@@ -33,7 +37,9 @@ object GameInstanceDebug {
       |  players: [
       |    $playersString
       |  ],
-      |  objects: ${stage.objects.size}
+      |  maps: [
+      |    $mapsString
+      |  ]
       |}
     """.stripMargin.trim
   }
