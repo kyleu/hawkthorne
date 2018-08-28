@@ -2,7 +2,7 @@ import com.definitelyscala.phaserce.Game
 import services.event.EventHandler
 import services.socket.SocketConnection
 import services.state.NavigationService
-import util.PhaserUtils
+import util.{ExceptionHandler, PhaserUtils}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -16,6 +16,8 @@ object Hawkthorne {
 @JSExportTopLevel("Hawkthorne")
 class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
   util.Logging.info("Welcome to Hawkthorne!")
+
+  ExceptionHandler.install()
 
   val connection = initNetwork()
   initPhaser()

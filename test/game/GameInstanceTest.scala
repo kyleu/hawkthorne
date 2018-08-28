@@ -21,7 +21,6 @@ class GameInstanceTest extends FlatSpec with Matchers {
 
   "GameInstance" should "start and stop correctly" in {
     val game = newGame(TiledMap.ACSchool)
-    game.start(Nil)
     game.stop()
   }
 }

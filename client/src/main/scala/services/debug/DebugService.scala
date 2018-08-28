@@ -39,6 +39,7 @@ class DebugService private (phaser: Game) {
   val settingsFolder = gui.addFolder("Settings")
   DatGuiUtils.addFunction(settingsFolder, "Reload Settings", () => util.Logging.info(s"Loaded Settings: ${ClientSettings.load()}"))
   DatGuiUtils.addFunction(settingsFolder, "Debug Settings", () => util.Logging.info(s"Current Settings: ${ClientSettings.getSettings}"))
+  DatGuiUtils.addFunction(settingsFolder, "Throw Exception", () => throw new IllegalStateException("Intentionally thrown"))
 
   val networkFolder = gui.addFolder("Network")
   DatGuiUtils.addFunction(networkFolder, "Send Test Message", () => {
