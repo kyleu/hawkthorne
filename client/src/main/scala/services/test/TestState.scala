@@ -9,7 +9,7 @@ import services.state.{GameState, LoadingState}
 import util.IntPoint
 
 object TestState {
-  def load(phaser: Game) = new LoadingState(next = new TestState(phaser), phaser = phaser, assets = Font.assets)
+  def load(phaser: Game) = new LoadingState(next = new TestState(phaser), phaser = phaser, assets = Font.assets ++ BaseModal.assets)
 }
 
 class TestState(phaser: Game) extends GameState("test", phaser) {
@@ -27,18 +27,13 @@ class TestState(phaser: Game) extends GameState("test", phaser) {
         game.add.existing(i2.group)
     }
 
-    // modal = Some(new BaseModal(phaser, "test"))
+    modal = Some(new BaseModal(phaser, "test"))
     modal.foreach { m =>
       m.open(onOpen = () => util.Logging.info("Modal opened"))
-      dom.window.setTimeout(handler = () => {
-        //m.close(() => util.Logging.info("Modal closed"))
-      }, timeout = 10.0)
+      dom.window.setTimeout(handler = () => m.close(() => util.Logging.info("Modal closed")), timeout = 4000.0)
     }
 
-    kb = Some(new VirtualKeyboard(game = phaser, name = "keyboard", initial = IntPoint(0, 410), onChar = {
-      case '_' => println("SPACE!")
-      case c => println(s"$c!!!")
-    }))
+    kb = Some(new VirtualKeyboard(game = phaser, name = "keyboard", initial = IntPoint(0, 410), onChar = c => util.Logging.info(s"Keypress: [$c]")))
     kb.foreach(k => game.add.existing(k.group))
   }
 

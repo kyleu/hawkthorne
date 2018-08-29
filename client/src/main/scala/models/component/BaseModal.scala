@@ -1,58 +1,57 @@
 package models.component
 
-import com.definitelyscala.phaserce.Game
+import com.definitelyscala.phaserce._
+import models.asset.Asset
 import services.audio.SoundEffectService
 
 object BaseModal {
-  val speed = 200
+  val assets = Seq(Asset.Image("modal.background", "images/custom/dialog.png"))
+
+  val speed = 2
 }
 
-class BaseModal(
-    override val game: Game,
-    val name: String,
-    val maxWidth: Int = 256,
-    val maxHeight: Int = 72
-) extends BaseComponent {
-  private[this] var width = 6.0
-  private[this] var height = 6.0
-
-  private[this] var targetWidth = maxWidth.toDouble
-  private[this] var targetHeight = maxHeight.toDouble
-
+class BaseModal(override val game: Game, val name: String) extends SimpleComponent with BaseComponent.Resizable {
   private[this] var openCallback: Option[() => Unit] = None
   private[this] var closeCallback: Option[() => Unit] = None
 
-  private[this] var needsUpdate = true
-  private[this] var opening = false
-  private[this] var closing = false
+  private[this] var targetAlpha = 0.0
+  private[this] var (opening, closing) = (false, false)
 
+  private[this] val group = new Group(game = game, name = s"modal.$name.group", addToStage = true)
+  group.scale.set(3, 3)
+
+  override def comp = group
+
+  private[this] val sprite = new Sprite(game = game, x = 0, y = 0, key = "modal.background")
+  sprite.name = s"modal.$name.background"
+  sprite.alpha = 0.0
+  sprite.anchor = new Point(0.5, 0.5)
+
+  group.add(sprite)
+  resize(game.width.toInt, game.height.toInt)
   def open(onOpen: () => Unit) = {
-    util.Logging.info("Opening!")
-    SoundEffectService.play("menu.expand")
-    targetWidth = maxWidth.toDouble
-    targetHeight = maxHeight.toDouble
+    SoundEffectService.play("menu_expand")
     opening = true
     closing = false
+    targetAlpha = 1.0
     openCallback.foreach(_ => throw new IllegalStateException("Previous open has not been cleared."))
     openCallback = Some(onOpen)
     update(0)
+    visible = true
   }
 
   def close(onClose: () => Unit) = {
-    util.Logging.info("Closing!")
-    SoundEffectService.play("menu.close")
-    targetWidth = 6
-    targetHeight = 6
+    SoundEffectService.play("menu_close")
     opening = false
     closing = true
+    targetAlpha = 0.0
     closeCallback.foreach(_ => throw new IllegalStateException("Previous close has not been cleared."))
     closeCallback = Some(onClose)
     update(0)
   }
 
   override def update(deltaMs: Double) = {
-    val done = width == targetWidth && height == targetHeight
-    if (done) {
+    if (sprite.alpha == targetAlpha) {
       if (opening) {
         opening = false
         openCallback.foreach(_())
@@ -66,35 +65,17 @@ class BaseModal(
     } else {
       val delta = deltaMs * BaseModal.speed.toDouble
       if (opening) {
-        util.Logging.info(s"Opening Delta: [$delta]")
-        width = Math.min(targetWidth, width + delta)
-        height = Math.min(targetHeight, height + delta)
+        sprite.alpha = Math.min(targetAlpha, sprite.alpha + delta)
       }
       if (closing) {
-        util.Logging.info(s"Closing Delta: [$delta]")
-        width = Math.max(targetWidth, width - delta)
-        height = Math.max(targetHeight, height - delta)
+        sprite.alpha = Math.max(targetAlpha, sprite.alpha - delta)
       }
-      needsUpdate = true
-    }
-
-    if (needsUpdate) {
-      needsUpdate = false
-      util.Logging.info(s"Updating modal content: Width [$width/$targetWidth], Height: [$height/$targetHeight]")
     }
   }
 
-  private[this] var _x = 0.0 // TODO replace with group call
-  override def x = _x
-  override def x_=(newX: Double) = _x = newX
+  override def resize(width: Int, height: Int) = {
+    group.position.set(width / 2.0, height / 2.0)
+  }
 
-  private[this] var _y = 0.0 // TODO replace with group call
-  override def y = _y
-  override def y_=(newY: Double) = _y = newY
-
-  private[this] var _visible = true // TODO replace with group call
-  override def visible = _visible
-  override def visible_=(v: Boolean) = _visible = v
-
-  override def destroy() = {} // TODO Fix, asshole
+  override def destroy() = group.destroy()
 }

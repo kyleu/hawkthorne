@@ -21,7 +21,7 @@ trait GameplayMessageHandler { this: GameplayService =>
       case GameMessage.PlayerLocationUpdated(_, x, y) => display.playerSprites(pm.idx).setPosition(newX = x, newY = y)
       case GameMessage.LeaveMap(_, _, dest) =>
         val (tiled, door) = newMap(dest)
-        val newOpts = options.copy(map = tiled)
+        val newOpts = options.copy(map = tiled, initialSpawn = door)
         val next = NavigationPaths.newGameState(game, inputService, newOpts)
         NavigationService.navigateTo(game, next, path = Some(s"map/${tiled.value}"))
       case x => util.Logging.info(s"Unhandled game player message [$x].")

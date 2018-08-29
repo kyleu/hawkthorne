@@ -34,7 +34,7 @@ object GameInstanceFactory {
     val i = GameInstance(gameId = newGameId, options = options)
     i.addMap(m)
 
-    i.start(initialPlayers.map(p => GameCommand.AddPlayer(player = p, map = options.map, spawn = "main")))
+    i.start(initialPlayers.map(p => GameCommand.AddPlayer(player = p, map = options.map, spawn = options.initialSpawn)))
     i
   }
 }
