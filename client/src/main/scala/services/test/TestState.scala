@@ -1,19 +1,22 @@
 package services.test
 
 import com.definitelyscala.phaserce.Game
-import models.component.BaseModal
 import models.font.Font
 import models.input.VirtualKeyboard
+import models.modal.{BaseModal, Dialog}
 import org.scalajs.dom
+import services.input.InputService
 import services.state.{GameState, LoadingState}
 import util.IntPoint
 
 object TestState {
-  def load(phaser: Game) = new LoadingState(next = new TestState(phaser), phaser = phaser, assets = Font.assets ++ BaseModal.assets)
+  def load(phaser: Game, inputService: InputService) = {
+    new LoadingState(next = new TestState(phaser, inputService), phaser = phaser, assets = Font.assets ++ BaseModal.assets)
+  }
 }
 
-class TestState(phaser: Game) extends GameState("test", phaser) {
-  private[this] var modal: Option[BaseModal] = None
+class TestState(phaser: Game, inputService: InputService) extends GameState("test", phaser) {
+  private[this] var dialog: Option[Dialog] = None
   private[this] var kb: Option[VirtualKeyboard] = None
 
   override def create(game: Game) = {
@@ -27,10 +30,10 @@ class TestState(phaser: Game) extends GameState("test", phaser) {
         game.add.existing(i2.group)
     }
 
-    modal = Some(new BaseModal(phaser, "test"))
-    modal.foreach { m =>
-      m.open(onOpen = () => util.Logging.info("Modal opened"))
-      dom.window.setTimeout(handler = () => m.close(() => util.Logging.info("Modal closed")), timeout = 4000.0)
+    dialog = Some(new Dialog(phaser, inputService))
+    dialog.foreach { d =>
+      d.show("...will it work?")
+      dom.window.setTimeout(handler = () => d.close(() => util.Logging.info("Modal closed")), timeout = 4000.0)
     }
 
     kb = Some(new VirtualKeyboard(game = phaser, name = "keyboard", initial = IntPoint(0, 410), onChar = c => util.Logging.info(s"Keypress: [$c]")))
@@ -39,6 +42,6 @@ class TestState(phaser: Game) extends GameState("test", phaser) {
 
   override def update(game: Game) = {
     val dt = game.time.physicsElapsed
-    modal.foreach(_.update(dt))
+    dialog.foreach(_.update(dt))
   }
 }

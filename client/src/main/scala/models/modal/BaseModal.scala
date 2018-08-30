@@ -1,16 +1,16 @@
-package models.component
+package models.modal
 
 import com.definitelyscala.phaserce._
 import models.asset.Asset
+import models.component.{BaseComponent, SimpleComponent}
 import services.audio.SoundEffectService
 
 object BaseModal {
-  val assets = Seq(Asset.Image("modal.background", "images/custom/dialog.png"))
-
+  val assets = Seq(Asset.Image("modal.background", "images/custom/dialog.png"), Asset.sfx("menu_expand"), Asset.sfx("menu_close"))
   val speed = 2
 }
 
-class BaseModal(override val game: Game, val name: String) extends SimpleComponent with BaseComponent.Resizable {
+abstract class BaseModal(override val game: Game, val name: String) extends SimpleComponent with BaseComponent.Resizable {
   private[this] var openCallback: Option[() => Unit] = None
   private[this] var closeCallback: Option[() => Unit] = None
 
@@ -19,6 +19,7 @@ class BaseModal(override val game: Game, val name: String) extends SimpleCompone
 
   private[this] val group = new Group(game = game, name = s"modal.$name.group", addToStage = true)
   group.scale.set(3, 3)
+  group.visible = false
 
   override def comp = group
 
@@ -31,6 +32,7 @@ class BaseModal(override val game: Game, val name: String) extends SimpleCompone
   resize(game.width.toInt, game.height.toInt)
   def open(onOpen: () => Unit) = {
     SoundEffectService.play("menu_expand")
+    group.visible = true
     opening = true
     closing = false
     targetAlpha = 1.0
@@ -50,7 +52,7 @@ class BaseModal(override val game: Game, val name: String) extends SimpleCompone
     update(0)
   }
 
-  override def update(deltaMs: Double) = {
+  override def update(deltaMs: Double) = if (group.visible) {
     if (sprite.alpha == targetAlpha) {
       if (opening) {
         opening = false
@@ -61,6 +63,7 @@ class BaseModal(override val game: Game, val name: String) extends SimpleCompone
         closing = false
         closeCallback.foreach(_())
         closeCallback = None
+        group.visible = false
       }
     } else {
       val delta = deltaMs * BaseModal.speed.toDouble

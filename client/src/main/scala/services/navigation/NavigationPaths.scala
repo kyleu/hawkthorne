@@ -43,7 +43,7 @@ object NavigationPaths {
       case "options" => OptionsState.load(phaser = game, inputService = input, debug = debug)
       case "character" => CharacterSelectionState.load(phaser = game, input = input, debug = debug)
       case "portal" => PortalState.load(phaser = game, inputService = input, debug = debug)
-      case "test" => TestState.load(phaser = game)
+      case "test" => TestState.load(phaser = game, inputService = input)
       case "sandbox" => SandboxState.load(phaser = game)
 
       case "overworld" => OverworldMapState.load(
