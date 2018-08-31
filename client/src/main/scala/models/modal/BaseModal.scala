@@ -2,7 +2,6 @@ package models.modal
 
 import com.definitelyscala.phaserce._
 import models.asset.Asset
-import models.component.{BaseComponent, SimpleComponent}
 import services.audio.SoundEffectService
 
 object BaseModal {
@@ -11,25 +10,21 @@ object BaseModal {
   val speed = 2
 }
 
-abstract class BaseModal(override val game: Game, val name: String) extends SimpleComponent with BaseComponent.Resizable {
+abstract class BaseModal(val game: Game, val name: String) {
   private[this] var openCallback: Option[() => Unit] = None
   private[this] var closeCallback: Option[() => Unit] = None
 
   private[this] var targetAlpha = 0.0
   private[this] var (opening, closing) = (false, false)
 
-  private[this] val group = new Group(game = game, name = s"modal.$name.group", addToStage = true)
-  group.scale.set(3, 3)
+  protected[this] val group = new Group(game = game, name = s"modal.$name.group", addToStage = true)
   group.alpha = 0.0
   group.visible = false
 
-  override def comp = group
-
   private[this] val sprite = new Sprite(game = game, x = 0, y = 0, key = "modal.background")
   sprite.name = s"modal.$name.background"
-
   group.add(sprite)
-  resize(game.width.toInt, game.height.toInt)
+
   def open(onOpen: () => Unit) = {
     SoundEffectService.play(key = "menu_expand", vol = 0.5)
     group.visible = true
@@ -39,7 +34,7 @@ abstract class BaseModal(override val game: Game, val name: String) extends Simp
     openCallback.foreach(_ => throw new IllegalStateException("Previous open has not been cleared."))
     openCallback = Some(onOpen)
     update(0)
-    visible = true
+    group.visible = true
   }
 
   def close(onClose: () => Unit) = {
@@ -52,7 +47,7 @@ abstract class BaseModal(override val game: Game, val name: String) extends Simp
     update(0)
   }
 
-  override def update(deltaMs: Double) = if (group.visible) {
+  def update(deltaMs: Double) = if (group.visible) {
     if (group.alpha == targetAlpha) {
       if (opening) {
         opening = false
@@ -76,11 +71,14 @@ abstract class BaseModal(override val game: Game, val name: String) extends Simp
     }
   }
 
-  override def resize(width: Int, height: Int) = {
+  def resize(width: Int, height: Int, zoom: Double) = {
+    val newZoom = Math.max(1.0, Math.min(6.0, zoom.floor))
+    group.scale.set(newZoom, newZoom)
+
     val fullWidth = sprite.width * group.scale.x
     val fullHeight = sprite.height * group.scale.y
     group.position.set((width - fullWidth) / 2.0, (height - fullHeight) / 2.0)
   }
 
-  override def destroy() = group.destroy()
+  def destroy() = group.destroy()
 }

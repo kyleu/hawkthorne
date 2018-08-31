@@ -16,7 +16,8 @@ object GameplayState {
     next = new GameplayState(phaser = phaser, inputService = input, options = options, players = players),
     phaser = phaser,
     assets = SoundEffectService.gameplayAssets ++ MapService.assetsFor(options.map) ++
-      HudOverlay.assets ++ Font.assets ++ players.map(p => Asset.spritesheetFromTuple(p.spritesheet))
+      HudOverlay.assets ++ Font.assets ++ players.map(p => Asset.spritesheetFromTuple(p.spritesheet)) ++
+      Seq(Asset.Image("modal.background", "images/custom/dialog.png"))
   )
 }
 

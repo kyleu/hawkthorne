@@ -2,12 +2,13 @@ package services.debug
 
 import com.definitelyscala.datgui.GUI
 import models.gui.{ConsoleLog, HudOverlay}
+import models.modal.Dialog
 import util.DatGuiUtils
 
 import scala.util.Random
 
 object DebugUI {
-  def setUI(gui: GUI, consoleLog: ConsoleLog, hudOverlay: HudOverlay) = {
+  def setUI(gui: GUI, consoleLog: ConsoleLog, hudOverlay: HudOverlay, dialog: Dialog) = {
     val folder = gui.addFolder("GUI")
 
     val console = folder.addFolder("Console Log")
@@ -21,6 +22,10 @@ object DebugUI {
     DatGuiUtils.addFunction(hud, "Random Energy", () => hudOverlay.setEnergy(0, Random.nextInt(101), 100))
     DatGuiUtils.addFunction(hud, "Debug", () => util.Logging.info(hudOverlay.debugString()))
     hud.add(hudOverlay.group, "visible").listen()
+
+    val d = folder.addFolder("Dialog")
+    DatGuiUtils.addFunction(d, "Open", () => dialog.show(() => util.Logging.info("Debug dialog opened."), "Dialog test"))
+    DatGuiUtils.addFunction(d, "Close", () => dialog.close(() => util.Logging.info("Debug dialog closed.")))
 
     Seq(folder)
   }

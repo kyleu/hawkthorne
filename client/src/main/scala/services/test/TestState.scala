@@ -44,6 +44,6 @@ class TestState(phaser: Game, inputService: InputService) extends GameState("tes
   }
 
   override def onResize(width: Int, height: Int) = {
-    dialog.foreach(_.resize(width, height))
+    dialog.foreach(_.resize(width, height, 1))
   }
 }

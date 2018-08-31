@@ -1,8 +1,7 @@
 package models.modal
 
-import com.definitelyscala.phaserce.{Game, Point}
+import com.definitelyscala.phaserce.Game
 import models.font.{Font, MultilineText}
-import models.input.MenuAction
 import services.input.InputService
 
 object Dialog {
@@ -17,7 +16,7 @@ class Dialog(game: Game, inputService: InputService) extends BaseModal(game, "di
   private[this] var remaining = List.empty[String]
 
   def show(onComplete: () => Unit, msgs: String*) = {
-    if (visible || active.isDefined) { throw new IllegalStateException("Dialog is already open") }
+    if (group.visible || active.isDefined) { throw new IllegalStateException("Dialog is already open") }
     if (msgs.isEmpty) { throw new IllegalStateException("No messages provided to dialog") }
 
     active = Some(onComplete)
@@ -49,7 +48,7 @@ class Dialog(game: Game, inputService: InputService) extends BaseModal(game, "di
           case 2 => Dialog.padding + 9.0
           case 3 => Dialog.padding + 2.0
         }
-        comp.add(text.group)
+        group.add(text.group)
         latest.foreach(_.destroy())
         latest = Some(text)
         remaining = t

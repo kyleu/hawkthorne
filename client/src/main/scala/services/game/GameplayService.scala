@@ -42,7 +42,7 @@ class GameplayService(
   DebugService.inst.foreach(_.setGameInstance(instance))
 
   private[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
-  protected[this] val display = new GameplayDisplay(game, mapService, players, instance)
+  protected[this] val display = new GameplayDisplay(game = game, inputService = inputService, mapService = mapService, players = players, instance = instance)
   display.playerSprites.foreach(ps => addComponent(ps))
 
   inputService.setPointerEventCallback(Some(pointerAct))

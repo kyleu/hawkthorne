@@ -14,6 +14,12 @@ trait GameplayMessageHandler { this: GameplayService =>
     collisions.foreach(n => Logging.info(s"Pointer Collision [$worldX / $worldY]: $n"))
   }
 
+  def notifyChannel(n: GameMessage.Notify) = n.channel match {
+    case "console" => n.msgs.foreach(display.console.log)
+    case "dialog" => display.dialog.show(() => (), n.msgs: _*)
+    case x => throw new IllegalStateException(s"Invalid channel [$x]")
+  }
+
   protected[this] def applyMessage(msg: GameMessage) = msg match {
     case pm: GameMessage.PlayerMessage if pm.idx == -1 => throw new IllegalStateException(s"Received unhandled system player input.")
     case pm: GameMessage.PlayerMessage if pm.idx < players.size => pm match {
@@ -27,7 +33,7 @@ trait GameplayMessageHandler { this: GameplayService =>
       case x => util.Logging.info(s"Unhandled game player message [$x].")
     }
     case pm: GameMessage.PlayerMessage => throw new IllegalStateException(s"Received input for player [${pm.idx}], but only know [${players.size}] players.")
-    case n: GameMessage.Notify => n.msgs.foreach(display.console.log)
+    case n: GameMessage.Notify => notifyChannel(n)
     case x => util.Logging.info(s"Unhandled game service message [$x].")
   }
 

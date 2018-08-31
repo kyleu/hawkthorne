@@ -17,5 +17,5 @@ final case class Info(
     override val vis: Boolean,
     content: Seq[String]
 ) extends GameObject(Info.key) {
-  override def onSelect(playerIdx: Int) = Seq(GameMessage.Notify(Some(playerIdx), "console", content))
+  override def onSelect(playerIdx: Int) = Seq(GameMessage.Notify(Some(playerIdx), "dialog", content))
 }

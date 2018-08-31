@@ -22,13 +22,8 @@ class MultilineText(
           acc = ""
         case c => acc += c
       }
-      if (acc.nonEmpty) {
-        words = words :+ acc
-        acc = ""
-      }
+      if (acc.nonEmpty) { words = words :+ acc }
 
-      println(words)
-      //val words = msg.split(' ').map(_.trim).filter(_.nonEmpty)
       words.foreach { word =>
         val wordLength = word.foldLeft(0)((size, c) => font.location(c).width + size)
         if (wordLength + runningTotalX > maxWidth) {
@@ -44,5 +39,5 @@ class MultilineText(
       }
   }
 
-  lazy val lines = (offsetY / font.lineHeight).toInt + 1
+  lazy val lines = (offsetY / font.lineHeight) + 1
 }

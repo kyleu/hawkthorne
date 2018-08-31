@@ -6,6 +6,7 @@ import io.circe.Json
 import models.analytics.AnalyticsActionType
 import models.component.{BaseComponent, PlayerSprite}
 import models.gui.{ConsoleLog, HudOverlay}
+import models.modal.Dialog
 import models.settings.ClientSettings
 import org.scalajs.dom
 import org.scalajs.dom.Element
@@ -60,7 +61,7 @@ class DebugService private (phaser: Game) {
     phaser.add.plugin(JavaScriptUtils.as[PluginObj](debugPlugin))
   }
 
-  def setUI(consoleLog: ConsoleLog, hud: HudOverlay) = guiStuff = guiStuff ++ DebugUI.setUI(gui, consoleLog, hud)
+  def setUI(consoleLog: ConsoleLog, hud: HudOverlay, dialog: Dialog) = guiStuff = guiStuff ++ DebugUI.setUI(gui, consoleLog, hud, dialog)
 
   def setGameInstance(instance: GameInstance) = guiStuff = guiStuff ++ DebugGame.setGameInstance(gui, instance)
 
