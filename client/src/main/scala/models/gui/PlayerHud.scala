@@ -38,10 +38,10 @@ case class PlayerHud(game: Game, player: Player, group: Group) {
 
   private[this] val font = Font.getFont("small", game)
 
-  private[this] val nameText = font.render(name = "hud.name", text = player.template.name, game = game, x = 58, y = 15 + offsetY, color = Some(0x000000))
+  private[this] val nameText = font.renderSimple(name = "hud.name", text = player.template.name, game = game, x = 58, y = 15 + offsetY, color = Some(0x000000))
   group.add(nameText.group)
 
-  private[this] val pointsText = font.render("hud.currency", "0", game, 67, 41 + offsetY, Some(0x000000))
+  private[this] val pointsText = font.renderSimple(name = "hud.currency", text = "0", game = game, x = 67, y = 41 + offsetY, color = Some(0x000000))
   group.add(pointsText.group)
 
   private[this] var (energy, maxEnergy) = (-1, 0)

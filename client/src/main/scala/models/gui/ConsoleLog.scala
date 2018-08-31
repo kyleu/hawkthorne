@@ -27,7 +27,7 @@ final case class ConsoleLog(game: Game) {
   NotificationService.register(log = log, err = error)
 
   def log(s: String) = {
-    val textGroup = font.render(name = s"console.log.text.$nextIdx", text = s, game = game, x = 4)
+    val textGroup = font.renderSimple(name = s"console.log.text.$nextIdx", text = s, game = game, x = 4)
     group.add(textGroup.group)
     textGroups = (elapsed, s, textGroup) +: textGroups
     textGroups.drop(maxLines).foreach(remove)

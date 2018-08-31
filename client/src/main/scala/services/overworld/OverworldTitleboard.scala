@@ -33,7 +33,7 @@ class OverworldTitleboard(game: Game) {
   }
 
   private[this] def textFor(s: String) = {
-    val i = font.render(name = "overworld.titleboard.text", text = s, game = game)
+    val i = font.renderSimple(name = "overworld.titleboard.text", text = s, game = game)
     i.group.position = new Point((bg.width - i.group.width) / 2, (bg.height - i.group.height) / 2)
     i
   }

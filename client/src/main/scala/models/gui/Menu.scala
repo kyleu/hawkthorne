@@ -41,7 +41,7 @@ final case class Menu(
     optionImages = opts.zipWithIndex.map { opt =>
       val newX = (margin * 2) + arrow.width
       val newY = margin + (opt._2 * lineHeight) + fontOffset
-      font.render(name = s"menu.$name.${opt._1._1}", text = opt._1._1, game = game, x = newX, y = newY, color = Some(fontColor))
+      font.renderSimple(name = s"menu.$name.${opt._1._1}", text = opt._1._1, game = game, x = newX, y = newY, color = Some(fontColor))
     }
     optionImages.foreach(i => group.add(i.group))
     setActiveOption(idx = 0, playSound = false)

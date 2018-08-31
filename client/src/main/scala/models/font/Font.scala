@@ -44,6 +44,7 @@ object Font {
     if (charStartIndexes.size != chars.length) {
       util.Logging.warn(s"Font [$key] expected [${chars.length}] chars, found [${charStartIndexes.size}].")
     }
+    data.destroy()
     new Font(key, img, charStartIndexes.zip(chars).map(x => CharLocation(x._2, x._1._1, x._1._2, height)))
   }
 }
@@ -53,14 +54,19 @@ class Font(val key: String, val img: Image, val chars: IndexedSeq[Font.CharLocat
   val height = img.height
   val padding = if (height < 10) { 1 } else { 2 }
 
-  def render(name: String, text: String, game: Game, x: Double = 0.0, y: Double = 0.0, color: Option[Int] = None) = {
-    new FontText(game = game, name = name, font = this, text = text, x = x, y = y, color = color)
+  def renderSimple(name: String, text: String, game: Game, x: Double = 0.0, y: Double = 0.0, color: Option[Int] = None) = {
+    new SimpleText(game = game, name = name, font = this, text = text, x, y, color)
   }
 
+  def renderMultiline(name: String, text: String, game: Game, maxWidth: Int, x: Double = 0.0, y: Double = 0.0) = {
+    new MultilineText(game = game, name = name, font = this, text = text, maxWidth = maxWidth, x = x, y = y)
+  }
+
+  def location(c: Char) = chars(Font.charMap(c))
+
   private[this] val sprites = Font.chars.map { c =>
-    val location = chars(Font.charMap(c))
     val i = new Sprite(game = img.game, x = 0, y = 0, key = textureKey)
-    i.cropRect = location.area
+    i.cropRect = location(c).area
     i.updateCrop()
     i
   }

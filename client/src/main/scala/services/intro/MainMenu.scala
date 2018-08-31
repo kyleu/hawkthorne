@@ -33,7 +33,7 @@ class MainMenu(game: Game, input: InputService, debug: Boolean) {
   val sparkleComponents = ComponentLoadService.fromNodes(sparkles, game, logoGroup)
 
   private[this] val font = Font.getFont("big", game)
-  private[this] val attract = font.render(name = "attract", text = "Press Start", game = game, y = background.sprite.height - 40.0)
+  private[this] val attract = font.renderSimple(name = "attract", text = "Press Start", game = game, y = background.sprite.height - 40.0)
   group.add(attract.group)
 
   private[this] val menu = Menu(

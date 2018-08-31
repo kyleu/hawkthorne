@@ -7,6 +7,7 @@ import services.audio.SoundEffectService
 
 object BaseModal {
   val assets = Seq(Asset.Image("modal.background", "images/custom/dialog.png"), Asset.sfx("menu_expand"), Asset.sfx("menu_close"))
+  val (width, height) = (312, 60)
   val speed = 2
 }
 
@@ -19,19 +20,18 @@ abstract class BaseModal(override val game: Game, val name: String) extends Simp
 
   private[this] val group = new Group(game = game, name = s"modal.$name.group", addToStage = true)
   group.scale.set(3, 3)
+  group.alpha = 0.0
   group.visible = false
 
   override def comp = group
 
   private[this] val sprite = new Sprite(game = game, x = 0, y = 0, key = "modal.background")
   sprite.name = s"modal.$name.background"
-  sprite.alpha = 0.0
-  sprite.anchor = new Point(0.5, 0.5)
 
   group.add(sprite)
   resize(game.width.toInt, game.height.toInt)
   def open(onOpen: () => Unit) = {
-    SoundEffectService.play("menu_expand")
+    SoundEffectService.play(key = "menu_expand", vol = 0.5)
     group.visible = true
     opening = true
     closing = false
@@ -43,7 +43,7 @@ abstract class BaseModal(override val game: Game, val name: String) extends Simp
   }
 
   def close(onClose: () => Unit) = {
-    SoundEffectService.play("menu_close")
+    SoundEffectService.play(key = "menu_close", vol = 0.5)
     opening = false
     closing = true
     targetAlpha = 0.0
@@ -53,7 +53,7 @@ abstract class BaseModal(override val game: Game, val name: String) extends Simp
   }
 
   override def update(deltaMs: Double) = if (group.visible) {
-    if (sprite.alpha == targetAlpha) {
+    if (group.alpha == targetAlpha) {
       if (opening) {
         opening = false
         openCallback.foreach(_())
@@ -68,16 +68,18 @@ abstract class BaseModal(override val game: Game, val name: String) extends Simp
     } else {
       val delta = deltaMs * BaseModal.speed.toDouble
       if (opening) {
-        sprite.alpha = Math.min(targetAlpha, sprite.alpha + delta)
+        group.alpha = Math.min(targetAlpha, group.alpha + delta)
       }
       if (closing) {
-        sprite.alpha = Math.max(targetAlpha, sprite.alpha - delta)
+        group.alpha = Math.max(targetAlpha, group.alpha - delta)
       }
     }
   }
 
   override def resize(width: Int, height: Int) = {
-    group.position.set(width / 2.0, height / 2.0)
+    val fullWidth = sprite.width * group.scale.x
+    val fullHeight = sprite.height * group.scale.y
+    group.position.set((width - fullWidth) / 2.0, (height - fullHeight) / 2.0)
   }
 
   override def destroy() = group.destroy()
