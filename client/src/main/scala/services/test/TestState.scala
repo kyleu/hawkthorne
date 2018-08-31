@@ -30,7 +30,8 @@ class TestState(phaser: Game, inputService: InputService) extends GameState("tes
     }
 
     dialog = Some(new Dialog(phaser, inputService))
-    dialog.foreach(_.show(onComplete = () => util.Logging.info("Dialog complete!"), "...will it work?"))
+    val longWinded = "There's a slight chance that this excessively long line will cause the text to wrap, perhaps even to more than three lines"
+    dialog.foreach(_.show(onComplete = () => util.Logging.info("Dialog complete!"), longWinded, "...but will it work?", message))
 
     kb = Some(new VirtualKeyboard(game = phaser, name = "keyboard", initial = IntPoint(0, 410), onChar = c => util.Logging.info(s"Keypress: [$c]")))
     kb.foreach(k => game.add.existing(k.group))

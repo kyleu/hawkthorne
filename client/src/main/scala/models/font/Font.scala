@@ -53,6 +53,7 @@ class Font(val key: String, val img: Image, val chars: IndexedSeq[Font.CharLocat
   val textureKey = s"font.$key"
   val height = img.height
   val padding = if (height < 10) { 1 } else { 2 }
+  val lineHeight = height.toInt + (padding * 2)
 
   def renderSimple(name: String, text: String, game: Game, x: Double = 0.0, y: Double = 0.0, color: Option[Int] = None) = {
     new SimpleText(game = game, name = name, font = this, text = text, x, y, color)

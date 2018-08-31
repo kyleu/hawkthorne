@@ -46,8 +46,8 @@ class Dialog(game: Game, inputService: InputService) extends BaseModal(game, "di
         val text = font.renderMultiline(name = "dialog.text", text = h, game = game, x = Dialog.padding.toDouble, maxWidth = Dialog.textWidth)
         text.group.position.y = text.lines match {
           case 1 => Dialog.padding + 16.0
-          case 2 => Dialog.padding + 8.0
-          case 3 => Dialog.padding.toDouble
+          case 2 => Dialog.padding + 9.0
+          case 3 => Dialog.padding + 2.0
         }
         comp.add(text.group)
         latest.foreach(_.destroy())

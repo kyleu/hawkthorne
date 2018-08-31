@@ -29,10 +29,9 @@ class GameplayController @javax.inject.Inject() (
     Future.successful(Ok(views.html.gameplay(user = request.identity, path = path, devmode = app.config.debug, debug = debug.getOrElse(app.config.debug))))
   }
 
-  private[this] def callbacksFor(credentials: Credentials, status: String = "OK") = PlayerConnectionService.Callbacks(
-    analytics = (t, arg) => {
-      analyticsSvc.onMessage(t = t, arg = arg, credentials, status = status)
-    })
+  private[this] def callbacksFor(credentials: Credentials, status: String = "OK") = PlayerConnectionService.Callbacks(analytics = (t, arg) => {
+    analyticsSvc.onMessage(t = t, arg = arg, credentials, status = status)
+  })
 
   def connect(binary: Boolean) = WebSocket.acceptOrResult[RequestMessage, ResponseMessage] { request =>
     implicit val req: Request[AnyContent] = Request(request, AnyContentAsEmpty)
