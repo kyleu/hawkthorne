@@ -4,7 +4,8 @@ import models.data.character.CharacterAnimation
 import models.game.cmd.GameCommand
 import models.game.msg.GameMessage
 import services.collision.CollisionService
-import services.game.{GameInstance, GameMap}
+import services.game.GameInstance
+import services.map.GameMap
 import util.BoundingBox
 
 class PlayerInputHandler(instance: GameInstance, map: GameMap, playerIdx: Int, boundingBox: BoundingBox, initial: (Int, Int), log: String => Unit) {

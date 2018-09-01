@@ -7,6 +7,7 @@ import models.game.cmd.GameCommand
 import models.node.{DoorNode, Node}
 import models.options.GameOptions
 import models.player.Player
+import services.map.GameMap
 
 object GameInstanceFactory {
   def create(

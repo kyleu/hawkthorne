@@ -5,6 +5,7 @@ import java.util.UUID
 import models.data.map.TiledMap
 import models.options.GameOptions
 import models.player.PlayerRecord
+import services.map.GameMap
 
 object GameInstanceDebug {
   private[this] var isDebug = true

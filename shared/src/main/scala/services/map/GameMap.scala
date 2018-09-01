@@ -1,4 +1,4 @@
-package services.game
+package services.map
 
 import java.util.UUID
 

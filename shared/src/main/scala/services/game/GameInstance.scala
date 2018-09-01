@@ -7,6 +7,7 @@ import models.game.cmd.GameCommand
 import models.game.msg.GameMessage
 import models.options.{GameOptions, SystemOptions}
 import services.game.GameInstanceDebug._
+import services.map.GameMap
 
 object GameInstance {
   import util.JsonSerializers._
