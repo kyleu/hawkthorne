@@ -83,6 +83,7 @@ final case class ConsoleLog(game: Game) {
   }
 
   def destroy() = {
+    NotificationService.clear()
     textGroups.foreach(_._3.destroy())
     group.destroy()
   }

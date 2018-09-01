@@ -25,7 +25,7 @@ object DebugService {
   def inst = debugService
 
   def init(phaser: Game) = {
-    debugService.foreach(_ => throw new IllegalStateException("Double init!"))
+    debugService.foreach(_ => throw new IllegalStateException("Double debug service init!"))
     debugService = Some(new DebugService(phaser))
   }
 }

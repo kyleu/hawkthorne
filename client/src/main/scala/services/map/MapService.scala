@@ -54,6 +54,7 @@ class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   }
 
   def destroy() = {
+    tilemap.destroy()
     bgMusic.stop()
     group.destroy()
   }

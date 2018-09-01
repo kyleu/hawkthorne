@@ -32,7 +32,13 @@ object DebugMapService {
   }
 
   private[this] def addLayer(mapService: MapService, root: GUI, layer: TilemapLayer) = {
-    val f = root.addFolder(layer.name)
-    f.add(layer, "visible")
+    val folder = root.addFolder(layer.name)
+    DatGuiUtils.addFunction(gui = folder, title = "Debug Tiles", f = () => {
+      val tiles = layer.getTiles(0, 0, mapService.mapPxWidth.toDouble, mapService.mapPxHeight.toDouble).toIndexedSeq.filter(_.index > -1)
+      util.Logging.info(s"${tiles.size} active tiles:")
+      tiles.foreach(util.Logging.logJs)
+      //util.Logging.logJs(layer)
+    })
+    folder.add(layer, "visible")
   }
 }

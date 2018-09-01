@@ -1,6 +1,7 @@
 package services.collision
 
 import models.collision.CollisionGrid
+import models.options.SystemOptions
 import util.Rectangle
 
 class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementHelper {
@@ -11,7 +12,13 @@ class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementH
 
     grid.forCoords(newTile) match {
       case Some(t) => t.special match {
-        case Some(special) => current._1
+        case Some(special) =>
+          val tileY = newTile._2 * SystemOptions.tileSize
+          val outside = bounds.y - tileY <= special._2 || bounds.y - tileY > special._4 + 1
+          println(s"Special: $special")
+          println(s"Outside: $outside")
+          println(s"LogicX: ${bounds.y} - $tileY <= ${special._2} || ${bounds.y} - $tileY > ${special._4} + 1")
+          if (outside) { current._1 } else { newX }
         case None => current._1
       }
       case None => newX
@@ -24,7 +31,13 @@ class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementH
 
     grid.forCoords(newTile) match {
       case Some(t) => t.special match {
-        case Some(special) => current._2
+        case Some(special) =>
+          val tileX = newTile._1 * SystemOptions.tileSize
+          val outside = (bounds.x + bounds.w) - tileX <= special._1 || bounds.x - tileX >= special._3
+          println(s"Special: $special")
+          println(s"Outside: $outside")
+          println(s"LogicY: (${bounds.x} + ${bounds.w}) - $tileX <= ${special._1} || ${bounds.x} - $tileX >= ${special._3}")
+          if (outside) { current._2 } else { newY }
         case None => current._2
       }
       case None => newY
