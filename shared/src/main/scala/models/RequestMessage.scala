@@ -15,6 +15,7 @@ object RequestMessage {
 
   // System
   final case class MalformedRequest(reason: String, content: String) extends RequestMessage
+  final case class ClientError(message: String, loc: String, ctx: Json) extends RequestMessage
   final case class GetVersion(v: String) extends RequestMessage
   final case class Ping(ts: Long) extends RequestMessage
   final case class DebugRequest(t: String, msg: String) extends RequestMessage

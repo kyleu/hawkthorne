@@ -4,11 +4,6 @@ import com.definitelyscala.phaserce.Game
 import models.font.{Font, MultilineText}
 import services.input.InputService
 
-object Dialog {
-  val padding = 8
-  val textWidth = BaseModal.width - (padding * 2)
-}
-
 class Dialog(game: Game, inputService: InputService) extends BaseModal(game, "dialog") {
   private[this] val font = Font.getFont("arial", game)
   private[this] var active: Option[() => Unit] = None
@@ -42,16 +37,21 @@ class Dialog(game: Game, inputService: InputService) extends BaseModal(game, "di
         f()
       })
       case h :: t =>
-        val text = font.renderMultiline(name = "dialog.text", text = h, game = game, x = Dialog.padding.toDouble, maxWidth = Dialog.textWidth)
-        text.group.position.y = text.lines match {
-          case 1 => Dialog.padding + 16.0
-          case 2 => Dialog.padding + 9.0
-          case 3 => Dialog.padding + 2.0
-        }
-        group.add(text.group)
+        val text = newText(name = "dialog.text", msg = h)
         latest.foreach(_.destroy())
         latest = Some(text)
         remaining = t
     }
+  }
+
+  private[this] def newText(name: String, msg: String) = {
+    val text = font.renderMultiline(name = "dialog.text", text = msg, game = game, x = BaseModal.padding.toDouble, maxWidth = BaseModal.textWidth)
+    text.group.position.y = text.lines match {
+      case 1 => BaseModal.padding + 16.0
+      case 2 => BaseModal.padding + 9.0
+      case 3 => BaseModal.padding + 2.0
+    }
+    group.add(text.group)
+    text
   }
 }

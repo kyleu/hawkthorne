@@ -54,6 +54,13 @@ object GameMessage {
   }
   final case class Notify(player: Option[Int], channel: String, msgs: Seq[String]) extends GameMessage(t = Notify.key)
 
+  object Prompt {
+    implicit val jsonEncoder: Encoder[Prompt] = deriveEncoder
+    implicit val jsonDecoder: Decoder[Prompt] = deriveDecoder
+    val key = "prompt"
+  }
+  final case class Prompt(player: Option[Int], key: String, msgs: Seq[String], opts: Seq[String]) extends GameMessage(t = Prompt.key)
+
   object Debug {
     implicit val jsonEncoder: Encoder[Debug] = deriveEncoder
     implicit val jsonDecoder: Decoder[Debug] = deriveDecoder

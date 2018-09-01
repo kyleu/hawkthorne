@@ -8,6 +8,9 @@ object BaseModal {
   val assets = Seq(Asset.Image("modal.background", "images/custom/dialog.png"), Asset.sfx("menu_expand"), Asset.sfx("menu_close"))
   val (width, height) = (312, 60)
   val speed = 2
+
+  val padding = 8
+  val textWidth = BaseModal.width - (padding * 2)
 }
 
 abstract class BaseModal(val game: Game, val name: String) {

@@ -14,6 +14,7 @@ object GameMessageEncoder {
         case o: PlayerLocationUpdated => o.asJson.asObject.get
         case o: LeaveMap => o.asJson.asObject.get
         case o: Notify => o.asJson.asObject.get
+        case o: Prompt => o.asJson.asObject.get
         case o: Debug => o.asJson.asObject.get
       }
       ("type" -> n.t.asJson) +: ret

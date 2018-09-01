@@ -14,6 +14,7 @@ object GameMessageDecoder {
       case PlayerLocationUpdated.key => c.as[PlayerLocationUpdated]
       case LeaveMap.key => c.as[LeaveMap]
       case Notify.key => c.as[Notify]
+      case Prompt.key => c.as[Prompt]
       case Debug.key => c.as[Debug]
     }
   }
