@@ -31,10 +31,8 @@ object GameInstanceFactory {
     }.toMap
     m.setSpawns(spawns)
 
-    val i = GameInstance(gameId = newGameId, options = options)
-    i.addMap(m)
-
-    i.start(initialPlayers.map(p => GameCommand.AddPlayer(player = p, map = options.map, spawn = options.initialSpawn)))
-    i
+    GameInstance(gameId = newGameId, map = m, options = options).start(
+      initialCommands = initialPlayers.map(p => GameCommand.AddPlayer(player = p, spawn = options.initialSpawn))
+    )
   }
 }

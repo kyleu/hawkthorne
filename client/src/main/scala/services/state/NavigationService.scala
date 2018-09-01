@@ -1,20 +1,23 @@
 package services.state
 
 import com.definitelyscala.phaserce.Game
+import models.player.Player
+import models.settings.ActivePlayers
 import org.scalajs.dom
 import services.input.InputService
-import services.navigation.NavigationPaths
+import services.navigation.{NavigationPaths, NavigationTitles}
 import util.Version
 
 object NavigationService {
   def setPath(path: String) = {
-    dom.document.title = s"${NavigationPaths.titleForPath(path)} - ${Version.projectName}"
+    dom.document.title = s"${NavigationTitles.titleForPath(path)} - ${Version.projectName}"
     if (!dom.window.location.pathname.endsWith(path)) {
       dom.window.history.replaceState(statedata = 0, title = path, url = s"/play/$path")
     }
   }
 
   def init(game: Game, path: String, debug: Boolean) = {
+    ActivePlayers.setPlayers(IndexedSeq(Player.random(id = java.util.UUID.randomUUID, idx = 0)))
     def nextState(input: InputService) = NavigationPaths.stateFromPath(game = game, input = input, path = path, debug = debug)
     val is = new InitialGameState(nextState = nextState, phaser = game, debug = debug)
     game.state.add("initial", is)

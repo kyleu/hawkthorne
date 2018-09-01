@@ -15,7 +15,7 @@ object GameCommand {
     implicit val jsonDecoder: Decoder[AddPlayer] = deriveDecoder
     val key = "addPlayer"
   }
-  final case class AddPlayer(player: Player, map: TiledMap, spawn: String) extends GameCommand(AddPlayer.key)
+  final case class AddPlayer(player: Player, spawn: String) extends GameCommand(AddPlayer.key)
 
   object RemovePlayer {
     implicit val jsonEncoder: Encoder[RemovePlayer] = deriveEncoder

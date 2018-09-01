@@ -11,7 +11,7 @@ trait GameInstancePlayers { this: GameInstance =>
   protected[this] var players = IndexedSeq.empty[PlayerRecord]
   protected[this] def indexOfPlayerId(id: UUID) = players.indexWhere(_.player.id == id)
 
-  protected[this] def addPlayer(player: Player, map: GameMap, spawnPoint: String = "main") = {
+  protected[this] def addPlayer(player: Player, spawnPoint: String = "main") = {
     val spawn = map.spawnPoints(spawnPoint)
     val playerIndex = indexOfPlayerId(player.id) match {
       case -1 =>

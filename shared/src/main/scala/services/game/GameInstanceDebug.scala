@@ -22,24 +22,21 @@ object GameInstanceDebug {
     notification = Some(notify)
   }
 
-  def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], maps: Map[TiledMap, GameMap], elapsed: Double) = {
+  def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], map: GameMap, elapsed: Double) = {
     val playersString = records.map { record =>
       val p = record.player
       s"""${p.id}: { x: ${record.input.x}, y: ${record.input.y}, t: "${p.templateKey}/${p.costumeKey}, c: ${p.attributes.connected}" }"""
-    }.mkString("\n    ")
-
-    val mapsString = maps.toSeq.sortBy(_._1.value).map { map =>
-      s"""objects: ${map._2.objects.size}"""
-    }.mkString("\n    ")
+    }.mkString(",\n    ")
 
     s"""$gameId: {
       |  options: ${util.JsonSerializers.serialize(options).noSpaces},
       |  players: [
       |    $playersString
       |  ],
-      |  maps: [
-      |    $mapsString
-      |  ]
+      |  map: {
+      |    key: ${map.map.value}
+      |    objects: ${map.objects.size}
+      |  }
       |}
     """.stripMargin.trim
   }

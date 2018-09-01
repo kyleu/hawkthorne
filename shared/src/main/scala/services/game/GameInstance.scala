@@ -18,7 +18,7 @@ object GameInstance {
 final case class GameInstance(
     gameId: UUID,
     options: GameOptions,
-    var activeMaps: Map[TiledMap, GameMap] = Map.empty
+    map: GameMap
 ) extends GameInstancePlayers {
   private[this] var running = false
 
@@ -30,19 +30,13 @@ final case class GameInstance(
     if (running) { throw new IllegalStateException(s"Game [$gameId] already started.") }
     running = true
     apply(update(0, initialCommands: _*))
+    this
   }
 
   def stop() = {
     if (!running) { throw new IllegalStateException(s"Game [$gameId] already stopped.") }
     running = false
   }
-
-  def addMap(m: GameMap) = activeMaps.get(m.map) match {
-    case Some(x) => throw new IllegalStateException(s"Cannot add already-present map [${x.map}] to game [$gameId]")
-    case None => activeMaps = activeMaps + (m.map -> m)
-  }
-
-  def getMap(m: TiledMap) = activeMaps.getOrElse(m, throw new IllegalStateException(s"Cannot find map [$m] in game [$gameId]"))
 
   def apply(ret: Seq[GameMessage]) = ret.foreach {
     case pm: GameMessage.PlayerMessage if pm.idx == -1 => // noop
@@ -58,12 +52,12 @@ final case class GameInstance(
     if (!running) { throw new IllegalStateException(s"Game instance [$gameId] has not been started.") }
     elapsedSeconds += delta
     gu.flatMap {
-      case GameCommand.AddPlayer(player, map, spawn) => Seq(addPlayer(player = player, map = getMap(map), spawnPoint = spawn))
+      case GameCommand.AddPlayer(player, spawn) => Seq(addPlayer(player = player, spawnPoint = spawn))
       case GameCommand.RemovePlayer(id) => Seq(removePlayer(id))
       case pi: GameCommand.PlayerInput => players(pi.idx).input.process(delta, pi)
       case x => throw new IllegalStateException(s"Unhandled update [$x].")
     }
   }
 
-  override def toString = GameInstanceDebug.debugString(gameId, options, players, activeMaps, elapsedSeconds)
+  override def toString = GameInstanceDebug.debugString(gameId, options, players, map, elapsedSeconds)
 }
