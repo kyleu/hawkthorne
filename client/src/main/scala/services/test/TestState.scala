@@ -33,8 +33,15 @@ class TestState(phaser: Game, inputService: InputService) extends GameState("tes
     val longWinded = "There's a slight chance that this excessively long line will cause the text to wrap, perhaps even to more than three lines"
     dialog.foreach(_.show(onComplete = () => util.Logging.info("Dialog complete!"), longWinded, "...but will it work?", message))
 
-    kb = Some(new VirtualKeyboard(game = phaser, name = "keyboard", initial = IntPoint(0, 410), onChar = c => util.Logging.info(s"Keypress: [$c]")))
+    kb = Some(new VirtualKeyboard(
+      game = phaser,
+      name = "keyboard",
+      initial = IntPoint(0, 410),
+      onChar = c => util.Logging.info(s"Keypress: [$c]"),
+      onEnter = () => util.Logging.info(s"On Enter!")
+    ))
     kb.foreach(k => game.add.existing(k.group))
+    onResize(game.width.toInt, game.height.toInt)
   }
 
   override def update(game: Game) = {
@@ -44,6 +51,6 @@ class TestState(phaser: Game, inputService: InputService) extends GameState("tes
   }
 
   override def onResize(width: Int, height: Int) = {
-    dialog.foreach(_.resize(width, height, 1))
+    dialog.foreach(_.resize(width, height, 3.1))
   }
 }
