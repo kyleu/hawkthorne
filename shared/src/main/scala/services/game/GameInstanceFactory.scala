@@ -2,11 +2,11 @@ package services.game
 
 import java.util.UUID
 
-import models.collision.{CollisionGrid, CollisionPoly}
 import models.game.cmd.GameCommand
 import models.node.{DoorNode, Node}
 import models.options.GameOptions
 import models.player.Player
+import services.collision.CollisionService
 import services.map.GameMap
 
 object GameInstanceFactory {
@@ -14,7 +14,7 @@ object GameInstanceFactory {
     options: GameOptions,
     nodes: Seq[Node],
     initialPlayers: Seq[Player],
-    collision: Either[CollisionPoly, CollisionGrid],
+    collision: CollisionService.Collision,
     log: String => Unit,
     notify: String => Unit
   ) = {
@@ -23,7 +23,6 @@ object GameInstanceFactory {
     val newGameId = UUID.randomUUID
 
     val objs = nodes.flatMap(_.asNewGameObject).toIndexedSeq
-
     val m = GameMap(newGameId, map = options.map, objects = objs)
     m.setCollision(coll = collision)
 

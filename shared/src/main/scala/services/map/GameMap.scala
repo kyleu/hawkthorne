@@ -6,6 +6,7 @@ import models.collision.{CollisionGrid, CollisionPoly}
 import models.data.map.TiledMap
 import models.game.obj.GameObject
 import models.options.SystemOptions
+import services.collision.CollisionService
 import util.{IntPoint, Rectangle}
 
 object GameMap {
@@ -17,7 +18,7 @@ object GameMap {
 
 final case class GameMap(gameId: UUID, map: TiledMap, var objects: IndexedSeq[GameObject]) {
   private[this] var spawns = Map.empty[String, IntPoint]
-  private[this] var collision: Option[Either[CollisionPoly, CollisionGrid]] = None
+  private[this] var collision: Option[CollisionService.Collision] = None
 
   val bounds = (map.width * SystemOptions.tileSize) -> (map.height * SystemOptions.tileSize)
 
@@ -28,7 +29,7 @@ final case class GameMap(gameId: UUID, map: TiledMap, var objects: IndexedSeq[Ga
 
   def collidingObjects(rect: Rectangle) = objects.collect { case o if o.loc.intersects(rect) => o }
 
-  def setCollision(coll: Either[CollisionPoly, CollisionGrid]) = collision = Some(coll)
+  def setCollision(coll: CollisionService.Collision) = collision = Some(coll)
   def getCollision = collision.getOrElse(throw new IllegalStateException("No collision configured."))
 
   def collidingBlocks(rect: Rectangle) = IndexedSeq.empty[(Int, Int)]

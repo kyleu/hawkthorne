@@ -37,24 +37,25 @@ class DebugService private (phaser: Game) {
   private[this] val gui = new GUI(params)
   private[this] var guiStuff = Seq.empty[GUI]
 
-  val settingsFolder = gui.addFolder("Settings")
-  DatGuiUtils.addFunction(settingsFolder, "Reload Settings", () => util.Logging.info(s"Loaded Settings: ${ClientSettings.load()}"))
-  DatGuiUtils.addFunction(settingsFolder, "Debug Settings", () => util.Logging.info(s"Current Settings: ${ClientSettings.getSettings}"))
-  DatGuiUtils.addFunction(settingsFolder, "Throw Exception", () => throw new IllegalStateException("Intentionally thrown"))
+  def createSystemFolder(gui: GUI) = {
+    val f = gui.addFolder("System")
+    DatGuiUtils.addFunction(f, "Reload Settings", () => util.Logging.info(s"Loaded Settings: ${ClientSettings.load()}"))
+    DatGuiUtils.addFunction(f, "Debug Settings", () => util.Logging.info(s"Current Settings: ${ClientSettings.getSettings}"))
+    DatGuiUtils.addFunction(f, "Cache Keys", () => util.Logging.info("Cache keys: " + Json.obj(
+      "image" -> phaser.cache.getKeys(Cache.IMAGE).toIndexedSeq.asJson,
+      "json" -> phaser.cache.getKeys(Cache.JSON).toIndexedSeq.asJson,
+      "sound" -> phaser.cache.getKeys(Cache.SOUND).toIndexedSeq.asJson,
+      "tilemap" -> phaser.cache.getKeys(Cache.TILEMAP).toIndexedSeq.asJson,
+      "texture" -> phaser.cache.getKeys(Cache.TEXTURE).toIndexedSeq.asJson
+    ).spaces2))
+    DatGuiUtils.addFunction(f, "Network Test", () => {
+      AnalyticsService.send(AnalyticsActionType.Debug, Json.obj("cause" -> Json.fromString("ui")))
+    })
+    DatGuiUtils.addFunction(f, "Throw Exception", () => throw new IllegalStateException("Intentionally thrown"))
+    f
+  }
 
-  val networkFolder = gui.addFolder("Network")
-  DatGuiUtils.addFunction(networkFolder, "Send Test Message", () => {
-    AnalyticsService.send(AnalyticsActionType.Debug, Json.obj("cause" -> Json.fromString("ui")))
-  })
-
-  val cacheFolder = gui.addFolder("Cache")
-  DatGuiUtils.addFunction(cacheFolder, "Debug Keys", () => util.Logging.info("Cache keys: " + Json.obj(
-    "image" -> phaser.cache.getKeys(Cache.IMAGE).toIndexedSeq.asJson,
-    "json" -> phaser.cache.getKeys(Cache.JSON).toIndexedSeq.asJson,
-    "sound" -> phaser.cache.getKeys(Cache.SOUND).toIndexedSeq.asJson,
-    "tilemap" -> phaser.cache.getKeys(Cache.TILEMAP).toIndexedSeq.asJson,
-    "texture" -> phaser.cache.getKeys(Cache.TEXTURE).toIndexedSeq.asJson
-  ).spaces2))
+  val systemFolder = createSystemFolder(gui)
 
   val debugPlugin = js.Dynamic.global.Phaser.Plugin.Debug
   if (debugPlugin.toString != "undefined") {
@@ -63,10 +64,8 @@ class DebugService private (phaser: Game) {
 
   def setUI(consoleLog: ConsoleLog, hud: HudOverlay, dialog: Dialog) = guiStuff = guiStuff ++ DebugUI.setUI(gui, consoleLog, hud, dialog)
 
-  def setGameInstance(instance: GameInstance) = guiStuff = guiStuff ++ DebugGame.setGameInstance(gui, instance)
-
   def setMap(game: Game, mapService: MapService, instance: GameInstance, components: Seq[BaseComponent], players: Seq[PlayerSprite]) = {
-    guiStuff = guiStuff ++ DebugMapService.setMap(game, gui, mapService, instance, components, players)
+    guiStuff = guiStuff :+ DebugGame.setInstance(game, gui, mapService, instance, components, players)
   }
 
   def clearGameStuff() = {

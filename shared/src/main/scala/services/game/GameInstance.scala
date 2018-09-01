@@ -2,7 +2,6 @@ package services.game
 
 import java.util.UUID
 
-import models.data.map.TiledMap
 import models.game.cmd.GameCommand
 import models.game.msg.GameMessage
 import models.options.{GameOptions, SystemOptions}
@@ -45,6 +44,7 @@ final case class GameInstance(
     case _: GameMessage.Notify => // noop
     case pa: GameMessage.PlayerAdded if pa.x == players(pa.player.idx).input.x && pa.y == players(pa.player.idx).input.y => // noop
     case pa: GameMessage.PlayerAdded =>
+      //players(pa.player.idx).input.setPosition(pa.x.toDouble, pa.y.toDouble)
       throw new IllegalStateException(s"Received $pa, but player [${pa.player.idx}] is at [${players(pa.player.idx).input.getPosition}]")
     case x => log(s"Unable to apply game message [$x].")
   }

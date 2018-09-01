@@ -13,25 +13,23 @@ trait GameInstancePlayers { this: GameInstance =>
 
   protected[this] def addPlayer(player: Player, spawnPoint: String = "main") = {
     val spawn = map.spawnPoints(spawnPoint)
-    val playerIndex = indexOfPlayerId(player.id) match {
-      case -1 =>
-        val idx = players.size
-        val box = player.template.boundingBox
+    val box = player.template.boundingBox
+    indexOfPlayerId(player.id) match {
+      case -1 => players = players :+ {
+        val pih = new PlayerInputHandler(instance = this, map = map, playerIdx = players.size, boundingBox = box, initial = spawn.tupled, log = log)
+        PlayerRecord(player = player, input = pih)
+      }
+      case idx if idx == player.idx => players = players.map(record => if (record.player.idx == idx) {
         val pih = new PlayerInputHandler(instance = this, map = map, playerIdx = idx, boundingBox = box, initial = spawn.tupled, log = log)
-        players = players :+ PlayerRecord(player = player, input = pih)
-        idx
-      case x =>
-        players = players.map(record => if (record.player.idx == x) {
-          val box = player.template.boundingBox
-          record.copy(player = player, new PlayerInputHandler(instance = this, map = map, playerIdx = x, boundingBox = box, initial = spawn.tupled, log = log))
-        } else {
-          record
-        })
-        x
+        record.copy(player = player, input = pih)
+      } else {
+        record
+      })
+      case idx => throw new IllegalStateException(s"Got request to add player with index [${player.idx}] to index [$idx].")
     }
 
-    if (player.idx != playerIndex) { throw new IllegalStateException(s"Got request to add player with index [${player.idx}] to index [$playerIndex].") }
     debug(s"Added player [$player] to game, making [${players.size}] total players ([${players.count(_.player.attributes.connected)}] active).")
+
     GameMessage.PlayerAdded(player = player, x = spawn.x, y = spawn.y)
   }
 

@@ -8,7 +8,7 @@ import models.options.GameOptions
 import models.player.Player
 import services.debug.DebugService
 import services.input.InputService
-import services.map.{MapNodeParser, MapService}
+import services.map.{MapNodeCache, MapNodeParser, MapService}
 import services.node.NodeLoader
 import services.socket.AnalyticsService
 
@@ -29,7 +29,7 @@ class GameplayService(
     "players" -> util.JsonSerializers.serialize(players)
   ))
 
-  val (nodes, collision) = MapNodeParser.parse(options.map, game.cache.getTilemapData("map." + options.map.value))
+  val (nodes, collision) = MapNodeCache.get(game, options)
 
   val instance = GameInstanceFactory.create(
     options = options,
@@ -39,7 +39,6 @@ class GameplayService(
     log = s => util.Logging.info(s),
     notify = s => util.Logging.warn(s)
   )
-  DebugService.inst.foreach(_.setGameInstance(instance))
 
   protected[this] val mapService = new MapService(game = game, map = options.map, playMusic = false)
   protected[this] val display = new GameplayDisplay(game = game, inputService = inputService, mapService = mapService, players = players, instance = instance)

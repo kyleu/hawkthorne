@@ -5,7 +5,11 @@ import models.data.map.TiledMap
 import models.options.SystemOptions
 import util.Rectangle
 
-case class CollisionService(map: TiledMap, collision: Either[CollisionPoly, CollisionGrid]) {
+object CollisionService {
+  type Collision = Either[CollisionPoly, CollisionGrid]
+}
+
+case class CollisionService(map: TiledMap, collision: CollisionService.Collision) {
   val max = (map.width.toDouble * SystemOptions.tileSize, map.height.toDouble * SystemOptions.tileSize)
 
   private[this] val gridMovementClass = "grid"

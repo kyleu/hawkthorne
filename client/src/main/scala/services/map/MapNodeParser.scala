@@ -3,13 +3,14 @@ package services.map
 import models.collision.{CollisionGrid, CollisionPoly}
 import models.data.map.TiledMap
 import models.node.Node
+import services.collision.CollisionService
 import util.Logging
 
 import scala.scalajs.js
 import scala.util.control.NonFatal
 
 object MapNodeParser {
-  def parse(m: TiledMap, o: js.Dynamic): (Seq[Node], Either[CollisionPoly, CollisionGrid]) = {
+  def parse(m: TiledMap, o: js.Dynamic): (Seq[Node], CollisionService.Collision) = {
     val startNanos = System.nanoTime
 
     val layers = o.data.layers.asInstanceOf[js.Array[js.Dictionary[js.Any]]].toSeq
