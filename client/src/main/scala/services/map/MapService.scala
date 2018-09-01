@@ -13,14 +13,14 @@ object MapService {
   def assetsFor(map: TiledMap) = Seq(
     MusicService.asset(map.soundtrack),
     Asset.Tilemap(s"map.${map.value}", s"maps/${map.value}.json")
-  ) ++ map.images.map(i => Asset.Image(i._1, s"images/tilesets/${i._2}.png"))
+  ) ++ map.tilesets.map(ts => Asset.Image(ts.name, s"images/tilesets/${ts.img}.png"))
 }
 
 class MapService(game: Game, val map: TiledMap, playMusic: Boolean) {
   val group = game.add.group(name = s"map.${map.value}")
 
   val tilemap = new Tilemap(game, s"map.${map.value}")
-  map.images.foreach(i => tilemap.addTilesetImage(tileset = i._1))
+  map.tilesets.foreach(ts => tilemap.addTilesetImage(tileset = ts.name))
 
   val backdrop = PhaserUtils.makeBackdrop(game = game, width = tilemap.widthInPixels, height = tilemap.heightInPixels, color = map.color)
   group.add(backdrop)

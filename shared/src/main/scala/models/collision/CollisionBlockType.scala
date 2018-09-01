@@ -12,16 +12,16 @@ object CollisionBlockType extends CharEnum[CollisionBlockType] with CharCirceEnu
 
   override val values = findValues
 
-  def fromInt(i: Int) = i match {
+  def fromInt(i: Int): CollisionBlockType = i match {
     case _ if i >= 0 && i < 26 => Block
     case _ if i >= 26 && i < 52 => OneWay
     case _ if i >= 52 && i < 78 => NoDrop
     case _ if i >= 78 && i < 104 => IceBlock
     case _ if i >= 104 && i < 130 => Block
-    case _ => throw new IllegalStateException(s"Unknown collision block index [$i].")
+    case _ => throw new IllegalStateException(s"Unknown collision block [$i].")
   }
 
-  def slopeEdges(i: Int) = i % 26 match {
+  def slopeEdges(i: Int): Option[(Int, Int)] = i % 26 match {
     case 1 => Some(23 -> 0)
     case 2 => Some(0 -> 23)
     case 3 => Some(23 -> 12)
@@ -54,7 +54,7 @@ object CollisionBlockType extends CharEnum[CollisionBlockType] with CharCirceEnu
     (12, 0, 24, 24)
   )
 
-  def special(i: Int) = i % 26 match {
+  def special(i: Int): Option[(Int, Int, Int, Int)] = i % 26 match {
     case x if 20 < x && x < 26 => Some(specials(x - 21))
     case _ => None
   }

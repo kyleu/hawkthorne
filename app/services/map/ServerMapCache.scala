@@ -8,6 +8,8 @@ import models.node.Node
 import util.Logging
 import util.JsonSerializers._
 
+import scala.util.control.NonFatal
+
 object ServerMapCache extends Logging {
   private[this] val cache = collection.mutable.HashMap.empty[String, ServerMap]
 
@@ -24,12 +26,12 @@ object ServerMapCache extends Logging {
     val path = s"public/game/maps/${map.value}.json"
     val is = Option(getClass.getClassLoader.getResourceAsStream(path)).getOrElse(throw new IllegalStateException(s"Cannot load [$path]."))
     val json = parseJson(scala.io.Source.fromInputStream(is).mkString)
-    val ret = fromJson(map.value, json)
+    val ret = fromJson(map, json)
     log.debug(s"Loaded map [${map.value}] in [${((System.nanoTime - startNanos) / 1000000).toString.take(8)}ms],")
     ret
   })
 
-  private[this] def fromJson(key: String, json: Json) = {
+  private[this] def fromJson(m: TiledMap, json: Json) = {
     val layerObjects = json.asObject.get.apply("layers").get.asArray.get.map(_.asObject.get)
 
     val (tileLayers, objectGroups) = layerObjects.partition(l => l.apply("type").get.asString.get match {
@@ -46,7 +48,12 @@ object ServerMapCache extends Logging {
       case Left(x) => throw new IllegalStateException(s"Error parsing node json: ${x.getMessage}\n${json.spaces2}", x)
     })
 
-    val collisionOption = tileLayers.find(_.apply("name").contains("collision".asJson)).map(c => CollisionGrid.forJson(c.asJson))
+    val collisionOption = tileLayers.find(_.apply("name").contains("collision".asJson)).map(c => try {
+      val firstTileId = m.tilesets.find(_.name == "collisions").getOrElse(throw new IllegalStateException("No [collisions] tileset")).firstId
+      CollisionGrid.forJson(c.asJson, firstTileId)
+    } catch {
+      case NonFatal(x) => throw new IllegalStateException(s"Cannot parse map [${m.value}] collision: ${x.getMessage}", x)
+    })
 
     if (debug) {
       nodes.zip(nodeArray).foreach { x =>
@@ -70,6 +77,6 @@ object ServerMapCache extends Logging {
       }
     }
 
-    ServerMap(key = key, layers = layers, nodes = nodes, collisionGrid = collisionOption)
+    ServerMap(tiled = m, nodes = nodes, collisionGrid = collisionOption)
   }
 }

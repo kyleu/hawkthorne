@@ -8,7 +8,7 @@ import util.Rectangle
 case class CollisionService(map: TiledMap, collision: Either[CollisionPoly, CollisionGrid]) {
   val max = (map.width.toDouble * SystemOptions.tileSize, map.height.toDouble * SystemOptions.tileSize)
 
-  private[this] val gridMovementClass = "simple"
+  private[this] val gridMovementClass = "grid"
   private[this] val polyMovementClass = "poly"
 
   private[this] val movement = collision match {

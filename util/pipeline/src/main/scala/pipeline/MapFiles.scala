@@ -12,9 +12,10 @@ object MapFiles {
     file.addImport("enumeratum.values", "StringCirceEnum")
     file.addImport("enumeratum.values", "StringEnum")
     file.addImport("enumeratum.values", "StringEnumEntry")
+    file.addImport("models.collision", "Tileset")
 
     file.add("sealed abstract class TiledMap(", 2)
-    val extras = "val soundtrack: String, val color: String, val images: Map[String, String]"
+    val extras = "val soundtrack: String, val color: String, val tilesets: Seq[Tileset]"
     file.add(s"override val value: String, val title: String, val width: Int, val height: Int, $extras")
     file.add(") extends StringEnumEntry", -2)
     file.add()
@@ -38,9 +39,10 @@ object MapFiles {
       val imageNames = json("tilesets").get.asArray.get.map(_.asObject.get).map { o =>
         val in = o.apply("name").get.asString.get
         val is = o.apply("image").get.asString.get
-        in -> is.substring(is.lastIndexOf('/') + 1).stripSuffix(".png")
+        val fg = o.apply("firstgid").get.asNumber.get.toInt.get
+        (in, is.substring(is.lastIndexOf('/') + 1).stripSuffix(".png"), fg)
       }
-      val imageString = imageNames.map(n => "\"" + n._1 + "\" -> \"" + n._2 + "\"").mkString(", ")
+      val tilesetString = imageNames.map(n => s"""Tileset("${n._1}", "${n._2}", ${n._3})""").mkString(", ")
 
       val orientation = json("orientation").get.asString.get
       if (orientation != "orthogonal") { throw new IllegalStateException(s"Unhandled orientation [$orientation].") }
@@ -57,7 +59,7 @@ object MapFiles {
 
       val props = s"""title = "$title", width = $width, height = $height, soundtrack = "${soundtrack.getOrElse("level")}", color = "$color""""
 
-      file.add(s"""case object $name extends TiledMap(value = "$key", $props, images = Map($imageString))""")
+      file.add(s"""case object $name extends TiledMap(value = "$key", $props, tilesets = Seq($tilesetString))""")
     }
 
     file.add()

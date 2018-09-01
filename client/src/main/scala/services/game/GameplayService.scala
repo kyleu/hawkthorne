@@ -29,7 +29,7 @@ class GameplayService(
     "players" -> util.JsonSerializers.serialize(players)
   ))
 
-  val (nodes, collision) = MapNodeParser.parse(options.map.value, game.cache.getTilemapData("map." + options.map.value))
+  val (nodes, collision) = MapNodeParser.parse(options.map, game.cache.getTilemapData("map." + options.map.value))
 
   val instance = GameInstanceFactory.create(
     options = options,
@@ -65,7 +65,7 @@ class GameplayService(
     val messages = instance.update(delta = dt, gameUpdates: _*)
     if (messages.nonEmpty) {
       instance.apply(messages)
-      util.Logging.info(s"[${messages.size}] messages: [${messages.map(m => m.getClass.getSimpleName).mkString(", ")}]")
+      // util.Logging.info(s"[${messages.size}] messages: [${messages.map(m => m.getClass.getSimpleName).mkString(", ")}]")
       messages.foreach(applyMessage)
     }
     components.foreach(_.update(dt))

@@ -1,14 +1,15 @@
 package services.map
 
 import models.collision.{CollisionGrid, CollisionPoly}
-import models.node.{Node, SimpleNode}
+import models.data.map.TiledMap
+import models.node.Node
 import util.Logging
 
 import scala.scalajs.js
 import scala.util.control.NonFatal
 
 object MapNodeParser {
-  def parse(key: String, o: js.Dynamic): (Seq[Node], Either[CollisionPoly, CollisionGrid]) = {
+  def parse(m: TiledMap, o: js.Dynamic): (Seq[Node], Either[CollisionPoly, CollisionGrid]) = {
     val startNanos = System.nanoTime
 
     val layers = o.data.layers.asInstanceOf[js.Array[js.Dictionary[js.Any]]].toSeq
@@ -28,8 +29,10 @@ object MapNodeParser {
     })
 
     val collision = layers.find(_.apply("name").toString == "collision") match {
-      case Some(layer) => Right(CollisionGrid.forJson(io.circe.scalajs.convertJsToJson(layer).right.get))
-      case None => Left(CollisionPoly.fromNodes(key, nodes))
+      case Some(layer) =>
+        val firstTileId = m.tilesets.find(_.name == "collisions").getOrElse(throw new IllegalStateException("No [collisions] tileset")).firstId
+        Right(CollisionGrid.forJson(io.circe.scalajs.convertJsToJson(layer).right.get, firstTileId))
+      case None => Left(CollisionPoly.fromNodes(m.value, nodes))
     }
 
     Logging.debug(s"Loaded [${nodes.size}] nodes in [${((System.nanoTime - startNanos).toDouble / 1000000).toString.take(8)}ms].")

@@ -11,7 +11,7 @@ object CollisionTile {
   private[this] val FLAG_FLIP_DIAGONALLY = 0x20000000
   private[this] val MASK_CLEAR = 0xE0000000
 
-  def fromInts(index: Int, width: Int, z: Int) = {
+  def fromInts(index: Int, width: Int, z: Int): Option[CollisionTile] = {
     val h = (z & FLAG_FLIP_HORIZONTALLY) != 0
     val v = (z & FLAG_FLIP_VERTICALLY) != 0
     val d = (z & FLAG_FLIP_DIAGONALLY) != 0
@@ -25,7 +25,7 @@ object CollisionTile {
 }
 
 case class CollisionTile(x: Int, y: Int, tile: Int, h: Boolean = false, v: Boolean = false, d: Boolean = false) {
-  lazy val collisionBlockType = CollisionBlockType.fromInt(tile)
-  lazy val slopeEdges = CollisionBlockType.slopeEdges(tile)
-  lazy val special = CollisionBlockType.special(tile)
+  val collisionBlockType = CollisionBlockType.fromInt(tile)
+  val slopeEdges = CollisionBlockType.slopeEdges(tile)
+  val special = CollisionBlockType.special(tile)
 }

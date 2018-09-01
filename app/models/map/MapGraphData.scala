@@ -17,7 +17,7 @@ object MapGraphData {
     }
     val exits = ServerMapCache.all.map { m =>
       val doors = m.nodes.collect { case d: DoorNode => d }
-      m.key -> doors.flatMap(_.properties.flatMap(_.level)).distinct.filterNot(_ == m.key)
+      m.tiled.value -> doors.flatMap(_.properties.flatMap(_.level)).distinct.filterNot(_ == m.tiled.value)
     }
     val encountered = collection.mutable.HashSet.empty[(String, String)]
     exits.foreach { l =>

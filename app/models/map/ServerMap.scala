@@ -11,12 +11,10 @@ object ServerMap {
   implicit val jsonDecoder: Decoder[ServerMap] = deriveDecoder
 }
 
-final case class ServerMap(key: String, layers: Seq[String], nodes: Seq[Node], collisionGrid: Option[CollisionGrid]) extends Logging {
-  lazy val tiled = TiledMap.withValue(key)
-
+final case class ServerMap(tiled: TiledMap, nodes: Seq[Node], collisionGrid: Option[CollisionGrid]) extends Logging {
   lazy val collision = collisionGrid match {
     case Some(grid) => Right(grid)
-    case None => Left(CollisionPoly.fromNodes(key, nodes))
+    case None => Left(CollisionPoly.fromNodes(tiled.value, nodes))
   }
 
   lazy val collisionSummary = collision match {

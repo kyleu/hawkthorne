@@ -2,7 +2,7 @@ package models.collision
 
 import models.node.{Node, SimpleNode}
 import util.JsonSerializers._
-import util.Polygon
+import util.{DoublePoint, Polygon}
 
 object CollisionPoly {
   implicit val jsonEncoder: Encoder[CollisionPoly] = deriveEncoder
@@ -21,4 +21,7 @@ object CollisionPoly {
   }
 }
 
-case class CollisionPoly(polygon: Polygon, blockers: IndexedSeq[Polygon])
+case class CollisionPoly(polygon: Polygon, blockers: IndexedSeq[Polygon]) {
+  def checkPoint(point: DoublePoint) = polygon.pointIn(point) && !blockers.exists(_.pointIn(point))
+  def check(x: Double, y: Double) = checkPoint(DoublePoint(x, y))
+}

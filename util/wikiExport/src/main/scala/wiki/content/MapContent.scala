@@ -11,7 +11,7 @@ object MapContent {
       ("Height", o.height.toString),
       ("Soundtrack", o.soundtrack),
       ("Color", o.color),
-      ("Images", o.images.keys.toSeq.sorted.mkString(", "))
+      ("Tilesets", o.tilesets.map(_.name).sorted.mkString(", "))
     ): _*)
   }
 }
