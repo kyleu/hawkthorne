@@ -2,7 +2,6 @@ package models.game.cmd
 
 import java.util.UUID
 
-import models.data.map.TiledMap
 import models.input.InputCommand
 import models.player.Player
 import util.JsonSerializers._
