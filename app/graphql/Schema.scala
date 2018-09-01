@@ -37,7 +37,8 @@ object Schema {
 
   // Query Types
   val baseQueryFields = customQueryFields ++
-    models.supervisor.ConnectionDecriptionSchema.queryFields ++
+    models.supervisor.ConnectionDescriptionSchema.queryFields ++
+    models.supervisor.GameDescriptionSchema.queryFields ++
     models.settings.SettingsSchema.queryFields ++
     models.sandbox.SandboxSchema.queryFields
 

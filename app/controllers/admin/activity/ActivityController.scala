@@ -2,7 +2,7 @@ package controllers.admin.activity
 
 import controllers.BaseController
 import models.{Application, ResponseMessage}
-import models.InternalMessage.{GetSystemStatus, SystemStatus}
+import models.InternalMessage.{GetSystemStatus, ConnectionStatus}
 
 import scala.concurrent.Future
 import akka.pattern.ask
@@ -31,7 +31,7 @@ class ActivityController @javax.inject.Inject() (override val app: Application) 
   }
 
   def connectionList = withSession("activity.connection.list", admin = true) { implicit request => implicit td =>
-    ask(app.connectionSupervisor, GetSystemStatus)(20.seconds).mapTo[SystemStatus].map { status =>
+    ask(app.connectionSupervisor, GetSystemStatus)(20.seconds).mapTo[ConnectionStatus].map { status =>
       Ok(views.html.admin.activity.connectionList(request.identity, status.connections))
     }
   }

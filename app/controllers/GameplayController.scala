@@ -40,7 +40,7 @@ class GameplayController @javax.inject.Inject() (
       case HandlerResult(_, Some(user)) => Right(WebsocketUtils.actorRef(connId) { out =>
         PlayerConnectionService.props(
           id = Some(connId),
-          playerSupervisor = app.connectionSupervisor,
+          connectionSupervisor = app.connectionSupervisor,
           creds = Credentials(user, request.remoteAddress),
           out = out,
           sourceAddr = request.remoteAddress,

@@ -56,7 +56,7 @@ class ConnectionSupervisor() extends Actor with Logging {
     case x => log.warn(s"PlayerSupervisor encountered unknown message: ${x.toString}")
   }
 
-  private[this] def handleGetSystemStatus() = sender().tell(SystemStatus(connections.map(_._2.desc).toSeq.sortBy(_.name)), self)
+  private[this] def handleGetSystemStatus() = sender().tell(ConnectionStatus(connections.map(_._2.desc).toSeq.sortBy(_.name)), self)
 
   private[this] def handleSendConnectionTrace(ct: SendConnectionTrace) = connectionById(ct.id) match {
     case Some(c) => c.actorRef forward ct

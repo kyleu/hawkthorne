@@ -18,15 +18,15 @@ object PlayerConnectionService {
   case class Callbacks(analytics: (AnalyticsActionType, Json) => Unit)
 
   def props(
-    id: Option[UUID], playerSupervisor: ActorRef, creds: Credentials, out: ActorRef,
+    id: Option[UUID], connectionSupervisor: ActorRef, creds: Credentials, out: ActorRef,
     sourceAddr: String, callbacks: Callbacks
   ) = {
-    Props(new PlayerConnectionService(id.getOrElse(UUID.randomUUID), playerSupervisor, creds, out, sourceAddr, callbacks))
+    Props(new PlayerConnectionService(id.getOrElse(UUID.randomUUID), connectionSupervisor, creds, out, sourceAddr, callbacks))
   }
 }
 
 class PlayerConnectionService(
-    id: UUID, playerSupervisor: ActorRef, creds: Credentials, out: ActorRef,
+    id: UUID, connectionSupervisor: ActorRef, creds: Credentials, out: ActorRef,
     sourceAddr: String, callbacks: PlayerConnectionService.Callbacks
 ) extends Actor with Timers with Logging {
   private[this] var activeGameOpt: Option[(ActorRef, GameStarted)] = None
@@ -37,7 +37,7 @@ class PlayerConnectionService(
 
   override def preStart() = {
     log.info(s"Starting player connection for user [${creds.user.id}: ${creds.user.username}].")
-    playerSupervisor.tell(ConnectionStarted(creds, "player", id, self), self)
+    connectionSupervisor.tell(ConnectionStarted(creds, "player", id, self), self)
     out.tell(UserSettings(creds.user.id, creds.user.username, creds.user.profile.providerID), self)
     callbacks.analytics(AnalyticsActionType.Connect, Json.obj("source" -> sourceAddr.asJson, "version" -> Version.version.asJson))
   }
@@ -90,6 +90,6 @@ class PlayerConnectionService(
 
   override def postStop() = {
     activeGameOpt.foreach(g => g._1.tell(GameServiceMessage.Disconnect(g._2.playerIdx, "Server shutdown"), self))
-    playerSupervisor.tell(ConnectionStopped(id), self)
+    connectionSupervisor.tell(ConnectionStopped(id), self)
   }
 }
