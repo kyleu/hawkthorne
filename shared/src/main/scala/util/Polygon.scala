@@ -10,35 +10,12 @@ object Polygon {
 case class Polygon(points: Seq[DoublePoint]) {
   if (points.size < 3) { throw new IllegalStateException("Polygons must have at least three points.") }
 
-  private[this] val corners = points.size
-  private[this] val horizontal = points.map(_.x).toArray
-  private[this] val vertical = points.map(_.y).toArray
+  private[this] val pairs = (points.last :: points.toList).sliding(2).toSeq
 
-  @scala.annotation.tailrec
-  private[this] final def precalc(
-    i: Int, j: Int, constant: List[Double], multiple: List[Double]
-  ): (List[Double], List[Double]) = i match {
-    case _ if i == corners => (constant, multiple)
-    case _ if vertical(j) == vertical(i) => precalc(i + 1, i, horizontal(i) :: constant, 0d :: multiple)
-    case i: Int =>
-      val k = horizontal(i) - (vertical(i) * horizontal(j)) / (vertical(j) - vertical(i)) + (vertical(i) * horizontal(i)) / (vertical(j) - vertical(i))
-      val m = (horizontal(j) - horizontal(i)) / (vertical(j) - vertical(i))
-      precalc(i + 1, i, k :: constant, m :: multiple)
-  }
-
-  @scala.annotation.tailrec
-  private[this] final def isInside(
-    point: DoublePoint, i: Int, j: Int, constant: Array[Double], multiple: Array[Double], oddNodes: Boolean
-  ): Boolean = i match {
-    case _ if i == corners => oddNodes
-    case _ if vertical(i) < point.y && vertical(j) >= point.y || vertical(j) < point.y && vertical(i) >= point.y =>
-      isInside(point, i + 1, i, constant, multiple, oddNodes ^ (point.y * multiple(i) + constant(i) < point.x))
-    case i: Int => isInside(point, i + 1, i, constant, multiple, oddNodes)
-  }
-
-  def pointIn(point: DoublePoint): Boolean = {
-    val tuple = precalc(0, corners - 1, List(), List())
-    isInside(point, 0, corners - 1, tuple._1.toArray, tuple._2.toArray, oddNodes = false)
+  def pointIn(p: DoublePoint): Boolean = pairs.foldLeft(false) {
+    case (c, List(i, j)) =>
+      val cond = ((i.x <= p.x && p.x < j.x) || (j.x <= p.x && p.x < i.x)) && (p.y < (j.y - i.y) * (p.x - i.x) / (j.x - i.x) + i.y)
+      if (cond) { !c } else { c }
   }
 
   override def toString = s"Polygon[${points.map(p => p.x + "/" + p.y).mkString(", ")}]"

@@ -7,4 +7,6 @@ object DoublePoint {
   implicit val jsonDecoder: Decoder[DoublePoint] = deriveDecoder
 }
 
-final case class DoublePoint(x: Double, y: Double)
+final case class DoublePoint(x: Double, y: Double) {
+  override def toString = s"($x, $y)"
+}

@@ -10,4 +10,6 @@ object IntPoint {
 final case class IntPoint(x: Int, y: Int) {
   def toDoublePoint = DoublePoint(x.toDouble, y.toDouble)
   def tupled = x -> y
+
+  override def toString = s"($x, $y)"
 }
