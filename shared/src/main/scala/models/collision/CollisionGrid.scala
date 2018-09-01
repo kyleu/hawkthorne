@@ -27,7 +27,7 @@ object CollisionGrid {
           case x if x.isNumber => jsonToObj[Int](x)
           case x if x.isNull => 0
           case x => throw new IllegalStateException(s"Unhandled data [$x]")
-        }.zipWithIndex.flatMap(n => CollisionTile.fromInts(index = n._2, width = width, z = n._1 - firstTileId))
+        }.zipWithIndex.flatMap(n => CollisionTile.fromInts(index = n._2, width = width, z = n._1, firstTileId = firstTileId))
         case None => throw new IllegalStateException("Requires data with optional Base64 encoding")
       }
     }
@@ -47,7 +47,7 @@ object CollisionGrid {
 
     nums.zipWithIndex.flatMap {
       case n if n._1 == 0 => None
-      case n => CollisionTile.fromInts(index = n._2, width = width, z = n._1 - firstTileId)
+      case n => CollisionTile.fromInts(index = n._2, width = width, z = n._1, firstTileId = firstTileId)
     }.sortBy(t => t.y -> t.x)
   }
 }

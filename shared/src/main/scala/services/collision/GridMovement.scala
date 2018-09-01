@@ -15,10 +15,8 @@ class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementH
         case Some(special) =>
           val tileY = newTile._2 * SystemOptions.tileSize
           val outside = bounds.y - tileY <= special._2 || bounds.y - tileY > special._4 + 1
-          println(s"Special: $special")
-          println(s"Outside: $outside")
-          println(s"LogicX: ${bounds.y} - $tileY <= ${special._2} || ${bounds.y} - $tileY > ${special._4} + 1")
-          if (outside) { current._1 } else { newX }
+          println(s"SpecialX: $special ($outside), LogicX: ${bounds.y} - $tileY <= ${special._2} || ${bounds.y} - $tileY > ${special._4} + 1")
+          if (outside) { newX } else { current._1 }
         case None => current._1
       }
       case None => newX
@@ -34,10 +32,8 @@ class GridMovement(max: (Double, Double), grid: CollisionGrid) extends MovementH
         case Some(special) =>
           val tileX = newTile._1 * SystemOptions.tileSize
           val outside = (bounds.x + bounds.w) - tileX <= special._1 || bounds.x - tileX >= special._3
-          println(s"Special: $special")
-          println(s"Outside: $outside")
-          println(s"LogicY: (${bounds.x} + ${bounds.w}) - $tileX <= ${special._1} || ${bounds.x} - $tileX >= ${special._3}")
-          if (outside) { current._2 } else { newY }
+          println(s"SpecialY: $special ($outside), LogicY: (${bounds.x} + ${bounds.w}) - $tileX <= ${special._1} || ${bounds.x} - $tileX >= ${special._3}")
+          if (outside) { newY } else { current._2 }
         case None => current._2
       }
       case None => newY
