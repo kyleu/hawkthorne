@@ -21,9 +21,6 @@ object ResponseMessage {
   final case class SystemBroadcast(channel: String, msg: String) extends ResponseMessage
   final case class UserSettings(userId: UUID, username: String, email: String) extends ResponseMessage
 
-  // Matchmaking
-  case class MatchmakingStatus(sessionTicket: UUID, options: GameOptions, players: IndexedSeq[Player]) extends ResponseMessage
-
   // Game
   final case class GameNotFound(id: UUID) extends ResponseMessage
   final case class GameStarted(id: UUID, options: GameOptions, playerIdx: Int, players: IndexedSeq[Player]) extends ResponseMessage

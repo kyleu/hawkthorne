@@ -18,15 +18,15 @@ object PlayerConnectionService {
   case class Callbacks(analytics: (AnalyticsActionType, Json) => Unit)
 
   def props(
-    id: Option[UUID], playerSupervisor: ActorRef, matchmakingService: ActorRef, creds: Credentials, out: ActorRef,
+    id: Option[UUID], playerSupervisor: ActorRef, creds: Credentials, out: ActorRef,
     sourceAddr: String, callbacks: Callbacks
   ) = {
-    Props(new PlayerConnectionService(id.getOrElse(UUID.randomUUID), playerSupervisor, matchmakingService, creds, out, sourceAddr, callbacks))
+    Props(new PlayerConnectionService(id.getOrElse(UUID.randomUUID), playerSupervisor, creds, out, sourceAddr, callbacks))
   }
 }
 
 class PlayerConnectionService(
-    id: UUID, playerSupervisor: ActorRef, matchmakingService: ActorRef, creds: Credentials, out: ActorRef,
+    id: UUID, playerSupervisor: ActorRef, creds: Credentials, out: ActorRef,
     sourceAddr: String, callbacks: PlayerConnectionService.Callbacks
 ) extends Actor with Timers with Logging {
   private[this] var activeGameOpt: Option[(ActorRef, GameStarted)] = None

@@ -9,7 +9,7 @@ import play.api.Environment
 import play.api.inject.ApplicationLifecycle
 import services.database._
 import services.file.FileService
-import services.supervisor.{GameSupervisor, MatchmakingService, ConnectionSupervisor}
+import services.supervisor.{GameSupervisor, ConnectionSupervisor}
 import services.user.SystemUserService
 import services.cache.CacheService
 import services.audit.AuditService
@@ -56,7 +56,6 @@ class Application @javax.inject.Inject() (
 
   val connectionSupervisor = actorSystem.actorOf(Props(classOf[ConnectionSupervisor]), "connections")
   val gameSupervisor = actorSystem.actorOf(Props(classOf[GameSupervisor]), "games")
-  val matchmakingService = actorSystem.actorOf(MatchmakingService.props(gameSupervisor), "matchmaking")
 
   private[this] def start() = tracing.topLevelTrace("application.start") { implicit tn =>
     log.info(s"${Config.projectName} is starting.")

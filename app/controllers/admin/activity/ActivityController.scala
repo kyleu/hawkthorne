@@ -36,10 +36,6 @@ class ActivityController @javax.inject.Inject() (override val app: Application) 
     }
   }
 
-  def matchmakingStatus = withSession("activity.matchmaking.status", admin = true) { implicit request => implicit td =>
-    Future.successful(Ok(views.html.admin.activity.matchmakingStatus(request.identity, Nil)))
-  }
-
   def gameList = withSession("activity.game.list", admin = true) { implicit request => implicit td =>
     Future.successful(Ok(views.html.admin.activity.gameList(request.identity, Nil)))
   }

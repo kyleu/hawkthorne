@@ -20,11 +20,8 @@ object RequestMessage {
   final case class Ping(ts: Long) extends RequestMessage
   final case class DebugRequest(t: String, msg: String) extends RequestMessage
 
-  // Matchmaking
-  case class RegisterMatchmaking(options: GameOptions, minPlayers: Int, maxPlayers: Int) extends RequestMessage
-  case class DeregisterMatchmaking(sessionTicket: UUID) extends RequestMessage
-
   // Game
+  final case class StartGame(id: UUID, options: GameOptions) extends RequestMessage
   final case class JoinGame(id: UUID) extends RequestMessage
   final case class ObserveGame(id: UUID) extends RequestMessage
   final case class PlayerUpdate(msgs: Seq[GameCommand], ts: Long = System.currentTimeMillis) extends RequestMessage

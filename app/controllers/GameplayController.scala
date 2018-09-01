@@ -41,7 +41,6 @@ class GameplayController @javax.inject.Inject() (
         PlayerConnectionService.props(
           id = Some(connId),
           playerSupervisor = app.connectionSupervisor,
-          matchmakingService = app.matchmakingService,
           creds = Credentials(user, request.remoteAddress),
           out = out,
           sourceAddr = request.remoteAddress,
