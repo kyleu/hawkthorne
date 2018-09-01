@@ -15,6 +15,6 @@ case class InventoryTemplate(
     maxItems: Int
 ) {
   lazy val json = {
-    this.asJson.spaces2
+    this.asInstanceOf[InventoryTemplate].asJson.spaces2
   }
 }

@@ -36,6 +36,6 @@ case class QuestTemplate(
     reward: Option[QuestTemplate.Reward]
 ) {
   lazy val json = {
-    this.asJson.spaces2
+    this.asInstanceOf[QuestTemplate].asJson.spaces2
   }
 }

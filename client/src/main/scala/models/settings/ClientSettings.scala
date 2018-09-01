@@ -56,5 +56,5 @@ case class ClientSettings(
     showFps: Boolean = false,
     fullscreen: Boolean = false
 ) {
-  override def toString = this.asJson.spaces2
+  override def toString = this.asInstanceOf[ClientSettings].asJson.spaces2
 }
