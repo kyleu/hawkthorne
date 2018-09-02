@@ -8,6 +8,7 @@ import services.character.CharacterSelectionState
 import services.game.GameplayState
 import services.input.InputService
 import services.intro.{IntroState, PortalState}
+import services.matchmaking.MatchmakingState
 import services.options.OptionsState
 import services.overworld.OverworldMapState
 import services.state.NavigationService.setPath
@@ -36,8 +37,8 @@ object NavigationPaths {
         input = input,
         options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug)
       )
-      case "multiplayer/list" => throw new IllegalStateException("MatchmakingState.load(phaser = game, inputService = input, debug = debug)")
-      case "multiplayer/host" => throw new IllegalStateException("MatchmakingState.load(phaser = game, inputService = input, debug = debug)")
+      case "multiplayer/list" => MatchmakingState.load(phaser = game, inputService = input, debug = debug)
+      case "multiplayer/host" => MatchmakingState.load(phaser = game, inputService = input, debug = debug)
       case "credits" => CreditsState.load(phaser = game, inputService = input, debug = debug)
       case "help" => HelpState.load(phaser = game, inputService = input, debug = debug)
 

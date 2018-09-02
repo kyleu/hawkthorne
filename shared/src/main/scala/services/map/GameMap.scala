@@ -34,9 +34,6 @@ final case class GameMap(gameId: UUID, map: TiledMap, var objects: IndexedSeq[Ga
   def collidingBlocks(rect: Rectangle) = IndexedSeq.empty[(Int, Int)]
 
   def deltaFor(sourceObjects: IndexedSeq[GameObject]) = {
-    val added = Nil
-    val removed = Nil
-    val updated = Nil
-    GameMapDelta(gameId = gameId, map = map, added = added, removed = removed, updated = updated)
+    GameMapDelta.forGameObjects(gameId = gameId, map = map, src = sourceObjects, tgt = objects)
   }
 }

@@ -8,7 +8,7 @@ import models.options.GameOptions
 import models.player.Player
 import services.debug.DebugService
 import services.input.InputService
-import services.map.{MapNodeCache, MapNodeParser, MapService}
+import services.map.{MapNodeCache, MapService}
 import services.node.NodeLoader
 import services.socket.AnalyticsService
 
