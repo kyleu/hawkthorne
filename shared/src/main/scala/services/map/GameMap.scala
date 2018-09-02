@@ -2,7 +2,6 @@ package services.map
 
 import java.util.UUID
 
-import models.collision.{CollisionGrid, CollisionPoly}
 import models.data.map.TiledMap
 import models.game.obj.GameObject
 import models.options.SystemOptions
@@ -33,4 +32,11 @@ final case class GameMap(gameId: UUID, map: TiledMap, var objects: IndexedSeq[Ga
   def getCollision = collision.getOrElse(throw new IllegalStateException("No collision configured."))
 
   def collidingBlocks(rect: Rectangle) = IndexedSeq.empty[(Int, Int)]
+
+  def deltaFor(sourceObjects: IndexedSeq[GameObject]) = {
+    val added = Nil
+    val removed = Nil
+    val updated = Nil
+    GameMapDelta(gameId = gameId, map = map, added = added, removed = removed, updated = updated)
+  }
 }

@@ -34,13 +34,5 @@ abstract class Node(val t: String) {
 
   def asLocation = util.Rectangle(x = actualX.toDouble, y = actualY.toDouble, w = actualWidth, h = actualHeight)
 
-  def todo(content: String) = Seq(WorkInProgress(
-    id = id,
-    n = actualName,
-    loc = asLocation,
-    vis = visible,
-    todo = content
-  ))
-
-  def asNewGameObject: Seq[GameObject] = todo(t + "...")
+  def asNewGameObject: Seq[GameObject] = Seq.empty[GameObject]
 }

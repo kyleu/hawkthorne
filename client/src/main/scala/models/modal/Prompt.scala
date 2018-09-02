@@ -5,11 +5,6 @@ import models.font.{Font, MultilineText}
 import models.input.{MenuAction, PointerAction}
 import services.input.InputService
 
-object Prompt {
-  val padding = 8
-  val textWidth = BaseModal.width - (padding * 2)
-}
-
 class Prompt(game: Game, inputService: InputService) extends BaseModal(game, "prompt") {
   private[this] val font = Font.getFont("arial", game)
   private[this] var active: Option[String => Unit] = None

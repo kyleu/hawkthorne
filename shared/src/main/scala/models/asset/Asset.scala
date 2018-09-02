@@ -13,7 +13,7 @@ object Asset {
   final case class Image(override val key: String, override val path: String) extends Asset
 
   final case class Spritesheet(override val key: String, override val path: String, width: Int, height: Int) extends Asset
-  def spritesheetFromTuple(t: (String, String, Int, Int)) = Spritesheet(t._1, t._2, t._3, t._4)
+  def fromTuple(t: (String, String, Int, Int)) = Spritesheet(t._1, t._2, t._3, t._4)
 
   final case class Tilemap(override val key: String, override val path: String) extends Asset
 }

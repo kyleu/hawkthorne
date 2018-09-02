@@ -2,8 +2,7 @@ package services.game
 
 import com.definitelyscala.phaserce.Game
 import models.asset._
-import models.font.Font
-import models.gui.HudOverlay
+import models.gui.GuiAssets
 import models.options.GameOptions
 import models.player.Player
 import services.audio.SoundEffectService
@@ -15,9 +14,7 @@ object GameplayState {
   def load(phaser: Game, input: InputService, options: GameOptions, players: IndexedSeq[Player]) = new LoadingState(
     next = new GameplayState(phaser = phaser, inputService = input, options = options, players = players),
     phaser = phaser,
-    assets = SoundEffectService.gameplayAssets ++ MapService.assetsFor(options.map) ++
-      HudOverlay.assets ++ Font.assets ++ players.map(p => Asset.spritesheetFromTuple(p.spritesheet)) ++
-      Seq(Asset.Image("modal.background", "images/custom/dialog.png"))
+    assets = SoundEffectService.gameplayAssets ++ GuiAssets.assets ++ MapService.assetsFor(options.map) ++ players.map(p => Asset.fromTuple(p.spritesheet))
   )
 }
 
