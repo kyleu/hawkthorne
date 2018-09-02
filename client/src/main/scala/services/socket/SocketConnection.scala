@@ -2,7 +2,7 @@ package services.socket
 
 import models.RequestMessage
 import services.event.EventHandler
-import util.{BinarySerializers, Logging}
+import util.{BinarySerializers, JsonSerializers, Logging}
 
 class SocketConnection(key: String, val handler: EventHandler, val binary: Boolean) {
   protected[this] val socket = new NetworkSocket(handler)
@@ -25,11 +25,11 @@ class SocketConnection(key: String, val handler: EventHandler, val binary: Boole
       if (binary) {
         socket.sendBinary(BinarySerializers.writeRequestMessage(rm))
       } else {
-        socket.sendString(util.JsonSerializers.serialize(rm).spaces2)
+        socket.sendString(JsonSerializers.serialize(rm).spaces2)
       }
       handler.onRequestMessage(rm)
     } else {
-      util.Logging.warn("Attempted message send when not connected.")
+      util.Logging.warn(s"Attempted send of message [${rm.getClass.getSimpleName}] when not connected.")
     }
   }
 }

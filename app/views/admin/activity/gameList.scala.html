@@ -1,4 +1,4 @@
-@(user: models.user.SystemUser, games: Seq[String])(
+@(user: models.user.SystemUser, games: Seq[models.supervisor.GameDescription])(
     implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
 )@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "activity", "Game List") {
   <ul class="collection with-header">
@@ -15,10 +15,18 @@
           <tbody>
             <tr>
               <th>ID</th>
+              <th>Map</th>
+              <th>Type</th>
+              <th>Debug</th>
+              <th>Started</th>
             </tr>
             @games.map { game =>
               <tr>
-                <td>@game</td>
+                <td>@game.id</td>
+                <td>@game.options.map</td>
+                <td>@game.options.gameType</td>
+                <td>@game.options.debug</td>
+                <td>@util.DateUtils.niceDateTime(game.started)</td>
               </tr>
             }
           </tbody>

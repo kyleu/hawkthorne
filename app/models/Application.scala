@@ -54,7 +54,7 @@ class Application @javax.inject.Inject() (
     Await.result(start(), 20.seconds)
   }
 
-  val connectionSupervisor = actorSystem.actorOf(Props(classOf[ConnectionSupervisor]), "connections")
+  val connSupervisor = actorSystem.actorOf(Props(classOf[ConnectionSupervisor]), "connections")
   val gameSupervisor = actorSystem.actorOf(Props(classOf[GameSupervisor]), "games")
 
   private[this] def start() = tracing.topLevelTrace("application.start") { implicit tn =>

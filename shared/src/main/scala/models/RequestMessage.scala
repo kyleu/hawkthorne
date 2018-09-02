@@ -5,6 +5,7 @@ import java.util.UUID
 import models.analytics.AnalyticsActionType
 import models.game.cmd.GameCommand
 import models.options.GameOptions
+import models.player.Player
 import util.JsonSerializers._
 
 sealed trait RequestMessage
@@ -19,6 +20,9 @@ object RequestMessage {
   final case class GetVersion(v: String) extends RequestMessage
   final case class Ping(ts: Long) extends RequestMessage
   final case class DebugRequest(t: String, msg: String) extends RequestMessage
+
+  // Players
+  final case class SetPlayer(player: Player) extends RequestMessage
 
   // Game
   final case class StartGame(id: UUID, options: GameOptions) extends RequestMessage

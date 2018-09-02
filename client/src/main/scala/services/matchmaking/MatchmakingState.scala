@@ -1,11 +1,16 @@
 package services.matchmaking
 
+import java.util.UUID
+
 import com.definitelyscala.phaserce.Game
+import models.RequestMessage.StartGame
 import models.asset.Asset
 import models.font.Font
 import models.input.{MenuAction, PointerAction}
+import models.options.GameOptions
 import services.audio.SoundEffectService
 import services.input.InputService
+import services.socket.{NetworkMessage, UserManager}
 import services.state.{GameState, LoadingState}
 
 object MatchmakingState {
@@ -21,6 +26,9 @@ class MatchmakingState(phaser: Game, inputService: InputService, debug: Boolean,
     inputService.setPointerEventCallback(Some(pointerAct))
     inputService.menuHandler.setCallback(Some(x => onMenuAction(x)))
     resize(game.width, game.height)
+    UserManager.awaitSystemReady(() => {
+      NetworkMessage.sendMessage(StartGame(UUID.randomUUID, GameOptions(maxPlayers = 64, offline = false, debug = debug)))
+    })
   }
 
   private[this] def pointerAct(pointerAction: PointerAction) = util.Logging.info(s"Matchmaking pointer action [$pointerAction]")

@@ -1,0 +1,12 @@
+@(user: models.user.SystemUser, id: java.util.UUID, conn: io.circe.Json)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "activity", s"Conn [$id] Detail") {
+  <ul class="collection with-header">
+    <li class="collection-header">
+      <h5><i class="fa @models.template.Icons.game"></i> Connection [@id]</h5>
+    </li>
+    <li class="collection-item">
+      <pre>@conn.spaces2</pre>
+    </li>
+  </ul>
+}

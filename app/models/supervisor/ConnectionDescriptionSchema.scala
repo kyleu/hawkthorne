@@ -20,7 +20,7 @@ object ConnectionDescriptionSchema extends GraphQLSchemaHelper("connection") {
     import scala.concurrent.duration._
     implicit val timeout: Timeout = Timeout(1.second)
 
-    ask(c.ctx.app.connectionSupervisor, GetSystemStatus).mapTo[ConnectionStatus].map { x =>
+    ask(c.ctx.app.connSupervisor, GetSystemStatus).mapTo[ConnectionStatus].map { x =>
       x.connections.filter(s => c.arg(channelArg).forall(_ == s.channel) && c.arg(connectionIdArg).forall(_ == s.id))
     }
   }, channelArg, connectionIdArg))

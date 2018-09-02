@@ -26,18 +26,11 @@ object NavigationPaths {
       case "test" => TestState.load(phaser = game, inputService = input)
       case "sandbox" => SandboxState.load(phaser = game)
 
-      case "overworld" => OverworldMapState.load(
-        phaser = game,
-        inputService = input,
-        player = ActivePlayers.getPlayers.head,
-        debug = debug
-      )
+      case "overworld" => OverworldMapState.load(phaser = game, inputService = input, player = ActivePlayers.networkPlayer, debug = debug)
       case x if x.startsWith("map/") => newGameState(
-        game = game,
-        input = input,
-        options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug)
+        game = game, input = input, options = GameOptions(map = TiledMap.withValue(x.stripPrefix("map/")), debug = debug)
       )
-      case "multiplayer/list" => MatchmakingState.load(phaser = game, inputService = input, debug = debug)
+      case "multiplayer/list" => throw new IllegalStateException("MatchmakingState.load(phaser = game, inputService = input, debug = debug)")
       case "multiplayer/host" => MatchmakingState.load(phaser = game, inputService = input, debug = debug)
       case "credits" => CreditsState.load(phaser = game, inputService = input, debug = debug)
       case "help" => HelpState.load(phaser = game, inputService = input, debug = debug)

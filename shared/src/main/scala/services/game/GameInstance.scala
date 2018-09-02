@@ -15,18 +15,13 @@ object GameInstance {
   implicit val jsonDecoder: Decoder[GameInstance] = deriveDecoder
 }
 
-final case class GameInstance(
-    gameId: UUID,
-    options: GameOptions,
-    map: GameMap
-) extends GameInstancePlayers {
+final case class GameInstance(gameId: UUID, options: GameOptions, map: GameMap) extends GameInstancePlayers {
   private[this] var running = false
 
   private[this] var elapsedSeconds = 0.0
   val bounds = (options.map.width * SystemOptions.tileSize) -> (options.map.height * SystemOptions.tileSize)
 
   def start(initialCommands: Seq[GameCommand]) = {
-    debug(toString)
     if (running) { throw new IllegalStateException(s"Game [$gameId] already started.") }
     running = true
     apply(update(0, initialCommands: _*))
@@ -60,5 +55,5 @@ final case class GameInstance(
     }
   }
 
-  override def toString = GameInstanceDebug.debugString(gameId, options, players, map, elapsedSeconds)
+  def toDebug = GameInstanceDebug(gameId, options, players, map, elapsedSeconds)
 }

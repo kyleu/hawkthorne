@@ -1,7 +1,7 @@
 package services.event
 
 import models.{RequestMessage, ResponseMessage}
-import models.ResponseMessage.{Pong, ServerError, SystemBroadcast, UserSettings}
+import models.ResponseMessage.{Pong, ServerError, SystemBroadcast, SystemReady, UserSettings}
 import services.socket.{NetworkMessage, NotificationService, UserManager}
 import util.{DateUtils, Logging}
 
@@ -28,7 +28,8 @@ trait EventHandler {
     case us: UserSettings => UserManager.onUserSettings(us)
     case se: ServerError => NotificationService.err(se.reason + ": " + se.content)
     case sb: SystemBroadcast => NotificationService.log(sb.channel + ": " + sb.msg)
-    case _ => Logging.warn(s"Received unknown message of type [${msg.getClass.getSimpleName}].")
+    case SystemReady => UserManager.setSystemReady()
+    case _ => Logging.warn(s"Received unknown response message of type [${msg.getClass.getSimpleName}].")
   }
 
   def onError(err: Event): Unit = {

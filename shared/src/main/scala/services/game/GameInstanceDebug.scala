@@ -2,10 +2,10 @@ package services.game
 
 import java.util.UUID
 
-import models.data.map.TiledMap
 import models.options.GameOptions
 import models.player.PlayerRecord
 import services.map.GameMap
+import util.JsonSerializers._
 
 object GameInstanceDebug {
   private[this] var isDebug = true
@@ -41,4 +41,8 @@ object GameInstanceDebug {
       |}
     """.stripMargin.trim
   }
+
+  implicit val jsonEncoder: Encoder[GameInstanceDebug] = deriveEncoder
 }
+
+case class GameInstanceDebug(id: UUID, options: GameOptions, players: Seq[PlayerRecord], gameMap: GameMap, elapsedSeconds: Double)

@@ -1,4 +1,6 @@
 GET        /                    controllers.admin.activity.ActivityController.activityIndex
 GET        /broadcast           controllers.admin.activity.ActivityController.broadcast(msg: Option[String] ?= None)
 GET        /connection          controllers.admin.activity.ActivityController.connectionList
+GET        /connection/:id      controllers.admin.activity.ActivityController.connectionDetail(id: java.util.UUID)
 GET        /game                controllers.admin.activity.ActivityController.gameList
+GET        /game/:id            controllers.admin.activity.ActivityController.gameDetail(id: java.util.UUID)

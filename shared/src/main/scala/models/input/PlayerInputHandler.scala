@@ -1,5 +1,6 @@
 package models.input
 
+import io.circe.Json
 import models.data.character.CharacterAnimation
 import models.game.cmd.GameCommand
 import models.game.msg.GameMessage
@@ -7,8 +8,15 @@ import services.collision.CollisionService
 import services.game.GameInstance
 import services.map.GameMap
 import util.BoundingBox
+import util.JsonSerializers.Encoder
 
-class PlayerInputHandler(instance: GameInstance, map: GameMap, playerIdx: Int, boundingBox: BoundingBox, initial: (Int, Int), log: String => Unit) {
+object PlayerInputHandler {
+  implicit val jsonEncoder: Encoder[PlayerInputHandler] = (p: PlayerInputHandler) => Json.obj(
+    ("idx", Json.fromInt(p.playerIdx)), ("x", Json.fromDouble(p.x).get), ("y", Json.fromDouble(p.y).get)
+  )
+}
+
+class PlayerInputHandler(instance: GameInstance, map: GameMap, val playerIdx: Int, val boundingBox: BoundingBox, initial: (Int, Int), log: String => Unit) {
   private[this] val collision = CollisionService(instance.options.map, map.getCollision)
 
   private[this] var current = (initial._1.toDouble, initial._2.toDouble)

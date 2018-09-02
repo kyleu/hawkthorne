@@ -22,16 +22,6 @@ class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
   val connection = initNetwork()
   initPhaser()
 
-  private[this] def initPhaser() = {
-    js.Dynamic.global.window.PhaserGlobal = js.Dynamic.literal(hideBanner = true)
-    val webGL = true // dom.window.navigator.userAgent.indexOf("AppleWebKit") > -1
-
-    val game = new Game(PhaserUtils.getConfig(webGL))
-    js.Dynamic.global.phaser = game
-
-    NavigationService.init(game = game, path = path, debug = debug)
-  }
-
   private[this] def initNetwork() = {
     val handler = new EventHandler {
       override def onConnect() = {
@@ -47,5 +37,15 @@ class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
     val c = new SocketConnection("hawkthorne", handler = handler, binary = !debug)
     c.connect(s"/connect?binary=${!debug}")
     c
+  }
+
+  private[this] def initPhaser() = {
+    js.Dynamic.global.window.PhaserGlobal = js.Dynamic.literal(hideBanner = true)
+    val webGL = true // dom.window.navigator.userAgent.indexOf("AppleWebKit") > -1
+
+    val game = new Game(PhaserUtils.getConfig(webGL))
+    js.Dynamic.global.phaser = game
+
+    NavigationService.init(game = game, path = path, debug = debug)
   }
 }

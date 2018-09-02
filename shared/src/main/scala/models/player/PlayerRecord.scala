@@ -3,6 +3,11 @@ package models.player
 import models.game.msg.GameMessage
 import models.input.PlayerInputHandler
 import services.game.GameInstanceDebug.log
+import util.JsonSerializers._
+
+object PlayerRecord {
+  implicit val jsonEncoder: Encoder[PlayerRecord] = deriveEncoder
+}
 
 case class PlayerRecord(player: Player, input: PlayerInputHandler) {
   private[this] def setAnimation(anim: String) = player.attributes.animation = anim
