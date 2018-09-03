@@ -1,9 +1,7 @@
 package services.event
 
-import io.circe.Json
-import models.RequestMessage.ClientTrace
 import models.ResponseMessage
-import models.ResponseMessage.{Pong, SendClientTrace, ServerError, SystemBroadcast, SystemReady, UserSettings}
+import models.ResponseMessage.{Pong, ServerError, SystemReady, UserSettings}
 import org.scalajs.dom.raw.Event
 import services.socket.{NetworkMessage, NotificationService, UserManager}
 import util.{DateUtils, Logging}
@@ -35,10 +33,8 @@ class HawkthorneEventHandler(onReady: Boolean => HawkthorneSystem) extends Event
     case p: Pong => onLatency((System.currentTimeMillis - p.ts).toInt)
     case us: UserSettings => UserManager.onUserSettings(us)
     case se: ServerError => NotificationService.err(se.reason + ": " + se.content)
-    case sb: SystemBroadcast => NotificationService.log(sb.channel + ": " + sb.msg)
-    case ctr: SendClientTrace => sendClientTrace(ctr.t)
     case SystemReady => onSystemReady()
-    case _ => Logging.warn(s"Received unknown response message of type [${msg.getClass.getSimpleName}].")
+    case _ => system.onMessage(msg)
   }
 
   override def onError(err: Event) = {
@@ -53,14 +49,9 @@ class HawkthorneEventHandler(onReady: Boolean => HawkthorneSystem) extends Event
   }
 
   private[this] def onSystemReady() = systemOpt match {
-    case Some(sys) => util.Logging.error("System initialized twice!")
+    case Some(_) => util.Logging.error("System initialized twice!")
     case None => systemOpt = Some(onReady(true))
   }
 
   private[this] def onLatency(ms: Int): Unit = NetworkMessage.setLatencyMs(ms)
-
-  private[this] def sendClientTrace(t: String) = {
-    val payload = Json.fromString("!!!")
-    NetworkMessage.sendMessage(ClientTrace(payload))
-  }
 }

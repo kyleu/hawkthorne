@@ -17,7 +17,7 @@ trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
   protected[this] var activeGameOpt: Option[(ActorRef, GameJoined)] = None
 
   protected[this] def startGame(id: UUID, options: GameOptions) = {
-    gameSupervisor.tell(GameSupervisor.StartGame(id = id, options = options), self)
+    gameSupervisor.tell(GameSupervisor.StartGame(id = id, options = options, initialPlayers = Seq(self -> player)), self)
   }
 
   protected[this] def joinGame(id: UUID) = out.tell(GameNotFound(id), self)
@@ -37,7 +37,7 @@ trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
   }
 
   // Players
-  private[this] var player: Option[Player] = None
+  private[this] var playerOpt: Option[Player] = None
 
   protected[this] def withGame(ctx: String)(f: (ActorRef, GameJoined) => Unit) = activeGameOpt match {
     case Some(g) => f(g._1, g._2)
@@ -45,10 +45,10 @@ trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
   }
 
   protected[this] def setPlayer(p: Player) = {
-    if (player.isEmpty) { out.tell(SystemReady, self) }
-    player = Some(p)
+    if (playerOpt.isEmpty) { out.tell(SystemReady, self) }
+    playerOpt = Some(p)
   }
-  protected[this] def getPlayer = player.getOrElse(throw new IllegalStateException("No active player for connection service."))
+  protected[this] def player = playerOpt.getOrElse(throw new IllegalStateException("No active player for connection service."))
 
   // Trace
   private[this] var pendingTrace: Option[ActorRef] = None

@@ -4,6 +4,8 @@ import java.util.UUID
 
 import com.definitelyscala.phaserce.Game
 import models.RequestMessage.StartGame
+import models.ResponseMessage
+import models.ResponseMessage.GameJoined
 import models.asset.Asset
 import models.font.Font
 import models.input.{MenuAction, PointerAction}
@@ -29,6 +31,11 @@ class MatchmakingState(phaser: Game, inputService: InputService, debug: Boolean,
     UserManager.awaitSystemReady(() => {
       NetworkMessage.sendMessage(StartGame(UUID.randomUUID, GameOptions(maxPlayers = 64, offline = false, debug = debug)))
     })
+  }
+
+  override def onMessage(msg: ResponseMessage) = msg match {
+    case gj: GameJoined => util.Logging.info(s"TODO: Join game [${gj.id}] with options [${gj.options}] and players [${gj.players}]")
+    case _ => super.onMessage(msg)
   }
 
   private[this] def pointerAct(pointerAction: PointerAction) = util.Logging.info(s"Matchmaking pointer action [$pointerAction]")

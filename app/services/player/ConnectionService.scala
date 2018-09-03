@@ -58,7 +58,7 @@ class ConnectionService(
     case gc: GameServiceMessage.CompletedGame => onGameComplete(gc.gf)
 
     // Game Requests
-    case pu: PlayerUpdate => withGame("playerUpdate")((a, _) => a.tell(GameServiceMessage.Update(getPlayer.idx, pu), self))
+    case pu: PlayerUpdate => withGame("playerUpdate")((a, _) => a.tell(GameServiceMessage.Update(player.idx, pu), self))
 
     // Responses
     case rm: ResponseMessage => out.tell(rm, self)
