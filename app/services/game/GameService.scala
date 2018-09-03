@@ -8,6 +8,8 @@ import models.InternalMessage.GameTraceResponse
 import models.ResponseMessage.GameJoined
 import models.game.GameServiceMessage
 import models.game.GameServiceMessage._
+import models.game.cmd.GameCommand
+import models.game.msg.GameMessage
 import models.options.GameOptions
 import models.player.Player
 import services.map.ServerMapCache
@@ -42,10 +44,13 @@ class GameService(id: UUID, options: GameOptions, gameSupervisor: ActorRef) exte
     case x => throw new IllegalStateException(s"Unhandled game service message [$x]")
   }
 
+  private[this] def todoApply(cmd: GameCommand.AddPlayer) = game.update(0, cmd)
+
   def addPlayer(p: Player, actorRef: ActorRef) = {
     val idx = playerSeq.size
     playerMap = playerMap + (p.id -> ((idx, p, actorRef)))
     playerSeq = playerSeq :+ (p -> actorRef)
+    todoApply(GameCommand.AddPlayer(p, options.initialSpawn))
     actorRef.tell(JoinedGame(self, GameJoined(id, options, playerSeq.map(_._1), idx)), self)
   }
 
