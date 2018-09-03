@@ -18,7 +18,7 @@ class Hawkthorne(path: String, debug: Boolean) {
   val phaser = initPhaser()
 
   private[this] def initNetwork(): SocketConnection = {
-    val handler = new HawkthorneEventHandler(onReady = () => HawkthorneSystem(connection, phaser, startMs))
+    val handler = new HawkthorneEventHandler(onReady = _ => HawkthorneSystem(connection, phaser, startMs))
     new SocketConnection("hawkthorne", handler = handler, binary = !debug)
   }
 
