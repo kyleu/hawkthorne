@@ -43,8 +43,8 @@ class ConnectionService(
     case _: GetVersion => out.tell(VersionResponse(Config.version), self)
     case dr: DebugRequest => onDebugRequest(dr)
     case sp: SetPlayer => setPlayer(sp.player)
-    case sct: SendConnectionTrace => sendConnectionTrace()
-    case sct: SendClientTrace => sendClientTrace()
+    case _: SendConnectionTrace => sendConnectionTrace()
+    case _: SendClientTrace => sendClientTrace()
 
     // Analytics
     case am: AnalyticsMessage => callbacks.analytics(am.t, am.arg)
