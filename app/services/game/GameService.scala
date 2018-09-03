@@ -38,7 +38,7 @@ class GameService(id: UUID, options: GameOptions, gameSupervisor: ActorRef) exte
 
   override def receive = {
     case ap: GameServiceMessage.AddPlayer => addPlayer(ap.p, ap.ref)
-    case sgt: InternalMessage.SendGameTrace => sender().tell(GameTraceResponse(game.toDebug), self)
+    case sgt: InternalMessage.GameTraceRequest => sender().tell(GameTraceResponse(game.toDebug), self)
     case x => throw new IllegalStateException(s"Unhandled game service message [$x]")
   }
 

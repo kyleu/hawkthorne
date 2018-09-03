@@ -2,6 +2,7 @@ package models.game
 
 import akka.actor.ActorRef
 import enumeratum.{CirceEnum, Enum, EnumEntry}
+import io.circe.Json
 import models.RequestMessage.PlayerUpdate
 import models.ResponseMessage.GameJoined
 import models.player.Player
@@ -16,7 +17,7 @@ object GameServiceMessage extends Enum[GameServiceMessage] with CirceEnum[GameSe
   final case class AddPlayer(p: Player, ref: ActorRef)
   final case class Update(idx: Int, pu: PlayerUpdate) extends GameServiceMessage
   final case class Disconnect(idx: Int, msg: String) extends GameServiceMessage
-  final case class Debug(playerIdx: Int, t: String, msg: String)
+  final case class Debug(playerIdx: Int, t: String, payload: Json)
 
   // Out
   final case class JoinedGame(actor: ActorRef, gj: GameJoined)

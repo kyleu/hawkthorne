@@ -19,7 +19,8 @@ object RequestMessage {
   final case class ClientError(message: String, loc: String, ctx: Json) extends RequestMessage
   final case class GetVersion(v: String) extends RequestMessage
   final case class Ping(ts: Long) extends RequestMessage
-  final case class DebugRequest(t: String, msg: String) extends RequestMessage
+  final case class DebugRequest(t: String, payload: Json) extends RequestMessage
+  final case class ClientTrace(payload: Json) extends RequestMessage
 
   // Players
   final case class SetPlayer(player: Player) extends RequestMessage

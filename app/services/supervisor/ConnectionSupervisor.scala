@@ -47,8 +47,8 @@ class ConnectionSupervisor() extends Actor with Logging {
     case ss: ConnectionStopped => handleConnectionStopped(ss.id)
 
     case GetSystemStatus => handleGetSystemStatus()
-    case sst: SendConnectionTrace => handleSendConnectionTrace(sst)
-    case sct: SendClientTrace => handleSendClientTrace(sct)
+    case sst: ConnectionTraceRequest => handleSendConnectionTrace(sst)
+    case sct: ClientTraceRequest => handleSendClientTrace(sct)
 
     case b: ConnectionSupervisor.Broadcast => connections.foreach(_._2.actorRef.tell(b.msg, self))
 
@@ -58,12 +58,12 @@ class ConnectionSupervisor() extends Actor with Logging {
 
   private[this] def handleGetSystemStatus() = sender().tell(ConnectionStatus(connections.map(_._2.desc).toSeq.sortBy(_.name)), self)
 
-  private[this] def handleSendConnectionTrace(ct: SendConnectionTrace) = connectionById(ct.id) match {
+  private[this] def handleSendConnectionTrace(ct: ConnectionTraceRequest) = connectionById(ct.id) match {
     case Some(c) => c.actorRef forward ct
     case None => sender().tell(ServerError("Unknown connection", ct.id.toString), self)
   }
 
-  private[this] def handleSendClientTrace(ct: SendClientTrace) = connectionById(ct.id) match {
+  private[this] def handleSendClientTrace(ct: ClientTraceRequest) = connectionById(ct.id) match {
     case Some(c) => c.actorRef forward ct
     case None => sender().tell(ServerError("Unknown connection", ct.id.toString), self)
   }

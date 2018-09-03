@@ -3,7 +3,9 @@ package services.player
 import java.util.UUID
 
 import akka.actor.ActorRef
-import models.ResponseMessage.{GameJoined, GameNotFound, SystemReady}
+import io.circe.Json
+import models.InternalMessage.ClientTraceResponse
+import models.ResponseMessage.{GameJoined, GameNotFound, SendClientTrace, SystemReady}
 import models.game.GameServiceMessage
 import models.options.GameOptions
 import models.player.Player
@@ -11,20 +13,8 @@ import services.supervisor.GameSupervisor
 import util.Logging
 
 trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
-  private[this] var player: Option[Player] = None
-
+  // Game
   protected[this] var activeGameOpt: Option[(ActorRef, GameJoined)] = None
-
-  protected[this] def withGame(ctx: String)(f: (ActorRef, GameJoined) => Unit) = activeGameOpt match {
-    case Some(g) => f(g._1, g._2)
-    case None => log.warn(s"Attempted to use active game for [$ctx], but no active game.")
-  }
-
-  protected[this] def setPlayer(p: Player) = {
-    if (player.isEmpty) { out.tell(SystemReady, self) }
-    player = Some(p)
-  }
-  protected[this] def getPlayer = player.getOrElse(throw new IllegalStateException("No active player for connection service."))
 
   protected[this] def startGame(id: UUID, options: GameOptions) = {
     gameSupervisor.tell(GameSupervisor.StartGame(id = id, options = options), self)
@@ -44,5 +34,34 @@ trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
   protected[this] def onGameComplete(gf: String) = {
     activeGameOpt = None
     out.tell(gf, self)
+  }
+
+  // Players
+  private[this] var player: Option[Player] = None
+
+  protected[this] def withGame(ctx: String)(f: (ActorRef, GameJoined) => Unit) = activeGameOpt match {
+    case Some(g) => f(g._1, g._2)
+    case None => log.warn(s"Attempted to use active game for [$ctx], but no active game.")
+  }
+
+  protected[this] def setPlayer(p: Player) = {
+    if (player.isEmpty) { out.tell(SystemReady, self) }
+    player = Some(p)
+  }
+  protected[this] def getPlayer = player.getOrElse(throw new IllegalStateException("No active player for connection service."))
+
+  // Trace
+  private[this] var pendingTrace: Option[ActorRef] = None
+
+  protected[this] def sendClientTrace() = {
+    pendingTrace = Some(sender())
+    out.tell(SendClientTrace("full"), self)
+  }
+
+  protected[this] def returnClientTrace(payload: Json) = pendingTrace match {
+    case Some(a) =>
+      pendingTrace = None
+      a.tell(ClientTraceResponse(id, payload), self)
+    case None => throw new IllegalStateException("No pending client trace")
   }
 }

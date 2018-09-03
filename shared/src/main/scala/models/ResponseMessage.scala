@@ -20,6 +20,7 @@ object ResponseMessage {
   final case class Disconnected(reason: String) extends ResponseMessage
   final case class SystemBroadcast(channel: String, msg: String) extends ResponseMessage
   final case class UserSettings(userId: UUID, username: String, email: String) extends ResponseMessage
+  final case class SendClientTrace(t: String) extends ResponseMessage
   final case object SystemReady extends ResponseMessage
 
   // Game

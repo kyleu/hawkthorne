@@ -4,7 +4,7 @@ import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, Props, Timers}
 import io.circe.Json
-import models.InternalMessage._
+import models.InternalMessage.{ClientTraceRequest, _}
 import models.RequestMessage._
 import models.ResponseMessage._
 import models.analytics.AnalyticsActionType
@@ -25,10 +25,9 @@ object ConnectionService {
 }
 
 class ConnectionService(
-    id: UUID, connSupervisor: ActorRef, protected val gameSupervisor: ActorRef, creds: Credentials,
+    val id: UUID, connSupervisor: ActorRef, protected val gameSupervisor: ActorRef, creds: Credentials,
     protected val out: ActorRef, sourceAddr: String, callbacks: ConnectionService.Callbacks
 ) extends ConnectionServiceHelper with Actor with Timers {
-
   override def preStart() = {
     log.info(s"Starting player connection for user [${creds.user.id}: ${creds.user.username}].")
     connSupervisor.tell(ConnectionStarted(creds, "player", id, self), self)
@@ -43,8 +42,11 @@ class ConnectionService(
     case _: GetVersion => out.tell(VersionResponse(Config.version), self)
     case dr: DebugRequest => onDebugRequest(dr)
     case sp: SetPlayer => setPlayer(sp.player)
-    case _: SendConnectionTrace => sendConnectionTrace()
-    case _: SendClientTrace => sendClientTrace()
+
+    // Tracing
+    case _: ConnectionTraceRequest => sender().tell(ConnectionTraceResponse(id = id, userId = creds.user.id, username = creds.user.username), self)
+    case _: ClientTraceRequest => sendClientTrace()
+    case ct: ClientTrace => returnClientTrace(ct.payload)
 
     // Analytics
     case am: AnalyticsMessage => callbacks.analytics(am.t, am.arg)
@@ -69,11 +71,8 @@ class ConnectionService(
 
   private[this] def onDebugRequest(dr: DebugRequest) = dr.t match {
     case "latency" => // TODO
-    case _ => withGame("debugRequest")((a, g) => a.tell(GameServiceMessage.Debug(g.playerIdx, dr.t, dr.msg), self))
+    case _ => withGame("debugRequest")((a, g) => a.tell(GameServiceMessage.Debug(playerIdx = g.playerIdx, t = dr.t, payload = dr.payload), self))
   }
-
-  private[this] def sendConnectionTrace() = sender().tell(ConnectionTraceResponse(id = id, userId = creds.user.id, username = creds.user.username), self)
-  private[this] def sendClientTrace() = sender().tell(ClientTraceResponse(id, "TODO"), self)
 
   override def postStop() = {
     activeGameOpt.foreach(g => g._1.tell(GameServiceMessage.Disconnect(g._2.playerIdx, "Server shutdown"), self))

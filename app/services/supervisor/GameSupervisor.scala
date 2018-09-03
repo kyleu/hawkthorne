@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, OneForOneStrategy, SupervisorStrategy}
-import models.InternalMessage.{GameStatus, GetSystemStatus, SendGameTrace}
+import models.InternalMessage.{GameStatus, GetSystemStatus, GameTraceRequest}
 import models.ResponseMessage.ServerError
 import models.options.GameOptions
 import models.supervisor.GameDescription
@@ -41,7 +41,7 @@ class GameSupervisor() extends Actor with Logging {
     case sg: GameSupervisor.StartGame => startGame(sg.id, sg.options)
 
     case GetSystemStatus => sender().tell(GameStatus(games.map(x => x._2.toDescription).toSeq), self)
-    case sgt: SendGameTrace => handleSendGameTrace(sgt)
+    case sgt: GameTraceRequest => handleSendGameTrace(sgt)
 
     case im: InternalMessage => log.warn(s"Unhandled game internal message [${im.getClass.getSimpleName}]")
     case x => log.warn(s"GameSupervisor encountered unknown message: [$x]")
@@ -56,7 +56,7 @@ class GameSupervisor() extends Actor with Logging {
     log.info(s"Game supervisor started game [$id]; [${games.size}] running games")
   }
 
-  private[this] def handleSendGameTrace(sgt: SendGameTrace) = games.get(sgt.id) match {
+  private[this] def handleSendGameTrace(sgt: GameTraceRequest) = games.get(sgt.id) match {
     case Some(c) => c.actorRef forward sgt
     case None => sender().tell(ServerError("Unknown Game", sgt.id.toString), self)
   }

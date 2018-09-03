@@ -8,7 +8,6 @@ import models.InternalMessage._
 
 import scala.concurrent.Future
 import akka.pattern.ask
-import services.game.GameInstanceDebug
 import services.supervisor.ConnectionSupervisor
 import util.JsonSerializers._
 
@@ -41,13 +40,13 @@ class ActivityController @javax.inject.Inject() (override val app: Application) 
   }
 
   def connectionDetail(id: UUID) = withSession("activity.connection.detail", admin = true) { implicit request => implicit td =>
-    ask(app.connSupervisor, SendConnectionTrace(id))(20.seconds).mapTo[ConnectionTraceResponse].map { c =>
+    ask(app.connSupervisor, ConnectionTraceRequest(id))(20.seconds).mapTo[ConnectionTraceResponse].map { c =>
       Ok(views.html.admin.activity.connectionDetail(request.identity, c))
     }
   }
 
   def clientDetail(id: UUID) = withSession("activity.client.detail", admin = true) { implicit request => implicit td =>
-    ask(app.connSupervisor, SendClientTrace(id))(20.seconds).mapTo[ClientTraceResponse].map { c =>
+    ask(app.connSupervisor, ClientTraceRequest(id))(20.seconds).mapTo[ClientTraceResponse].map { c =>
       Ok(views.html.admin.activity.clientDetail(request.identity, c))
     }
   }
@@ -59,7 +58,7 @@ class ActivityController @javax.inject.Inject() (override val app: Application) 
   }
 
   def gameDetail(id: UUID) = withSession("activity.game.detail", admin = true) { implicit request => implicit td =>
-    ask(app.gameSupervisor, SendGameTrace(id))(20.seconds).mapTo[GameTraceResponse].map { gtr =>
+    ask(app.gameSupervisor, GameTraceRequest(id))(20.seconds).mapTo[GameTraceResponse].map { gtr =>
       Ok(views.html.admin.activity.gameDetail(request.identity, gtr.game))
     }
   }

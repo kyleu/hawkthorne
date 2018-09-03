@@ -1,5 +1,5 @@
 import com.definitelyscala.phaserce.Game
-import services.event.EventHandler
+import services.event.{HawkthorneEventHandler, HawkthorneSystem}
 import services.socket.SocketConnection
 import services.state.NavigationService
 import util.{ExceptionHandler, PhaserUtils}
@@ -7,36 +7,19 @@ import util.{ExceptionHandler, PhaserUtils}
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportTopLevel
 
-object Hawkthorne {
-  var phaserStarted = false
-  var networkStarted = false
-  var networkConnected = false
-}
-
 @JSExportTopLevel("Hawkthorne")
-class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
+class Hawkthorne(path: String, debug: Boolean) {
+  val startMs = System.currentTimeMillis
   util.Logging.info("Welcome to Hawkthorne!")
 
   ExceptionHandler.install()
 
   val connection = initNetwork()
-  initPhaser()
+  val phaser = initPhaser()
 
-  private[this] def initNetwork() = {
-    val handler = new EventHandler {
-      override def onConnect() = {
-        Hawkthorne.networkConnected = true
-        super.onConnect()
-      }
-      override def onClose() = {
-        Hawkthorne.networkConnected = false
-        super.onClose()
-      }
-    }
-
-    val c = new SocketConnection("hawkthorne", handler = handler, binary = !debug)
-    c.connect(s"/connect?binary=${!debug}")
-    c
+  private[this] def initNetwork(): SocketConnection = {
+    val handler = new HawkthorneEventHandler(onReady = () => HawkthorneSystem(connection, phaser, startMs))
+    new SocketConnection("hawkthorne", handler = handler, binary = !debug)
   }
 
   private[this] def initPhaser() = {
@@ -47,5 +30,6 @@ class Hawkthorne(path: String, debug: Boolean) extends EventHandler {
     js.Dynamic.global.phaser = game
 
     NavigationService.init(game = game, path = path, debug = debug)
+    game
   }
 }
