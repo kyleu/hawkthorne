@@ -41,8 +41,14 @@ class ActivityController @javax.inject.Inject() (override val app: Application) 
   }
 
   def connectionDetail(id: UUID) = withSession("activity.connection.detail", admin = true) { implicit request => implicit td =>
-    ask(app.gameSupervisor, SendConnectionTrace(id))(20.seconds).mapTo[String].map { c =>
-      Ok(views.html.admin.activity.connectionDetail(request.identity, id, c.asJson))
+    ask(app.connSupervisor, SendConnectionTrace(id))(20.seconds).mapTo[ConnectionTraceResponse].map { c =>
+      Ok(views.html.admin.activity.connectionDetail(request.identity, c))
+    }
+  }
+
+  def clientDetail(id: UUID) = withSession("activity.client.detail", admin = true) { implicit request => implicit td =>
+    ask(app.connSupervisor, SendClientTrace(id))(20.seconds).mapTo[ClientTraceResponse].map { c =>
+      Ok(views.html.admin.activity.clientDetail(request.identity, c))
     }
   }
 
@@ -53,8 +59,8 @@ class ActivityController @javax.inject.Inject() (override val app: Application) 
   }
 
   def gameDetail(id: UUID) = withSession("activity.game.detail", admin = true) { implicit request => implicit td =>
-    ask(app.gameSupervisor, SendGameTrace(id))(20.seconds).mapTo[GameInstanceDebug].map { gid =>
-      Ok(views.html.admin.activity.gameDetail(request.identity, gid))
+    ask(app.gameSupervisor, SendGameTrace(id))(20.seconds).mapTo[GameTraceResponse].map { gtr =>
+      Ok(views.html.admin.activity.gameDetail(request.identity, gtr.game))
     }
   }
 }

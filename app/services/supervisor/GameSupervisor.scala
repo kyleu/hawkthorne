@@ -7,7 +7,6 @@ import akka.actor.{Actor, ActorRef, OneForOneStrategy, SupervisorStrategy}
 import models.InternalMessage.{GameStatus, GetSystemStatus, SendGameTrace}
 import models.ResponseMessage.ServerError
 import models.options.GameOptions
-import models.player.Player
 import models.supervisor.GameDescription
 import models.{InternalMessage, ResponseMessage}
 import services.game.GameService
@@ -44,7 +43,7 @@ class GameSupervisor() extends Actor with Logging {
     case GetSystemStatus => sender().tell(GameStatus(games.map(x => x._2.toDescription).toSeq), self)
     case sgt: SendGameTrace => handleSendGameTrace(sgt)
 
-    case im: InternalMessage => log.warn(s"Unhandled internal message [${im.getClass.getSimpleName}]")
+    case im: InternalMessage => log.warn(s"Unhandled game internal message [${im.getClass.getSimpleName}]")
     case x => log.warn(s"GameSupervisor encountered unknown message: [$x]")
   }
 

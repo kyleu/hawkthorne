@@ -4,6 +4,7 @@ import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, Props}
 import models.InternalMessage
+import models.InternalMessage.GameTraceResponse
 import models.ResponseMessage.GameJoined
 import models.game.GameServiceMessage
 import models.game.GameServiceMessage._
@@ -37,7 +38,7 @@ class GameService(id: UUID, options: GameOptions, gameSupervisor: ActorRef) exte
 
   override def receive = {
     case ap: GameServiceMessage.AddPlayer => addPlayer(ap.p, ap.ref)
-    case sgt: InternalMessage.SendGameTrace => sender().tell(game.toDebug, self)
+    case sgt: InternalMessage.SendGameTrace => sender().tell(GameTraceResponse(game.toDebug), self)
     case x => throw new IllegalStateException(s"Unhandled game service message [$x]")
   }
 

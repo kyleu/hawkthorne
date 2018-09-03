@@ -22,7 +22,10 @@
             </tr>
             @connections.map { connection =>
               <tr>
-                <td>@connection.id</td>
+                <td>
+                  <a href="@controllers.admin.activity.routes.ActivityController.connectionDetail(connection.id)" class="theme-text">@connection.id</a>
+                  (<a href="@controllers.admin.activity.routes.ActivityController.clientDetail(connection.id)" class="theme-text">client</a>)
+                </td>
                 <td><a href="@controllers.admin.user.routes.SystemUserController.view(connection.userId)" class="theme-text">@connection.userId</a></td>
                 <td>@connection.name</td>
                 <td>@connection.channel</td>

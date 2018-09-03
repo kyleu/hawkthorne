@@ -22,7 +22,7 @@
             </tr>
             @games.map { game =>
               <tr>
-                <td>@game.id</td>
+                <td><a href="@controllers.admin.activity.routes.ActivityController.gameDetail(game.id)" class="theme-text">@game.id</a></td>
                 <td>@game.options.map</td>
                 <td>@game.options.gameType</td>
                 <td>@game.options.debug</td>

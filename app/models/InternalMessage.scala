@@ -5,6 +5,7 @@ import java.util.UUID
 import akka.actor.ActorRef
 import models.auth.Credentials
 import models.supervisor.{ConnectionDescription, GameDescription}
+import services.game.GameInstanceDebug
 
 sealed trait InternalMessage
 
@@ -23,4 +24,5 @@ object InternalMessage {
   final case class GameStatus(games: Seq[GameDescription]) extends InternalMessage
   final case class ConnectionTraceResponse(id: UUID, userId: UUID, username: String) extends InternalMessage
   final case class ClientTraceResponse(id: UUID, data: String) extends InternalMessage
+  final case class GameTraceResponse(game: GameInstanceDebug) extends InternalMessage
 }

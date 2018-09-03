@@ -52,7 +52,7 @@ class ConnectionSupervisor() extends Actor with Logging {
 
     case b: ConnectionSupervisor.Broadcast => connections.foreach(_._2.actorRef.tell(b.msg, self))
 
-    case im: InternalMessage => log.warn(s"Unhandled internal message [${im.getClass.getSimpleName}].")
+    case im: InternalMessage => log.warn(s"Unhandled connection supervisor internal message [${im.getClass.getSimpleName}].")
     case x => log.warn(s"PlayerSupervisor encountered unknown message: ${x.toString}")
   }
 
@@ -60,12 +60,12 @@ class ConnectionSupervisor() extends Actor with Logging {
 
   private[this] def handleSendConnectionTrace(ct: SendConnectionTrace) = connectionById(ct.id) match {
     case Some(c) => c.actorRef forward ct
-    case None => sender().tell(ServerError("Unknown Connection", ct.id.toString), self)
+    case None => sender().tell(ServerError("Unknown connection", ct.id.toString), self)
   }
 
   private[this] def handleSendClientTrace(ct: SendClientTrace) = connectionById(ct.id) match {
     case Some(c) => c.actorRef forward ct
-    case None => sender().tell(ServerError("Unknown Client Connection", ct.id.toString), self)
+    case None => sender().tell(ServerError("Unknown connection", ct.id.toString), self)
   }
 
   protected[this] def handleConnectionStarted(id: UUID, userId: UUID, name: String, connection: ActorRef) = {

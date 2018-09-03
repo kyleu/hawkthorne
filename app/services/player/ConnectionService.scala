@@ -4,7 +4,7 @@ import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, Props, Timers}
 import io.circe.Json
-import models.InternalMessage.{ConnectionStarted, ConnectionStopped, SendClientTrace, SendConnectionTrace}
+import models.InternalMessage._
 import models.RequestMessage._
 import models.ResponseMessage._
 import models.analytics.AnalyticsActionType
@@ -43,8 +43,8 @@ class ConnectionService(
     case _: GetVersion => out.tell(VersionResponse(Config.version), self)
     case dr: DebugRequest => onDebugRequest(dr)
     case sp: SetPlayer => setPlayer(sp.player)
-    case sct: SendConnectionTrace => sender().tell("!!!", self)
-    case sct: SendClientTrace => sender().tell("!!!", self)
+    case sct: SendConnectionTrace => sendConnectionTrace()
+    case sct: SendClientTrace => sendClientTrace()
 
     // Analytics
     case am: AnalyticsMessage => callbacks.analytics(am.t, am.arg)
@@ -62,15 +62,18 @@ class ConnectionService(
     case rm: ResponseMessage => out.tell(rm, self)
 
     // Unhandled
-    case im: InternalMessage => throw new IllegalArgumentException(s"Unhandled internal message [${im.getClass.getSimpleName}].")
-    case rm: RequestMessage => throw new IllegalArgumentException(s"Unhandled request message [${rm.getClass.getSimpleName}].")
-    case x => throw new IllegalArgumentException(s"Unhandled message with invalid class [${x.getClass.getSimpleName}].")
+    case im: InternalMessage => throw new IllegalArgumentException(s"Unhandled internal connection message [${im.getClass.getSimpleName}].")
+    case rm: RequestMessage => throw new IllegalArgumentException(s"Unhandled connection request message [${rm.getClass.getSimpleName}].")
+    case x => throw new IllegalArgumentException(s"Unhandled connection message with invalid class [${x.getClass.getSimpleName}].")
   }
 
   private[this] def onDebugRequest(dr: DebugRequest) = dr.t match {
     case "latency" => // TODO
     case _ => withGame("debugRequest")((a, g) => a.tell(GameServiceMessage.Debug(g.playerIdx, dr.t, dr.msg), self))
   }
+
+  private[this] def sendConnectionTrace() = sender().tell(ConnectionTraceResponse(id = id, userId = creds.user.id, username = creds.user.username), self)
+  private[this] def sendClientTrace() = sender().tell(ClientTraceResponse(id, "TODO"), self)
 
   override def postStop() = {
     activeGameOpt.foreach(g => g._1.tell(GameServiceMessage.Disconnect(g._2.playerIdx, "Server shutdown"), self))
