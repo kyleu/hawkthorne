@@ -1,14 +1,11 @@
 package services.event
 
 import com.definitelyscala.phaserce.Game
-import io.circe.Json
 import models.RequestMessage.ClientTrace
 import models.ResponseMessage
 import models.ResponseMessage.{SendClientTrace, SystemBroadcast}
 import services.socket.{NetworkMessage, NotificationService, SocketConnection, UserManager}
 import services.state.GameState
-
-import scala.scalajs.js.JSON
 
 case class HawkthorneSystem(socket: SocketConnection, phaser: Game, startMs: Long) {
   util.Logging.info(s"Hawkthorne system started in [${System.currentTimeMillis - startMs}ms]")

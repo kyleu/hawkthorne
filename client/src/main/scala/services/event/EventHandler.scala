@@ -1,6 +1,6 @@
 package services.event
 
-import models.{RequestMessage, ResponseMessage}
+import models.ResponseMessage
 import org.scalajs.dom.raw.Event
 
 trait EventHandler {
