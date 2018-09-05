@@ -13,7 +13,7 @@
         <table>
           <tbody>
             @views.html.components.form.textField(selected = isNew, key = "id", title = "Id", value = Some(model.id.toString), nullable = false, dataType = "uuid")
-            @views.html.components.form.selectField(selected = isNew, key = "t", title = "Type", value = Some(model.t.toString), options = Seq(("connect" -> "connect"), ("intro.start" -> "intro.start"), ("intro.skip" -> "intro.skip"), ("menu" -> "menu"), ("options.set" -> "options.set"), ("game.start" -> "game.start"), ("game.pause" -> "game.pause"), ("game.resume" -> "game.resume"), ("game.complete" -> "game.complete"), ("game.checkpoint" -> "game.checkpoint"), ("error" -> "error"), ("unknown" -> "unknown"), ("debug" -> "debug")), nullable = false, dataType = "analytics_action_type")
+            @views.html.components.form.selectField(selected = isNew, key = "t", title = "Type", value = Some(model.t.toString), options = Seq("connect" -> "connect", "intro.start" -> "intro.start", "intro.skip" -> "intro.skip", "menu" -> "menu", "options.set" -> "options.set", "game.start" -> "game.start", "game.pause" -> "game.pause", "game.resume" -> "game.resume", "game.complete" -> "game.complete", "game.checkpoint" -> "game.checkpoint", "error" -> "error", "unknown" -> "unknown", "debug" -> "debug"), nullable = false, dataType = "analytics_action_type")
             @views.html.components.form.textField(selected = isNew, key = "arg", title = "Argument", value = Some(model.arg.toString), nullable = false, dataType = "json")
             @views.html.components.form.autocompleteField(
               selected = isNew, key = "author", title = "Author", value = Some(model.author.toString), nullable = false, dataType = "uuid",

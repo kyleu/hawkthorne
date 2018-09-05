@@ -12,6 +12,6 @@ object AnalyticsActionTypeSchema extends GraphQLSchemaHelper("analyticsActionTyp
   )
 
   val queryFields = fields(
-    unitField(name = "analyticsActionType", desc = None, t = ListType(analyticsActionTypeEnumType), f = (c, td) => Future.successful(AnalyticsActionType.values))
+    unitField(name = "analyticsActionType", desc = None, t = ListType(analyticsActionTypeEnumType), f = (_, _) => Future.successful(AnalyticsActionType.values))
   )
 }

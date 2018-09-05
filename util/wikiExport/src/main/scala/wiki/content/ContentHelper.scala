@@ -29,14 +29,12 @@ object ContentHelper {
   def attributes(md: MarkdownFile, attrs: (String, String)*) = {
     md.add()
     md.add("## Attributes")
-    ContentHelper.table(md = md, cols = keyValHeaders, content = attrs.map(attr => Seq(attr._1, attr._2)))
+    table(md = md, cols = keyValHeaders, content = attrs.map(attr => Seq(attr._1, attr._2)))
   }
 
   def animations(md: MarkdownFile, animations: Seq[Animation]) = {
     md.add()
     md.add("## Animations")
-    ContentHelper.table(md = md, cols = animationHeaders, content = animations.map { anim =>
-      Seq(anim.id, anim.frames.mkString(", "), anim.delay.toString, anim.loop.toString)
-    })
+    table(md = md, cols = animationHeaders, content = animations.map(a => Seq(a.id, a.frames.mkString(", "), a.delay.toString, a.loop.toString)))
   }
 }

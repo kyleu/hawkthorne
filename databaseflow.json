@@ -467,7 +467,7 @@
       "references" : [
         {
           "name" : "auditRecordAuditIdFkey",
-          "propertyName" : "auditRecordAuditIdFkey",
+          "propertyName" : "auditRecords",
           "srcTable" : "audit_record",
           "srcCol" : "audit_id",
           "tgt" : "id",
@@ -1971,7 +1971,7 @@
       "references" : [
         {
           "name" : "analyticsActionAuthorFkey",
-          "propertyName" : "analyticsActionAuthorFkey",
+          "propertyName" : "analyticsActions",
           "srcTable" : "analytics_action",
           "srcCol" : "author",
           "tgt" : "id",
@@ -1979,7 +1979,7 @@
         },
         {
           "name" : "noteAuthorFkey",
-          "propertyName" : "noteAuthorFkey",
+          "propertyName" : "notes",
           "srcTable" : "note",
           "srcCol" : "author",
           "tgt" : "id",
@@ -2002,6 +2002,7 @@
   "providedPackage" : null,
   "corePackage" : null,
   "coreLocation" : null,
+  "wikiLocation" : "/Users/kyle/Projects/Personal/hawkthorne/wiki",
   "modelLocationOverride" : null,
   "thriftLocationOverride" : null
 }
