@@ -11,7 +11,7 @@ class Dialog(game: Game, inputService: InputService) extends BaseModal(game, "di
   private[this] var remaining = List.empty[String]
 
   def show(onComplete: () => Unit, msgs: String*) = {
-    if (group.visible || active.isDefined) { throw new IllegalStateException("Dialog is already open") }
+    // if (group.visible || active.isDefined) { throw new IllegalStateException("Dialog is already open") }
     if (msgs.isEmpty) { throw new IllegalStateException("No messages provided to dialog") }
 
     active = Some(onComplete)
@@ -27,15 +27,14 @@ class Dialog(game: Game, inputService: InputService) extends BaseModal(game, "di
 
   def next() = {
     remaining match {
-      case Nil => close(() => {
-        val f = active.getOrElse(throw new IllegalStateException("Dialog close already called"))
+      case Nil => close(() => active.foreach(f => {
         active = None
         inputService.menuHandler.setCallback(None)
         inputService.setPointerEventCallback(None)
         latest.foreach(_.destroy())
         latest = None
         f()
-      })
+      }))
       case h :: t =>
         val text = newText(name = "dialog.text", msg = h)
         latest.foreach(_.destroy())

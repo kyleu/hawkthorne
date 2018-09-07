@@ -34,7 +34,7 @@ abstract class BaseModal(val game: Game, val name: String) {
     opening = true
     closing = false
     targetAlpha = 1.0
-    openCallback.foreach(_ => throw new IllegalStateException("Previous open has not been cleared."))
+    openCallback.foreach(_ => onOpen) // throw new IllegalStateException("Previous open has not been cleared."))
     openCallback = Some(onOpen)
     update(0)
     group.visible = true
@@ -45,7 +45,7 @@ abstract class BaseModal(val game: Game, val name: String) {
     opening = false
     closing = true
     targetAlpha = 0.0
-    closeCallback.foreach(_ => throw new IllegalStateException("Previous close has not been cleared."))
+    closeCallback.foreach(_ => onClose()) // throw new IllegalStateException("Previous close has not been cleared."))
     closeCallback = Some(onClose)
     update(0)
   }

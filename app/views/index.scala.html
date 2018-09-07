@@ -29,13 +29,23 @@
       <ul class="collection with-header">
         <li class="collection-header">
           <h4>Welcome to @util.Config.projectName</h4>
-          @if(user.exists(_.role == models.user.Role.Admin)) {
-            <h5>You're an administrator, so head on over to the <a class="theme-text" href="@controllers.admin.system.routes.AdminController.index()">admin section</a>.</h5>
-          }
         </li>
         <li class="collection-item">
           <a class="theme-text item play-now" href="@controllers.routes.GameplayController.root()">Play Now</a>
         </li>
+        @if(user.exists(_.role == models.user.Role.Admin)) {
+        <li class="collection-item">
+          <h5>Administration</h5>
+          <div class="row">
+            @link(controllers.admin.system.routes.AdminController.index(), "Admin Site")
+            @link(controllers.admin.system.routes.AdminController.explore(), "Explore Models")
+            @link(controllers.admin.gamedata.routes.GameDataController.dataIndex(), "Game Data")
+            @link(controllers.admin.activity.routes.ActivityController.activityIndex(), "Live Activity")
+            @link(controllers.admin.graphql.routes.GraphQLController.graphql(), "GraphQL")
+            @link(controllers.admin.system.routes.AdminController.status(), "System Status")
+          </div>
+        </li>
+        }
         <li class="collection-item">
           <h5>Game States</h5>
           <div class="row">

@@ -92,6 +92,7 @@ object Dependencies {
 
     val betterFiles = "com.github.pathikrit" %% "better-files" % "3.6.0"
     val commonsIo = "commons-io" % "commons-io" % "2.6"
+    val commonsLang = "org.apache.commons" % "commons-lang3" % "3.8"
     val csv = "com.github.tototoshi" %% "scala-csv" % "1.3.5"
     val enumeratumCirce = "com.beachape" %% "enumeratum-circe" % Dependencies.Utils.enumeratumCirceVersion
     val guava = "com.google.guava" % "guava" % "23.0"

@@ -1,5 +1,7 @@
 package models.game.obj
 
+import models.game.msg.GameMessage
+import models.template.npc.NpcTemplate
 import util.JsonSerializers._
 
 object Npc {
@@ -13,5 +15,8 @@ final case class Npc(
     override val id: Int,
     override val n: String,
     override val loc: util.Rectangle,
-    override val vis: Boolean
-) extends GameObject(Npc.key)
+    override val vis: Boolean,
+    template: NpcTemplate
+) extends GameObject(Npc.key) {
+  override def onSelect(playerIdx: Int) = Seq(GameMessage.Notify(Some(playerIdx), "dialog", Seq(template.greeting.getOrElse("..."))))
+}

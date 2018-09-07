@@ -36,7 +36,7 @@ addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.3.4")
 addSbtPlugin("io.gatling" % "gatling-sbt" % "2.2.2")
 
 // App Packaging
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.5")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.7")
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.7")
 
@@ -69,12 +69,12 @@ addSbtPlugin("com.orrsella" % "sbt-stats" % "1.0.7") // stats
 addSbtPlugin("com.typesafe.sbt" % "sbt-license-report" % "1.2.0")
 
 // Visualization
-addSbtPlugin("com.dwijnand" % "sbt-project-graph" % "0.2.2") // projectsGraphDot
+addSbtPlugin("com.dwijnand" % "sbt-project-graph" % "0.4.0") // projectsGraphDot
 
 addSbtPlugin("com.github.xuwei-k" % "sbt-class-diagram" % "0.2.1") // classDiagram
 
 // Documentation
-addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "0.3.5")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "0.4.1")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.2" exclude("com.lightbend.paradox", "sbt-paradox"))
 

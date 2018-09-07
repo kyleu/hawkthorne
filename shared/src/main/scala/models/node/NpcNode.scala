@@ -2,7 +2,7 @@ package models.node
 
 import models.asset.Asset
 import models.game.obj.Npc
-import models.template.npc.NpcTemplate
+import models.template.npc.{NpcListing, NpcTemplate}
 import util.JsonSerializers._
 
 object NpcNode {
@@ -31,5 +31,5 @@ final case class NpcNode(
 ) extends Node(NpcNode.key) {
   val template = NpcTemplate.withKey(actualName)
   override val assets = Seq(Asset.Spritesheet(s"$t.$actualName", s"images/npc/$actualName.png", template.width, template.height))
-  override def asNewGameObject = Seq(Npc(id = id, n = actualName, loc = asLocation, vis = visible))
+  override def asNewGameObject = Seq(Npc(id = id, n = actualName, loc = asLocation, vis = visible, template = NpcListing.withKey(name)))
 }
