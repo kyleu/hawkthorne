@@ -1,0 +1,5 @@
+# Generated File
+# Retrieves the list of possible TraceTypeEnum values.
+query TraceTypeEnum {
+  traceTypeEnum
+}

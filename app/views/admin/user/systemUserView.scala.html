@@ -64,6 +64,13 @@
       </div>
       <div class="collapsible-body"><span>Loading...</span></div>
     </li>
+    <li id="relation-traceResult-author" data-table="traceResult" data-field="author" data-singular="Trace Result" data-plural="Trace Results" data-url="@controllers.admin.trace.routes.TraceResultController.byAuthor(model.id, limit = Some(5))">
+      <div class="collapsible-header">
+        <i class="fa @models.template.Icons.traceResult"></i>
+        <span class="title">Trace Results</span>&nbsp;by Author
+      </div>
+      <div class="collapsible-body"><span>Loading...</span></div>
+    </li>
   </ul>
   @views.html.components.includeScalaJs(debug)
   <script>$(function() { new RelationService('@controllers.admin.user.routes.SystemUserController.relationCounts(model.id)') });</script>

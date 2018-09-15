@@ -1,0 +1,66 @@
+// Generated File
+{
+  "trace.TraceResult": {
+    "required": [
+      "id",
+      "t",
+      "data",
+      "occurred"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+      },
+      "t": {
+        "type": "string"
+      },
+      "data": {
+        "type": "object"
+      },
+      "author": {
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+      },
+      "occurred": {
+        "type": "string",
+        "example": "2018-01-01 00:00:00"
+      }
+    }
+  },
+  "trace.TraceResultResult": {
+    "properties": {
+      "filters": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/common.Filter"
+        }
+      },
+      "orderBys": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/common.OrderBy"
+        }
+      },
+      "totalCount": {
+        "type": "integer"
+      },
+      "paging": {
+        "$ref": "#/components/schemas/common.PagingOptions"
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/trace.TraceResult"
+        }
+      },
+      "durationMs": {
+        "type": "integer"
+      },
+      "occurred": {
+        "type": "string",
+        "example": "2018-01-01 00:00:00"
+      }
+    }
+  }
+}

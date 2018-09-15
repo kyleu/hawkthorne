@@ -56,5 +56,6 @@ object Icons {
   val oAuth2Info = "fa-lemon-o"
   val schemaMigration = "fa-hdd-o"
   val settingValues = "fa-hand-spock-o"
+  val traceResult = "fa-diamond"
   // End model icons
 }

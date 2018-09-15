@@ -23,6 +23,8 @@ object Schema {
       models.note.NoteSchema.noteByPrimaryKeyFetcher,
       models.sync.SyncProgressSchema.syncProgressByPrimaryKeyFetcher,
       models.task.ScheduledTaskRunSchema.scheduledTaskRunByPrimaryKeyFetcher,
+      models.trace.TraceResultSchema.traceResultByAuthorFetcher,
+      models.trace.TraceResultSchema.traceResultByPrimaryKeyFetcher,
       models.user.SystemUserSchema.systemUserByPrimaryKeyFetcher
     )
     // End model fetchers
@@ -51,13 +53,15 @@ object Schema {
       models.note.NoteSchema.queryFields ++
       models.sync.SyncProgressSchema.queryFields ++
       models.task.ScheduledTaskRunSchema.queryFields ++
+      models.trace.TraceResultSchema.queryFields ++
       models.user.SystemUserSchema.queryFields
     // End model query fields
   }
 
   val enumQueryFields = {
     // Start enum query fields
-    models.analytics.AnalyticsActionTypeSchema.queryFields ++
+    models.TraceTypeEnumSchema.queryFields ++
+      models.analytics.AnalyticsActionTypeSchema.queryFields ++
       models.settings.SettingKeySchema.queryFields
     // End enum query fields
   }
@@ -80,6 +84,7 @@ object Schema {
       models.note.NoteSchema.mutationFields ++
       models.sync.SyncProgressSchema.mutationFields ++
       models.task.ScheduledTaskRunSchema.mutationFields ++
+      models.trace.TraceResultSchema.mutationFields ++
       models.user.SystemUserSchema.mutationFields
     // End model mutation fields
   }

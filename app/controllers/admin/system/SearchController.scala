@@ -56,8 +56,11 @@ class SearchController @javax.inject.Inject() (override val app: Application, se
     val systemUser = services.userServices.systemUserService.getByPrimaryKey(creds, id).map(_.map { model =>
       views.html.admin.user.systemUserSearchResult(model, s"System User [${model.id}] matched [$q].")
     }.toSeq)
+    val traceResult = services.traceServices.traceResultService.getByPrimaryKey(creds, id).map(_.map { model =>
+      views.html.admin.trace.traceResultSearchResult(model, s"Trace Result [${model.id}] matched [$q].")
+    }.toSeq)
 
-    val uuidSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, note, scheduledTaskRun, systemUser)
+    val uuidSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, note, scheduledTaskRun, systemUser, traceResult)
     // End uuid searches
 
     val auditR = app.coreServices.audits.getByPrimaryKey(creds, id).map(_.map { model =>
@@ -90,8 +93,11 @@ class SearchController @javax.inject.Inject() (override val app: Application, se
     val systemUser = services.userServices.systemUserService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
       views.html.admin.user.systemUserSearchResult(model, s"System User [${model.id}] matched [$q].")
     })
+    val traceResult = services.traceServices.traceResultService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
+      views.html.admin.trace.traceResultSearchResult(model, s"Trace Result [${model.id}] matched [$q].")
+    })
 
-    val stringSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, schemaMigration, note, scheduledTaskRun, syncProgress, systemUser)
+    val stringSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, schemaMigration, note, scheduledTaskRun, syncProgress, systemUser, traceResult)
     // End string searches
 
     val auditR = app.coreServices.audits.searchExact(creds = creds, q = q, limit = Some(5)).map(_.map { model =>

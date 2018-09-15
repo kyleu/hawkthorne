@@ -1,0 +1,13 @@
+# Generated File
+# Creates a new TraceResult entity.
+mutation TraceResultCreate {
+  traceResult {
+    create(fields: [{k: "", v: ""}]) {
+      id
+      t
+      data
+      author
+      occurred
+    }
+  }
+}

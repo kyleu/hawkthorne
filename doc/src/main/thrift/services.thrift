@@ -6,5 +6,6 @@ include "services/ddl/SchemaMigrationService.thrift"
 include "services/note/NoteService.thrift"
 include "services/sync/SyncProgressService.thrift"
 include "services/task/ScheduledTaskRunService.thrift"
+include "services/trace/TraceResultService.thrift"
 include "services/user/SystemUserService.thrift"
 /* End generated Thrift service includes */

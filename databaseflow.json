@@ -27,6 +27,22 @@
     },
     {
       "pkg" : [
+      ],
+      "name" : "trace_type",
+      "className" : "TraceTypeEnum",
+      "pkgPrefix" : [
+      ],
+      "values" : [
+        "client",
+        "connection",
+        "game",
+        "unknown"
+      ],
+      "shared" : false,
+      "ignored" : false
+    },
+    {
+      "pkg" : [
         "analytics"
       ],
       "name" : "analytics_action_type",
@@ -1986,6 +2002,14 @@
           "srcCol" : "author",
           "tgt" : "id",
           "notNull" : true
+        },
+        {
+          "name" : "traceResultAuthorFkey",
+          "propertyName" : "traceResultAuthorFkey",
+          "srcTable" : "trace_result",
+          "srcCol" : "author",
+          "tgt" : "id",
+          "notNull" : true
         }
       ],
       "extendsClass" : null,
@@ -1995,6 +2019,169 @@
       "scalaJs" : false,
       "ignored" : false,
       "audited" : true,
+      "provided" : false,
+      "readOnly" : false
+    },
+    {
+      "tableName" : "trace_result",
+      "pkg" : [
+        "trace"
+      ],
+      "propertyName" : "traceResult",
+      "className" : "TraceResult",
+      "title" : "Trace Result",
+      "description" : null,
+      "plural" : "Trace Results",
+      "fields" : [
+        {
+          "columnName" : "id",
+          "propertyName" : "id",
+          "title" : "Id",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 0,
+          "t" : "uuid",
+          "sqlTypeName" : "uuid",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : true,
+          "unique" : true,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        },
+        {
+          "columnName" : "t",
+          "propertyName" : "t",
+          "title" : "T",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 1,
+          "t" : "enum",
+          "sqlTypeName" : "trace_type",
+          "enumOpt" : {
+            "pkg" : [
+            ],
+            "name" : "trace_type",
+            "className" : "TraceTypeEnum",
+            "pkgPrefix" : [
+            ],
+            "values" : [
+              "client",
+              "connection",
+              "game",
+              "unknown"
+            ],
+            "shared" : false,
+            "ignored" : false
+          },
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : true,
+          "unique" : false,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        },
+        {
+          "columnName" : "data",
+          "propertyName" : "data",
+          "title" : "Data",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 2,
+          "t" : "json",
+          "sqlTypeName" : "json",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : false,
+          "unique" : false,
+          "inSearch" : false,
+          "inView" : true,
+          "inSummary" : false,
+          "ignored" : false
+        },
+        {
+          "columnName" : "author",
+          "propertyName" : "author",
+          "title" : "Author",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 3,
+          "t" : "uuid",
+          "sqlTypeName" : "uuid",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : false,
+          "indexed" : true,
+          "unique" : false,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        },
+        {
+          "columnName" : "occurred",
+          "propertyName" : "occurred",
+          "title" : "Occurred",
+          "fkNameOverride" : "",
+          "description" : null,
+          "idx" : 4,
+          "t" : "timestamp",
+          "sqlTypeName" : "timestamp",
+          "enumOpt" : null,
+          "defaultValue" : null,
+          "notNull" : true,
+          "indexed" : false,
+          "unique" : false,
+          "inSearch" : true,
+          "inView" : true,
+          "inSummary" : true,
+          "ignored" : false
+        }
+      ],
+      "pkColumns" : [
+        {
+          "name" : "id",
+          "description" : null,
+          "definition" : null,
+          "primaryKey" : false,
+          "notNull" : true,
+          "autoIncrement" : false,
+          "columnType" : "uuid",
+          "sqlTypeCode" : 1111,
+          "sqlTypeName" : "uuid",
+          "size" : "2147483647",
+          "sizeAsInt" : 2147483647,
+          "scale" : 0,
+          "defaultValue" : null
+        }
+      ],
+      "foreignKeys" : [
+        {
+          "name" : "trace_result_author_fkey",
+          "targetTable" : "system_users",
+          "references" : [
+            {
+              "source" : "author",
+              "target" : "id"
+            }
+          ]
+        }
+      ],
+      "references" : [
+      ],
+      "extendsClass" : null,
+      "icon" : null,
+      "pkgPrefix" : [
+      ],
+      "scalaJs" : false,
+      "ignored" : false,
+      "audited" : false,
       "provided" : false,
       "readOnly" : false
     }

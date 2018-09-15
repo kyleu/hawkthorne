@@ -46,5 +46,19 @@ object ModelBindables {
     override def unbind(key: String, x: SettingKey) = x.value
   }
 
+  import models.TraceTypeEnum
+  private[this] def traceTypeEnumExtractor(v: Either[String, String]) = v match {
+    case Right(s) => Right(TraceTypeEnum.withValue(s))
+    case Left(x) => throw new IllegalStateException(x)
+  }
+  implicit def traceTypeEnumPathBindable(implicit stringBinder: PathBindable[String]): PathBindable[TraceTypeEnum] = new PathBindable[TraceTypeEnum] {
+    override def bind(key: String, value: String) = traceTypeEnumExtractor(stringBinder.bind(key, value))
+    override def unbind(key: String, x: TraceTypeEnum) = x.value
+  }
+  implicit def traceTypeEnumQueryStringBindable(implicit stringBinder: QueryStringBindable[String]): QueryStringBindable[TraceTypeEnum] = new QueryStringBindable[TraceTypeEnum] {
+    override def bind(key: String, params: Map[String, Seq[String]]) = stringBinder.bind(key, params).map(traceTypeEnumExtractor)
+    override def unbind(key: String, x: TraceTypeEnum) = x.value
+  }
+
   /* End model bindables */
 }

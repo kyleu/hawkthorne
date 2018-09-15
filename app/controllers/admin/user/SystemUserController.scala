@@ -10,6 +10,7 @@ import play.api.http.MimeTypes
 import services.analytics.AnalyticsActionService
 import services.audit.AuditRecordService
 import services.note.NoteService
+import services.trace.TraceResultService
 import services.user.SystemUserService
 import util.FutureUtils.defaultContext
 import util.JsonSerializers._
@@ -18,7 +19,7 @@ import util.ReftreeUtils._
 @javax.inject.Singleton
 class SystemUserController @javax.inject.Inject() (
     override val app: Application, svc: SystemUserService, auditRecordSvc: AuditRecordService, val authInfoRepository: AuthInfoRepository, val hasher: PasswordHasher,
-    analyticsActionS: AnalyticsActionService, noteS: NoteService
+    analyticsActionS: AnalyticsActionService, noteS: NoteService, traceResultS: TraceResultService
 ) extends ServiceController(svc) with UserEditHelper with UserSearchHelper {
   def view(id: java.util.UUID, t: Option[String] = None) = withSession("view", admin = true) { implicit request => implicit td =>
     val modelF = svc.getByPrimaryKey(request, id)
@@ -40,10 +41,12 @@ class SystemUserController @javax.inject.Inject() (
     val creds = models.auth.Credentials.fromRequest(request)
     val analyticsActionByAuthorF = analyticsActionS.countByAuthor(creds, id)
     val noteByAuthorF = noteS.countByAuthor(creds, id)
-    for (analyticsActionC <- analyticsActionByAuthorF; noteC <- noteByAuthorF) yield {
+    val traceResultByAuthorF = traceResultS.countByAuthor(creds, id)
+    for (analyticsActionC <- analyticsActionByAuthorF; noteC <- noteByAuthorF; traceResultC <- traceResultByAuthorF) yield {
       Ok(Seq(
         RelationCount(model = "analyticsAction", field = "author", count = analyticsActionC),
-        RelationCount(model = "note", field = "author", count = noteC)
+        RelationCount(model = "note", field = "author", count = noteC),
+        RelationCount(model = "traceResult", field = "author", count = traceResultC)
       ).asJson)
     }
   }

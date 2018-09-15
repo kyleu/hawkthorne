@@ -1,0 +1,30 @@
+@* Generated File *@
+@(user: models.user.SystemUser, totalCount: Option[Int], modelSeq: Seq[models.trace.TraceResult], q: Option[String], orderBy: Option[String], orderAsc: Boolean, limit: Int, offset: Int)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)
+@views.html.admin.explore.list(
+  user = user,
+  model = "Trace Result",
+  modelPlural = "Trace Results",
+  icon = models.template.Icons.traceResult,
+  cols = Seq(
+    "id" -> "Id",
+    "t" -> "T",
+    "author" -> "Author",
+    "occurred" -> "Occurred"
+  ),
+  totalCount = totalCount,
+  rows = modelSeq.map(model => views.html.admin.trace.traceResultDataRow(model)),
+  orderBy = orderBy,
+  orderAsc = orderAsc,
+  calls = models.result.web.ListCalls(
+    newCall = Some(controllers.admin.trace.routes.TraceResultController.createForm()),
+    orderBy = Some(controllers.admin.trace.routes.TraceResultController.list(q, _, _, Some(limit), Some(0))),
+    search = Some(controllers.admin.trace.routes.TraceResultController.list(None, orderBy, orderAsc, Some(limit), None)),
+    next = controllers.admin.trace.routes.TraceResultController.list(q, orderBy, orderAsc, Some(limit), Some(offset + limit)),
+    prev = controllers.admin.trace.routes.TraceResultController.list(q, orderBy, orderAsc, Some(limit), Some(offset - limit))
+  ),
+  limit = limit,
+  offset = offset,
+  q = q
+)

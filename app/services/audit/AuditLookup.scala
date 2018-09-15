@@ -26,6 +26,7 @@ class AuditLookup @javax.inject.Inject() (registry: ServiceRegistry) extends Log
     case "schemamigration" => registry.ddlServices.schemaMigrationService.getByPrimaryKey(creds, longArg(arg(0)))
     case "syncprogress" => registry.syncServices.syncProgressService.getByPrimaryKey(creds, stringArg(arg(0)))
     case "systemuser" => registry.userServices.systemUserService.getByPrimaryKey(creds, uuidArg(arg(0)))
+    case "traceresult" => registry.traceServices.traceResultService.getByPrimaryKey(creds, uuidArg(arg(0)))
     /* End registry lookups */
     case _ =>
       log.warn(s"Attempted to load invalid object type [$key:${arg(0)}].")

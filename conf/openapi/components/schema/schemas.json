@@ -10,6 +10,7 @@
   "#include:note/note.json": "*",
   "#include:sync/syncProgress.json": "*",
   "#include:task/scheduledTaskRun.json": "*",
+  "#include:trace/traceResult.json": "*",
   "#include:user/systemUser.json": "*"
   // End model schemas
 }

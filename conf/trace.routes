@@ -1,0 +1,12 @@
+# Generated File
+# Trace Result Routes
+GET         /                                                         controllers.admin.trace.TraceResultController.list(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /autocomplete                                            controllers.admin.trace.TraceResultController.autocomplete(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None)
+GET         /form                                                    controllers.admin.trace.TraceResultController.createForm
+POST        /                                                         controllers.admin.trace.TraceResultController.create
+GET         /byAuthor/:author                                         controllers.admin.trace.TraceResultController.byAuthor(author: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /:id                                                      controllers.admin.trace.TraceResultController.view(id: java.util.UUID, t: Option[String] ?= None)
+GET         /:id/form                                                 controllers.admin.trace.TraceResultController.editForm(id: java.util.UUID)
+POST        /:id                                                      controllers.admin.trace.TraceResultController.edit(id: java.util.UUID)
+GET         /:id/remove                                               controllers.admin.trace.TraceResultController.remove(id: java.util.UUID)
+

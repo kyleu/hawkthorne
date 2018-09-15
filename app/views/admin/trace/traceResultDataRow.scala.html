@@ -1,0 +1,14 @@
+@* Generated File *@
+@(model: models.trace.TraceResult)<tr>
+  <td><a href="@controllers.admin.trace.routes.TraceResultController.view(model.id)" class="theme-text">@model.id</a></td>
+  <td>@model.t</td>
+  <td>
+    @model.author
+    @model.author.map { v =>
+      <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(v)">
+        <i class="fa @models.template.Icons.systemUser"></i>
+      </a>
+    }
+  </td>
+  <td>@model.occurred</td>
+</tr>

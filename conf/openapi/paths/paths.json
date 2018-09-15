@@ -2,6 +2,7 @@
   "#include:common.json": "*",
 
   // Start enum paths
+  "#include:/traceTypeEnum.json": "*",
   "#include:analytics/analyticsActionType.json": "*",
   "#include:settings/settingKey.json": "*",
   // End enum paths
@@ -14,6 +15,7 @@
   "#include:note/note.json": "*",
   "#include:sync/syncProgress.json": "*",
   "#include:task/scheduledTaskRun.json": "*",
+  "#include:trace/traceResult.json": "*",
   "#include:user/systemUser.json": "*"
   // End schema paths
 }

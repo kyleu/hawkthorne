@@ -17,6 +17,7 @@ object AuditRoutes extends Logging {
     case "schemamigration" => controllers.admin.ddl.routes.SchemaMigrationController.view(longArg(arg(0)))
     case "syncprogress" => controllers.admin.sync.routes.SyncProgressController.view(stringArg(arg(0)))
     case "systemuser" => controllers.admin.user.routes.SystemUserController.view(uuidArg(arg(0)))
+    case "traceresult" => controllers.admin.trace.routes.TraceResultController.view(uuidArg(arg(0)))
     /* End audit calls */
 
     case _ =>

@@ -1,0 +1,13 @@
+# Generated File
+# Remove a single TraceResult entity from the system.
+mutation TraceResultRemove {
+  traceResult {
+    remove(id: "00000000-0000-0000-0000-000000000000") {
+      id
+      t
+      data
+      author
+      occurred
+    }
+  }
+}

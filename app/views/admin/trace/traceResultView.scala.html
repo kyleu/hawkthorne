@@ -1,0 +1,47 @@
+@* Generated File *@
+@(user: models.user.SystemUser, model: models.trace.TraceResult, notes: Seq[models.note.Note], debug: Boolean)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "explore", s"Trace Result [${model.id}]") {
+  <div class="collection with-header">
+    <div class="collection-header">
+      <div class="right"><a class="theme-text" href="@controllers.admin.trace.routes.TraceResultController.editForm(model.id)">Edit</a></div>
+      <div class="right"><a class="theme-text remove-link" onclick="return confirm('Are you sure you want to remove this Trace Result?')" href="@controllers.admin.trace.routes.TraceResultController.remove(model.id)">Remove</a></div>
+      <h5>
+        <a class="theme-text" href="@controllers.admin.trace.routes.TraceResultController.list()"><i class="fa @models.template.Icons.traceResult"></i></a>
+        Trace Result [@model.id]
+      </h5>
+    </div>
+    <div class="collection-item">
+      <table class="highlight">
+        <tbody>
+          <tr>
+            <th>Id</th>
+            <td>@model.id</td>
+          </tr>
+          <tr>
+            <th>T</th>
+            <td>@model.t</td>
+          </tr>
+          <tr>
+            <th>Data</th>
+            <td><pre>@model.data<pre></td>
+          </tr>
+          <tr>
+            <th>Author</th>
+            <td>
+              @model.author.getOrElse(util.NullUtils.str)
+              @model.author.map { v =>
+                <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(v)"><i class="fa @models.template.Icons.systemUser"></i></a>
+              }
+            </td>
+          </tr>
+          <tr>
+            <th>Occurred</th>
+            <td>@model.occurred</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    @views.html.admin.note.notes(notes, "traceResult", "Trace Result", model.id)
+  </div>
+}

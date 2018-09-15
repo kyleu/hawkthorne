@@ -6,5 +6,6 @@ include "models/ddl/SchemaMigration.thrift"
 include "models/note/Note.thrift"
 include "models/sync/SyncProgress.thrift"
 include "models/task/ScheduledTaskRun.thrift"
+include "models/trace/TraceResult.thrift"
 include "models/user/SystemUser.thrift"
 /* End generated Thrift model includes */
