@@ -9,13 +9,13 @@ import models.doobie.analytics.AnalyticsActionTypeDoobie.analyticsActionTypeMeta
 import services.database.DoobieQueryService.Imports._
 
 object AnalyticsActionDoobie extends DoobieQueries[AnalyticsAction]("analytics_action") {
-  override protected val countFragment = fr"""select count(*) from "analytics_action""""
-  override protected val selectFragment = fr"""select "id", "t", "arg", "author", "status", "occurred" from "analytics_action""""
+  override val countFragment = fr"""select count(*) from "analytics_action""""
+  override val selectFragment = fr"""select "id", "t", "arg", "author", "status", "occurred" from "analytics_action""""
 
-  override protected val columns = Seq("id", "t", "arg", "author", "status", "occurred")
-  override protected val searchColumns = Seq("id", "t", "author", "status", "occurred")
+  override val columns = Seq("id", "t", "arg", "author", "status", "occurred")
+  override val searchColumns = Seq("id", "t", "author", "status", "occurred")
 
-  override protected def searchFragment(q: String) = {
+  override def searchFragment(q: String) = {
     fr""""id"::text = $q or "t"::text = $q or "arg"::text = $q or "author"::text = $q or "status"::text = $q or "occurred"::text = $q"""
   }
 
