@@ -3,9 +3,11 @@
   "projectId" : "hawkthorne",
   "projectTitle" : "Hawkthorne",
   "flags" : [
-    "graphql",
+    "slick",
+    "doobie",
+    "rest",
     "openapi",
-    "rest"
+    "graphql"
   ],
   "enums" : [
     {

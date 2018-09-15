@@ -24,9 +24,9 @@ class AuditService @javax.inject.Inject() (
 ) extends ModelServiceHelper[Audit]("audit") {
   AuditHelper.init(this)
 
-  def callback(a: Audit)(implicit trace: TraceData) = if (a.records.exists(r => jsonToObj[Seq[AuditField]](r.changes).nonEmpty)) {
+  def callback(a: Audit, records: Seq[AuditRecord])(implicit trace: TraceData) = if (records.exists(r => jsonToObj[Seq[AuditField]](r.changes).nonEmpty)) {
     AuditNotifications.postToSlack(ws, config.slackConfig, a)
-    AuditNotifications.persist(a)
+    AuditNotifications.persist(a, records)
     log.info(a.changeLog)
     a
   } else {
