@@ -3,14 +3,15 @@ package services.supervisor
 import java.time.LocalDateTime
 import java.util.UUID
 
-import akka.actor.{Actor, ActorRef, OneForOneStrategy, SupervisorStrategy}
+import akka.actor.{Actor, ActorRef, OneForOneStrategy, Props, SupervisorStrategy}
 import models.InternalMessage.{GameStatus, GameTraceRequest, GetSystemStatus}
 import models.ResponseMessage.ServerError
 import models.game.GameServiceMessage
 import models.options.GameOptions
 import models.player.Player
 import models.supervisor.GameDescription
-import models.{InternalMessage, ResponseMessage}
+import models.{Application, InternalMessage, ResponseMessage}
+import services.ServiceRegistry
 import services.game.GameService
 import util.Logging
 
@@ -21,9 +22,11 @@ object GameSupervisor {
   final case class GameRecord(id: UUID, options: GameOptions, actorRef: ActorRef, started: LocalDateTime = util.DateUtils.now) {
     def toDescription = GameDescription(id, options, started)
   }
+
+  def props(app: Application, services: ServiceRegistry) = Props(new GameSupervisor(app, services))
 }
 
-class GameSupervisor() extends Actor with Logging {
+class GameSupervisor(application: Application, serviceRegistry: ServiceRegistry) extends Actor with Logging {
   private[this] val games = collection.mutable.HashMap.empty[UUID, GameSupervisor.GameRecord]
 
   override def preStart() = {
@@ -50,9 +53,12 @@ class GameSupervisor() extends Actor with Logging {
   }
 
   private[this] def startGame(id: UUID, options: GameOptions, initialPlayers: Seq[(ActorRef, Player)]) = {
-    games.get(id).foreach(r => throw new IllegalStateException(s"Game start attempt for [$id], which already exists"))
+    games.get(id).foreach(_ => throw new IllegalStateException(s"Game start attempt for [$id], which already exists"))
 
-    val ref = context.actorOf(GameService.props(id = Some(id), options = options, gameSupervisor = self), id.toString)
+    val ref = context.actorOf(
+      props = GameService.props(id = Some(id), options = options, gameSupervisor = self, app = application, services = serviceRegistry),
+      name = id.toString
+    )
     games(id) = GameSupervisor.GameRecord(id, options, ref)
 
     initialPlayers.foreach(p => ref.tell(GameServiceMessage.AddPlayer(p._2, p._1), self))

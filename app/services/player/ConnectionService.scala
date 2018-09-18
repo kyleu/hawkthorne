@@ -10,29 +10,32 @@ import models.ResponseMessage._
 import models.analytics.AnalyticsActionType
 import models.auth.Credentials
 import models.game.GameServiceMessage
-import models.{InternalMessage, RequestMessage, ResponseMessage}
-import util.JsonSerializers._
+import models.{Application, InternalMessage, RequestMessage, ResponseMessage}
+import services.ServiceRegistry
 import util.{Config, Version}
 
 object ConnectionService {
   case class Callbacks(analytics: (AnalyticsActionType, Json) => Unit)
 
   def props(
-    id: Option[UUID], connSupervisor: ActorRef, gameSupervisor: ActorRef, creds: Credentials, out: ActorRef, sourceAddr: String, callbacks: Callbacks
+    id: Option[UUID], connSupervisor: ActorRef, gameSupervisor: ActorRef,
+    creds: Credentials, out: ActorRef, sourceAddr: String,
+    app: Application, services: ServiceRegistry
   ) = {
-    Props(new ConnectionService(id.getOrElse(UUID.randomUUID), connSupervisor, gameSupervisor, creds, out, sourceAddr, callbacks))
+    Props(new ConnectionService(id.getOrElse(UUID.randomUUID), connSupervisor, gameSupervisor, creds, out, sourceAddr, app, services))
   }
 }
 
 class ConnectionService(
     val id: UUID, connSupervisor: ActorRef, protected val gameSupervisor: ActorRef, creds: Credentials,
-    protected val out: ActorRef, sourceAddr: String, callbacks: ConnectionService.Callbacks
+    protected val out: ActorRef, protected val sourceAddr: String, protected val app: Application, protected val services: ServiceRegistry
 ) extends ConnectionServiceHelper with Actor with Timers {
   override def preStart() = {
+    import util.JsonSerializers._
     log.info(s"Starting player connection for user [${creds.user.id}: ${creds.user.username}].")
     connSupervisor.tell(ConnectionStarted(creds, "player", id, self), self)
     out.tell(UserSettings(creds.user.id, creds.user.username, creds.user.profile.providerID), self)
-    callbacks.analytics(AnalyticsActionType.Connect, Json.obj("source" -> sourceAddr.asJson, "version" -> Version.version.asJson))
+    analytics(creds, AnalyticsActionType.Connect, Json.obj("source" -> sourceAddr.asJson, "version" -> Version.version.asJson))
   }
 
   override def receive = {
@@ -49,7 +52,7 @@ class ConnectionService(
     case ct: ClientTrace => returnClientTrace(ct.payload)
 
     // Analytics
-    case am: AnalyticsMessage => callbacks.analytics(am.t, am.arg)
+    case am: AnalyticsMessage => analytics(creds, am.t, am.arg)
 
     // Game Service
     case sg: StartGame => startGame(sg.id, sg.options)

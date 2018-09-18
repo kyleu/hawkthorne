@@ -1,6 +1,7 @@
 package models.supervisor
 
 import akka.util.Timeout
+import controllers.GameplayController
 import graphql.CommonSchema._
 import graphql.DateTimeSchema._
 import graphql.{GraphQLContext, GraphQLSchemaHelper}
@@ -24,7 +25,7 @@ object GameDescriptionSchema extends GraphQLSchemaHelper("game") {
     import scala.concurrent.duration._
     implicit val timeout: Timeout = Timeout(1.second)
 
-    ask(c.ctx.app.gameSupervisor, GetSystemStatus).mapTo[GameStatus].map { x =>
+    ask(GameplayController.gameSupervisor, GetSystemStatus).mapTo[GameStatus].map { x =>
       x.games.filter(s => c.arg(gameIdArg).forall(_ == s.id))
     }
   }, gameIdArg))

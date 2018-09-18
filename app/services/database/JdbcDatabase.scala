@@ -4,10 +4,7 @@ import java.sql.Connection
 import java.util.Properties
 import java.util.concurrent.TimeUnit
 
-import cats.effect.IO
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
-import doobie.Transactor
-import doobie.util.transactor
 import models.database.jdbc.Queryable
 import models.database.{DatabaseConfig, RawQuery, Statement}
 import util.metrics.Instrumented
@@ -15,7 +12,7 @@ import util.tracing.{TraceData, TracingService}
 
 import scala.util.control.NonFatal
 
-abstract class JdbcDatabase(override val key: String, configPrefix: String) extends Database[Connection] with Queryable {
+abstract class JdbcDatabase(override val key: String, configPrefix: String) extends Database[Connection] with Queryable with DatabaseMigration {
   protected val metricsId = s"${util.Config.projectId}_${key}_database"
 
   private[this] def time[A](method: String, name: String)(f: => A) = {

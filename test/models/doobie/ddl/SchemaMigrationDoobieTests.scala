@@ -2,12 +2,11 @@
 package models.doobie.ddl
 
 import models.ddl.SchemaMigration
-import models.doobie.DoobieTestHelper
 import org.scalatest._
 import services.database.DoobieQueryService.Imports._
 
-class SchemaMigrationDoobieTest extends FlatSpec with Matchers {
-  import DoobieTestHelper.yolo._
+class SchemaMigrationDoobieTests extends FlatSpec with Matchers {
+  import models.doobie.DoobieTestHelper.yolo._
 
   "Doobie queries for [SchemaMigration]" should "typecheck" in {
     SchemaMigrationDoobie.countFragment.query[Long].check.unsafeRunSync

@@ -2,24 +2,32 @@ package controllers
 
 import java.util.UUID
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorRef, ActorSystem}
 import akka.stream.Materializer
 import com.mohiva.play.silhouette.api.HandlerResult
 import models.auth.Credentials
 import models.{Application, RequestMessage, ResponseMessage}
 import play.api.mvc.{AnyContent, AnyContentAsEmpty, Request, WebSocket}
-import services.analytics.AnalyticsService
+import services.ServiceRegistry
 import services.player.ConnectionService
+import services.supervisor.GameSupervisor
 import util.web.{MessageFrameFormatter, WebsocketUtils}
 
 import scala.concurrent.Future
 
+object GameplayController {
+  private var gameSupervisorOpt: Option[ActorRef] = None
+  def gameSupervisor = gameSupervisorOpt.getOrElse(throw new IllegalStateException(""))
+}
+
 @javax.inject.Singleton
 class GameplayController @javax.inject.Inject() (
-    override val app: Application, implicit val system: ActorSystem, implicit val materializer: Materializer, analyticsSvc: AnalyticsService
+    override val app: Application, implicit val system: ActorSystem, implicit val materializer: Materializer, services: ServiceRegistry
 ) extends BaseController("home") {
 
   import app.contexts.webContext
+
+  GameplayController.gameSupervisorOpt = Some(app.actorSystem.actorOf(GameSupervisor.props(app, services), "games"))
 
   private[this] val formatter = new MessageFrameFormatter()
 
@@ -29,10 +37,6 @@ class GameplayController @javax.inject.Inject() (
     Future.successful(Ok(views.html.gameplay(user = request.identity, path = path, devmode = app.config.debug, debug = debug.getOrElse(app.config.debug))))
   }
 
-  private[this] def callbacksFor(credentials: Credentials, status: String = "OK") = ConnectionService.Callbacks(analytics = (t, arg) => {
-    analyticsSvc.onMessage(t = t, arg = arg, credentials, status = status)
-  })
-
   def connect(binary: Boolean) = WebSocket.acceptOrResult[RequestMessage, ResponseMessage] { request =>
     implicit val req: Request[AnyContent] = Request(request, AnyContentAsEmpty)
     val connId = UUID.randomUUID()
@@ -41,11 +45,12 @@ class GameplayController @javax.inject.Inject() (
         ConnectionService.props(
           id = Some(connId),
           connSupervisor = app.connSupervisor,
-          gameSupervisor = app.gameSupervisor,
+          gameSupervisor = GameplayController.gameSupervisor,
           creds = Credentials(user, request.remoteAddress),
           out = out,
           sourceAddr = request.remoteAddress,
-          callbacks = callbacksFor(Credentials(user = user, remoteAddress = request.remoteAddress))
+          app = app,
+          services = services
         )
       })
       case HandlerResult(_, None) => Left(Redirect(controllers.routes.HomeController.home()).flashing("error" -> "You're not signed in."))

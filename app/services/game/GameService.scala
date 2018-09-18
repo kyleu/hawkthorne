@@ -3,7 +3,7 @@ package services.game
 import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, Props}
-import models.InternalMessage
+import models.{Application, InternalMessage}
 import models.InternalMessage.GameTraceResponse
 import models.ResponseMessage.GameJoined
 import models.game.GameServiceMessage
@@ -11,6 +11,7 @@ import models.game.GameServiceMessage._
 import models.game.cmd.GameCommand
 import models.options.GameOptions
 import models.player.Player
+import services.ServiceRegistry
 import services.map.ServerMapCache
 import util.Logging
 
@@ -21,12 +22,12 @@ object GameService {
   final case class Observer(id: UUID, name: String, actor: ActorRef)
   final case class UnhandledThrowable(msg: Any, t: Throwable)
 
-  def props(id: Option[UUID], options: GameOptions, gameSupervisor: ActorRef) = {
-    Props(new GameService(id.getOrElse(UUID.randomUUID), options, gameSupervisor))
+  def props(id: Option[UUID], options: GameOptions, gameSupervisor: ActorRef, app: Application, services: ServiceRegistry) = {
+    Props(new GameService(id.getOrElse(UUID.randomUUID), options, gameSupervisor, app, services))
   }
 }
 
-class GameService(id: UUID, options: GameOptions, gameSupervisor: ActorRef) extends Actor with Logging {
+class GameService(id: UUID, options: GameOptions, gameSupervisor: ActorRef, app: Application, services: ServiceRegistry) extends Actor with Logging {
   private[this] var playerMap = Map.empty[UUID, (Int, Player, ActorRef)]
   private[this] var playerSeq = IndexedSeq.empty[(Player, ActorRef)]
 

@@ -2,14 +2,13 @@ package controllers.admin.activity
 
 import java.util.UUID
 
-import controllers.BaseController
+import controllers.{BaseController, GameplayController}
 import models.{Application, ResponseMessage}
 import models.InternalMessage._
 
 import scala.concurrent.Future
 import akka.pattern.ask
 import services.supervisor.ConnectionSupervisor
-import util.JsonSerializers._
 
 import scala.concurrent.duration._
 
@@ -52,13 +51,13 @@ class ActivityController @javax.inject.Inject() (override val app: Application) 
   }
 
   def gameList = withSession("activity.game.list", admin = true) { implicit request => implicit td =>
-    ask(app.gameSupervisor, GetSystemStatus)(20.seconds).mapTo[GameStatus].map { status =>
+    ask(GameplayController.gameSupervisor, GetSystemStatus)(20.seconds).mapTo[GameStatus].map { status =>
       Ok(views.html.admin.activity.gameList(request.identity, status.games))
     }
   }
 
   def gameDetail(id: UUID) = withSession("activity.game.detail", admin = true) { implicit request => implicit td =>
-    ask(app.gameSupervisor, GameTraceRequest(id))(20.seconds).mapTo[GameTraceResponse].map { gtr =>
+    ask(GameplayController.gameSupervisor, GameTraceRequest(id))(20.seconds).mapTo[GameTraceResponse].map { gtr =>
       Ok(views.html.admin.activity.gameDetail(request.identity, gtr.game))
     }
   }

@@ -7,19 +7,19 @@ import com.mohiva.play.silhouette.api.Silhouette
 import models.auth.AuthEnv
 import play.api.Environment
 import play.api.inject.ApplicationLifecycle
+import services.audit.AuditService
+import services.cache.CacheService
 import services.database._
 import services.file.FileService
-import services.supervisor.{GameSupervisor, ConnectionSupervisor}
-import services.user.SystemUserService
-import services.cache.CacheService
-import services.audit.AuditService
 import services.note.ModelNoteService
 import services.settings.SettingsService
-import util.{Config, FutureUtils, Logging}
+import services.supervisor.ConnectionSupervisor
+import services.user.SystemUserService
 import util.FutureUtils.defaultContext
 import util.metrics.Instrumented
 import util.tracing.TracingService
 import util.web.TracingWSClient
+import util.{Config, FutureUtils, Logging}
 
 import scala.concurrent.{Await, Future}
 
@@ -55,7 +55,6 @@ class Application @javax.inject.Inject() (
   }
 
   val connSupervisor = actorSystem.actorOf(Props(classOf[ConnectionSupervisor]), "connections")
-  val gameSupervisor = actorSystem.actorOf(Props(classOf[GameSupervisor]), "games")
 
   private[this] def start() = tracing.topLevelTrace("application.start") { implicit tn =>
     log.info(s"${Config.projectName} is starting.")
@@ -72,14 +71,9 @@ class Application @javax.inject.Inject() (
     FileService.setRootDir(config.dataDir)
 
     ApplicationDatabase.open(config.cnf, tracing)
+    ApplicationDatabase.migrate()
 
-    val flyway = new org.flywaydb.core.Flyway()
-    flyway.setDataSource(ApplicationDatabase.source)
-    flyway.migrate()
-
-    coreServices.settings.load().map { _ =>
-      true
-    }
+    coreServices.settings.load().map(_ => true)
   }
 
   private[this] def stop() = {

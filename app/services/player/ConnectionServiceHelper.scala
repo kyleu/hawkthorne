@@ -6,11 +6,14 @@ import akka.actor.ActorRef
 import io.circe.Json
 import models.InternalMessage.ClientTraceResponse
 import models.ResponseMessage.{GameJoined, GameNotFound, SendClientTrace, SystemReady}
+import models.analytics.AnalyticsActionType
+import models.auth.Credentials
 import models.game.GameServiceMessage
 import models.options.GameOptions
 import models.player.Player
 import services.supervisor.GameSupervisor
-import util.Logging
+import util.{Logging, Version}
+import util.JsonSerializers._
 
 trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
   // Game
@@ -63,5 +66,9 @@ trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
       pendingTrace = None
       a.tell(ClientTraceResponse(id, payload), self)
     case None => throw new IllegalStateException("No pending client trace")
+  }
+
+  protected[this] def analytics(creds: Credentials, t: AnalyticsActionType, json: Json) = {
+    services.analyticsService.onMessage(t = t, arg = json, credentials = creds, status = "OK")
   }
 }

@@ -26,7 +26,7 @@ class PolygonTests extends FlatSpec with Matchers {
     val points = Seq(DoublePoint(0, 0), DoublePoint(48, -48), DoublePoint(576, -48), DoublePoint(600, -24), DoublePoint(624, -24), DoublePoint(648, 0))
     val p = util.Polygon(points)
 
-    p.pointIn(DoublePoint(0.1, -0.2)) should be(true)
+    p.pointIn(DoublePoint(0.1, -0.2)) should be(false)
     p.pointIn(DoublePoint(1.0, -1.0)) should be(true)
     p.pointIn(DoublePoint(5, -5)) should be(true)
     p.pointIn(DoublePoint(9.9, -9.9)) should be(true)
