@@ -1,0 +1,44 @@
+@* Generated File *@
+@(user: models.user.SystemUser, model: models.history.GamePlayer, notes: Seq[models.note.Note], debug: Boolean)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "explore", s"Game Player [${model.gameId}, ${model.userId}]") {
+  <div class="collection with-header">
+    <div class="collection-header">
+      <div class="right"><a class="theme-text" href="@controllers.admin.history.routes.GamePlayerController.editForm(model.gameId, model.userId)">Edit</a></div>
+      <div class="right"><a class="theme-text remove-link" onclick="return confirm('Are you sure you want to remove this Game Player?')" href="@controllers.admin.history.routes.GamePlayerController.remove(model.gameId, model.userId)">Remove</a></div>
+      <h5>
+        <a class="theme-text" href="@controllers.admin.history.routes.GamePlayerController.list()"><i class="fa @models.template.Icons.gamePlayer"></i></a>
+        Game Player [@model.gameId, @model.userId]
+      </h5>
+    </div>
+    <div class="collection-item">
+      <table class="highlight">
+        <tbody>
+          <tr>
+            <th>Game Id</th>
+            <td>
+              @model.gameId
+              <a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.view(model.gameId)"><i class="fa @models.template.Icons.gameHistory"></i></a>
+            </td>
+          </tr>
+          <tr>
+            <th>User Id</th>
+            <td>
+              @model.userId
+              <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(model.userId)"><i class="fa @models.template.Icons.systemUser"></i></a>
+            </td>
+          </tr>
+          <tr>
+            <th>Idx</th>
+            <td>@model.idx</td>
+          </tr>
+          <tr>
+            <th>Joined</th>
+            <td>@model.joined</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    @views.html.admin.note.notes(notes, "gamePlayer", "Game Player", model.gameId, model.userId)
+  </div>
+}

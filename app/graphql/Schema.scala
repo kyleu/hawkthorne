@@ -19,6 +19,13 @@ object Schema {
       models.audit.AuditRecordSchema.auditRecordByPrimaryKeyFetcher,
       models.audit.AuditSchema.auditByPrimaryKeyFetcher,
       models.ddl.SchemaMigrationSchema.schemaMigrationByPrimaryKeyFetcher,
+      models.history.GameHistorySchema.gameHistoryByCreatorFetcher,
+      models.history.GameHistorySchema.gameHistoryByPrimaryKeyFetcher,
+      models.history.GamePlayerSchema.gamePlayerByGameIdFetcher,
+      models.history.GamePlayerSchema.gamePlayerByPrimaryKeyFetcher,
+      models.history.GamePlayerSchema.gamePlayerByUserIdFetcher,
+      models.history.GameSnapshotSchema.gameSnapshotByGameIdFetcher,
+      models.history.GameSnapshotSchema.gameSnapshotByPrimaryKeyFetcher,
       models.note.NoteSchema.noteByAuthorFetcher,
       models.note.NoteSchema.noteByPrimaryKeyFetcher,
       models.sync.SyncProgressSchema.syncProgressByPrimaryKeyFetcher,
@@ -50,6 +57,9 @@ object Schema {
       models.audit.AuditRecordSchema.queryFields ++
       models.audit.AuditSchema.queryFields ++
       models.ddl.SchemaMigrationSchema.queryFields ++
+      models.history.GameHistorySchema.queryFields ++
+      models.history.GamePlayerSchema.queryFields ++
+      models.history.GameSnapshotSchema.queryFields ++
       models.note.NoteSchema.queryFields ++
       models.sync.SyncProgressSchema.queryFields ++
       models.task.ScheduledTaskRunSchema.queryFields ++
@@ -60,7 +70,9 @@ object Schema {
 
   val enumQueryFields = {
     // Start enum query fields
-    models.TraceTypeEnumSchema.queryFields ++
+    models.GameHistoryTypeSchema.queryFields ++
+      models.GameSnapshotTypeSchema.queryFields ++
+      models.TraceTypeEnumSchema.queryFields ++
       models.analytics.AnalyticsActionTypeSchema.queryFields ++
       models.settings.SettingKeySchema.queryFields
     // End enum query fields
@@ -81,6 +93,9 @@ object Schema {
       models.audit.AuditRecordSchema.mutationFields ++
       models.audit.AuditSchema.mutationFields ++
       models.ddl.SchemaMigrationSchema.mutationFields ++
+      models.history.GameHistorySchema.mutationFields ++
+      models.history.GamePlayerSchema.mutationFields ++
+      models.history.GameSnapshotSchema.mutationFields ++
       models.note.NoteSchema.mutationFields ++
       models.sync.SyncProgressSchema.mutationFields ++
       models.task.ScheduledTaskRunSchema.mutationFields ++

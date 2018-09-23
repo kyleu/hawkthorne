@@ -1,0 +1,13 @@
+# Generated File
+# Remove a single GameSnapshot entity from the system.
+mutation GameSnapshotRemove {
+  gameSnapshot {
+    remove(id: "00000000-0000-0000-0000-000000000000") {
+      id
+      gameId
+      t
+      snapshot
+      occurred
+    }
+  }
+}

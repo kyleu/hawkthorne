@@ -19,6 +19,7 @@ GET         /connect                                 controllers.GameplayControl
 ->          /admin/settings                          settings.Routes
 ->          /admin/audit                             audit.Routes
 ->          /admin/ddl                               ddl.Routes
+->          /admin/history                           history.Routes
 ->          /admin/note                              note.Routes
 ->          /admin/sync                              sync.Routes
 ->          /admin/task                              task.Routes

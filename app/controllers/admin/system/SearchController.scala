@@ -47,6 +47,12 @@ class SearchController @javax.inject.Inject() (override val app: Application, se
     val auditRecord = services.auditServices.auditRecordService.getByPrimaryKey(creds, id).map(_.map { model =>
       views.html.admin.audit.auditRecordSearchResult(model, s"Audit Record [${model.id}] matched [$q].")
     }.toSeq)
+    val gameHistory = services.historyServices.gameHistoryService.getByPrimaryKey(creds, id).map(_.map { model =>
+      views.html.admin.history.gameHistorySearchResult(model, s"Game History [${model.id}] matched [$q].")
+    }.toSeq)
+    val gameSnapshot = services.historyServices.gameSnapshotService.getByPrimaryKey(creds, id).map(_.map { model =>
+      views.html.admin.history.gameSnapshotSearchResult(model, s"Game Snapshot [${model.id}] matched [$q].")
+    }.toSeq)
     val note = services.noteServices.noteService.getByPrimaryKey(creds, id).map(_.map { model =>
       views.html.admin.note.noteSearchResult(model, s"Note [${model.id}] matched [$q].")
     }.toSeq)
@@ -60,7 +66,7 @@ class SearchController @javax.inject.Inject() (override val app: Application, se
       views.html.admin.trace.traceResultSearchResult(model, s"Trace Result [${model.id}] matched [$q].")
     }.toSeq)
 
-    val uuidSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, note, scheduledTaskRun, systemUser, traceResult)
+    val uuidSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, gameHistory, gameSnapshot, note, scheduledTaskRun, systemUser, traceResult)
     // End uuid searches
 
     val auditR = app.coreServices.audits.getByPrimaryKey(creds, id).map(_.map { model =>
@@ -77,6 +83,15 @@ class SearchController @javax.inject.Inject() (override val app: Application, se
     })
     val auditRecord = services.auditServices.auditRecordService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
       views.html.admin.audit.auditRecordSearchResult(model, s"Audit Record [${model.id}] matched [$q].")
+    })
+    val gameHistory = services.historyServices.gameHistoryService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
+      views.html.admin.history.gameHistorySearchResult(model, s"Game History [${model.id}] matched [$q].")
+    })
+    val gamePlayer = services.historyServices.gamePlayerService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
+      views.html.admin.history.gamePlayerSearchResult(model, s"Game Player [${model.gameId}, ${model.userId}] matched [$q].")
+    })
+    val gameSnapshot = services.historyServices.gameSnapshotService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
+      views.html.admin.history.gameSnapshotSearchResult(model, s"Game Snapshot [${model.id}] matched [$q].")
     })
     val note = services.noteServices.noteService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
       views.html.admin.note.noteSearchResult(model, s"Note [${model.id}] matched [$q].")
@@ -97,7 +112,7 @@ class SearchController @javax.inject.Inject() (override val app: Application, se
       views.html.admin.trace.traceResultSearchResult(model, s"Trace Result [${model.id}] matched [$q].")
     })
 
-    val stringSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, schemaMigration, note, scheduledTaskRun, syncProgress, systemUser, traceResult)
+    val stringSearches = Seq[Future[Seq[Html]]](analyticsAction, auditRecord, schemaMigration, gameHistory, gamePlayer, gameSnapshot, note, scheduledTaskRun, syncProgress, systemUser, traceResult)
     // End string searches
 
     val auditR = app.coreServices.audits.searchExact(creds = creds, q = q, limit = Some(5)).map(_.map { model =>

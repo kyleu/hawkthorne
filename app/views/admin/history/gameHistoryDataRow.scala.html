@@ -1,0 +1,14 @@
+@* Generated File *@
+@(model: models.history.GameHistory)<tr>
+  <td><a href="@controllers.admin.history.routes.GameHistoryController.view(model.id)" class="theme-text">@model.id</a></td>
+  <td>@model.t</td>
+  <td>
+    @model.creator
+    @model.creator.map { v =>
+      <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(v)">
+        <i class="fa @models.template.Icons.systemUser"></i>
+      </a>
+    }
+  </td>
+  <td>@model.started</td>
+</tr>

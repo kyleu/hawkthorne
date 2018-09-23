@@ -1,0 +1,66 @@
+// Generated File
+{
+  "history.GameHistory": {
+    "required": [
+      "id",
+      "t",
+      "options",
+      "started"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+      },
+      "t": {
+        "type": "string"
+      },
+      "options": {
+        "type": "object"
+      },
+      "creator": {
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+      },
+      "started": {
+        "type": "string",
+        "example": "2018-01-01 00:00:00"
+      }
+    }
+  },
+  "history.GameHistoryResult": {
+    "properties": {
+      "filters": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/common.Filter"
+        }
+      },
+      "orderBys": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/common.OrderBy"
+        }
+      },
+      "totalCount": {
+        "type": "integer"
+      },
+      "paging": {
+        "$ref": "#/components/schemas/common.PagingOptions"
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/history.GameHistory"
+        }
+      },
+      "durationMs": {
+        "type": "integer"
+      },
+      "occurred": {
+        "type": "string",
+        "example": "2018-01-01 00:00:00"
+      }
+    }
+  }
+}

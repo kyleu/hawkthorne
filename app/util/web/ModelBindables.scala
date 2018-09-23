@@ -32,6 +32,34 @@ object ModelBindables {
     override def unbind(key: String, x: AnalyticsActionType) = x.value
   }
 
+  import models.GameHistoryType
+  private[this] def gameHistoryTypeExtractor(v: Either[String, String]) = v match {
+    case Right(s) => Right(GameHistoryType.withValue(s))
+    case Left(x) => throw new IllegalStateException(x)
+  }
+  implicit def gameHistoryTypePathBindable(implicit stringBinder: PathBindable[String]): PathBindable[GameHistoryType] = new PathBindable[GameHistoryType] {
+    override def bind(key: String, value: String) = gameHistoryTypeExtractor(stringBinder.bind(key, value))
+    override def unbind(key: String, x: GameHistoryType) = x.value
+  }
+  implicit def gameHistoryTypeQueryStringBindable(implicit stringBinder: QueryStringBindable[String]): QueryStringBindable[GameHistoryType] = new QueryStringBindable[GameHistoryType] {
+    override def bind(key: String, params: Map[String, Seq[String]]) = stringBinder.bind(key, params).map(gameHistoryTypeExtractor)
+    override def unbind(key: String, x: GameHistoryType) = x.value
+  }
+
+  import models.GameSnapshotType
+  private[this] def gameSnapshotTypeExtractor(v: Either[String, String]) = v match {
+    case Right(s) => Right(GameSnapshotType.withValue(s))
+    case Left(x) => throw new IllegalStateException(x)
+  }
+  implicit def gameSnapshotTypePathBindable(implicit stringBinder: PathBindable[String]): PathBindable[GameSnapshotType] = new PathBindable[GameSnapshotType] {
+    override def bind(key: String, value: String) = gameSnapshotTypeExtractor(stringBinder.bind(key, value))
+    override def unbind(key: String, x: GameSnapshotType) = x.value
+  }
+  implicit def gameSnapshotTypeQueryStringBindable(implicit stringBinder: QueryStringBindable[String]): QueryStringBindable[GameSnapshotType] = new QueryStringBindable[GameSnapshotType] {
+    override def bind(key: String, params: Map[String, Seq[String]]) = stringBinder.bind(key, params).map(gameSnapshotTypeExtractor)
+    override def unbind(key: String, x: GameSnapshotType) = x.value
+  }
+
   import models.settings.SettingKey
   private[this] def settingKeyExtractor(v: Either[String, String]) = v match {
     case Right(s) => Right(SettingKey.withValue(s))

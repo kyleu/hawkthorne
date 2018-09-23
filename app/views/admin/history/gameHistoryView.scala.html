@@ -1,0 +1,66 @@
+@* Generated File *@
+@(user: models.user.SystemUser, model: models.history.GameHistory, notes: Seq[models.note.Note], debug: Boolean)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "explore", s"Game History [${model.id}]") {
+  <div class="collection with-header">
+    <div class="collection-header">
+      <div class="right"><a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.editForm(model.id)">Edit</a></div>
+      <div class="right"><a class="theme-text remove-link" onclick="return confirm('Are you sure you want to remove this Game History?')" href="@controllers.admin.history.routes.GameHistoryController.remove(model.id)">Remove</a></div>
+      <h5>
+        <a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.list()"><i class="fa @models.template.Icons.gameHistory"></i></a>
+        Game History [@model.id]
+      </h5>
+    </div>
+    <div class="collection-item">
+      <table class="highlight">
+        <tbody>
+          <tr>
+            <th>Id</th>
+            <td>@model.id</td>
+          </tr>
+          <tr>
+            <th>T</th>
+            <td>@model.t</td>
+          </tr>
+          <tr>
+            <th>Options</th>
+            <td><pre>@model.options<pre></td>
+          </tr>
+          <tr>
+            <th>Creator</th>
+            <td>
+              @model.creator.getOrElse(util.NullUtils.str)
+              @model.creator.map { v =>
+                <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(v)"><i class="fa @models.template.Icons.systemUser"></i></a>
+              }
+            </td>
+          </tr>
+          <tr>
+            <th>Started</th>
+            <td>@model.started</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    @views.html.admin.note.notes(notes, "gameHistory", "Game History", model.id)
+  </div>
+
+  <ul id="model-relations" class="collapsible" data-collapsible="expandable">
+    <li id="relation-gamePlayer-gameId" data-table="gamePlayer" data-field="gameId" data-singular="Game Player" data-plural="Game Players" data-url="@controllers.admin.history.routes.GamePlayerController.byGameId(model.id, limit = Some(5))">
+      <div class="collapsible-header">
+        <i class="fa @models.template.Icons.gamePlayer"></i>
+        <span class="title">Game Players</span>&nbsp;by Game Id
+      </div>
+      <div class="collapsible-body"><span>Loading...</span></div>
+    </li>
+    <li id="relation-gameSnapshot-gameId" data-table="gameSnapshot" data-field="gameId" data-singular="Game Snapshot" data-plural="Game Snapshots" data-url="@controllers.admin.history.routes.GameSnapshotController.byGameId(model.id, limit = Some(5))">
+      <div class="collapsible-header">
+        <i class="fa @models.template.Icons.gameSnapshot"></i>
+        <span class="title">Game Snapshots</span>&nbsp;by Game Id
+      </div>
+      <div class="collapsible-body"><span>Loading...</span></div>
+    </li>
+  </ul>
+  @views.html.components.includeScalaJs(debug)
+  <script>$(function() { new RelationService('@controllers.admin.history.routes.GameHistoryController.relationCounts(model.id)') });</script>
+}

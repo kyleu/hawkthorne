@@ -1,0 +1,30 @@
+@* Generated File *@
+@(user: models.user.SystemUser, totalCount: Option[Int], modelSeq: Seq[models.history.GameSnapshot], q: Option[String], orderBy: Option[String], orderAsc: Boolean, limit: Int, offset: Int)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)
+@views.html.admin.explore.list(
+  user = user,
+  model = "Game Snapshot",
+  modelPlural = "Game Snapshots",
+  icon = models.template.Icons.gameSnapshot,
+  cols = Seq(
+    "id" -> "Id",
+    "gameId" -> "Game Id",
+    "t" -> "T",
+    "occurred" -> "Occurred"
+  ),
+  totalCount = totalCount,
+  rows = modelSeq.map(model => views.html.admin.history.gameSnapshotDataRow(model)),
+  orderBy = orderBy,
+  orderAsc = orderAsc,
+  calls = models.result.web.ListCalls(
+    newCall = Some(controllers.admin.history.routes.GameSnapshotController.createForm()),
+    orderBy = Some(controllers.admin.history.routes.GameSnapshotController.list(q, _, _, Some(limit), Some(0))),
+    search = Some(controllers.admin.history.routes.GameSnapshotController.list(None, orderBy, orderAsc, Some(limit), None)),
+    next = controllers.admin.history.routes.GameSnapshotController.list(q, orderBy, orderAsc, Some(limit), Some(offset + limit)),
+    prev = controllers.admin.history.routes.GameSnapshotController.list(q, orderBy, orderAsc, Some(limit), Some(offset - limit))
+  ),
+  limit = limit,
+  offset = offset,
+  q = q
+)

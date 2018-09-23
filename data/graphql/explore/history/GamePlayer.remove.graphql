@@ -1,0 +1,12 @@
+# Generated File
+# Remove a single GamePlayer entity from the system.
+mutation GamePlayerRemove {
+  gamePlayer {
+    remove(gameId: "00000000-0000-0000-0000-000000000000", userId: "00000000-0000-0000-0000-000000000000") {
+      gameId
+      userId
+      idx
+      joined
+    }
+  }
+}

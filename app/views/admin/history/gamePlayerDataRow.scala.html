@@ -1,0 +1,7 @@
+@* Generated File *@
+@(model: models.history.GamePlayer)<tr>
+  <td><a href="@controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.userId)" class="theme-text">@model.gameId</a></td>
+  <td><a href="@controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.userId)" class="theme-text">@model.userId</a></td>
+  <td>@model.idx</td>
+  <td>@model.joined</td>
+</tr>

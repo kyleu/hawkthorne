@@ -1,0 +1,13 @@
+# Generated File
+# Creates a new GameHistory entity.
+mutation GameHistoryCreate {
+  gameHistory {
+    create(fields: [{k: "", v: ""}]) {
+      id
+      t
+      options
+      creator
+      started
+    }
+  }
+}

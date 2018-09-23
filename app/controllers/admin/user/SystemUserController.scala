@@ -9,6 +9,7 @@ import models.result.RelationCount
 import play.api.http.MimeTypes
 import services.analytics.AnalyticsActionService
 import services.audit.AuditRecordService
+import services.history.{GameHistoryService, GamePlayerService}
 import services.note.NoteService
 import services.trace.TraceResultService
 import services.user.SystemUserService
@@ -19,7 +20,7 @@ import util.ReftreeUtils._
 @javax.inject.Singleton
 class SystemUserController @javax.inject.Inject() (
     override val app: Application, svc: SystemUserService, auditRecordSvc: AuditRecordService, val authInfoRepository: AuthInfoRepository, val hasher: PasswordHasher,
-    analyticsActionS: AnalyticsActionService, noteS: NoteService, traceResultS: TraceResultService
+    analyticsActionS: AnalyticsActionService, gameHistoryS: GameHistoryService, gamePlayerS: GamePlayerService, noteS: NoteService, traceResultS: TraceResultService
 ) extends ServiceController(svc) with UserEditHelper with UserSearchHelper {
   def view(id: java.util.UUID, t: Option[String] = None) = withSession("view", admin = true) { implicit request => implicit td =>
     val modelF = svc.getByPrimaryKey(request, id)
@@ -40,11 +41,15 @@ class SystemUserController @javax.inject.Inject() (
   def relationCounts(id: java.util.UUID) = withSession("relation.counts", admin = true) { implicit request => implicit td =>
     val creds = models.auth.Credentials.fromRequest(request)
     val analyticsActionByAuthorF = analyticsActionS.countByAuthor(creds, id)
+    val gameHistoryByCreatorF = gameHistoryS.countByCreator(creds, id)
+    val gamePlayerByUserIdF = gamePlayerS.countByUserId(creds, id)
     val noteByAuthorF = noteS.countByAuthor(creds, id)
     val traceResultByAuthorF = traceResultS.countByAuthor(creds, id)
-    for (analyticsActionC <- analyticsActionByAuthorF; noteC <- noteByAuthorF; traceResultC <- traceResultByAuthorF) yield {
+    for (analyticsActionC <- analyticsActionByAuthorF; gameHistoryC <- gameHistoryByCreatorF; gamePlayerC <- gamePlayerByUserIdF; noteC <- noteByAuthorF; traceResultC <- traceResultByAuthorF) yield {
       Ok(Seq(
         RelationCount(model = "analyticsAction", field = "author", count = analyticsActionC),
+        RelationCount(model = "gameHistory", field = "creator", count = gameHistoryC),
+        RelationCount(model = "gamePlayer", field = "userId", count = gamePlayerC),
         RelationCount(model = "note", field = "author", count = noteC),
         RelationCount(model = "traceResult", field = "author", count = traceResultC)
       ).asJson)

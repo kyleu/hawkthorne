@@ -21,6 +21,9 @@ class AuditLookup @javax.inject.Inject() (registry: ServiceRegistry) extends Log
     /* Start registry lookups */
     case "analyticsaction" => registry.analyticsServices.analyticsActionService.getByPrimaryKey(creds, uuidArg(arg(0)))
     case "auditrecord" => registry.auditServices.auditRecordService.getByPrimaryKey(creds, uuidArg(arg(0)))
+    case "gamehistory" => registry.historyServices.gameHistoryService.getByPrimaryKey(creds, uuidArg(arg(0)))
+    case "gameplayer" => registry.historyServices.gamePlayerService.getByPrimaryKey(creds, uuidArg(arg(0)), uuidArg(arg(1)))
+    case "gamesnapshot" => registry.historyServices.gameSnapshotService.getByPrimaryKey(creds, uuidArg(arg(0)))
     case "note" => registry.noteServices.noteService.getByPrimaryKey(creds, uuidArg(arg(0)))
     case "scheduledtaskrun" => registry.taskServices.scheduledTaskRunService.getByPrimaryKey(creds, uuidArg(arg(0)))
     case "schemamigration" => registry.ddlServices.schemaMigrationService.getByPrimaryKey(creds, longArg(arg(0)))

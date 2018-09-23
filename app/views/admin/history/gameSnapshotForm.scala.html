@@ -1,0 +1,31 @@
+@* Generated File *@
+@(user: models.user.SystemUser, model: models.history.GameSnapshot, title: String, cancel: Call, act: Call, isNew: Boolean = false, debug: Boolean = false)(
+    implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "explore", title) {
+  <form id="form-edit-gameSnapshot" action="@act" method="post">
+    <div class="collection with-header">
+      <div class="collection-header">
+        <div class="right"><button type="submit" class="btn theme">@if(isNew) {Create} else {Save} Game Snapshot</button></div>
+        <div class="right"><a href="@cancel" class="theme-text cancel-link">Cancel</a></div>
+        <h5><i class="fa @models.template.Icons.gameSnapshot"></i> @title</h5>
+      </div>
+      <div class="collection-item">
+        <table>
+          <tbody>
+            @views.html.components.form.textField(selected = isNew, key = "id", title = "Id", value = Some(model.id.toString), nullable = false, dataType = "uuid")
+            @views.html.components.form.autocompleteField(
+              selected = isNew, key = "gameId", title = "Game Id", value = model.gameId.map(_.toString), nullable = true, dataType = "uuid",
+              call = controllers.admin.history.routes.GameHistoryController.autocomplete(), acType = ("gameHistory", "Game History"), icon = models.template.Icons.gameHistory
+            )
+            @views.html.components.form.selectField(selected = isNew, key = "t", title = "T", value = Some(model.t.toString), options = Seq("initial" -> "initial", "manual" -> "manual", "final" -> "final", "unknown" -> "unknown"), nullable = false, dataType = "game_snapshot_type")
+            @views.html.components.form.textField(selected = isNew, key = "snapshot", title = "Snapshot", value = Some(model.snapshot.toString), nullable = false, dataType = "json")
+            @views.html.components.form.localDateTimeField(selected = isNew, key = "occurred", title = "Occurred", value = Some(model.occurred), nullable = false)
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+}
+@views.html.components.includeScalaJs(debug)
+@views.html.components.includeAutocomplete(debug)
+<script>$(function() { new FormService('form-edit-gameSnapshot'); })</script>

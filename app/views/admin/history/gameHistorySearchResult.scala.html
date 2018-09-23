@@ -1,0 +1,9 @@
+@* Generated File *@
+@(model: models.history.GameHistory, hit: String)<div class="search-result">
+  <div class="right">Game History</div>
+  <div>
+    <i class="fa @models.template.Icons.gameHistory"></i>
+    <a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.view(model.id)">@model.id</a>
+  </div>
+  <em>@hit</em>
+</div>

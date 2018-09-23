@@ -53,6 +53,9 @@ object Icons {
 
   // Start model icons
   val analyticsAction = "fa-magic"
+  val gameHistory = "fa-beer"
+  val gamePlayer = "fa-meh-o"
+  val gameSnapshot = "fa-hourglass-start"
   val oAuth2Info = "fa-lemon-o"
   val schemaMigration = "fa-hdd-o"
   val settingValues = "fa-hand-spock-o"

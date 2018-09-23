@@ -2,6 +2,8 @@
   "#include:common.json": "*",
 
   // Start enum paths
+  "#include:/gameHistoryType.json": "*",
+  "#include:/gameSnapshotType.json": "*",
   "#include:/traceTypeEnum.json": "*",
   "#include:analytics/analyticsActionType.json": "*",
   "#include:settings/settingKey.json": "*",
@@ -12,6 +14,9 @@
   "#include:audit/audit.json": "*",
   "#include:audit/auditRecord.json": "*",
   "#include:ddl/schemaMigration.json": "*",
+  "#include:history/gameHistory.json": "*",
+  "#include:history/gamePlayer.json": "*",
+  "#include:history/gameSnapshot.json": "*",
   "#include:note/note.json": "*",
   "#include:sync/syncProgress.json": "*",
   "#include:task/scheduledTaskRun.json": "*",

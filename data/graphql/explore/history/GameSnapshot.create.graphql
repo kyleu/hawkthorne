@@ -1,0 +1,13 @@
+# Generated File
+# Creates a new GameSnapshot entity.
+mutation GameSnapshotCreate {
+  gameSnapshot {
+    create(fields: [{k: "", v: ""}]) {
+      id
+      gameId
+      t
+      snapshot
+      occurred
+    }
+  }
+}

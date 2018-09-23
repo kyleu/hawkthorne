@@ -8,6 +8,7 @@ class ServiceRegistry @javax.inject.Inject() (
     val analyticsServices: services.analytics.AnalyticsServiceRegistry,
     val auditServices: services.audit.AuditServiceRegistry,
     val ddlServices: services.ddl.DdlServiceRegistry,
+    val historyServices: services.history.HistoryServiceRegistry,
     val noteServices: services.note.NoteServiceRegistry,
     val syncServices: services.sync.SyncServiceRegistry,
     val taskServices: services.task.TaskServiceRegistry,

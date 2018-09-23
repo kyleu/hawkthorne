@@ -1,0 +1,63 @@
+// Generated File
+{
+  "history.GamePlayer": {
+    "required": [
+      "gameId",
+      "userId",
+      "idx",
+      "joined"
+    ],
+    "properties": {
+      "gameId": {
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+      },
+      "userId": {
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+      },
+      "idx": {
+        "type": "integer"
+      },
+      "joined": {
+        "type": "string",
+        "example": "2018-01-01 00:00:00"
+      }
+    }
+  },
+  "history.GamePlayerResult": {
+    "properties": {
+      "filters": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/common.Filter"
+        }
+      },
+      "orderBys": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/common.OrderBy"
+        }
+      },
+      "totalCount": {
+        "type": "integer"
+      },
+      "paging": {
+        "$ref": "#/components/schemas/common.PagingOptions"
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/history.GamePlayer"
+        }
+      },
+      "durationMs": {
+        "type": "integer"
+      },
+      "occurred": {
+        "type": "string",
+        "example": "2018-01-01 00:00:00"
+      }
+    }
+  }
+}

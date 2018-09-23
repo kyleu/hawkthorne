@@ -1,0 +1,36 @@
+# Generated File
+# Game History Routes
+GET         /gameHistory                                              controllers.admin.history.GameHistoryController.list(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /gameHistory/autocomplete                                 controllers.admin.history.GameHistoryController.autocomplete(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None)
+GET         /gameHistory/form                                         controllers.admin.history.GameHistoryController.createForm
+POST        /gameHistory                                              controllers.admin.history.GameHistoryController.create
+GET         /gameHistory/byCreator/:creator                           controllers.admin.history.GameHistoryController.byCreator(creator: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /gameHistory/:id                                          controllers.admin.history.GameHistoryController.view(id: java.util.UUID, t: Option[String] ?= None)
+GET         /gameHistory/:id/counts                                   controllers.admin.history.GameHistoryController.relationCounts(id: java.util.UUID)
+GET         /gameHistory/:id/form                                     controllers.admin.history.GameHistoryController.editForm(id: java.util.UUID)
+POST        /gameHistory/:id                                          controllers.admin.history.GameHistoryController.edit(id: java.util.UUID)
+GET         /gameHistory/:id/remove                                   controllers.admin.history.GameHistoryController.remove(id: java.util.UUID)
+
+# Game Player Routes
+GET         /gamePlayer                                               controllers.admin.history.GamePlayerController.list(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /gamePlayer/autocomplete                                  controllers.admin.history.GamePlayerController.autocomplete(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None)
+GET         /gamePlayer/form                                          controllers.admin.history.GamePlayerController.createForm
+POST        /gamePlayer                                               controllers.admin.history.GamePlayerController.create
+GET         /gamePlayer/byGameId/:gameId                              controllers.admin.history.GamePlayerController.byGameId(gameId: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /gamePlayer/byUserId/:userId                              controllers.admin.history.GamePlayerController.byUserId(userId: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /gamePlayer/:gameId/:userId                               controllers.admin.history.GamePlayerController.view(gameId: java.util.UUID, userId: java.util.UUID, t: Option[String] ?= None)
+GET         /gamePlayer/:gameId/:userId/form                          controllers.admin.history.GamePlayerController.editForm(gameId: java.util.UUID, userId: java.util.UUID)
+POST        /gamePlayer/:gameId/:userId                               controllers.admin.history.GamePlayerController.edit(gameId: java.util.UUID, userId: java.util.UUID)
+GET         /gamePlayer/:gameId/:userId/remove                        controllers.admin.history.GamePlayerController.remove(gameId: java.util.UUID, userId: java.util.UUID)
+
+# Game Snapshot Routes
+GET         /gameSnapshot                                             controllers.admin.history.GameSnapshotController.list(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /gameSnapshot/autocomplete                                controllers.admin.history.GameSnapshotController.autocomplete(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None)
+GET         /gameSnapshot/form                                        controllers.admin.history.GameSnapshotController.createForm
+POST        /gameSnapshot                                             controllers.admin.history.GameSnapshotController.create
+GET         /gameSnapshot/byGameId/:gameId                            controllers.admin.history.GameSnapshotController.byGameId(gameId: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
+GET         /gameSnapshot/:id                                         controllers.admin.history.GameSnapshotController.view(id: java.util.UUID, t: Option[String] ?= None)
+GET         /gameSnapshot/:id/form                                    controllers.admin.history.GameSnapshotController.editForm(id: java.util.UUID)
+POST        /gameSnapshot/:id                                         controllers.admin.history.GameSnapshotController.edit(id: java.util.UUID)
+GET         /gameSnapshot/:id/remove                                  controllers.admin.history.GameSnapshotController.remove(id: java.util.UUID)
+

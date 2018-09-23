@@ -57,6 +57,20 @@
       </div>
       <div class="collapsible-body"><span>Loading...</span></div>
     </li>
+    <li id="relation-gameHistory-creator" data-table="gameHistory" data-field="creator" data-singular="Game History" data-plural="Game Histories" data-url="@controllers.admin.history.routes.GameHistoryController.byCreator(model.id, limit = Some(5))">
+      <div class="collapsible-header">
+        <i class="fa @models.template.Icons.gameHistory"></i>
+        <span class="title">Game Histories</span>&nbsp;by Creator
+      </div>
+      <div class="collapsible-body"><span>Loading...</span></div>
+    </li>
+    <li id="relation-gamePlayer-userId" data-table="gamePlayer" data-field="userId" data-singular="Game Player" data-plural="Game Players" data-url="@controllers.admin.history.routes.GamePlayerController.byUserId(model.id, limit = Some(5))">
+      <div class="collapsible-header">
+        <i class="fa @models.template.Icons.gamePlayer"></i>
+        <span class="title">Game Players</span>&nbsp;by User Id
+      </div>
+      <div class="collapsible-body"><span>Loading...</span></div>
+    </li>
     <li id="relation-note-author" data-table="note" data-field="author" data-singular="Note" data-plural="Notes" data-url="@controllers.admin.note.routes.NoteController.byAuthor(model.id, limit = Some(5))">
       <div class="collapsible-header">
         <i class="fa @models.template.Icons.note"></i>
