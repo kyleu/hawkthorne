@@ -5,6 +5,9 @@
       "gameId",
       "userId",
       "idx",
+      "template",
+      "costume",
+      "attributes",
       "joined"
     ],
     "properties": {
@@ -18,6 +21,15 @@
       },
       "idx": {
         "type": "integer"
+      },
+      "template": {
+        "type": "string"
+      },
+      "costume": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "object"
       },
       "joined": {
         "type": "string",

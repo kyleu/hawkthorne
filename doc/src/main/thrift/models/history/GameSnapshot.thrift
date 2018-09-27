@@ -6,7 +6,7 @@ include "../../result.thrift"
 
 struct GameSnapshot {
   1: required common.UUID id;
-  2: optional common.UUID gameId;
+  2: required common.UUID gameId;
   3: required string t;
   4: required string snapshot;
   5: required common.LocalDateTime occurred;

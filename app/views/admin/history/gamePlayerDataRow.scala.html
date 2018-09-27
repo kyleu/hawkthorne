@@ -1,7 +1,14 @@
 @* Generated File *@
 @(model: models.history.GamePlayer)<tr>
-  <td><a href="@controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.userId)" class="theme-text">@model.gameId</a></td>
-  <td><a href="@controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.userId)" class="theme-text">@model.userId</a></td>
-  <td>@model.idx</td>
+  <td><a href="@controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.idx)" class="theme-text">@model.gameId</a></td>
+  <td>
+    @model.userId
+    <a class="theme-text" href="@controllers.admin.user.routes.SystemUserController.view(model.userId)">
+      <i class="fa @models.template.Icons.systemUser"></i>
+    </a>
+  </td>
+  <td><a href="@controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.idx)" class="theme-text">@model.idx</a></td>
+  <td>@model.template</td>
+  <td>@model.costume</td>
   <td>@model.joined</td>
 </tr>

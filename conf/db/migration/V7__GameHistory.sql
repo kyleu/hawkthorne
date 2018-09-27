@@ -25,18 +25,21 @@ create index if not exists "game_history_t" on "game_history" using btree ("t" a
 
 create table if not exists "game_snapshot" (
   "id" uuid not null primary key,
-  "game_id" uuid references "game_history",
+  "game_id" uuid not null references "game_history",
   "t" game_snapshot_type not null,
   "snapshot" json not null,
   "occurred" timestamp without time zone not null
 );
 
 create table if not exists "game_player" (
-  "game_id" uuid references "game_history",
-  "user_id" uuid references "system_users",
+  "game_id" uuid not null references "game_history",
+  "user_id" uuid not null references "system_users",
   "idx" int not null,
+  "template" varchar(128) not null,
+  "costume" varchar(128) not null,
+  "attributes" json not null,
   "joined" timestamp without time zone not null,
-  primary key ("game_id", "user_id")
+  primary key ("game_id", "idx")
 );
 
 create index if not exists "game_players_game_id" on "game_player" using btree ("game_id" asc);

@@ -88,7 +88,7 @@ class SearchController @javax.inject.Inject() (override val app: Application, se
       views.html.admin.history.gameHistorySearchResult(model, s"Game History [${model.id}] matched [$q].")
     })
     val gamePlayer = services.historyServices.gamePlayerService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
-      views.html.admin.history.gamePlayerSearchResult(model, s"Game Player [${model.gameId}, ${model.userId}] matched [$q].")
+      views.html.admin.history.gamePlayerSearchResult(model, s"Game Player [${model.gameId}, ${model.idx}] matched [$q].")
     })
     val gameSnapshot = services.historyServices.gameSnapshotService.searchExact(creds, q = q, limit = Some(5)).map(_.map { model =>
       views.html.admin.history.gameSnapshotSearchResult(model, s"Game Snapshot [${model.id}] matched [$q].")

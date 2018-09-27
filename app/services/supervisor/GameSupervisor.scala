@@ -17,7 +17,7 @@ import util.Logging
 
 object GameSupervisor {
   final case class Broadcast(game: Option[UUID], msg: ResponseMessage)
-  final case class StartGame(id: UUID, options: GameOptions, initialPlayers: Seq[(ActorRef, Player)])
+  final case class StartGame(id: UUID, options: GameOptions, initialPlayers: Seq[(ActorRef, UUID, Player)])
 
   final case class GameRecord(id: UUID, options: GameOptions, actorRef: ActorRef, started: LocalDateTime = util.DateUtils.now) {
     def toDescription = GameDescription(id, options, started)
@@ -52,7 +52,7 @@ class GameSupervisor(application: Application, serviceRegistry: ServiceRegistry)
     case x => log.warn(s"GameSupervisor encountered unknown message: [$x]")
   }
 
-  private[this] def startGame(id: UUID, options: GameOptions, initialPlayers: Seq[(ActorRef, Player)]) = {
+  private[this] def startGame(id: UUID, options: GameOptions, initialPlayers: Seq[(ActorRef, UUID, Player)]) = {
     games.get(id).foreach(_ => throw new IllegalStateException(s"Game start attempt for [$id], which already exists"))
 
     val ref = context.actorOf(
@@ -61,7 +61,7 @@ class GameSupervisor(application: Application, serviceRegistry: ServiceRegistry)
     )
     games(id) = GameSupervisor.GameRecord(id, options, ref)
 
-    initialPlayers.foreach(p => ref.tell(GameServiceMessage.AddPlayer(p._2, p._1), self))
+    initialPlayers.foreach(p => ref.tell(GameServiceMessage.AddPlayer(p._3, p._2, p._1), self))
 
     log.info(s"Game supervisor started game [$id] with [${initialPlayers.size}] players; [${games.size}] running games")
   }

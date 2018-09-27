@@ -15,10 +15,10 @@ trait GameInstancePlayers { this: GameInstance =>
     val spawn = map.spawnPoints(spawnPoint)
     val box = player.template.boundingBox
     indexOfPlayerId(player.id) match {
-      case -1 => players = players :+ {
-        val pih = new PlayerInputHandler(instance = this, map = map, playerIdx = players.size, boundingBox = box, initial = spawn.tupled, log = log)
-        PlayerRecord(player = player, input = pih)
-      }
+      case -1 if player.idx == players.size => players = players :+ PlayerRecord(
+        player = player,
+        input = new PlayerInputHandler(instance = this, map = map, playerIdx = players.size, boundingBox = box, initial = spawn.tupled, log = log)
+      )
       case idx if idx == player.idx => players = players.map(record => if (record.player.idx == idx) {
         val pih = new PlayerInputHandler(instance = this, map = map, playerIdx = idx, boundingBox = box, initial = spawn.tupled, log = log)
         record.copy(player = player, input = pih)

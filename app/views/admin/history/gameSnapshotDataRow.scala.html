@@ -3,11 +3,9 @@
   <td><a href="@controllers.admin.history.routes.GameSnapshotController.view(model.id)" class="theme-text">@model.id</a></td>
   <td>
     @model.gameId
-    @model.gameId.map { v =>
-      <a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.view(v)">
-        <i class="fa @models.template.Icons.gameHistory"></i>
-      </a>
-    }
+    <a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.view(model.gameId)">
+      <i class="fa @models.template.Icons.gameHistory"></i>
+    </a>
   </td>
   <td>@model.t</td>
   <td>@model.occurred</td>

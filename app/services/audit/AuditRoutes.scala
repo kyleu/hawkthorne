@@ -13,7 +13,7 @@ object AuditRoutes extends Logging {
     case "audit" => controllers.admin.audit.routes.AuditController.view(uuidArg(arg(0)))
     case "auditrecord" => controllers.admin.audit.routes.AuditRecordController.view(uuidArg(arg(0)))
     case "gamehistory" => controllers.admin.history.routes.GameHistoryController.view(uuidArg(arg(0)))
-    case "gameplayer" => controllers.admin.history.routes.GamePlayerController.view(uuidArg(arg(0)), uuidArg(arg(1)))
+    case "gameplayer" => controllers.admin.history.routes.GamePlayerController.view(uuidArg(arg(0)), integerArg(arg(1)))
     case "gamesnapshot" => controllers.admin.history.routes.GameSnapshotController.view(uuidArg(arg(0)))
     case "note" => controllers.admin.note.routes.NoteController.view(uuidArg(arg(0)))
     case "scheduledtaskrun" => controllers.admin.task.routes.ScheduledTaskRunController.view(uuidArg(arg(0)))

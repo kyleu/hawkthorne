@@ -7,8 +7,11 @@ include "../../result.thrift"
 struct GamePlayer {
   1: required common.UUID gameId;
   2: required common.UUID userId;
-  3: required common.long idx;
-  4: required common.LocalDateTime joined;
+  3: required common.int idx;
+  4: required string template;
+  5: required string costume;
+  6: required string attributes;
+  7: required common.LocalDateTime joined;
 }
 
 struct GamePlayerResult {

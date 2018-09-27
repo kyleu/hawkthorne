@@ -19,17 +19,17 @@ object GameSnapshotSchema extends GraphQLSchemaHelper("gameSnapshot") {
   val gameSnapshotIdArg = Argument("id", uuidType)
   val gameSnapshotIdSeqArg = Argument("ids", ListInputType(uuidType))
 
-  val gameSnapshotByGameIdRelation = Relation[GameSnapshot, Option[UUID]]("byGameId", x => Seq(x.gameId))
+  val gameSnapshotByGameIdRelation = Relation[GameSnapshot, UUID]("byGameId", x => Seq(x.gameId))
   val gameSnapshotByGameIdFetcher = Fetcher.rel[GraphQLContext, GameSnapshot, GameSnapshot, UUID](
-    getByPrimaryKeySeq, (c, rels) => c.services.historyServices.gameSnapshotService.getByGameIdSeq(c.creds, rels(gameSnapshotByGameIdRelation).flatten)(c.trace)
+    getByPrimaryKeySeq, (c, rels) => c.services.historyServices.gameSnapshotService.getByGameIdSeq(c.creds, rels(gameSnapshotByGameIdRelation))(c.trace)
   )
 
   implicit lazy val gameSnapshotType: sangria.schema.ObjectType[GraphQLContext, GameSnapshot] = deriveObjectType(
     sangria.macros.derive.AddFields(
       Field(
         name = "gameIdRel",
-        fieldType = OptionType(GameHistorySchema.gameHistoryType),
-        resolve = ctx => GameHistorySchema.gameHistoryByPrimaryKeyFetcher.deferOpt(ctx.value.gameId)
+        fieldType = GameHistorySchema.gameHistoryType,
+        resolve = ctx => GameHistorySchema.gameHistoryByPrimaryKeyFetcher.defer(ctx.value.gameId)
       ),
       Field(
         name = "relatedNotes",

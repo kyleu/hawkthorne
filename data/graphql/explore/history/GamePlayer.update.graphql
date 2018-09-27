@@ -2,10 +2,13 @@
 # Updates a single GamePlayer entity using the provided fields.
 mutation GamePlayerUpdate {
   gamePlayer {
-    update(gameId: "00000000-0000-0000-0000-000000000000", userId: "00000000-0000-0000-0000-000000000000", fields: [{k: "", v: ""}]) {
+    update(gameId: "00000000-0000-0000-0000-000000000000", idx: 0, fields: [{k: "", v: ""}]) {
       gameId
       userId
       idx
+      template
+      costume
+      attributes
       joined
     }
   }

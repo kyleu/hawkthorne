@@ -12,15 +12,14 @@ import models.game.GameServiceMessage
 import models.options.GameOptions
 import models.player.Player
 import services.supervisor.GameSupervisor
-import util.{Logging, Version}
-import util.JsonSerializers._
+import util.Logging
 
 trait ConnectionServiceHelper extends Logging { this: ConnectionService =>
   // Game
   protected[this] var activeGameOpt: Option[(ActorRef, GameJoined)] = None
 
   protected[this] def startGame(id: UUID, options: GameOptions) = {
-    gameSupervisor.tell(GameSupervisor.StartGame(id = id, options = options, initialPlayers = Seq(self -> player)), self)
+    gameSupervisor.tell(GameSupervisor.StartGame(id = id, options = options, initialPlayers = Seq((self, creds.user.id, player))), self)
   }
 
   protected[this] def joinGame(id: UUID) = out.tell(GameNotFound(id), self)

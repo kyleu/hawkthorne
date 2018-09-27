@@ -20,10 +20,9 @@ object UserManager {
     }
   }
 
-  var userId: Option[UUID] = None
-  var username: Option[String] = None
-  var email: Option[String] = None
-  val rowsReturned = 100
+  private[this] var userId: Option[UUID] = None
+  private[this] var username: Option[String] = None
+  private[this] var email: Option[String] = None
 
   def onUserSettings(us: UserSettings) = {
     util.Logging.debug(s"Received user settings for [${us.userId}].")

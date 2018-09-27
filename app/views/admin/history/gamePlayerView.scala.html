@@ -1,14 +1,14 @@
 @* Generated File *@
 @(user: models.user.SystemUser, model: models.history.GamePlayer, notes: Seq[models.note.Note], debug: Boolean)(
     implicit request: Request[AnyContent], session: Session, flash: Flash, traceData: util.tracing.TraceData
-)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "explore", s"Game Player [${model.gameId}, ${model.userId}]") {
+)@traceData.logViewClass(getClass)@views.html.admin.layout.page(user, "explore", s"Game Player [${model.gameId}, ${model.idx}]") {
   <div class="collection with-header">
     <div class="collection-header">
-      <div class="right"><a class="theme-text" href="@controllers.admin.history.routes.GamePlayerController.editForm(model.gameId, model.userId)">Edit</a></div>
-      <div class="right"><a class="theme-text remove-link" onclick="return confirm('Are you sure you want to remove this Game Player?')" href="@controllers.admin.history.routes.GamePlayerController.remove(model.gameId, model.userId)">Remove</a></div>
+      <div class="right"><a class="theme-text" href="@controllers.admin.history.routes.GamePlayerController.editForm(model.gameId, model.idx)">Edit</a></div>
+      <div class="right"><a class="theme-text remove-link" onclick="return confirm('Are you sure you want to remove this Game Player?')" href="@controllers.admin.history.routes.GamePlayerController.remove(model.gameId, model.idx)">Remove</a></div>
       <h5>
         <a class="theme-text" href="@controllers.admin.history.routes.GamePlayerController.list()"><i class="fa @models.template.Icons.gamePlayer"></i></a>
-        Game Player [@model.gameId, @model.userId]
+        Game Player [@model.gameId, @model.idx]
       </h5>
     </div>
     <div class="collection-item">
@@ -33,12 +33,24 @@
             <td>@model.idx</td>
           </tr>
           <tr>
+            <th>Template</th>
+            <td>@model.template</td>
+          </tr>
+          <tr>
+            <th>Costume</th>
+            <td>@model.costume</td>
+          </tr>
+          <tr>
+            <th>Attributes</th>
+            <td><pre>@model.attributes<pre></td>
+          </tr>
+          <tr>
             <th>Joined</th>
             <td>@model.joined</td>
           </tr>
         </tbody>
       </table>
     </div>
-    @views.html.admin.note.notes(notes, "gamePlayer", "Game Player", model.gameId, model.userId)
+    @views.html.admin.note.notes(notes, "gamePlayer", "Game Player", model.gameId, model.idx)
   </div>
 }

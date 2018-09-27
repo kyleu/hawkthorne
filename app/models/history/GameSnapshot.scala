@@ -12,21 +12,21 @@ object GameSnapshot {
   implicit val jsonEncoder: Encoder[GameSnapshot] = deriveEncoder
   implicit val jsonDecoder: Decoder[GameSnapshot] = deriveDecoder
 
-  def empty(id: UUID = UUID.randomUUID, gameId: Option[UUID] = None, t: GameSnapshotType = GameSnapshotType.Initial, snapshot: Json = Json.obj(), occurred: LocalDateTime = util.DateUtils.now) = {
+  def empty(id: UUID = UUID.randomUUID, gameId: UUID = UUID.randomUUID, t: GameSnapshotType = GameSnapshotType.Initial, snapshot: Json = Json.obj(), occurred: LocalDateTime = util.DateUtils.now) = {
     GameSnapshot(id, gameId, t, snapshot, occurred)
   }
 }
 
 final case class GameSnapshot(
     id: UUID,
-    gameId: Option[UUID],
+    gameId: UUID,
     t: GameSnapshotType,
     snapshot: Json,
     occurred: LocalDateTime
 ) extends DataFieldModel {
   override def toDataFields = Seq(
     DataField("id", Some(id.toString)),
-    DataField("gameId", gameId.map(_.toString)),
+    DataField("gameId", Some(gameId.toString)),
     DataField("t", Some(t.toString)),
     DataField("snapshot", Some(snapshot.toString)),
     DataField("occurred", Some(occurred.toString))

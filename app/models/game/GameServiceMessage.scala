@@ -1,5 +1,7 @@
 package models.game
 
+import java.util.UUID
+
 import akka.actor.ActorRef
 import enumeratum.{CirceEnum, Enum, EnumEntry}
 import io.circe.Json
@@ -14,7 +16,7 @@ object GameServiceMessage extends Enum[GameServiceMessage] with CirceEnum[GameSe
   case object Tick extends GameServiceMessage
 
   // In
-  final case class AddPlayer(p: Player, ref: ActorRef)
+  final case class AddPlayer(p: Player, userId: UUID, ref: ActorRef)
   final case class Update(idx: Int, pu: PlayerUpdate) extends GameServiceMessage
   final case class Disconnect(idx: Int, msg: String) extends GameServiceMessage
   final case class Debug(playerIdx: Int, t: String, payload: Json)

@@ -14,7 +14,7 @@
           <tbody>
             @views.html.components.form.textField(selected = isNew, key = "id", title = "Id", value = Some(model.id.toString), nullable = false, dataType = "uuid")
             @views.html.components.form.autocompleteField(
-              selected = isNew, key = "gameId", title = "Game Id", value = model.gameId.map(_.toString), nullable = true, dataType = "uuid",
+              selected = isNew, key = "gameId", title = "Game Id", value = Some(model.gameId.toString), nullable = false, dataType = "uuid",
               call = controllers.admin.history.routes.GameHistoryController.autocomplete(), acType = ("gameHistory", "Game History"), icon = models.template.Icons.gameHistory
             )
             @views.html.components.form.selectField(selected = isNew, key = "t", title = "T", value = Some(model.t.toString), options = Seq("initial" -> "initial", "manual" -> "manual", "final" -> "final", "unknown" -> "unknown"), nullable = false, dataType = "game_snapshot_type")

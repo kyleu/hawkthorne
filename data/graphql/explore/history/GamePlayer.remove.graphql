@@ -2,10 +2,13 @@
 # Remove a single GamePlayer entity from the system.
 mutation GamePlayerRemove {
   gamePlayer {
-    remove(gameId: "00000000-0000-0000-0000-000000000000", userId: "00000000-0000-0000-0000-000000000000") {
+    remove(gameId: "00000000-0000-0000-0000-000000000000", idx: 0) {
       gameId
       userId
       idx
+      template
+      costume
+      attributes
       joined
     }
   }

@@ -18,10 +18,10 @@ GET         /gamePlayer/form                                          controller
 POST        /gamePlayer                                               controllers.admin.history.GamePlayerController.create
 GET         /gamePlayer/byGameId/:gameId                              controllers.admin.history.GamePlayerController.byGameId(gameId: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
 GET         /gamePlayer/byUserId/:userId                              controllers.admin.history.GamePlayerController.byUserId(userId: java.util.UUID, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)
-GET         /gamePlayer/:gameId/:userId                               controllers.admin.history.GamePlayerController.view(gameId: java.util.UUID, userId: java.util.UUID, t: Option[String] ?= None)
-GET         /gamePlayer/:gameId/:userId/form                          controllers.admin.history.GamePlayerController.editForm(gameId: java.util.UUID, userId: java.util.UUID)
-POST        /gamePlayer/:gameId/:userId                               controllers.admin.history.GamePlayerController.edit(gameId: java.util.UUID, userId: java.util.UUID)
-GET         /gamePlayer/:gameId/:userId/remove                        controllers.admin.history.GamePlayerController.remove(gameId: java.util.UUID, userId: java.util.UUID)
+GET         /gamePlayer/:gameId/:idx                                  controllers.admin.history.GamePlayerController.view(gameId: java.util.UUID, idx: Int, t: Option[String] ?= None)
+GET         /gamePlayer/:gameId/:idx/form                             controllers.admin.history.GamePlayerController.editForm(gameId: java.util.UUID, idx: Int)
+POST        /gamePlayer/:gameId/:idx                                  controllers.admin.history.GamePlayerController.edit(gameId: java.util.UUID, idx: Int)
+GET         /gamePlayer/:gameId/:idx/remove                           controllers.admin.history.GamePlayerController.remove(gameId: java.util.UUID, idx: Int)
 
 # Game Snapshot Routes
 GET         /gameSnapshot                                             controllers.admin.history.GameSnapshotController.list(q: Option[String] ?= None, orderBy: Option[String] ?= None, orderAsc: Boolean ?= true, limit: Option[Int] ?= None, offset: Option[Int] ?= None, t: Option[String] ?= None)

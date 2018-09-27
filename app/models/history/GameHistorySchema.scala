@@ -43,7 +43,7 @@ object GameHistorySchema extends GraphQLSchemaHelper("gameHistory") {
         name = "snapshots",
         fieldType = ListType(GameSnapshotSchema.gameSnapshotType),
         resolve = c => GameSnapshotSchema.gameSnapshotByGameIdFetcher.deferRelSeq(
-          GameSnapshotSchema.gameSnapshotByGameIdRelation, Some(c.value.id)
+          GameSnapshotSchema.gameSnapshotByGameIdRelation, c.value.id
         )
       ),
       Field(

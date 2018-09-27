@@ -1,6 +1,6 @@
 package models.input
 
-import io.circe.Json
+import io.circe.{HCursor, Json}
 import models.data.character.CharacterAnimation
 import models.game.cmd.GameCommand
 import models.game.msg.GameMessage
@@ -8,7 +8,7 @@ import services.collision.CollisionService
 import services.game.GameInstance
 import services.map.GameMap
 import util.BoundingBox
-import util.JsonSerializers.Encoder
+import util.JsonSerializers.{Decoder, Encoder}
 
 object PlayerInputHandler {
   implicit val jsonEncoder: Encoder[PlayerInputHandler] = (p: PlayerInputHandler) => Json.obj(

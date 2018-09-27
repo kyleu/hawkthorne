@@ -17,10 +17,10 @@ import util.tracing.{TraceData, TracingService}
 
 @javax.inject.Singleton
 class GamePlayerService @javax.inject.Inject() (override val tracing: TracingService) extends ModelServiceHelper[GamePlayer]("gamePlayer") {
-  def getByPrimaryKey(creds: Credentials, gameId: UUID, userId: UUID)(implicit trace: TraceData) = {
-    traceF("get.by.primary.key")(td => ApplicationDatabase.queryF(GamePlayerQueries.getByPrimaryKey(gameId, userId))(td))
+  def getByPrimaryKey(creds: Credentials, gameId: UUID, idx: Int)(implicit trace: TraceData) = {
+    traceF("get.by.primary.key")(td => ApplicationDatabase.queryF(GamePlayerQueries.getByPrimaryKey(gameId, idx))(td))
   }
-  def getByPrimaryKeySeq(creds: Credentials, pkSeq: Seq[(UUID, UUID)])(implicit trace: TraceData) = {
+  def getByPrimaryKeySeq(creds: Credentials, pkSeq: Seq[(UUID, Int)])(implicit trace: TraceData) = {
     traceF("get.by.primary.key.seq")(td => ApplicationDatabase.queryF(GamePlayerQueries.getByPrimaryKeySeq(pkSeq))(td))
   }
 
@@ -47,6 +47,16 @@ class GamePlayerService @javax.inject.Inject() (override val tracing: TracingSer
     traceF("search.exact")(td => ApplicationDatabase.queryF(GamePlayerQueries.searchExact(q, orderBys, limit, offset))(td))
   }
 
+  def countByCostume(creds: Credentials, costume: String)(implicit trace: TraceData) = traceF("count.by.costume") { td =>
+    ApplicationDatabase.queryF(GamePlayerQueries.CountByCostume(costume))(td)
+  }
+  def getByCostume(creds: Credentials, costume: String, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None)(implicit trace: TraceData) = traceF("get.by.costume") { td =>
+    ApplicationDatabase.queryF(GamePlayerQueries.GetByCostume(costume, orderBys, limit, offset))(td)
+  }
+  def getByCostumeSeq(creds: Credentials, costumeSeq: Seq[String])(implicit trace: TraceData) = traceF("get.by.costume.seq") { td =>
+    ApplicationDatabase.queryF(GamePlayerQueries.GetByCostumeSeq(costumeSeq))(td)
+  }
+
   def countByGameId(creds: Credentials, gameId: UUID)(implicit trace: TraceData) = traceF("count.by.gameId") { td =>
     ApplicationDatabase.queryF(GamePlayerQueries.CountByGameId(gameId))(td)
   }
@@ -57,13 +67,13 @@ class GamePlayerService @javax.inject.Inject() (override val tracing: TracingSer
     ApplicationDatabase.queryF(GamePlayerQueries.GetByGameIdSeq(gameIdSeq))(td)
   }
 
-  def countByIdx(creds: Credentials, idx: Long)(implicit trace: TraceData) = traceF("count.by.idx") { td =>
+  def countByIdx(creds: Credentials, idx: Int)(implicit trace: TraceData) = traceF("count.by.idx") { td =>
     ApplicationDatabase.queryF(GamePlayerQueries.CountByIdx(idx))(td)
   }
-  def getByIdx(creds: Credentials, idx: Long, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None)(implicit trace: TraceData) = traceF("get.by.idx") { td =>
+  def getByIdx(creds: Credentials, idx: Int, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None)(implicit trace: TraceData) = traceF("get.by.idx") { td =>
     ApplicationDatabase.queryF(GamePlayerQueries.GetByIdx(idx, orderBys, limit, offset))(td)
   }
-  def getByIdxSeq(creds: Credentials, idxSeq: Seq[Long])(implicit trace: TraceData) = traceF("get.by.idx.seq") { td =>
+  def getByIdxSeq(creds: Credentials, idxSeq: Seq[Int])(implicit trace: TraceData) = traceF("get.by.idx.seq") { td =>
     ApplicationDatabase.queryF(GamePlayerQueries.GetByIdxSeq(idxSeq))(td)
   }
 
@@ -75,6 +85,16 @@ class GamePlayerService @javax.inject.Inject() (override val tracing: TracingSer
   }
   def getByJoinedSeq(creds: Credentials, joinedSeq: Seq[LocalDateTime])(implicit trace: TraceData) = traceF("get.by.joined.seq") { td =>
     ApplicationDatabase.queryF(GamePlayerQueries.GetByJoinedSeq(joinedSeq))(td)
+  }
+
+  def countByTemplate(creds: Credentials, template: String)(implicit trace: TraceData) = traceF("count.by.template") { td =>
+    ApplicationDatabase.queryF(GamePlayerQueries.CountByTemplate(template))(td)
+  }
+  def getByTemplate(creds: Credentials, template: String, orderBys: Seq[OrderBy] = Nil, limit: Option[Int] = None, offset: Option[Int] = None)(implicit trace: TraceData) = traceF("get.by.template") { td =>
+    ApplicationDatabase.queryF(GamePlayerQueries.GetByTemplate(template, orderBys, limit, offset))(td)
+  }
+  def getByTemplateSeq(creds: Credentials, templateSeq: Seq[String])(implicit trace: TraceData) = traceF("get.by.template.seq") { td =>
+    ApplicationDatabase.queryF(GamePlayerQueries.GetByTemplateSeq(templateSeq))(td)
   }
 
   def countByUserId(creds: Credentials, userId: UUID)(implicit trace: TraceData) = traceF("count.by.userId") { td =>
@@ -90,7 +110,7 @@ class GamePlayerService @javax.inject.Inject() (override val tracing: TracingSer
   // Mutations
   def insert(creds: Credentials, model: GamePlayer)(implicit trace: TraceData) = traceF("insert") { td =>
     ApplicationDatabase.executeF(GamePlayerQueries.insert(model))(td).flatMap {
-      case 1 => getByPrimaryKey(creds, model.gameId, model.userId)(td)
+      case 1 => getByPrimaryKey(creds, model.gameId, model.idx)(td)
       case _ => throw new IllegalStateException("Unable to find newly-inserted Game Player.")
     }
   }
@@ -99,29 +119,29 @@ class GamePlayerService @javax.inject.Inject() (override val tracing: TracingSer
   }
   def create(creds: Credentials, fields: Seq[DataField])(implicit trace: TraceData) = traceF("create") { td =>
     ApplicationDatabase.executeF(GamePlayerQueries.create(fields))(td).flatMap { _ =>
-      getByPrimaryKey(creds, UUID.fromString(fieldVal(fields, "gameId")), UUID.fromString(fieldVal(fields, "userId")))
+      getByPrimaryKey(creds, UUID.fromString(fieldVal(fields, "gameId")), fieldVal(fields, "idx").toInt)
     }
   }
 
-  def remove(creds: Credentials, gameId: UUID, userId: UUID)(implicit trace: TraceData) = {
-    traceF("remove")(td => getByPrimaryKey(creds, gameId, userId)(td).flatMap {
+  def remove(creds: Credentials, gameId: UUID, idx: Int)(implicit trace: TraceData) = {
+    traceF("remove")(td => getByPrimaryKey(creds, gameId, idx)(td).flatMap {
       case Some(current) =>
-        ApplicationDatabase.executeF(GamePlayerQueries.removeByPrimaryKey(gameId, userId))(td).map(_ => current)
-      case None => throw new IllegalStateException(s"Cannot find GamePlayer matching [$gameId, $userId].")
+        ApplicationDatabase.executeF(GamePlayerQueries.removeByPrimaryKey(gameId, idx))(td).map(_ => current)
+      case None => throw new IllegalStateException(s"Cannot find GamePlayer matching [$gameId, $idx].")
     })
   }
 
-  def update(creds: Credentials, gameId: UUID, userId: UUID, fields: Seq[DataField])(implicit trace: TraceData) = {
-    traceF("update")(td => getByPrimaryKey(creds, gameId, userId)(td).flatMap {
-      case Some(current) if fields.isEmpty => Future.successful(current -> s"No changes required for Game Player [$gameId, $userId].")
-      case Some(_) => ApplicationDatabase.executeF(GamePlayerQueries.update(gameId, userId, fields))(td).flatMap { _ =>
-        getByPrimaryKey(creds, gameId, userId)(td).map {
+  def update(creds: Credentials, gameId: UUID, idx: Int, fields: Seq[DataField])(implicit trace: TraceData) = {
+    traceF("update")(td => getByPrimaryKey(creds, gameId, idx)(td).flatMap {
+      case Some(current) if fields.isEmpty => Future.successful(current -> s"No changes required for Game Player [$gameId, $idx].")
+      case Some(_) => ApplicationDatabase.executeF(GamePlayerQueries.update(gameId, idx, fields))(td).flatMap { _ =>
+        getByPrimaryKey(creds, gameId, idx)(td).map {
           case Some(newModel) =>
-            newModel -> s"Updated [${fields.size}] fields of Game Player [$gameId, $userId]."
-          case None => throw new IllegalStateException(s"Cannot find GamePlayer matching [$gameId, $userId].")
+            newModel -> s"Updated [${fields.size}] fields of Game Player [$gameId, $idx]."
+          case None => throw new IllegalStateException(s"Cannot find GamePlayer matching [$gameId, $idx].")
         }
       }
-      case None => throw new IllegalStateException(s"Cannot find GamePlayer matching [$gameId, $userId].")
+      case None => throw new IllegalStateException(s"Cannot find GamePlayer matching [$gameId, $idx].")
     })
   }
 

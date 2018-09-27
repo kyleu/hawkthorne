@@ -20,7 +20,7 @@ object GameSnapshotTable {
 
 class GameSnapshotTable(tag: Tag) extends Table[models.history.GameSnapshot](tag, "game_snapshot") {
   val id = column[UUID]("id")
-  val gameId = column[Option[UUID]]("game_id")
+  val gameId = column[UUID]("game_id")
   val t = column[GameSnapshotType]("t")
   val snapshot = column[Json]("snapshot")
   val occurred = column[LocalDateTime]("occurred")

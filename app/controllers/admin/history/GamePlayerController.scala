@@ -29,7 +29,7 @@ class GamePlayerController @javax.inject.Inject() (
 
   def create = withSession("create", admin = true) { implicit request => implicit td =>
     svc.create(request, modelForm(request.body)).map {
-      case Some(model) => Redirect(controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.userId))
+      case Some(model) => Redirect(controllers.admin.history.routes.GamePlayerController.view(model.gameId, model.idx))
       case None => Redirect(controllers.admin.history.routes.GamePlayerController.list())
     }
   }
@@ -87,9 +87,9 @@ class GamePlayerController @javax.inject.Inject() (
     }
   }
 
-  def view(gameId: java.util.UUID, userId: java.util.UUID, t: Option[String] = None) = withSession("view", admin = true) { implicit request => implicit td =>
-    val modelF = svc.getByPrimaryKey(request, gameId, userId)
-    val notesF = app.coreServices.notes.getFor(request, "gamePlayer", gameId, userId)
+  def view(gameId: java.util.UUID, idx: Int, t: Option[String] = None) = withSession("view", admin = true) { implicit request => implicit td =>
+    val modelF = svc.getByPrimaryKey(request, gameId, idx)
+    val notesF = app.coreServices.notes.getFor(request, "gamePlayer", gameId, idx)
 
     notesF.flatMap(notes => modelF.map {
       case Some(model) => renderChoice(t) {
@@ -98,30 +98,30 @@ class GamePlayerController @javax.inject.Inject() (
         case ServiceController.MimeTypes.png => Ok(renderToPng(v = model)).as(ServiceController.MimeTypes.png)
         case ServiceController.MimeTypes.svg => Ok(renderToSvg(v = model)).as(ServiceController.MimeTypes.svg)
       }
-      case None => NotFound(s"No GamePlayer found with gameId, userId [$gameId, $userId].")
+      case None => NotFound(s"No GamePlayer found with gameId, idx [$gameId, $idx].")
     })
   }
 
-  def editForm(gameId: java.util.UUID, userId: java.util.UUID) = withSession("edit.form", admin = true) { implicit request => implicit td =>
-    val cancel = controllers.admin.history.routes.GamePlayerController.view(gameId, userId)
-    val call = controllers.admin.history.routes.GamePlayerController.edit(gameId, userId)
-    svc.getByPrimaryKey(request, gameId, userId).map {
+  def editForm(gameId: java.util.UUID, idx: Int) = withSession("edit.form", admin = true) { implicit request => implicit td =>
+    val cancel = controllers.admin.history.routes.GamePlayerController.view(gameId, idx)
+    val call = controllers.admin.history.routes.GamePlayerController.edit(gameId, idx)
+    svc.getByPrimaryKey(request, gameId, idx).map {
       case Some(model) => Ok(
-        views.html.admin.history.gamePlayerForm(request.identity, model, s"Game Player [$gameId, $userId]", cancel, call, debug = app.config.debug)
+        views.html.admin.history.gamePlayerForm(request.identity, model, s"Game Player [$gameId, $idx]", cancel, call, debug = app.config.debug)
       )
-      case None => NotFound(s"No GamePlayer found with gameId, userId [$gameId, $userId].")
+      case None => NotFound(s"No GamePlayer found with gameId, idx [$gameId, $idx].")
     }
   }
 
-  def edit(gameId: java.util.UUID, userId: java.util.UUID) = withSession("edit", admin = true) { implicit request => implicit td =>
-    svc.update(request, gameId = gameId, userId = userId, fields = modelForm(request.body)).map(res => render {
-      case Accepts.Html() => Redirect(controllers.admin.history.routes.GamePlayerController.view(res._1.gameId, res._1.userId)).flashing("success" -> res._2)
+  def edit(gameId: java.util.UUID, idx: Int) = withSession("edit", admin = true) { implicit request => implicit td =>
+    svc.update(request, gameId = gameId, idx = idx, fields = modelForm(request.body)).map(res => render {
+      case Accepts.Html() => Redirect(controllers.admin.history.routes.GamePlayerController.view(res._1.gameId, res._1.idx)).flashing("success" -> res._2)
       case Accepts.Json() => Ok(res.asJson)
     })
   }
 
-  def remove(gameId: java.util.UUID, userId: java.util.UUID) = withSession("remove", admin = true) { implicit request => implicit td =>
-    svc.remove(request, gameId = gameId, userId = userId).map(_ => render {
+  def remove(gameId: java.util.UUID, idx: Int) = withSession("remove", admin = true) { implicit request => implicit td =>
+    svc.remove(request, gameId = gameId, idx = idx).map(_ => render {
       case Accepts.Html() => Redirect(controllers.admin.history.routes.GamePlayerController.list())
       case Accepts.Json() => Ok(io.circe.Json.obj("status" -> io.circe.Json.fromString("removed")))
     })

@@ -2,6 +2,7 @@ package services.game
 
 import java.util.UUID
 
+import models.game.obj.GameObject
 import models.options.GameOptions
 import models.player.PlayerRecord
 import services.map.GameMap
@@ -21,25 +22,6 @@ object GameInstanceDebug {
     isDebug = showDebug
     logger = Some(log)
     notification = Some(notify)
-  }
-
-  def debugString(gameId: UUID, options: GameOptions, records: Seq[PlayerRecord], map: GameMap, elapsed: Double) = {
-    val playersString = records.map { record =>
-      val p = record.player
-      s"""${p.id}: { x: ${record.input.x}, y: ${record.input.y}, t: "${p.templateKey}/${p.costumeKey}, c: ${p.attributes.connected}" }"""
-    }.mkString(",\n    ")
-
-    s"""$gameId: {
-      |  options: ${util.JsonSerializers.serialize(options).noSpaces},
-      |  players: [
-      |    $playersString
-      |  ],
-      |  map: {
-      |    key: ${map.map.value}
-      |    objects: ${map.objects.size}
-      |  }
-      |}
-    """.stripMargin.trim
   }
 
   implicit val jsonEncoder: Encoder[GameInstanceDebug] = deriveEncoder

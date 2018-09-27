@@ -77,7 +77,7 @@ object GameSnapshotQueries extends BaseQueries[GameSnapshot]("gameSnapshot", "ga
 
   override def fromRow(row: Row) = GameSnapshot(
     id = UuidType(row, "id"),
-    gameId = UuidType.opt(row, "game_id"),
+    gameId = UuidType(row, "game_id"),
     t = EnumType(GameSnapshotType)(row, "t"),
     snapshot = JsonType(row, "snapshot"),
     occurred = TimestampType(row, "occurred")

@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
   object Play {
-    private[this] val version = "2.6.18"
+    private[this] val version = "2.6.19"
     val lib = "com.typesafe.play" %% "play" % version
     val filters = play.sbt.PlayImport.filters
     val ws = play.sbt.PlayImport.ws
@@ -25,7 +25,7 @@ object Dependencies {
   }
 
   object Authentication {
-    private[this] val version = "5.0.5"
+    private[this] val version = "5.0.6"
     val silhouette = "com.mohiva" %% "play-silhouette" % version
     val hasher = "com.mohiva" %% "play-silhouette-password-bcrypt" % version
     val persistence = "com.mohiva" %% "play-silhouette-persistence" % version
@@ -72,7 +72,7 @@ object Dependencies {
   }
 
   object Serialization {
-    val circeVersion = "0.9.3"
+    val circeVersion = "0.10.0"
     val circeProjects = Seq("circe-core", "circe-generic", "circe-generic-extras", "circe-parser", "circe-java8")
   }
 
@@ -80,7 +80,7 @@ object Dependencies {
     val fontAwesome = "org.webjars" % "font-awesome" % "4.7.0" intransitive()
     val jquery = "org.webjars" % "jquery" % "2.2.4" intransitive()
     val materialize = "org.webjars" % "materializecss" % "0.100.2" intransitive()
-    val swaggerUi = "org.webjars" % "swagger-ui" % "3.18.2" intransitive()
+    val swaggerUi = "org.webjars" % "swagger-ui" % "3.19.0" intransitive()
   }
 
   object Metrics {
@@ -101,7 +101,7 @@ object Dependencies {
   }
 
   object Utils {
-    val scapegoatVersion = "1.3.7"
+    val scapegoatVersion = "1.3.8"
     val enumeratumCirceVersion = "1.5.17"
     val booPickleVersion = "1.2.5"
     val utestVersion = "0.6.4"
@@ -110,7 +110,7 @@ object Dependencies {
 
     val betterFiles = "com.github.pathikrit" %% "better-files" % "3.6.0"
     val commonsIo = "commons-io" % "commons-io" % "2.6"
-    val commonsLang = "org.apache.commons" % "commons-lang3" % "3.8"
+    val commonsLang = "org.apache.commons" % "commons-lang3" % "3.8.1"
     val csv = "com.github.tototoshi" %% "scala-csv" % "1.3.5"
     val enumeratumCirce = "com.beachape" %% "enumeratum-circe" % Dependencies.Utils.enumeratumCirceVersion
     val guava = "com.google.guava" % "guava" % "23.0"

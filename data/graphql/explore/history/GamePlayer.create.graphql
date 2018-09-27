@@ -6,6 +6,9 @@ mutation GamePlayerCreate {
       gameId
       userId
       idx
+      template
+      costume
+      attributes
       joined
     }
   }

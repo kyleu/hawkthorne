@@ -10,24 +10,27 @@ import sangria.execution.deferred.{Fetcher, HasId, Relation}
 import sangria.schema._
 
 object GamePlayerSchema extends GraphQLSchemaHelper("gamePlayer") {
-  implicit val gamePlayerPrimaryKeyId: HasId[GamePlayer, (UUID, UUID)] = HasId[GamePlayer, (UUID, UUID)](x => (x.gameId, x.userId))
-  private[this] def getByPrimaryKeySeq(c: GraphQLContext, idSeq: Seq[(UUID, UUID)]) = {
+  implicit val gamePlayerPrimaryKeyId: HasId[GamePlayer, (UUID, Int)] = HasId[GamePlayer, (UUID, Int)](x => (x.gameId, x.idx))
+  private[this] def getByPrimaryKeySeq(c: GraphQLContext, idSeq: Seq[(UUID, Int)]) = {
     c.services.historyServices.gamePlayerService.getByPrimaryKeySeq(c.creds, idSeq)(c.trace)
   }
   val gamePlayerByPrimaryKeyFetcher = Fetcher(getByPrimaryKeySeq)
 
   val gamePlayerGameIdArg = Argument("gameId", uuidType)
   val gamePlayerGameIdSeqArg = Argument("gameIds", ListInputType(uuidType))
+  val gamePlayerIdxArg = Argument("idx", IntType)
+  val gamePlayerIdxSeqArg = Argument("idxs", ListInputType(IntType))
+
   val gamePlayerUserIdArg = Argument("userId", uuidType)
   val gamePlayerUserIdSeqArg = Argument("userIds", ListInputType(uuidType))
 
   val gamePlayerByGameIdRelation = Relation[GamePlayer, UUID]("byGameId", x => Seq(x.gameId))
-  val gamePlayerByGameIdFetcher = Fetcher.rel[GraphQLContext, GamePlayer, GamePlayer, (UUID, UUID)](
+  val gamePlayerByGameIdFetcher = Fetcher.rel[GraphQLContext, GamePlayer, GamePlayer, (UUID, Int)](
     getByPrimaryKeySeq, (c, rels) => c.services.historyServices.gamePlayerService.getByGameIdSeq(c.creds, rels(gamePlayerByGameIdRelation))(c.trace)
   )
 
   val gamePlayerByUserIdRelation = Relation[GamePlayer, UUID]("byUserId", x => Seq(x.userId))
-  val gamePlayerByUserIdFetcher = Fetcher.rel[GraphQLContext, GamePlayer, GamePlayer, (UUID, UUID)](
+  val gamePlayerByUserIdFetcher = Fetcher.rel[GraphQLContext, GamePlayer, GamePlayer, (UUID, Int)](
     getByPrimaryKeySeq, (c, rels) => c.services.historyServices.gamePlayerService.getByUserIdSeq(c.creds, rels(gamePlayerByUserIdRelation))(c.trace)
   )
 
@@ -46,7 +49,7 @@ object GamePlayerSchema extends GraphQLSchemaHelper("gamePlayer") {
       Field(
         name = "relatedNotes",
         fieldType = ListType(NoteSchema.noteType),
-        resolve = c => c.ctx.app.coreServices.notes.getFor(c.ctx.creds, "gamePlayer", c.value.gameId, c.value.userId)(c.ctx.trace)
+        resolve = c => c.ctx.app.coreServices.notes.getFor(c.ctx.creds, "gamePlayer", c.value.gameId, c.value.idx)(c.ctx.trace)
       )
     )
   )
@@ -55,8 +58,8 @@ object GamePlayerSchema extends GraphQLSchemaHelper("gamePlayer") {
 
   val queryFields = fields(
     unitField(name = "gamePlayer", desc = None, t = OptionType(gamePlayerType), f = (c, td) => {
-      c.ctx.services.historyServices.gamePlayerService.getByPrimaryKey(c.ctx.creds, c.arg(gamePlayerGameIdArg), c.arg(gamePlayerUserIdArg))(td)
-    }, gamePlayerGameIdArg, gamePlayerUserIdArg),
+      c.ctx.services.historyServices.gamePlayerService.getByPrimaryKey(c.ctx.creds, c.arg(gamePlayerGameIdArg), c.arg(gamePlayerIdxArg))(td)
+    }, gamePlayerGameIdArg, gamePlayerIdxArg),
     unitField(name = "gamePlayerSearch", desc = None, t = gamePlayerResultType, f = (c, td) => {
       runSearch(c.ctx.services.historyServices.gamePlayerService, c, td).map(toResult)
     }, queryArg, reportFiltersArg, orderBysArg, limitArg, offsetArg),
@@ -81,11 +84,11 @@ object GamePlayerSchema extends GraphQLSchemaHelper("gamePlayer") {
         c.ctx.services.historyServices.gamePlayerService.create(c.ctx.creds, c.arg(dataFieldsArg))(td)
       }, dataFieldsArg),
       unitField(name = "update", desc = None, t = OptionType(gamePlayerType), f = (c, td) => {
-        c.ctx.services.historyServices.gamePlayerService.update(c.ctx.creds, c.arg(gamePlayerGameIdArg), c.arg(gamePlayerUserIdArg), c.arg(dataFieldsArg))(td).map(_._1)
-      }, gamePlayerGameIdArg, gamePlayerUserIdArg, dataFieldsArg),
+        c.ctx.services.historyServices.gamePlayerService.update(c.ctx.creds, c.arg(gamePlayerGameIdArg), c.arg(gamePlayerIdxArg), c.arg(dataFieldsArg))(td).map(_._1)
+      }, gamePlayerGameIdArg, gamePlayerIdxArg, dataFieldsArg),
       unitField(name = "remove", desc = None, t = gamePlayerType, f = (c, td) => {
-        c.ctx.services.historyServices.gamePlayerService.remove(c.ctx.creds, c.arg(gamePlayerGameIdArg), c.arg(gamePlayerUserIdArg))(td)
-      }, gamePlayerGameIdArg, gamePlayerUserIdArg)
+        c.ctx.services.historyServices.gamePlayerService.remove(c.ctx.creds, c.arg(gamePlayerGameIdArg), c.arg(gamePlayerIdxArg))(td)
+      }, gamePlayerGameIdArg, gamePlayerIdxArg)
     )
   )
 

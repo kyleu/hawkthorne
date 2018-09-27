@@ -9,16 +9,16 @@ import services.database.DoobieQueryService.Imports._
 
 object GamePlayerDoobie extends DoobieQueries[GamePlayer]("game_player") {
   override val countFragment = fr"""select count(*) from "game_player""""
-  override val selectFragment = fr"""select "game_id", "user_id", "idx", "joined" from "game_player""""
+  override val selectFragment = fr"""select "game_id", "user_id", "idx", "template", "costume", "attributes", "joined" from "game_player""""
 
-  override val columns = Seq("game_id", "user_id", "idx", "joined")
-  override val searchColumns = Seq("game_id", "user_id", "idx", "joined")
+  override val columns = Seq("game_id", "user_id", "idx", "template", "costume", "attributes", "joined")
+  override val searchColumns = Seq("game_id", "user_id", "idx", "template", "costume", "joined")
 
   override def searchFragment(q: String) = {
-    fr""""game_id"::text = $q or "user_id"::text = $q or "idx"::text = $q or "joined"::text = $q"""
+    fr""""game_id"::text = $q or "user_id"::text = $q or "idx"::text = $q or "template"::text = $q or "costume"::text = $q or "attributes"::text = $q or "joined"::text = $q"""
   }
 
-  // def getByPrimaryKey(gameId: UUID, userId: UUID) = ???
+  // def getByPrimaryKey(gameId: UUID, idx: Int) = ???
 
   def countByGameId(gameId: UUID) = (countFragment ++ whereAnd(fr"gameId = $gameId")).query[Int].unique
   def getByGameId(gameId: UUID) = (selectFragment ++ whereAnd(fr"gameId = $gameId")).query[GamePlayer].to[Seq]

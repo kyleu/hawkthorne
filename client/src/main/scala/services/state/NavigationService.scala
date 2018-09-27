@@ -1,5 +1,7 @@
 package services.state
 
+import java.util.UUID
+
 import com.definitelyscala.phaserce.Game
 import models.player.Player
 import models.settings.ActivePlayers
@@ -17,7 +19,7 @@ object NavigationService {
   }
 
   def init(game: Game, path: String, debug: Boolean) = {
-    ActivePlayers.setPlayers(IndexedSeq(Player.random(id = java.util.UUID.randomUUID, idx = 0)))
+    ActivePlayers.setPlayers(IndexedSeq(Player.random(id = UUID.randomUUID, idx = 0)))
     def nextState(input: InputService) = NavigationPaths.stateFromPath(game = game, input = input, path = path, debug = debug)
     val is = new InitialGameState(nextState = nextState, phaser = game, debug = debug)
     game.state.add("initial", is)

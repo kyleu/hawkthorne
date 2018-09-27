@@ -27,7 +27,7 @@ object ConnectionService {
 }
 
 class ConnectionService(
-    val id: UUID, connSupervisor: ActorRef, protected val gameSupervisor: ActorRef, creds: Credentials,
+    val id: UUID, connSupervisor: ActorRef, protected val gameSupervisor: ActorRef, protected val creds: Credentials,
     protected val out: ActorRef, protected val sourceAddr: String, protected val app: Application, protected val services: ServiceRegistry
 ) extends ConnectionServiceHelper with Actor with Timers {
   override def preStart() = {

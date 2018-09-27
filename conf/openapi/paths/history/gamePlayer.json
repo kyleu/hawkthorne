@@ -99,9 +99,9 @@
       }
     }
   },
-  "/admin/history/gamePlayer/{gameId}/{userId}": {
+  "/admin/history/gamePlayer/{gameId}/{idx}": {
     "get": {
-      "summary": "View the GamePlayer entity matching the provided [gameId, userId].",
+      "summary": "View the GamePlayer entity matching the provided [gameId, idx].",
       "operationId": "history.GamePlayer.view",
       "tags": ["history"],
       "parameters": [
@@ -114,11 +114,10 @@
           }
         },
         {
-          "name": "userId",
+          "name": "idx",
           "in": "path",
           "schema": {
-            "type": "string",
-            "example": "00000000-0000-0000-0000-000000000000"
+            "type": "integer"
           }
         }
       ],
@@ -153,7 +152,7 @@
       }
     },
     "post": {
-      "summary": "Updates the GamePlayer entity matching the provided [gameId, userId] using the provided fields.",
+      "summary": "Updates the GamePlayer entity matching the provided [gameId, idx] using the provided fields.",
       "operationId": "history.GamePlayer.edit",
       "tags": ["history"],
       "parameters": [
@@ -166,11 +165,10 @@
           }
         },
         {
-          "name": "userId",
+          "name": "idx",
           "in": "path",
           "schema": {
-            "type": "string",
-            "example": "00000000-0000-0000-0000-000000000000"
+            "type": "integer"
           }
         }
       ],
@@ -315,9 +313,9 @@
       }
     }
   },
-  "/admin/history/gamePlayer/{gameId}/{userId}/remove": {
+  "/admin/history/gamePlayer/{gameId}/{idx}/remove": {
     "get": {
-      "summary": "Removes the GamePlayer entity matching the provided [gameId, userId].",
+      "summary": "Removes the GamePlayer entity matching the provided [gameId, idx].",
       "operationId": "history.GamePlayer.remove",
       "tags": ["history"],
       "parameters": [
@@ -330,11 +328,10 @@
           }
         },
         {
-          "name": "userId",
+          "name": "idx",
           "in": "path",
           "schema": {
-            "type": "string",
-            "example": "00000000-0000-0000-0000-000000000000"
+            "type": "integer"
           }
         }
       ],

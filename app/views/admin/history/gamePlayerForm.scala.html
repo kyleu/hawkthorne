@@ -20,7 +20,10 @@
               selected = isNew, key = "userId", title = "User Id", value = Some(model.userId.toString), nullable = false, dataType = "uuid",
               call = controllers.admin.user.routes.SystemUserController.autocomplete(), acType = ("systemUser", "System User"), icon = models.template.Icons.systemUser
             )
-            @views.html.components.form.textField(selected = isNew, key = "idx", title = "Idx", value = Some(model.idx.toString), nullable = false, dataType = "long")
+            @views.html.components.form.textField(selected = isNew, key = "idx", title = "Idx", value = Some(model.idx.toString), nullable = false, dataType = "integer")
+            @views.html.components.form.textField(selected = isNew, key = "template", title = "Template", value = Some(model.template.toString), nullable = false)
+            @views.html.components.form.textField(selected = isNew, key = "costume", title = "Costume", value = Some(model.costume.toString), nullable = false)
+            @views.html.components.form.textField(selected = isNew, key = "attributes", title = "Attributes", value = Some(model.attributes.toString), nullable = false, dataType = "json")
             @views.html.components.form.localDateTimeField(selected = isNew, key = "joined", title = "Joined", value = Some(model.joined), nullable = false)
           </tbody>
         </table>

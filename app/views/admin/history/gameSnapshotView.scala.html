@@ -21,10 +21,8 @@
           <tr>
             <th>Game Id</th>
             <td>
-              @model.gameId.getOrElse(util.NullUtils.str)
-              @model.gameId.map { v =>
-                <a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.view(v)"><i class="fa @models.template.Icons.gameHistory"></i></a>
-              }
+              @model.gameId
+              <a class="theme-text" href="@controllers.admin.history.routes.GameHistoryController.view(model.gameId)"><i class="fa @models.template.Icons.gameHistory"></i></a>
             </td>
           </tr>
           <tr>

@@ -3,6 +3,7 @@
   "history.GameSnapshot": {
     "required": [
       "id",
+      "gameId",
       "t",
       "snapshot",
       "occurred"

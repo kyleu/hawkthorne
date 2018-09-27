@@ -18,6 +18,9 @@ query GamePlayer {
       gameId
       userId
       idx
+      template
+      costume
+      attributes
       joined
     }
     durationMs
