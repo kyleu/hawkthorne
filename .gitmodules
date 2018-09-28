@@ -1,3 +1,12 @@
 [submodule "wiki"]
   path = wiki
   url = git@github.com:KyleU/hawkthorne.wiki.git
+[submodule "util/phaser/phaserce"]
+	path = util/phaser/phaserce
+	url = git@github.com:DefinitelyScala/scala-js-phaserce.git
+[submodule "util/phaser/p2"]
+	path = util/phaser/p2
+	url = git@github.com:DefinitelyScala/scala-js-phasercep2.git
+[submodule "util/phaser/pixi"]
+	path = util/phaser/pixi
+	url = git@github.com:DefinitelyScala/scala-js-phasercepixi.git
