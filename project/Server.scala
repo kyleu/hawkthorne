@@ -49,6 +49,7 @@ object Server {
 
     resolvers += Resolver.jcenterRepo,
     resolvers += Resolver.bintrayRepo("stanch", "maven"),
+
     resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
     libraryDependencies ++= dependencies,
 

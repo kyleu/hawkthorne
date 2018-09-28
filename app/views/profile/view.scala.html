@@ -23,27 +23,4 @@
       </div>
     </div>
   </form>
-
-  <script>
-    $(function() {
-      $(".swatch").click(function(e) {
-        var el = $(e.currentTarget);
-        var newSwatch = el.data('name');
-        var newSwatchColor = el.data('color');
-        console.log(newSwatchColor);
-        $('#swatch-' + activeSwatch).removeClass('active');
-        el.addClass('active');
-
-        $('nav')[0].style.setProperty("background-color", newSwatchColor, "important");
-        //$('footer')[0].style.setProperty("background-color", newSwatchColor, "important");
-        $('#save-button')[0].style.setProperty('background-color', newSwatchColor, 'important');
-        $('#input-theme').val(newSwatch);
-        $('#favicon-link').attr('href', '/assets/images/ui/favicon/icon-' + newSwatch + '@@2x.png');
-        activeSwatch = newSwatch;
-      });
-      $('#swatch-' + activeSwatch).addClass('active');
-
-      $('select').material_select();
-    });
-  </script>
 }
