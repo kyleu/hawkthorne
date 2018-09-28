@@ -16,7 +16,7 @@ object ResponseMessage {
   // System
   final case class ServerError(reason: String, content: String) extends ResponseMessage
   final case class VersionResponse(version: String) extends ResponseMessage
-  final case class Pong(ts: Long) extends ResponseMessage
+  final case class Pong(ts: Long, serverTime: Long) extends ResponseMessage
   final case class Disconnected(reason: String) extends ResponseMessage
   final case class SystemBroadcast(channel: String, msg: String) extends ResponseMessage
   final case class UserSettings(userId: UUID, username: String, email: String) extends ResponseMessage

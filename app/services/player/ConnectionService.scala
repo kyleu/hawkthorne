@@ -41,7 +41,7 @@ class ConnectionService(
   override def receive = {
     // System
     case mr: MalformedRequest => log.error(s"MalformedRequest:  [${mr.reason}]: [${mr.content}].")
-    case p: Ping => out.tell(Pong(p.ts), self)
+    case p: Ping => out.tell(Pong(p.ts, util.DateUtils.nowMillis), self)
     case _: GetVersion => out.tell(VersionResponse(Config.version), self)
     case dr: DebugRequest => onDebugRequest(dr)
     case sp: SetPlayer => setPlayer(sp.player)
